@@ -12,6 +12,6 @@ public class sss {
 		int n;
 		Scanner in = new Scanner(System.in);
 		System.out.println("Enter a number");
-		n = in.nextInt();
+	
 	}
 }
