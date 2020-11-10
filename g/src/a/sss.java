@@ -5,6 +5,6 @@ public class sss {
 
 	public void Print() {
 		System.out.println("This is Git");
-	String idan_bar ="Idan Bar accelerate relationships ";	 
+		System.out.println("cunt cunt cunt");
 	}
 }
