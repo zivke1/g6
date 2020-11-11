@@ -1,13 +1,6 @@
 package a;
 
 public class sss {
-<<<<<<< HEAD
-private int dd;
-	public void Haalid()
-	{
-		System.out.println("Who let the Haalid out");
-		//ddddnnnnjjjjjjjj
-=======
 	private int dd;
 
 	public void Print() {
@@ -15,6 +8,5 @@ private int dd;
 		System.out.println("This is eliran");
 //hgvhgvj
 		//this is eliranjjjjjjjjjjjjjjjjjjjjjjjjj
->>>>>>> refs/remotes/origin/ziv_4112020
 	}
 }
