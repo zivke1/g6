@@ -1,6 +1,7 @@
 package a;
 
 public class sss {
+
 	private int dd;
 
 	public void Print() {
@@ -8,6 +9,7 @@ public class sss {
 		System.out.println("This is eliran");
 //hgvhgvj
 		//this is eliranjjjjjjjjjjjjjjjjjjjjjjjjjsaaaaaaaaaaaaaaaaaaas
+ main
 	}
 	public void Haalid()
 	{
