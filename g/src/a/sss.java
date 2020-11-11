@@ -8,13 +8,11 @@ public class sss {
 		System.out.println("This is eliran");
 //hgvhgvj
 		//this is eliranjjjjjjjjjjjjjjjjjjjjjjjjj
-		System.out.println("cunt cunt cunt");
 	}
-	public void Get()
+	public void Haalid()
 	{
-		int n;
-		Scanner in = new Scanner(System.in);
-		System.out.println("Enter a number");
-	
+		System.out.println("Who let the Haalid out");
+		//ddddnnnnjjjjjjjj
 	}
+
 }
