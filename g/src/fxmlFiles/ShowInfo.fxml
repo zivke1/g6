@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+
+<VBox prefWidth="500.0" styleClass="multi-bg-example" stylesheets="@application.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="fxmlFiles.ShowInfoController">
+   <children>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="textA" text="User's Info:" />
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="textA" text="First Name:" />
+            <Text fx:id="firstName" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15px;" styleClass="textA" text=" " />
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="textA" text="Last Name:" />
+            <Text fx:id="lastName" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15px;" styleClass="textA" text=" " />
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="textA" text="ID:" />
+            <Text fx:id="id" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15px;" styleClass="textA" text=" " />
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="textA" text="Email:" />
+            <Text fx:id="email" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15px;" styleClass="textA" text=" " />
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="textA" text="Phone Number:" />
+            <Text fx:id="phoneNum" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15px;" styleClass="textA" text=" " />
+         </children>
+      </HBox>
+   </children>
+</VBox>
