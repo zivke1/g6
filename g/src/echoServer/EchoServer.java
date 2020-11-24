@@ -49,7 +49,9 @@ public class EchoServer extends AbstractServer
   public void handleMessageFromClient
     (Object msg, ConnectionToClient client)
   {
+	  try {
 	  ArrayList<String> arr=(ArrayList<String>)msg;
+	 
 	  if(arr.get(0).equals("updateTable"))
 	  {
 		  arr.remove(0);
@@ -61,13 +63,16 @@ public class EchoServer extends AbstractServer
 	  }
 	  if(arr.get(0).equals("showTable")) {
 		  arr.remove(0);
+		  System.out.println(msg.toString()+"      lamaaaaaaaaaaa");
 		  ArrayList<String> dataFromDb=mysqlConnection.showTable(msg);
 		  dataFromDb.add("showTable");
+		  System.out.println(dataFromDb);
 		  this.sendToAllClients(dataFromDb);
 		  return;
 	  }
 	    System.out.println("Message received: " + msg + " from " + client);
 	    this.sendToAllClients(msg);
+	  }catch(Exception e) {e.printStackTrace();}
 	  }
 
     

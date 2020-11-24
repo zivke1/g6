@@ -4,7 +4,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import client.ClientUI;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -38,17 +38,18 @@ public class controllerTry {
 		email.setText(a.get(3));
 		phoneNum.setText(a.get(4));
 	}
-	public void start(Stage primaryStage) throws Exception
-	{
-		ArrayList<String> arr=new ArrayList<>();
-		arr.add("showTable");
-		arr.add("316222");
-		myMain.chat.accept(arr);
-		showDetails();
-	}
+//	public void start(Stage primaryStage) throws Exception
+//	{
+//		ArrayList<String> arr=new ArrayList<>();
+//		arr.add("showTable");
+//		arr.add("316222");
+//		myMain.chat.accept(arr);
+//		showDetails();
+//	}
 
-	public void showDetails() throws Exception
+	public void showDetails(ArrayList<String> arr) throws Exception
 	  {
+			myMain.chat.accept(arr);
 		    Stage primaryStage = new Stage();
 		    FXMLLoader loader=new FXMLLoader();
 			VBox root = loader.load(getClass().getResource("/clientTry/FxmlTry.fxml").openStream());
