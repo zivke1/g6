@@ -6,7 +6,7 @@ package echoServer;
 
 import java.io.*;
 import java.util.ArrayList;
-
+import echoServer.ServerControl;
 import ocsf.server.*;
 
 /**
@@ -18,7 +18,7 @@ import ocsf.server.*;
 public class EchoServer extends AbstractServer 
 {
   //Class variables *************************************************
-  
+	ServerControl m_ServerControl;
   /**
    * The default port to listen on.
    */
@@ -36,6 +36,15 @@ public class EchoServer extends AbstractServer
     super(port);
     mysqlConnection.connectDB();
   }
+  
+  
+  public EchoServer(int port ,ServerControl control) 
+  {
+    super(port);
+    mysqlConnection.connectDB();
+    m_ServerControl = control;
+  }
+
 
   
   //Instance methods ************************************************
@@ -77,8 +86,10 @@ public class EchoServer extends AbstractServer
    */
   protected void serverStarted()
   {
-    System.out.println
-      ("Server listening for connections on port " + getPort());
+	
+	  System.out.println
+	  ("Server listening for connections on port " + getPort());
+	  m_ServerControl.setParameters(getPort()+"" , "ziv", "connected");//////////////
   }
   
   /**
