@@ -33,7 +33,7 @@ public class ClientConsole implements ChatIF
    */
   final public static int DEFAULT_PORT = 5555;
   
-  public static ClientConsole chat= new ClientConsole("localhost", DEFAULT_PORT);
+//  public static ClientConsole chat= new ClientConsole("localhost", DEFAULT_PORT);
   //Instance variables **********************************************
   
   /**
@@ -117,7 +117,7 @@ public class ClientConsole implements ChatIF
   {
     try
     {
-        	client.handleMessageFromClientUI(arr);
+        	client.handleMessageFromClientUI(arr,this);
     } 
     catch (Exception ex) 
     {
@@ -158,6 +158,7 @@ public class ClientConsole implements ChatIF
    * @param args[0] The host to connect to.
  * @throws Exception 
    */
+  public static ClientConsole chat;
   public static void main(String[] args) throws Exception 
   {
 //    String host = "";
@@ -171,16 +172,16 @@ public class ClientConsole implements ChatIF
 //    {
 //      host = "localhost";
 //    }
-    
+	  chat= new ClientConsole("localhost", DEFAULT_PORT);
     ArrayList<String> arr=new ArrayList<>();
       arr.add("showTable");
 //    arr.add("eliran");
 //    arr.add("bendodshel niz");
-      arr.add("316222");
+      arr.add("315766014");
 //    arr.add("eli@halid");
 //    arr.add("052656");
-    chat.accept(arr);  //Wait for console data
-    chat.showDetails();
+      chat.accept(arr);  //Wait for console data
+      chat.showDetails();
   }
 }
 //End of ConsoleChat class

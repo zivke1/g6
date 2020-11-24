@@ -21,6 +21,7 @@ import java.util.ArrayList;
  */
 public class ChatClient extends AbstractClient
 {
+	ClientConsole m_ClientConsole;
 	public static ArrayList<String> dataInArrayList = new ArrayList<String>();
   //Instance variables **********************************************
   
@@ -56,8 +57,9 @@ public class ChatClient extends AbstractClient
    * This method handles all data that comes in from the server.
    *
    * @param msg The message from the server.
+ * @throws Exception 
    */
-  public void handleMessageFromServer(Object msg) 
+  public void handleMessageFromServer(Object msg)
   {
 	String st;
     clientUI.display(msg.toString());
@@ -77,6 +79,7 @@ public class ChatClient extends AbstractClient
 //    	}
     	System.out.println("niz egati2");
     	//use setDetails in ShowInfoController
+    	
     }
   }
 
@@ -85,7 +88,7 @@ public class ChatClient extends AbstractClient
    *
    * @param arr The message from the UI.    
    */
-  public void handleMessageFromClientUI(ArrayList<String> arr)  
+  public void handleMessageFromClientUI(ArrayList<String> arr,ClientConsole clientConsole )  
   {
     try
     {
