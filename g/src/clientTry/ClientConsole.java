@@ -33,7 +33,6 @@ public class ClientConsole implements ChatIF
    */
   final public static int DEFAULT_PORT = 5555;
   
-  public static ClientConsole chat= new ClientConsole("localhost", DEFAULT_PORT);
   //Instance variables **********************************************
   
   /**
@@ -58,8 +57,7 @@ public class ClientConsole implements ChatIF
     } 
     catch(IOException exception) 
     {
-      System.out.println("Error: Can't setup connection!"
-                + " Terminating client.");
+      System.out.println("Error: Can't setup connection!" + " Terminating client.");
       System.exit(1);
     }
   }
@@ -136,19 +134,7 @@ public class ClientConsole implements ChatIF
     System.out.println("> " + message);
   }
 
-  public void showDetails() throws Exception
-  {
-	    Stage primaryStage = new Stage();
-	    FXMLLoader loader=new FXMLLoader();
-		VBox root = loader.load(getClass().getResource("/try1/FxmlTry.fxml").openStream());
-		controllerTry ct = loader.getController();
-		ct.setDetails(ChatClient.dataInArrayList);
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/try1/application.css").toExternalForm());
-		primaryStage.setTitle("eliran yoyo");
-		primaryStage.setScene(scene);
-		primaryStage.show();
-  }
+  
   
   //Class methods ***************************************************
   
@@ -158,29 +144,32 @@ public class ClientConsole implements ChatIF
    * @param args[0] The host to connect to.
  * @throws Exception 
    */
-  public static void main(String[] args) throws Exception 
-  {
-//    String host = "";
-//    int port = 0;  //The port number
-//
-//    try
-//    {
-//      host = args[0];
-//    }
-//    catch(ArrayIndexOutOfBoundsException e)
-//    {
-//      host = "localhost";
-//    }
-    
-    ArrayList<String> arr=new ArrayList<>();
-      arr.add("showTable");
-//    arr.add("eliran");
-//    arr.add("bendodshel niz");
-      arr.add("316222");
-//    arr.add("eli@halid");
-//    arr.add("052656");
-    chat.accept(arr);  //Wait for console data
-    chat.showDetails();
-  }
+//  public static void main(String[] args) throws Exception 
+//  {
+////    String host = "";
+////    int port = 0;  //The port number
+////
+////    try
+////    {
+////      host = args[0];
+////    }
+////    catch(ArrayIndexOutOfBoundsException e)
+////    {
+////      host = "localhost";
+////    }
+//    
+//    ArrayList<String> arr=new ArrayList<>();
+//      arr.add("showTable");
+////    arr.add("eliran");
+////    arr.add("bendodshel niz");
+//      arr.add("316222");
+////    arr.add("eli@halid");
+////    arr.add("052656");
+//    chat.accept(arr);  //Wait for console data
+//    System.out.println("ani po ba main");
+//    int n=10000;
+//    for(int i=0;i<n;i++);
+//    //chat.showDetails();    
+//  }
 }
 //End of ConsoleChat class

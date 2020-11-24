@@ -21,7 +21,7 @@ import java.util.ArrayList;
  */
 public class ChatClient extends AbstractClient
 {
-	public static ArrayList<String> dataInArrayList = new ArrayList<String>();
+	
   //Instance variables **********************************************
   
   /**
@@ -29,8 +29,8 @@ public class ChatClient extends AbstractClient
    * the display method in the client.
    */
   ChatIF clientUI; 
-
-  
+  public static ArrayList<String> dataInArrayList = new ArrayList<String>();
+  public static boolean awaitResponse = false;
   //Constructors ****************************************************
   
   /**
@@ -46,7 +46,7 @@ public class ChatClient extends AbstractClient
   {
     super(host, port); //Call the superclass constructor
     this.clientUI = clientUI;
-    openConnection();
+   // openConnection();
   }
 
   
@@ -57,26 +57,17 @@ public class ChatClient extends AbstractClient
    *
    * @param msg The message from the server.
    */
-  public void handleMessageFromServer(Object msg) 
+  public void handleMessageFromServer(Object msg) //we need to modified this code to all the query not only showtable
   {
 	String st;
+	awaitResponse = false;
     clientUI.display(msg.toString());
     ArrayList<String> dataFromDb=(ArrayList<String>)msg;
     if(dataFromDb.contains("showTable"))
     {
     	dataFromDb.remove("showTable");
     	dataInArrayList=dataFromDb;
-    	System.out.println("niz egati1");
-//    	try
-//    	{
-//    		controllerTry.c.setDetails(dataFromDb);
-//    	}
-//    	catch(Exception e)
-//    	{
-//    		e.printStackTrace();
-//    	}
-    	System.out.println("niz egati2");
-    	//use setDetails in ShowInfoController
+    	System.out.println(dataInArrayList+" the data we get from DB");
     }
   }
 
@@ -85,18 +76,28 @@ public class ChatClient extends AbstractClient
    *
    * @param arr The message from the UI.    
    */
-  public void handleMessageFromClientUI(ArrayList<String> arr)  
+  public void handleMessageFromClientUI(ArrayList<String> arr)//copy from tirgul  
   {
-    try
-    {
-    	sendToServer(arr);
-    }
-    catch(IOException e)
-    {
-      clientUI.display
-        ("Could not send message to server.  Terminating client.");
-      quit();
-    }
+	  try
+	    {
+	    	openConnection();//in order to send more than one message
+	       	awaitResponse = true;
+	    	sendToServer(arr);
+			// wait for response
+			while (awaitResponse) {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+	    }
+	    catch(IOException e)
+	    {
+	    	e.printStackTrace();
+	      clientUI.display("Could not send message to server: Terminating client."+ e);
+	      quit();
+	    }
   }
   
   /**
