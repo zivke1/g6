@@ -21,10 +21,10 @@ public class myMain extends Application {
 		//controllerTry aFrame=new controllerTry();
 		//aFrame.start(primaryStage);
 		VBox vbox = null;
-		UpdateEmailController controller;
+		EnterIDController controller;
 		try {
 			FXMLLoader loader=new FXMLLoader();
-			loader.setLocation(getClass().getResource("UpdateEmail.fxml"));
+			loader.setLocation(getClass().getResource("EnterID.fxml"));
 			vbox = loader.load();
 			controller = loader.getController();
 		} catch (IOException e) {
@@ -32,7 +32,7 @@ public class myMain extends Application {
 		}	
 		Scene scene=new Scene(vbox);
 		primaryStage.setScene(scene);
-		primaryStage.setTitle("Email");
+		primaryStage.setTitle("Enter ID");
 		primaryStage.show();
 	}
 

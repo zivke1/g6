@@ -66,11 +66,9 @@ public class EchoServer extends AbstractServer
 		  arr.remove(0);
 		  ArrayList<String> dataFromDb=mysqlConnection.showTable(msg);
 		  dataFromDb.add("showTable");
-		  System.out.println(dataFromDb);
 		  this.sendToAllClients(dataFromDb);
 		  return;
 	  }
-	    System.out.println("Message received: " + msg + " from " + client);
 	    this.sendToAllClients(msg);
 	  }catch(Exception e) {e.printStackTrace();}
 	  }

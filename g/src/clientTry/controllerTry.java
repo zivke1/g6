@@ -1,5 +1,6 @@
 package clientTry;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -8,9 +9,11 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -64,11 +67,28 @@ public class controllerTry {
 			
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-			primaryStage.setTitle("eliran yoyo");
+			primaryStage.setTitle("Details");
 			primaryStage.setScene(scene);
 			primaryStage.show();
 	  }
-	
+	 @FXML
+	    void BackToID(MouseEvent event) {
+	    	((Node) event.getSource()).getScene().getWindow().hide();
+	    	Stage primaryStage = new Stage();
+		    FXMLLoader loader=new FXMLLoader();
+			VBox root = null;
+			try {
+				root = loader.load(getClass().getResource("/clientTry/EnterID.fxml").openStream());
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
+			primaryStage.setTitle("Enter ID");
+			primaryStage.setScene(scene);
+			primaryStage.show();
+	    }
 	
 //	@Override
 //	public void initialize(URL arg0, ResourceBundle arg1) {

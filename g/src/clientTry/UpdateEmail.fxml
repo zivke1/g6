@@ -11,16 +11,6 @@
    <children>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Label text="Enter ID:">
-               <HBox.margin>
-                  <Insets right="90.0" />
-               </HBox.margin>
-            </Label>
-            <TextField fx:id="id" />
-         </children>
-      </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0">
-         <children>
             <Label text="Enter new email:">
                <HBox.margin>
                   <Insets right="40.0" />
@@ -31,6 +21,11 @@
       </HBox>
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
          <children>
+            <Button mnemonicParsing="false" onMouseClicked="#BackToID" text="Back">
+               <HBox.margin>
+                  <Insets right="250.0" />
+               </HBox.margin>
+            </Button>
             <Button mnemonicParsing="false" onMouseClicked="#UpdateEmail" text="Enter" />
          </children>
          <VBox.margin>

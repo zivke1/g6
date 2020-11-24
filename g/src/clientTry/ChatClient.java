@@ -46,7 +46,6 @@ public class ChatClient extends AbstractClient
   {
     super(host, port); //Call the superclass constructor
     this.clientUI = clientUI;
-   // openConnection();
   }
 
   
@@ -61,13 +60,11 @@ public class ChatClient extends AbstractClient
   {
 	String st;
 	awaitResponse = false;
-    clientUI.display(msg.toString());
     ArrayList<String> dataFromDb=(ArrayList<String>)msg;
     if(dataFromDb.contains("showTable"))
     {
     	dataFromDb.remove("showTable");
     	dataInArrayList=dataFromDb;
-    	System.out.println(dataInArrayList+" the data we get from DB");
     }
     
   }
