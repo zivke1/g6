@@ -1,6 +1,1 @@
-# g6;;;
-# hello;;;;;;;;;;;
-ziv
-
-commit 2,,,,,,,,,,,,,,,,,,,
-;;;;;
+project of group G6
