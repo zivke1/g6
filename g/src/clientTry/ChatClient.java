@@ -69,6 +69,7 @@ public class ChatClient extends AbstractClient
     	dataInArrayList=dataFromDb;
     	System.out.println(dataInArrayList+" the data we get from DB");
     }
+    
   }
 
   /**

@@ -60,10 +60,10 @@ public class EchoServer extends AbstractServer
 	  if(arr.get(0).equals("insertTable")) {
 		  arr.remove(0);
 		  mysqlConnection.insertTable(msg);
+		  arr.add("insertTable");
 	  }
 	  if(arr.get(0).equals("showTable")) {
 		  arr.remove(0);
-		  System.out.println(msg.toString()+"      lamaaaaaaaaaaa");
 		  ArrayList<String> dataFromDb=mysqlConnection.showTable(msg);
 		  dataFromDb.add("showTable");
 		  System.out.println(dataFromDb);
