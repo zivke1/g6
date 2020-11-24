@@ -30,7 +30,6 @@ public class EnterIDController {
 		try {
 			cT.showDetails(arr);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -45,7 +44,6 @@ public class EnterIDController {
 		try {
 			root = loader.load(getClass().getResource("/clientTry/UpdateEmail.fxml").openStream());
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		iD=id.getText();
@@ -55,19 +53,5 @@ public class EnterIDController {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
-
-//    System.out.println("Student ID Found");
-//	((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
-//	Stage primaryStage = new Stage();
-//	Pane root = loader.load(getClass().getResource("/gui/StudentForm.fxml").openStream());
-//	StudentFormController studentFormController = loader.getController();
-//	studentFormController.loadStudent(ChatClient.s1);
-//
-//	Scene scene = new Scene(root);
-//	scene.getStylesheets().add(getClass().getResource("/gui/StudentForm.css").toExternalForm());
-//	primaryStage.setTitle("Student Managment Tool");
-//
-//	primaryStage.setScene(scene);
-//	primaryStage.show();
 
 }

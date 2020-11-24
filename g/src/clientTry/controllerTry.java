@@ -41,14 +41,6 @@ public class controllerTry {
 		email.setText(a.get(3));
 		phoneNum.setText(a.get(4));
 	}
-//	public void start(Stage primaryStage) throws Exception
-//	{
-//		ArrayList<String> arr=new ArrayList<>();
-//		arr.add("showTable");
-//		arr.add("316222");
-//		myMain.chat.accept(arr);
-//		showDetails();
-//	}
 
 	public void showDetails(ArrayList<String> arr) throws Exception
 	  {
@@ -80,7 +72,6 @@ public class controllerTry {
 			try {
 				root = loader.load(getClass().getResource("/clientTry/EnterID.fxml").openStream());
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			Scene scene = new Scene(root);
@@ -90,21 +81,4 @@ public class controllerTry {
 			primaryStage.show();
 	    }
 	
-//	@Override
-//	public void initialize(URL arg0, ResourceBundle arg1) {
-//		// TODO Auto-generated method stub
-//		firstName = new Label();
-//		lastName = new Label();
-//		id = new Label();
-//		email = new Label();
-//		phoneNum = new Label();
-//	}
-
 }
-//public void setDetails() {
-//		firstName.setText("eliraaaaaaaaaaaaaaaaaan");
-//		lastName.setText("dam");
-//		id.setText("316275");
-//		email.setText("eliran@niz");
-//		phoneNum.setText("05234");
-//	}
