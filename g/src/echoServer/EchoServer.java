@@ -47,6 +47,24 @@ public class EchoServer extends AbstractServer
 
 
   
+  
+  protected void clientConnected(ConnectionToClient client) {
+	  System.out.println(client.toString());
+//	  m_ServerControl.setParameters(client.getInfo(infoType), host, "conneccted");
+//	  m_ServerControl.setParameters(client.getInfo(infoType), host, status);
+  }
+
+  /**
+   * Hook method called each time a client disconnects.
+   * The default implementation does nothing. The method
+   * may be overridden by subclasses but should remains synchronized.
+   *
+   * @param client the connection with the client.
+   */
+  
+  synchronized protected void clientDisconnected(ConnectionToClient client) {
+
+  }
   //Instance methods ************************************************
   
   /**
@@ -58,6 +76,7 @@ public class EchoServer extends AbstractServer
   public void handleMessageFromClient
     (Object msg, ConnectionToClient client)
   {
+	 
 	  ArrayList<String> arr=(ArrayList<String>)msg;
 	  if(arr.get(0).equals("updateTable"))
 	  {
@@ -89,7 +108,7 @@ public class EchoServer extends AbstractServer
 	
 	  System.out.println
 	  ("Server listening for connections on port " + getPort());
-	  m_ServerControl.setParameters(getPort()+"" , "ziv", "connected");//////////////
+	               
   }
   
   /**

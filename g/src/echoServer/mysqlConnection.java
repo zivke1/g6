@@ -27,7 +27,7 @@ public class mysqlConnection {
         
         try 
         {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/visitorSchema?serverTimezone=IST","root","Mtcodo12");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/visitorSchema?serverTimezone=IST","root","Aa123456");
             System.out.println("SQL connection succeed");
 //            updateFlight(conn);
 //            updateParisFlights(conn);
