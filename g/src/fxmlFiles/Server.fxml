@@ -32,11 +32,11 @@
               </rowConstraints>
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="status" />
-                  <Text fx:id="portLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="port" GridPane.rowIndex="1" />
+                  <Text fx:id="ipLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="ip" GridPane.rowIndex="1" />
                   <Text fx:id="hostLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="host" GridPane.rowIndex="2" />
-                  <TextField fx:id="statusState" prefHeight="26.0" prefWidth="257.0" text="a" GridPane.columnIndex="1" />
-                  <TextField fx:id="portState" text="a" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField fx:id="hostState" prefHeight="126.0" prefWidth="321.0" text="a" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="statusState" prefHeight="26.0" prefWidth="257.0" text="not connected" GridPane.columnIndex="1" />
+                  <TextField fx:id="ipState" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="hostState" prefHeight="126.0" prefWidth="321.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
                <VBox.margin>
                   <Insets left="7.0" />

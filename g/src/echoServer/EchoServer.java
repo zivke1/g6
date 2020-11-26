@@ -49,7 +49,10 @@ public class EchoServer extends AbstractServer
   
   
   protected void clientConnected(ConnectionToClient client) {
-	  System.out.println(client.toString());
+//	  System.out.println(client.toString());
+	  String ipAndHost = client.toString();
+	  String[] ipAndHostArray = ipAndHost.split(" ");
+	  m_ServerControl.setParameters(ipAndHostArray[0], ipAndHostArray[1], "connected");
 //	  m_ServerControl.setParameters(client.getInfo(infoType), host, "conneccted");
 //	  m_ServerControl.setParameters(client.getInfo(infoType), host, status);
   }
@@ -63,7 +66,8 @@ public class EchoServer extends AbstractServer
    */
   
   synchronized protected void clientDisconnected(ConnectionToClient client) {
-
+	 System.out.println("check");
+	  m_ServerControl.setParameters(" ", " ", "not connected");
   }
   //Instance methods ************************************************
   
