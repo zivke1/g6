@@ -52,7 +52,7 @@ public class EchoServer extends AbstractServer
 //	  System.out.println(client.toString());
 	  String ipAndHost = client.toString();
 	  String[] ipAndHostArray = ipAndHost.split(" ");
-	  m_ServerControl.setParameters(ipAndHostArray[0], ipAndHostArray[1], "connected");
+	  m_ServerControl.setParameters(ipAndHostArray[1], ipAndHostArray[0], "connected");
 //	  m_ServerControl.setParameters(client.getInfo(infoType), host, "conneccted");
 //	  m_ServerControl.setParameters(client.getInfo(infoType), host, status);
   }

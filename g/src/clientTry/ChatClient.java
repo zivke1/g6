@@ -48,6 +48,7 @@ public class ChatClient extends AbstractClient
   {
     super(host, port); //Call the superclass constructor
     this.clientUI = clientUI;
+    openConnection();
   }
 
   
@@ -84,7 +85,7 @@ public class ChatClient extends AbstractClient
   {
 	  try
 	    {
-	    	openConnection();//in order to send more than one message
+//	    	openConnection();//in order to send more than one message
 	       	awaitResponse = true;
 	    	sendToServer(arr);
 			// wait for response
