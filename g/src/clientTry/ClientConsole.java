@@ -6,8 +6,6 @@ package clientTry;
 import java.io.*;
 import java.util.ArrayList;
 
-import client.*;
-import common.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -33,6 +31,7 @@ public class ClientConsole implements ChatIF
    */
   final public static int DEFAULT_PORT = 5555;
   
+
   //Instance variables **********************************************
   
   /**
@@ -69,47 +68,7 @@ public class ClientConsole implements ChatIF
    * This method waits for input from the console.  Once it is 
    * received, it sends it to the client's message handler.
    */
-//  public void accept() 
-//  {
-//    try
-//    {
-//      BufferedReader fromConsole = 
-//        new BufferedReader(new InputStreamReader(System.in));
-//      String message;
-//      ArrayList<String> arr=new ArrayList<>();
-//      int i=0;
-//      while (true)
-//      {
-//    	if(i%4==0)
-//    	System.out.println("enter UserName:");
-//    	if(i%4==1)
-//    	System.out.println("enter ID:");
-//    	if(i%4==2)
-//    	System.out.println("enter Department:");
-//    	if(i%4==3)
-//    	{
-//    		System.out.println("enter Tel:");
-//    		message = fromConsole.readLine();
-//    		arr.add(message);
-//    		System.out.println("enter send");
-//    	}
-//    	
-//        message = fromConsole.readLine();
-//        
-//        if(message.equals("send"))
-//        {
-//        	client.handleMessageFromClientUI(arr);
-//        }
-//        arr.add(message); 
-//        i++;
-//      }
-//    } 
-//    catch (Exception ex) 
-//    {
-//      System.out.println
-//        ("Unexpected error while reading from console!");
-//    }
-//  }
+
   
   public void accept(ArrayList<String> arr) 
   {
@@ -133,7 +92,7 @@ public class ClientConsole implements ChatIF
   {
     System.out.println("> " + message);
   }
-
+}
   
   
   //Class methods ***************************************************
@@ -144,32 +103,4 @@ public class ClientConsole implements ChatIF
    * @param args[0] The host to connect to.
  * @throws Exception 
    */
-//  public static void main(String[] args) throws Exception 
-//  {
-////    String host = "";
-////    int port = 0;  //The port number
-////
-////    try
-////    {
-////      host = args[0];
-////    }
-////    catch(ArrayIndexOutOfBoundsException e)
-////    {
-////      host = "localhost";
-////    }
-//    
-//    ArrayList<String> arr=new ArrayList<>();
-//      arr.add("showTable");
-////    arr.add("eliran");
-////    arr.add("bendodshel niz");
-//      arr.add("316222");
-////    arr.add("eli@halid");
-////    arr.add("052656");
-//    chat.accept(arr);  //Wait for console data
-//    System.out.println("ani po ba main");
-//    int n=10000;
-//    for(int i=0;i<n;i++);
-//    //chat.showDetails();    
-//  }
-}
-//End of ConsoleChat class
+

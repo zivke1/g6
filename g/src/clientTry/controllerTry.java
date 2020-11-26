@@ -1,16 +1,19 @@
 package clientTry;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import client.ClientUI;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -26,7 +29,7 @@ public class controllerTry {
 	private Label id;
 
 	@FXML
-	private Label email;
+	private Label email;//ziv update
 
 	@FXML
 	private Label phoneNum;
@@ -38,17 +41,10 @@ public class controllerTry {
 		email.setText(a.get(3));
 		phoneNum.setText(a.get(4));
 	}
-	public void start(Stage primaryStage) throws Exception
-	{
-		ArrayList<String> arr=new ArrayList<>();
-		arr.add("showTable");
-		arr.add("316222");
-		myMain.chat.accept(arr);
-		showDetails();
-	}
 
-	public void showDetails() throws Exception
+	public void showDetails(ArrayList<String> arr) throws Exception
 	  {
+			myMain.chat.accept(arr);
 		    Stage primaryStage = new Stage();
 		    FXMLLoader loader=new FXMLLoader();
 			VBox root = loader.load(getClass().getResource("/clientTry/FxmlTry.fxml").openStream());
@@ -63,27 +59,26 @@ public class controllerTry {
 			
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-			primaryStage.setTitle("eliran yoyo");
+			primaryStage.setTitle("Details");
 			primaryStage.setScene(scene);
 			primaryStage.show();
 	  }
+	 @FXML
+	    void BackToID(MouseEvent event) {
+	    	((Node) event.getSource()).getScene().getWindow().hide();
+	    	Stage primaryStage = new Stage();
+		    FXMLLoader loader=new FXMLLoader();
+			VBox root = null;
+			try {
+				root = loader.load(getClass().getResource("/clientTry/EnterID.fxml").openStream());
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
+			primaryStage.setTitle("Enter ID");
+			primaryStage.setScene(scene);
+			primaryStage.show();
+	    }
 	
-	
-//	@Override
-//	public void initialize(URL arg0, ResourceBundle arg1) {
-//		// TODO Auto-generated method stub
-//		firstName = new Label();
-//		lastName = new Label();
-//		id = new Label();
-//		email = new Label();
-//		phoneNum = new Label();
-//	}
-
 }
-//public void setDetails() {
-//		firstName.setText("eliraaaaaaaaaaaaaaaaaan");
-//		lastName.setText("dam");
-//		id.setText("316275");
-//		email.setText("eliran@niz");
-//		phoneNum.setText("05234");
-//	}

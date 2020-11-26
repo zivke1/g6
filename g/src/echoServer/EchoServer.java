@@ -6,7 +6,7 @@ package echoServer;
 
 import java.io.*;
 import java.util.ArrayList;
-
+import echoServer.ServerControl;
 import ocsf.server.*;
 
 /**
@@ -18,7 +18,7 @@ import ocsf.server.*;
 public class EchoServer extends AbstractServer 
 {
   //Class variables *************************************************
-  
+	ServerControl m_ServerControl;
   /**
    * The default port to listen on.
    */
@@ -36,8 +36,39 @@ public class EchoServer extends AbstractServer
     super(port);
     mysqlConnection.connectDB();
   }
+  
+  
+  public EchoServer(int port ,ServerControl control) 
+  {
+    super(port);
+    mysqlConnection.connectDB();
+    m_ServerControl = control;
+  }
+
 
   
+  
+  protected void clientConnected(ConnectionToClient client) {
+//	  System.out.println(client.toString());
+	  String ipAndHost = client.toString();
+	  String[] ipAndHostArray = ipAndHost.split(" ");
+	  m_ServerControl.setParameters(ipAndHostArray[1], ipAndHostArray[0], "connected");
+//	  m_ServerControl.setParameters(client.getInfo(infoType), host, "conneccted");
+//	  m_ServerControl.setParameters(client.getInfo(infoType), host, status);
+  }
+
+  /**
+   * Hook method called each time a client disconnects.
+   * The default implementation does nothing. The method
+   * may be overridden by subclasses but should remains synchronized.
+   *
+   * @param client the connection with the client.
+   */
+  
+  synchronized protected void clientDisconnected(ConnectionToClient client) {
+	 System.out.println("check");
+	  m_ServerControl.setParameters(" ", " ", "not connected");
+  }
   //Instance methods ************************************************
   
   /**
@@ -49,7 +80,11 @@ public class EchoServer extends AbstractServer
   public void handleMessageFromClient
     (Object msg, ConnectionToClient client)
   {
+
+	  try {
+
 	  ArrayList<String> arr=(ArrayList<String>)msg;
+	 
 	  if(arr.get(0).equals("updateTable"))
 	  {
 		  arr.remove(0);
@@ -58,6 +93,7 @@ public class EchoServer extends AbstractServer
 	  if(arr.get(0).equals("insertTable")) {
 		  arr.remove(0);
 		  mysqlConnection.insertTable(msg);
+		  arr.add("insertTable");
 	  }
 	  if(arr.get(0).equals("showTable")) {
 		  arr.remove(0);
@@ -66,8 +102,8 @@ public class EchoServer extends AbstractServer
 		  this.sendToAllClients(dataFromDb);
 		  return;
 	  }
-	    System.out.println("Message received: " + msg + " from " + client);
 	    this.sendToAllClients(msg);
+	  }catch(Exception e) {e.printStackTrace();}
 	  }
 
     
@@ -77,8 +113,10 @@ public class EchoServer extends AbstractServer
    */
   protected void serverStarted()
   {
-    System.out.println
-      ("Server listening for connections on port " + getPort());
+	
+	  System.out.println
+	  ("Server listening for connections on port " + getPort());
+	               
   }
   
   /**

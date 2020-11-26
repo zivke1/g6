@@ -6,7 +6,7 @@ package clientTry;
 
 import ocsf.client.*;
 import clientTry.controllerTry;
-import common.*;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -21,7 +21,9 @@ import java.util.ArrayList;
  */
 public class ChatClient extends AbstractClient
 {
-	
+//	ClientConsole m_ClientConsole;
+//	public static ArrayList<String> dataInArrayList = new ArrayList<String>();
+
   //Instance variables **********************************************
   
   /**
@@ -46,7 +48,7 @@ public class ChatClient extends AbstractClient
   {
     super(host, port); //Call the superclass constructor
     this.clientUI = clientUI;
-   // openConnection();
+    openConnection();
   }
 
   
@@ -56,19 +58,21 @@ public class ChatClient extends AbstractClient
    * This method handles all data that comes in from the server.
    *
    * @param msg The message from the server.
+ * @throws Exception 
    */
+
   public void handleMessageFromServer(Object msg) //we need to modified this code to all the query not only showtable
   {
 	String st;
 	awaitResponse = false;
-    clientUI.display(msg.toString());
     ArrayList<String> dataFromDb=(ArrayList<String>)msg;
     if(dataFromDb.contains("showTable"))
     {
     	dataFromDb.remove("showTable");
     	dataInArrayList=dataFromDb;
-    	System.out.println(dataInArrayList+" the data we get from DB");
+
     }
+    
   }
 
   /**
@@ -76,11 +80,12 @@ public class ChatClient extends AbstractClient
    *
    * @param arr The message from the UI.    
    */
+
   public void handleMessageFromClientUI(ArrayList<String> arr)//copy from tirgul  
   {
 	  try
 	    {
-	    	openConnection();//in order to send more than one message
+//	    	openConnection();//in order to send more than one message
 	       	awaitResponse = true;
 	    	sendToServer(arr);
 			// wait for response
