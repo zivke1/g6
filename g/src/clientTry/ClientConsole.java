@@ -31,6 +31,7 @@ public class ClientConsole implements ChatIF
    */
   final public static int DEFAULT_PORT = 5555;
   
+
   //Instance variables **********************************************
   
   /**
@@ -73,7 +74,7 @@ public class ClientConsole implements ChatIF
   {
     try
     {
-        	client.handleMessageFromClientUI(arr);
+        	client.handleMessageFromClientUI(arr,this);
     } 
     catch (Exception ex) 
     {

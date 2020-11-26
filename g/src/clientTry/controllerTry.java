@@ -29,7 +29,7 @@ public class controllerTry {
 	private Label id;
 
 	@FXML
-	private Label email;
+	private Label email;//ziv update
 
 	@FXML
 	private Label phoneNum;

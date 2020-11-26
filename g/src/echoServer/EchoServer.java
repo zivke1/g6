@@ -6,7 +6,7 @@ package echoServer;
 
 import java.io.*;
 import java.util.ArrayList;
-
+import echoServer.ServerControl;
 import ocsf.server.*;
 
 /**
@@ -18,7 +18,7 @@ import ocsf.server.*;
 public class EchoServer extends AbstractServer 
 {
   //Class variables *************************************************
-  
+	ServerControl m_ServerControl;
   /**
    * The default port to listen on.
    */
@@ -36,8 +36,35 @@ public class EchoServer extends AbstractServer
     super(port);
     mysqlConnection.connectDB();
   }
+  
+  
+  public EchoServer(int port ,ServerControl control) 
+  {
+    super(port);
+    mysqlConnection.connectDB();
+    m_ServerControl = control;
+  }
+
 
   
+  
+  protected void clientConnected(ConnectionToClient client) {
+	  System.out.println(client.toString());
+//	  m_ServerControl.setParameters(client.getInfo(infoType), host, "conneccted");
+//	  m_ServerControl.setParameters(client.getInfo(infoType), host, status);
+  }
+
+  /**
+   * Hook method called each time a client disconnects.
+   * The default implementation does nothing. The method
+   * may be overridden by subclasses but should remains synchronized.
+   *
+   * @param client the connection with the client.
+   */
+  
+  synchronized protected void clientDisconnected(ConnectionToClient client) {
+
+  }
   //Instance methods ************************************************
   
   /**
@@ -49,7 +76,9 @@ public class EchoServer extends AbstractServer
   public void handleMessageFromClient
     (Object msg, ConnectionToClient client)
   {
+
 	  try {
+
 	  ArrayList<String> arr=(ArrayList<String>)msg;
 	 
 	  if(arr.get(0).equals("updateTable"))
@@ -80,8 +109,10 @@ public class EchoServer extends AbstractServer
    */
   protected void serverStarted()
   {
-    System.out.println
-      ("Server listening for connections on port " + getPort());
+	
+	  System.out.println
+	  ("Server listening for connections on port " + getPort());
+	               
   }
   
   /**

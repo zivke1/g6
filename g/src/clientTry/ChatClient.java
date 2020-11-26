@@ -6,7 +6,7 @@ package clientTry;
 
 import ocsf.client.*;
 import clientTry.controllerTry;
-import common.*;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -21,7 +21,9 @@ import java.util.ArrayList;
  */
 public class ChatClient extends AbstractClient
 {
-	
+	ClientConsole m_ClientConsole;
+	public static ArrayList<String> dataInArrayList = new ArrayList<String>();
+
   //Instance variables **********************************************
   
   /**
@@ -55,7 +57,9 @@ public class ChatClient extends AbstractClient
    * This method handles all data that comes in from the server.
    *
    * @param msg The message from the server.
+ * @throws Exception 
    */
+
   public void handleMessageFromServer(Object msg) //we need to modified this code to all the query not only showtable
   {
 	String st;
@@ -65,6 +69,7 @@ public class ChatClient extends AbstractClient
     {
     	dataFromDb.remove("showTable");
     	dataInArrayList=dataFromDb;
+
     }
     
   }
@@ -74,6 +79,7 @@ public class ChatClient extends AbstractClient
    *
    * @param arr The message from the UI.    
    */
+
   public void handleMessageFromClientUI(ArrayList<String> arr)//copy from tirgul  
   {
 	  try
