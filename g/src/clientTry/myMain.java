@@ -9,19 +9,19 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class myMain extends Application {
-
+	public static ClientConsole chat; //only one instance
 	public static void main(String[] args) {
 		launch(args);
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		
+		chat=new ClientConsole("localhost", 5555);
 		VBox vbox = null;
-		controllerTry controller;
+		EnterIDController controller;
 		try {
 			FXMLLoader loader=new FXMLLoader();
-			loader.setLocation(getClass().getResource("FxmlTry.fxml"));
+			loader.setLocation(getClass().getResource("EnterID.fxml"));
 			vbox = loader.load();
 			controller = loader.getController();
 		} catch (IOException e) {
@@ -29,6 +29,7 @@ public class myMain extends Application {
 		}	
 		Scene scene=new Scene(vbox);
 		primaryStage.setScene(scene);
+		primaryStage.setTitle("Enter ID");
 		primaryStage.show();
 	}
 

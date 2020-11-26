@@ -22,17 +22,12 @@ public class mysqlConnection {
             System.out.println("Driver definition succeed");
         } catch (Exception ex) {
         	/* handle the error*/
-        	 System.out.println("Driver definition failed");
+        	 System.out.println("Driver definition failed"); 
         	 }
         
         try 
         {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/visitorSchema?serverTimezone=IST","root","Aa123456");
-            System.out.println("SQL connection succeed");
-//            updateFlight(conn);
-//            updateParisFlights(conn);
-//            manually_update(conn);
-//            count_delayed_flights(conn);
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/visitorschema?serverTimezone=IST","root","Aa123456");
      	} catch (SQLException ex) 
      	    {/* handle any errors*/
             System.out.println("SQLException: " + ex.getMessage());
@@ -52,7 +47,6 @@ public class mysqlConnection {
 		ArrayList<String> dataFromDB=new ArrayList<>();
 		try {//inserting new row to the table
 //			Statement update = conn.prepareStatement("select * from visitor Where ID="+(String)id);
-//			update.execute();
 			String firstName = null,lastName = null,ID = null,email = null,phoneNum = null;
 			Statement stmt=conn.createStatement();
 			String tmpId=((ArrayList<String>)id).get(0);
@@ -93,70 +87,6 @@ public class mysqlConnection {
 		} catch (SQLException e) {	e.printStackTrace();}
 	}
 			
-//	public static void createTableflights(Connection conn){
-//		Statement stmt;
-//		try {
-//			stmt = conn.createStatement();
-//			stmt.executeUpdate("CREATE TABLE flights(Scheduled TIME,Flight VARCHAR(6), FromWhere VARCHAR(20), Delay  VARCHAR(20),Terminal INT)");
-//			stmt.executeUpdate("load data local infile \"arrived_flights.txt\" into table flights");
-//		} catch (SQLException e) {	e.printStackTrace();}
-//	}
-//	
-//	public static void updateFlight(Connection conn){
-//		Statement stmt;
-//		try {
-//			stmt = conn.createStatement();
-//			stmt.executeUpdate("UPDATE flights SET delay=\"Expected 18:00\" WHERE flight=\"KU101\";");
-//			//stmt.execute("SELECT * FROM text.flights WHERE Flight ='KU101' ;");
-//			
-//		} catch (SQLException e) {	e.printStackTrace();}
-//	}
-//	
-//	public static void updateParisFlights(Connection conn){
-//		Statement stmt;
-//		try {
-//			stmt = conn.createStatement();
-//			stmt.executeUpdate("UPDATE flights SET scheduled = \"00:00:00\" WHERE flights.fromWhere = \"Paris\" AND flights.scheduled < \"15:00:00\";");
-//		} catch (SQLException e) {	e.printStackTrace();}
-//	}
-//	
-//	public static void manually_update(Connection conn)
-//	{
-//		Scanner s= new Scanner(System.in);
-//		try
-//		{
-//			PreparedStatement flightUpdate = conn.prepareStatement("UPDATE flights SET scheduled=? WHERE flight=?");
-//			System.out.println("Enter The Flight You Want To Update:\n");
-//			String select_flight = s.nextLine();
-//			System.out.println("Enter Arrival Time:\n");
-//			String arival_time = s.nextLine();
-//			flightUpdate.setString(1,arival_time );
-//			flightUpdate.setString(2, select_flight);
-//			flightUpdate.executeUpdate();
-//			System.out.println("success");
-//		}
-//		catch (SQLException e) {e.printStackTrace();}
-//	}
-//	
-//	public static void count_delayed_flights(Connection conn)
-//	{
-//		Scanner s= new Scanner(System.in);
-//		try
-//		{
-//			PreparedStatement delay_count = conn.prepareStatement("SELECT COUNT(*) FROM flights WHERE TIMESTAMPDIFF(MINUTE, scheduled, TIME(RIGHT(flights.delay, 5))) >? AND delay != \"Cancelled\";");
-//			System.out.println("Enter The Delay:\n");
-//			String delay = s.nextLine();
-//			delay_count.setString(1,delay);
-//			ResultSet rs = 	delay_count.executeQuery();
-//	 		while(rs.next())
-//	 		{
-//				 System.out.println(rs.getString(1));
-//			} 
-//			rs.close();
-//			System.out.println("The change was made successfully");
-//		}
-//		catch (SQLException e) {e.printStackTrace();}
-//	}
 }
 
 
