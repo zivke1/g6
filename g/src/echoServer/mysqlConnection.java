@@ -27,7 +27,7 @@ public class mysqlConnection {
         
         try 
         {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/visitor?serverTimezone=IST","root","789S789m+");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/visitorschema?serverTimezone=IST","root","Aa123456");
      	} catch (SQLException ex) 
      	    {/* handle any errors*/
             System.out.println("SQLException: " + ex.getMessage());

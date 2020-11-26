@@ -2,7 +2,6 @@ package clientTry;
 
 import java.io.IOException;
 
-import client.ClientController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
