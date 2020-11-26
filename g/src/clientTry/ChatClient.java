@@ -21,8 +21,8 @@ import java.util.ArrayList;
  */
 public class ChatClient extends AbstractClient
 {
-	ClientConsole m_ClientConsole;
-	public static ArrayList<String> dataInArrayList = new ArrayList<String>();
+//	ClientConsole m_ClientConsole;
+//	public static ArrayList<String> dataInArrayList = new ArrayList<String>();
 
   //Instance variables **********************************************
   
