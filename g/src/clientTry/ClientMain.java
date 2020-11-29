@@ -8,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class myMain extends Application {
+public class ClientMain extends Application {
 	public static ClientConsole chat; //only one instance
 	public static void main(String[] args) {
 		launch(args);

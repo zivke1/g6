@@ -5,16 +5,20 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <VBox prefWidth="500.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.UserInformationController">
    <children>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="textA" text="User's Info:">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="User's Info:" textAlignment="CENTER" wrappingWidth="489.966796875">
                <HBox.margin>
-                  <Insets left="7.0" top="6.0" />
-               </HBox.margin></Text>
+                  <Insets left="7.0" top="20.0" />
+               </HBox.margin>
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font></Text>
          </children>
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0">

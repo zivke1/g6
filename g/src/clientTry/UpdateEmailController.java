@@ -29,7 +29,7 @@ public class UpdateEmailController {
     	arr.add(EnterIDController.iD);
     	arr.add("Email");
     	((Node) event.getSource()).getScene().getWindow().hide();
-    	myMain.chat.accept(arr);
+    	ClientMain.chat.accept(arr);
     	UserInformationController cT = new UserInformationController();
     	try {
     		ArrayList<String> arrShowNewVals=new ArrayList<String>();

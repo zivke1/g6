@@ -44,7 +44,7 @@ public class UserInformationController {
 
 	public void showDetails(ArrayList<String> arr) throws Exception
 	  {
-			myMain.chat.accept(arr);
+			ClientMain.chat.accept(arr);
 		    Stage primaryStage = new Stage();
 		    FXMLLoader loader=new FXMLLoader();
 			VBox root = loader.load(getClass().getResource("/clientTry/UserInformationGui.fxml").openStream());
