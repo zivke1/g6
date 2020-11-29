@@ -26,7 +26,7 @@ public class EnterIDController {
 		arr.add(id.getText());
 		((Node) event.getSource()).getScene().getWindow().hide();
 
-		controllerTry cT = new controllerTry();
+		UserInformationController cT = new UserInformationController();
 		try {
 			cT.showDetails(arr);
 		} catch (Exception e) {

@@ -30,7 +30,7 @@ public class UpdateEmailController {
     	arr.add("Email");
     	((Node) event.getSource()).getScene().getWindow().hide();
     	myMain.chat.accept(arr);
-    	controllerTry cT = new controllerTry();
+    	UserInformationController cT = new UserInformationController();
     	try {
     		ArrayList<String> arrShowNewVals=new ArrayList<String>();
     		arrShowNewVals.add("showTable");

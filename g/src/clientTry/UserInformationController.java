@@ -17,7 +17,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class controllerTry {
+public class UserInformationController {
 //	static public controllerTry c = new controllerTry();
 	@FXML
 	private Label firstName;
@@ -47,8 +47,8 @@ public class controllerTry {
 			myMain.chat.accept(arr);
 		    Stage primaryStage = new Stage();
 		    FXMLLoader loader=new FXMLLoader();
-			VBox root = loader.load(getClass().getResource("/clientTry/FxmlTry.fxml").openStream());
-			controllerTry ct = loader.getController();
+			VBox root = loader.load(getClass().getResource("/clientTry/UserInformationGui.fxml").openStream());
+			UserInformationController ct = loader.getController();
 			try {
 				ct.setDetails(ChatClient.dataInArrayList);
 			}

@@ -5,7 +5,7 @@
 package clientTry;
 
 import ocsf.client.*;
-import clientTry.controllerTry;
+import clientTry.UserInformationController;
 
 import java.io.*;
 import java.util.ArrayList;
