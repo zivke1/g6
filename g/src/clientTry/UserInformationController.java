@@ -17,7 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class UserInformationController {
-//	static public controllerTry c = new controllerTry();
+
 	@FXML
 	private Label firstName;
 
@@ -28,7 +28,7 @@ public class UserInformationController {
 	private Label id;
 
 	@FXML
-	private Label email;// ziv update
+	private Label email;
 
 	@FXML
 	private Label phoneNum;

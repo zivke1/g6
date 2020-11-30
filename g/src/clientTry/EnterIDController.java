@@ -51,7 +51,7 @@ public class EnterIDController {
 	    	ClientMain.chat.stopConnection();
 		});
 		
-		
+		//TODO add query to check if the id exist
 	    FXMLLoader loader=new FXMLLoader();
 		VBox root = null;
 		try {

@@ -22,7 +22,7 @@ public class ServerMain extends Application{
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/fxmlFiles/Server.fxml"));
-			root = loader.load();/////////////////
+			root = loader.load();
 		
 			controller = loader.getController();
 		} catch (IOException e) {

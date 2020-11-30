@@ -46,7 +46,6 @@ public class mysqlConnection {
 	public static ArrayList<String> showTable(Object id){
 		ArrayList<String> dataFromDB=new ArrayList<>();
 		try {//inserting new row to the table
-//			Statement update = conn.prepareStatement("select * from visitor Where ID="+(String)id);
 			String firstName = null,lastName = null,ID = null,email = null,phoneNum = null;
 			Statement stmt=conn.createStatement();
 			String tmpId=((ArrayList<String>)id).get(0);
