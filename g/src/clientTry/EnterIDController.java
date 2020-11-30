@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -17,7 +18,7 @@ public class EnterIDController {
 	public static String iD;
 	@FXML
 	private TextField id;
-
+    
 	@FXML
 	void ShowDetails(MouseEvent event) {
 
@@ -34,11 +35,23 @@ public class EnterIDController {
 		}
 
 	}
+	
 
+    
 	@FXML
 	void UpdateEmail(MouseEvent event) {
 		((Node) event.getSource()).getScene().getWindow().hide();
 		Stage primaryStage = new Stage();
+		
+		//this make the X btn to close the connection
+			primaryStage.setOnCloseRequest(evt->{
+	    	ArrayList<String> closeArrayList = new ArrayList<String>();
+	    	closeArrayList.add("close");
+			ClientMain.chat.accept(closeArrayList);
+	    	ClientMain.chat.stopConnection();
+		});
+		
+		
 	    FXMLLoader loader=new FXMLLoader();
 		VBox root = null;
 		try {

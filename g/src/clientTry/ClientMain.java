@@ -1,6 +1,7 @@
 package clientTry;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,13 @@ public class ClientMain extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		chat=new ClientConsole("localhost", 5555);
+		//this make the X btn to close the connection
+		primaryStage.setOnCloseRequest(evt->{
+	    	ArrayList<String> arr = new ArrayList<String>();
+			arr.add("close");
+			ClientMain.chat.accept(arr);
+	    	ClientMain.chat.stopConnection();
+		});
 		VBox vbox = null;
 		EnterIDController controller;
 		try {

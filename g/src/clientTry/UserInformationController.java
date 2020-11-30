@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -29,56 +28,77 @@ public class UserInformationController {
 	private Label id;
 
 	@FXML
-	private Label email;//ziv update
+	private Label email;// ziv update
 
 	@FXML
 	private Label phoneNum;
 
 	public void setDetails(ArrayList<String> a) {
-		firstName.setText(a.get(0));
-		lastName.setText(a.get(1));
-		id.setText(a.get(2));
-		email.setText(a.get(3));
-		phoneNum.setText(a.get(4));
+		if (a.get(0) != null) {
+			firstName.setText(a.get(0));
+			lastName.setText(a.get(1));
+			id.setText(a.get(2));
+			email.setText(a.get(3));
+			phoneNum.setText(a.get(4));
+		}
+		else
+			firstName.setText("We didn't find this ID in the DB\n please press back and try again");
+
 	}
 
-	public void showDetails(ArrayList<String> arr) throws Exception
-	  {
-			ClientMain.chat.accept(arr);
-		    Stage primaryStage = new Stage();
-		    FXMLLoader loader=new FXMLLoader();
-			VBox root = loader.load(getClass().getResource("/clientTry/UserInformationGui.fxml").openStream());
-			UserInformationController ct = loader.getController();
-			try {
-				ct.setDetails(ChatClient.dataInArrayList);
-			}
-			catch(Exception e)
-			{
-				e.getStackTrace();
-			}
-			
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-			primaryStage.setTitle("Details");
-			primaryStage.setScene(scene);
-			primaryStage.show();
-	  }
-	 @FXML
-	    void BackToID(MouseEvent event) {
-	    	((Node) event.getSource()).getScene().getWindow().hide();
-	    	Stage primaryStage = new Stage();
-		    FXMLLoader loader=new FXMLLoader();
-			VBox root = null;
-			try {
-				root = loader.load(getClass().getResource("/clientTry/EnterID.fxml").openStream());
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-			primaryStage.setTitle("Enter ID");
-			primaryStage.setScene(scene);
-			primaryStage.show();
-	    }
-	
+	public void showDetails(ArrayList<String> arr) throws Exception {
+		ClientMain.chat.accept(arr);
+		Stage primaryStage = new Stage();
+
+		// this make the X btn to close the connection
+		primaryStage.setOnCloseRequest(evt -> {
+			ArrayList<String> closeArrayList = new ArrayList<String>();
+			closeArrayList.add("close");
+			ClientMain.chat.accept(closeArrayList);
+			ClientMain.chat.stopConnection();
+		});
+
+		FXMLLoader loader = new FXMLLoader();
+		VBox root = loader.load(getClass().getResource("/clientTry/UserInformationGui.fxml").openStream());
+		UserInformationController ct = loader.getController();
+		try {
+			ct.setDetails(ChatClient.dataInArrayList);
+		} catch (Exception e) {
+			e.getStackTrace();
+		}
+
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
+		primaryStage.setTitle("Details");
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
+
+	@FXML
+	void BackToID(MouseEvent event) {
+		((Node) event.getSource()).getScene().getWindow().hide();
+		Stage primaryStage = new Stage();
+
+		// this make the X btn to close the connection
+		primaryStage.setOnCloseRequest(evt -> {
+			ArrayList<String> closeArrayList = new ArrayList<String>();
+			closeArrayList.add("close");
+			ClientMain.chat.accept(closeArrayList);
+			ClientMain.chat.stopConnection();
+		});
+
+		FXMLLoader loader = new FXMLLoader();
+		VBox root = null;
+		try {
+			root = loader.load(getClass().getResource("/clientTry/EnterID.fxml").openStream());
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
+		primaryStage.setTitle("Enter ID");
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
+
 }

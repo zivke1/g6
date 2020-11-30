@@ -92,6 +92,11 @@ public class ClientConsole implements ChatIF
   {
     System.out.println("> " + message);
   }
+  
+  public void stopConnection() {
+	  client.quit();
+  }
+  
 }
   
   
