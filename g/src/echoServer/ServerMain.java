@@ -31,6 +31,7 @@ public class ServerMain extends Application{
 		}
 		scene=new Scene(root);
 		stage.setScene(scene);
+
 		stage.setTitle("server");
 		stage.show();
 	}
