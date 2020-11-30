@@ -47,6 +47,17 @@ public class UpdateEmailController {
     void BackToID(MouseEvent event) {
     	((Node) event.getSource()).getScene().getWindow().hide();
     	Stage primaryStage = new Stage();
+		
+    	
+		//this make the X btn to close the connection
+		primaryStage.setOnCloseRequest(evt->{
+	    	ArrayList<String> closeArrayList = new ArrayList<String>();
+	    	closeArrayList.add("close");
+			ClientMain.chat.accept(closeArrayList);
+	    	ClientMain.chat.stopConnection();
+		});
+		
+		
 	    FXMLLoader loader=new FXMLLoader();
 		VBox root = null;
 		try {

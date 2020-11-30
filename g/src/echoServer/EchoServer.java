@@ -102,6 +102,11 @@ public class EchoServer extends AbstractServer
 		  this.sendToAllClients(dataFromDb);
 		  return;
 	  }
+	  if(arr.get(0).equals("close")) {
+		  arr.remove(0);
+		  clientDisconnected(null);
+
+	  }
 	    this.sendToAllClients(msg);
 	  }catch(Exception e) {e.printStackTrace();}
 	  }
