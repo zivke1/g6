@@ -23,6 +23,15 @@
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
+            <Label fx:id="errorMsg" textFill="RED">
+               <HBox.margin>
+                  <Insets left="7.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
             <Text fill="#1e0000" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="textA" text="First Name:">
                <HBox.margin>
                   <Insets left="7.0" />

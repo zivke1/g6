@@ -17,10 +17,7 @@ public class ServerMain extends Application{
 	 BorderPane root;
 	
 	public void start(Stage stage) {
-		
 		Scene scene;
-		
-		
 		ServerControl controller;
 		try {
 			FXMLLoader loader = new FXMLLoader();
