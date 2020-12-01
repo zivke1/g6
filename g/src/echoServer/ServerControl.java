@@ -53,6 +53,7 @@ public class ServerControl {
 		hostState.setText(host);
 	}
 
+	//the "x" btn connect here
 	@FXML
 	public void stopServer() throws IOException {
 		if (echoServer != null)

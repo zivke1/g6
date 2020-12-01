@@ -32,7 +32,7 @@ public class ServerMain extends Application{
 			e.printStackTrace();
 			return;
 		}
-		//this make the X btn to close the connection
+		//try to fix the jar that the stop server will connect to the "x" btn
 		stage.setOnCloseRequest(evt->{
 	    	try {
 				controller.stopServer();
