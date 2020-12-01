@@ -58,7 +58,6 @@ public class EchoServer extends AbstractServer {
 	 */
 
 	synchronized protected void clientDisconnected(ConnectionToClient client) {
-		System.out.println("check");
 		m_ServerControl.setParameters(" ", " ", "not connected");
 	}
 	// Instance methods ************************************************

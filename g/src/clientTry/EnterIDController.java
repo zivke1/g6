@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -18,6 +19,9 @@ public class EnterIDController {
 	public static String iD;
 	@FXML
 	private TextField id;
+
+	@FXML
+	private Label errorMsg;
 
 	@FXML
 	void ShowDetails(MouseEvent event) {
@@ -33,12 +37,13 @@ public class EnterIDController {
 				e.printStackTrace();
 			}
 
-		}
-		// else show error id does not exist
+		} else
+			errorMsg.setText("Error: This ID does not exist in the database. \nPlease enter a valid ID");
 	}
 
 	@FXML
 	void UpdateEmail(MouseEvent event) {
+
 		UserInformationController cT = new UserInformationController();
 		if (cT.CheckID(id.getText())) {
 			((Node) event.getSource()).getScene().getWindow().hide();
@@ -65,8 +70,8 @@ public class EnterIDController {
 			primaryStage.setTitle("Update Email");
 			primaryStage.setScene(scene);
 			primaryStage.show();
-		}
-		// else show error id does not exist
+		} else
+			errorMsg.setText("Error: This ID does not exist in the database. \nPlease enter a valid ID");
 
 	}
 }
