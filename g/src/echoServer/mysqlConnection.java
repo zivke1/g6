@@ -35,6 +35,7 @@ public class mysqlConnection {
             System.out.println("VendorError: " + ex.getErrorCode());
             }
    	}
+	
 	public static void insertTable(Object arr){
 		try {//inserting new row to the table
 			PreparedStatement update = conn.prepareStatement("INSERT INTO visitor (FirstName,LastName,ID,Email,PhoneNumber) VALUES (?, ?, ?, ?,?)");
@@ -43,6 +44,7 @@ public class mysqlConnection {
 			update.executeUpdate();
 		} catch (SQLException e) {	e.printStackTrace();}
 	}
+	
 	public static ArrayList<String> showTable(Object id){
 		ArrayList<String> dataFromDB=new ArrayList<>();
 		try {//inserting new row to the table
@@ -84,6 +86,17 @@ public class mysqlConnection {
 			PreparedStatement update = conn.prepareStatement("DELETE FROM visitor WHERE ID="+id);
 			update.executeUpdate();
 		} catch (SQLException e) {	e.printStackTrace();}
+	}
+	
+	public static String CheckID(Object id)
+	{
+		if(id!=null)
+		{
+			ArrayList<String> arr=showTable(id);
+			if(((ArrayList<String>)id).get(0).equals(arr.get(2)))
+				return "True";
+		}
+		return "False";
 	}
 			
 }

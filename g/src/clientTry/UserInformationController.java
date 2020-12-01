@@ -40,13 +40,13 @@ public class UserInformationController {
 			id.setText(a.get(2));
 			email.setText(a.get(3));
 			phoneNum.setText(a.get(4));
-		}
-		else
+		} else
 			firstName.setText("We didn't find this ID in the DB\n please press back and try again");
 
 	}
 
 	public void showDetails(ArrayList<String> arr) throws Exception {
+
 		ClientMain.chat.accept(arr);
 		Stage primaryStage = new Stage();
 
@@ -72,6 +72,7 @@ public class UserInformationController {
 		primaryStage.setTitle("Details");
 		primaryStage.setScene(scene);
 		primaryStage.show();
+
 	}
 
 	@FXML
@@ -99,6 +100,18 @@ public class UserInformationController {
 		primaryStage.setTitle("Enter ID");
 		primaryStage.setScene(scene);
 		primaryStage.show();
+	}
+
+	public boolean CheckID(String idFromController) {
+		if (idFromController.length() > 0) {
+			ArrayList<String> arr = new ArrayList<>();
+			arr.add("CheckID");
+			arr.add(idFromController);
+			ClientMain.chat.accept(arr);
+			if (ChatClient.dataInArrayList.contains("True"))
+				return true;
+		}
+		return false;
 	}
 
 }
