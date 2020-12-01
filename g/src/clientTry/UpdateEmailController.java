@@ -23,31 +23,34 @@ public class UpdateEmailController {
 
 	@FXML
 	void UpdateEmail(MouseEvent event) {
+		if (ClientMain.chat.checkConnection()) {
 
-		String email = newEmail.getText();
-		if ((email.split("@").length == 2) && (email.indexOf("@") != 0) && (email.indexOf(".") != 0)
-				&& (email.lastIndexOf(".") != email.length() - 1) && (email.length() >= 5 && email.length() <= 30)
-				&& (email.indexOf("@") != email.indexOf(".") + 1 || email.indexOf("@") != (email.indexOf(".") + 1))
-				&&email.contains(".")&&email.lastIndexOf('.')>email.indexOf('@')) {
-			ArrayList<String> arr = new ArrayList<String>();
-			arr.add("updateTable");
-			arr.add(newEmail.getText());
-			arr.add(EnterIDController.iD);
-			arr.add("Email");
-			((Node) event.getSource()).getScene().getWindow().hide();
-			ClientMain.chat.accept(arr);
-			UserInformationController cT = new UserInformationController();
-			try {
-				ArrayList<String> arrShowNewVals = new ArrayList<String>();
-				arrShowNewVals.add("showTable");
-				arrShowNewVals.add(EnterIDController.iD);
-				cT.showDetails(arrShowNewVals);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} else 
-			errorMsg.setText("Error: Please enter a valid email");
+			String email = newEmail.getText();
+			if ((email.split("@").length == 2) && (email.indexOf("@") != 0) && (email.indexOf(".") != 0)
+					&& (email.lastIndexOf(".") != email.length() - 1) && (email.length() >= 5 && email.length() <= 30)
+					&& (email.indexOf("@") != email.indexOf(".") + 1 || email.indexOf("@") != (email.indexOf(".") + 1))
+					&& email.contains(".") && email.lastIndexOf('.') > email.indexOf('@')) {
+				ArrayList<String> arr = new ArrayList<String>();
+				arr.add("updateTable");
+				arr.add(newEmail.getText());
+				arr.add(EnterIDController.iD);
+				arr.add("Email");
+				((Node) event.getSource()).getScene().getWindow().hide();
+				ClientMain.chat.accept(arr);
+				UserInformationController cT = new UserInformationController();
+				try {
+					ArrayList<String> arrShowNewVals = new ArrayList<String>();
+					arrShowNewVals.add("showTable");
+					arrShowNewVals.add(EnterIDController.iD);
+					cT.showDetails(arrShowNewVals);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else
+				errorMsg.setText("Error: Please enter a valid email");
+		}
+		 else
+				errorMsg.setText("Error: The server is offline.\nPlease try again later.");
 
 	}
 

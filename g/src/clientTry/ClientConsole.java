@@ -97,6 +97,13 @@ public class ClientConsole implements ChatIF
 	  client.quit();
   }
   
+  public boolean checkConnection()
+  {
+	  if(client.isConnected())
+		  return true;
+	  return false;
+  }
+  
 }
   
   

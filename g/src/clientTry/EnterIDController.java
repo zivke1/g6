@@ -25,53 +25,58 @@ public class EnterIDController {
 
 	@FXML
 	void ShowDetails(MouseEvent event) {
-		UserInformationController cT = new UserInformationController();
-		if (cT.CheckID(id.getText())) {
-			ArrayList<String> arr = new ArrayList<String>();
-			arr.add("showTable");
-			arr.add(id.getText());
-			((Node) event.getSource()).getScene().getWindow().hide();
-			try {
-				cT.showDetails(arr);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		if (ClientMain.chat.checkConnection()) {
+			UserInformationController cT = new UserInformationController();
+			if (cT.CheckID(id.getText())) {
+				ArrayList<String> arr = new ArrayList<String>();
+				arr.add("showTable");
+				arr.add(id.getText());
+				((Node) event.getSource()).getScene().getWindow().hide();
+				try {
+					cT.showDetails(arr);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
+			} else
+				errorMsg.setText("Error: This ID does not exist in the database. \nPlease enter a valid ID");
 		} else
-			errorMsg.setText("Error: This ID does not exist in the database. \nPlease enter a valid ID");
+			errorMsg.setText("Error: The server is offline.\nPlease try again later.");
 	}
 
 	@FXML
 	void UpdateEmail(MouseEvent event) {
+		if (ClientMain.chat.checkConnection()) {
+			UserInformationController cT = new UserInformationController();
+			if (cT.CheckID(id.getText())) {
+				((Node) event.getSource()).getScene().getWindow().hide();
+				Stage primaryStage = new Stage();
 
-		UserInformationController cT = new UserInformationController();
-		if (cT.CheckID(id.getText())) {
-			((Node) event.getSource()).getScene().getWindow().hide();
-			Stage primaryStage = new Stage();
+				// this make the X btn to close the connection
+				primaryStage.setOnCloseRequest(evt -> {
+					ArrayList<String> closeArrayList = new ArrayList<String>();
+					closeArrayList.add("close");
+					ClientMain.chat.accept(closeArrayList);
+					ClientMain.chat.stopConnection();
+				});
 
-			// this make the X btn to close the connection
-			primaryStage.setOnCloseRequest(evt -> {
-				ArrayList<String> closeArrayList = new ArrayList<String>();
-				closeArrayList.add("close");
-				ClientMain.chat.accept(closeArrayList);
-				ClientMain.chat.stopConnection();
-			});
-
-			FXMLLoader loader = new FXMLLoader();
-			VBox root = null;
-			try {
-				root = loader.load(getClass().getResource("/clientTry/UpdateEmail.fxml").openStream());
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			iD = id.getText();
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-			primaryStage.setTitle("Update Email");
-			primaryStage.setScene(scene);
-			primaryStage.show();
+				FXMLLoader loader = new FXMLLoader();
+				VBox root = null;
+				try {
+					root = loader.load(getClass().getResource("/clientTry/UpdateEmail.fxml").openStream());
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				iD = id.getText();
+				Scene scene = new Scene(root);
+				scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
+				primaryStage.setTitle("Update Email");
+				primaryStage.setScene(scene);
+				primaryStage.show();
+			} else
+				errorMsg.setText("Error: This ID does not exist in the database. \nPlease enter a valid ID");
 		} else
-			errorMsg.setText("Error: This ID does not exist in the database. \nPlease enter a valid ID");
+			errorMsg.setText("Error: The server is offline.\nPlease try again later.");
 
 	}
 }

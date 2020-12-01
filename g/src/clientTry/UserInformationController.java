@@ -25,6 +25,9 @@ public class UserInformationController {
 	private Label lastName;
 
 	@FXML
+	private Label errorMsg;
+
+	@FXML
 	private Label id;
 
 	@FXML
@@ -46,7 +49,7 @@ public class UserInformationController {
 	}
 
 	public void showDetails(ArrayList<String> arr) throws Exception {
-
+		if (ClientMain.chat.checkConnection()) {
 		ClientMain.chat.accept(arr);
 		Stage primaryStage = new Stage();
 
@@ -72,11 +75,14 @@ public class UserInformationController {
 		primaryStage.setTitle("Details");
 		primaryStage.setScene(scene);
 		primaryStage.show();
-
+		}
+		else
+			errorMsg.setText("Error: The server is offline.\nPlease try again later.");
 	}
 
 	@FXML
 	void BackToID(MouseEvent event) {
+		if (ClientMain.chat.checkConnection()) {
 		((Node) event.getSource()).getScene().getWindow().hide();
 		Stage primaryStage = new Stage();
 
@@ -100,6 +106,9 @@ public class UserInformationController {
 		primaryStage.setTitle("Enter ID");
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		}
+		else
+			errorMsg.setText("Error: The server is offline.\nPlease try again later.");
 	}
 
 	public boolean CheckID(String idFromController) {
