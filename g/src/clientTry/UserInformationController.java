@@ -51,14 +51,16 @@ public class UserInformationController {
 	public void showDetails(ArrayList<String> arr) throws Exception {
 		if (ClientMain.chat.checkConnection()) {
 		ClientMain.chat.accept(arr);
-		Stage primaryStage = new Stage();
+		Stage primaryStage = new Stage(); 
 
 		// this make the X btn to close the connection
 		primaryStage.setOnCloseRequest(evt -> {
+			if (ClientMain.chat.checkConnection()) {
 			ArrayList<String> closeArrayList = new ArrayList<String>();
 			closeArrayList.add("close");
 			ClientMain.chat.accept(closeArrayList);
 			ClientMain.chat.stopConnection();
+			}
 		});
 
 		FXMLLoader loader = new FXMLLoader();

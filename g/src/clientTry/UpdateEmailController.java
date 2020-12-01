@@ -59,12 +59,14 @@ public class UpdateEmailController {
 		((Node) event.getSource()).getScene().getWindow().hide();
 		Stage primaryStage = new Stage();
 
-		// this make the X btn to close the connection
+		// this make the X btn to close the connection 
 		primaryStage.setOnCloseRequest(evt -> {
+			if (ClientMain.chat.checkConnection()) {
 			ArrayList<String> closeArrayList = new ArrayList<String>();
 			closeArrayList.add("close");
 			ClientMain.chat.accept(closeArrayList);
 			ClientMain.chat.stopConnection();
+			}
 		});
 
 		FXMLLoader loader = new FXMLLoader();

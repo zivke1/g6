@@ -25,7 +25,7 @@ public class EnterIDController {
 
 	@FXML
 	void ShowDetails(MouseEvent event) {
-		if (ClientMain.chat.checkConnection()) {
+		if (ClientMain.chat.checkConnection()) { 
 			UserInformationController cT = new UserInformationController();
 			if (cT.CheckID(id.getText())) {
 				ArrayList<String> arr = new ArrayList<String>();
@@ -54,10 +54,12 @@ public class EnterIDController {
 
 				// this make the X btn to close the connection
 				primaryStage.setOnCloseRequest(evt -> {
+					if (ClientMain.chat.checkConnection()) {
 					ArrayList<String> closeArrayList = new ArrayList<String>();
 					closeArrayList.add("close");
 					ClientMain.chat.accept(closeArrayList);
 					ClientMain.chat.stopConnection();
+					}
 				});
 
 				FXMLLoader loader = new FXMLLoader();
