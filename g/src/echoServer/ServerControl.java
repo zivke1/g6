@@ -4,6 +4,8 @@ package echoServer;
 
 
 
+import java.io.IOException;
+
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -32,7 +34,7 @@ public class ServerControl {
     @FXML
      private TextField hostState;
 
-    EchoServer echoServer;
+     EchoServer echoServer;
     @FXML
     void startServer(MouseEvent event) {
     	try {
@@ -57,6 +59,14 @@ public class ServerControl {
     	ipState.setText(ip);
     	hostState.setText(host);
     }
+    
+    @FXML
+    public void stopServer() throws IOException {
+    	echoServer.close();
+  }
+  
+    
+    
     
 
 }
