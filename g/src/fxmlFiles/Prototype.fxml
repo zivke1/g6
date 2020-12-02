@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -19,7 +20,7 @@
                      <children>
                         <HBox alignment="TOP_RIGHT">
                            <children>
-                              <Button maxHeight="-Infinity" maxWidth="-Infinity" minWidth="31.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" styleClass="Button" text="?" />
+                              <Button maxHeight="-Infinity" maxWidth="-Infinity" minWidth="26.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="28.0" styleClass="Button" text="?" />
                            </children>
                         </HBox>
                         <HBox>
@@ -60,14 +61,17 @@
                         <TextField />
                      </children>
                   </HBox>
-                  <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <Button mnemonicParsing="false" styleClass="Button" text="Press to login" textAlignment="CENTER" />
-                     </children>
-                  </HBox>
+                  <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0" />
                </children>
             </VBox>
          </children>
       </VBox>
    </top>
+   <bottom>
+      <AnchorPane prefHeight="113.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button layoutX="207.0" layoutY="14.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="161.0" styleClass="Button" text="Press to login" textAlignment="CENTER" />
+         </children>
+      </AnchorPane>
+   </bottom>
 </BorderPane>
