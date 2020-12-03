@@ -21,7 +21,6 @@ public class ClientMain extends Application {
 		//this make the X btn to close the connection
 		primaryStage.setOnCloseRequest(evt->{
 			if (ClientMain.chat.checkConnection()) {
-
 	    	ArrayList<String> arr = new ArrayList<String>();
 			arr.add("close");
 			ClientMain.chat.accept(arr);

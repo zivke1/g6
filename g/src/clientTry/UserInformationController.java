@@ -50,66 +50,66 @@ public class UserInformationController {
 
 	public void showDetails(ArrayList<String> arr) throws Exception {
 		if (ClientMain.chat.checkConnection()) {
-		ClientMain.chat.accept(arr);
-		Stage primaryStage = new Stage(); 
+			ClientMain.chat.accept(arr);
+			Stage primaryStage = new Stage();
 
-		// this make the X btn to close the connection
-		primaryStage.setOnCloseRequest(evt -> {
-			if (ClientMain.chat.checkConnection()) {
-			ArrayList<String> closeArrayList = new ArrayList<String>();
-			closeArrayList.add("close");
-			ClientMain.chat.accept(closeArrayList);
-			ClientMain.chat.stopConnection();
+			// this make the X btn to close the connection
+			primaryStage.setOnCloseRequest(evt -> {
+				if (ClientMain.chat.checkConnection()) {
+					ArrayList<String> closeArrayList = new ArrayList<String>();
+					closeArrayList.add("close");
+					ClientMain.chat.accept(closeArrayList);
+					ClientMain.chat.stopConnection();
+				}
+			});
+
+			FXMLLoader loader = new FXMLLoader();
+			VBox root = loader.load(getClass().getResource("/clientTry/UserInformationGui.fxml").openStream());
+			UserInformationController ct = loader.getController();
+			try {
+				ct.setDetails(ChatClient.dataInArrayList);
+			} catch (Exception e) {
+				e.getStackTrace();
 			}
-		});
 
-		FXMLLoader loader = new FXMLLoader();
-		VBox root = loader.load(getClass().getResource("/clientTry/UserInformationGui.fxml").openStream());
-		UserInformationController ct = loader.getController();
-		try {
-			ct.setDetails(ChatClient.dataInArrayList);
-		} catch (Exception e) {
-			e.getStackTrace();
-		}
-
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-		primaryStage.setTitle("Details");
-		primaryStage.setScene(scene);
-		primaryStage.show();
-		}
-		else
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
+			primaryStage.setTitle("Details");
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		} else
 			errorMsg.setText("Error: The server is offline.\nPlease try again later.");
 	}
 
 	@FXML
 	void BackToID(MouseEvent event) {
 		if (ClientMain.chat.checkConnection()) {
-		((Node) event.getSource()).getScene().getWindow().hide();
-		Stage primaryStage = new Stage();
+			((Node) event.getSource()).getScene().getWindow().hide();
+			Stage primaryStage = new Stage();
 
-		// this make the X btn to close the connection
-		primaryStage.setOnCloseRequest(evt -> {
-			ArrayList<String> closeArrayList = new ArrayList<String>();
-			closeArrayList.add("close");
-			ClientMain.chat.accept(closeArrayList);
-			ClientMain.chat.stopConnection();
-		});
+			// this make the X btn to close the connection
+			primaryStage.setOnCloseRequest(evt -> {
+				if (ClientMain.chat.checkConnection()) {
+					ArrayList<String> closeArrayList = new ArrayList<String>();
+					closeArrayList.add("close");
+					ClientMain.chat.accept(closeArrayList);
+					ClientMain.chat.stopConnection();
+				}
+			});
 
-		FXMLLoader loader = new FXMLLoader();
-		VBox root = null;
-		try {
-			root = loader.load(getClass().getResource("/clientTry/EnterID.fxml").openStream());
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-		primaryStage.setTitle("Enter ID");
-		primaryStage.setScene(scene);
-		primaryStage.show();
-		}
-		else
+			FXMLLoader loader = new FXMLLoader();
+			VBox root = null;
+			try {
+				root = loader.load(getClass().getResource("/clientTry/EnterID.fxml").openStream());
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
+			primaryStage.setTitle("Enter ID");
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		} else
 			errorMsg.setText("Error: The server is offline.\nPlease try again later.");
 	}
 
