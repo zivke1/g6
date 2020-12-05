@@ -25,6 +25,9 @@ public class UserInformationController {
 	private Label lastName;
 
 	@FXML
+	private Label errorMsg;
+
+	@FXML
 	private Label id;
 
 	@FXML
@@ -40,65 +43,86 @@ public class UserInformationController {
 			id.setText(a.get(2));
 			email.setText(a.get(3));
 			phoneNum.setText(a.get(4));
-		}
-		else
+		} else
 			firstName.setText("We didn't find this ID in the DB\n please press back and try again");
 
 	}
 
 	public void showDetails(ArrayList<String> arr) throws Exception {
-		ClientMain.chat.accept(arr);
-		Stage primaryStage = new Stage();
+		if (ClientMain.chat.checkConnection()) {
+			ClientMain.chat.accept(arr);
+			Stage primaryStage = new Stage();
 
-		// this make the X btn to close the connection
-		primaryStage.setOnCloseRequest(evt -> {
-			ArrayList<String> closeArrayList = new ArrayList<String>();
-			closeArrayList.add("close");
-			ClientMain.chat.accept(closeArrayList);
-			ClientMain.chat.stopConnection();
-		});
+			// this make the X btn to close the connection
+			primaryStage.setOnCloseRequest(evt -> {
+				if (ClientMain.chat.checkConnection()) {
+					ArrayList<String> closeArrayList = new ArrayList<String>();
+					closeArrayList.add("close");
+					ClientMain.chat.accept(closeArrayList);
+					ClientMain.chat.stopConnection();
+				}
+			});
 
-		FXMLLoader loader = new FXMLLoader();
-		VBox root = loader.load(getClass().getResource("/clientTry/UserInformationGui.fxml").openStream());
-		UserInformationController ct = loader.getController();
-		try {
-			ct.setDetails(ChatClient.dataInArrayList);
-		} catch (Exception e) {
-			e.getStackTrace();
-		}
+			FXMLLoader loader = new FXMLLoader();
+			VBox root = loader.load(getClass().getResource("/clientTry/UserInformationGui.fxml").openStream());
+			UserInformationController ct = loader.getController();
+			try {
+				ct.setDetails(ChatClient.dataInArrayList);
+			} catch (Exception e) {
+				e.getStackTrace();
+			}
 
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-		primaryStage.setTitle("Details");
-		primaryStage.setScene(scene);
-		primaryStage.show();
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
+			primaryStage.setTitle("Details");
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		} else
+			errorMsg.setText("Error: The server is offline.\nPlease try again later.");
 	}
 
 	@FXML
 	void BackToID(MouseEvent event) {
-		((Node) event.getSource()).getScene().getWindow().hide();
-		Stage primaryStage = new Stage();
+		if (ClientMain.chat.checkConnection()) {
+			((Node) event.getSource()).getScene().getWindow().hide();
+			Stage primaryStage = new Stage();
 
-		// this make the X btn to close the connection
-		primaryStage.setOnCloseRequest(evt -> {
-			ArrayList<String> closeArrayList = new ArrayList<String>();
-			closeArrayList.add("close");
-			ClientMain.chat.accept(closeArrayList);
-			ClientMain.chat.stopConnection();
-		});
+			// this make the X btn to close the connection
+			primaryStage.setOnCloseRequest(evt -> {
+				if (ClientMain.chat.checkConnection()) {
+					ArrayList<String> closeArrayList = new ArrayList<String>();
+					closeArrayList.add("close");
+					ClientMain.chat.accept(closeArrayList);
+					ClientMain.chat.stopConnection();
+				}
+			});
 
-		FXMLLoader loader = new FXMLLoader();
-		VBox root = null;
-		try {
-			root = loader.load(getClass().getResource("/clientTry/EnterID.fxml").openStream());
-		} catch (IOException e1) {
-			e1.printStackTrace();
+			FXMLLoader loader = new FXMLLoader();
+			VBox root = null;
+			try {
+				root = loader.load(getClass().getResource("/clientTry/EnterID.fxml").openStream());
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
+			primaryStage.setTitle("Enter ID");
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		} else
+			errorMsg.setText("Error: The server is offline.\nPlease try again later.");
+	}
+
+	public boolean CheckID(String idFromController) {
+		if (idFromController.length() > 0) {
+			ArrayList<String> arr = new ArrayList<>();
+			arr.add("CheckID");
+			arr.add(idFromController);
+			ClientMain.chat.accept(arr);
+			if (ChatClient.dataInArrayList.contains("True"))
+				return true;
 		}
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-		primaryStage.setTitle("Enter ID");
-		primaryStage.setScene(scene);
-		primaryStage.show();
+		return false;
 	}
 
 }

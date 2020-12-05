@@ -1,7 +1,9 @@
 package echoServer;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import clientTry.ClientMain;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -15,9 +17,7 @@ public class ServerMain extends Application{
 	 BorderPane root;
 	
 	public void start(Stage stage) {
-		
 		Scene scene;
-
 		ServerControl controller;
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -29,6 +29,15 @@ public class ServerMain extends Application{
 			e.printStackTrace();
 			return;
 		}
+		//this make the X btn to close the connection
+		stage.setOnCloseRequest(evt->{
+	    	try {
+				controller.stopServer();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
 		scene=new Scene(root);
 		stage.setScene(scene);
 
