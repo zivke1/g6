@@ -133,3 +133,11 @@
 .helpBtn:hover {
     -fx-effect: dropshadow( one-pass-box , white , 0, 0.0 , 0 , 1 );
 }
+
+.imgGoN{
+	-fx-background-image: url("/C:/Users/shani/git/g6/g/img5.png");
+	-fx-background-repeat: no-repeat;
+	-fx-width: 176px;
+	-fx-height: 135px;
+	
+}
