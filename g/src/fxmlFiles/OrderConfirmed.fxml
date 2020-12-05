@@ -10,9 +10,9 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <top>
-      <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" stylesheets="@../clientTry/application.css" BorderPane.alignment="CENTER">
          <children>
-            <Text layoutX="351.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="כותרת">
+            <Text layoutX="226.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Your order has been confirmed" wrappingWidth="572.216796875">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font>
@@ -34,8 +34,17 @@
    <right>
       <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="finishOrderBtn" layoutX="757.0" layoutY="443.0" mnemonicParsing="false" onMouseClicked="#finishOrderClicked" prefHeight="44.0" prefWidth="122.0" styleClass="mybutton1" stylesheets="@../clientTry/application.css" text="next" />
+            <Button fx:id="finishOrderBtn" layoutX="732.0" layoutY="443.0" mnemonicParsing="false" onMouseClicked="#finishOrderClicked" prefHeight="44.0" prefWidth="147.0" styleClass="mybutton1" stylesheets="@../clientTry/application.css" text="go to main page" />
             <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@../clientTry/application.css" text="?" />
+            <Text layoutX="25.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="We are waiting for your visit">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text layoutX="25.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="We send for you an SMS and email you have two hours to confirm your order">
+               <font>
+                  <Font size="18.0" />
+               </font></Text>
          </children>
       </AnchorPane>
    </right>
