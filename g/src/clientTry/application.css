@@ -110,9 +110,17 @@
     -fx-text-fill: #333333;
     -fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.2) , 1, 0.0 , 0 , 1);
 }
-.mybutton1 {
-    -fx-effect: dropshadow( one-pass-box , white , 0, 0.0 , 0 , 1 );
+.mybutton1:hover {
+	 -fx-background-color: 
+        rgba(0,0,0,0.08),
+		 linear-gradient(#000000, #000000),
+        linear-gradient(#B4B7B3 0%,#B4B7B3 10%, #B4B7B3 50%, #B4B7B3 51%, #B4B7B3 100%);
+       -fx-border: #000000 6px;
+        -fx-effect: dropshadow( one-pass-box , white , 0, 0.0 , 0 , 1 );
 }
+
+
+
 
 .helpBtn  {
     -fx-background-color: 
@@ -130,6 +138,71 @@
     -fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.2) , 1, 0.0 , 0 , 1);
     -fx-background-radius: 100;
 }
+
 .helpBtn:hover {
-    -fx-effect: dropshadow( one-pass-box , white , 0, 0.0 , 0 , 1 );
+	 -fx-background-color: 
+        rgba(0,0,0,0.08),
+		 linear-gradient(#000000, #000000),
+        linear-gradient(#B4B7B3 0%,#B4B7B3 10%, #B4B7B3 50%, #B4B7B3 51%, #B4B7B3 100%);
+       -fx-border: #000000 6px;
+        -fx-effect: dropshadow( one-pass-box , white , 0, 0.0 , 0 , 1 );
+}
+
+
+.title{
+	   -fx-font-weight: bold;
+	    -fx-font-size:36px;
+}
+
+
+
+
+.approvalBtn  {
+    -fx-background-color: 
+        linear-gradient(#6ED559 0%, #6ED559 25%, #6ED559 75%, #6ED559 100%),
+        linear-gradient(#6ED559, #6ED559),
+        linear-gradient(#b9b9b9 0%, #c2c2c2 20%, #afafaf 80%, #c8c8c8 100%),
+        linear-gradient(#f5f5f5 0%, #dbdbdb 50%, #cacaca 51%, #d7d7d7 100%);
+    -fx-background-insets: 0,1,4,5;
+    -fx-background-radius: 9,8,5,4;
+    -fx-padding: 0 0 0 0;
+    -fx-font-family: "Helvetica";
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-border: #6ED559 6px;
+    -fx-text-fill: #333333;
+    -fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.2) , 1, 0.0 , 0 , 1);
+}
+
+.approvalBtn:hover {
+	 -fx-background-color: 
+        rgba(0,0,0,0.08),
+		 linear-gradient(#6ED559, #6ED559),
+        linear-gradient(#B4B7B3 0%,#B4B7B3 10%, #B4B7B3 50%, #B4B7B3 51%, #B4B7B3 100%);
+       -fx-border: #6ED559 6px;
+}
+
+.cancelBtn  {
+    -fx-background-color: 
+        linear-gradient(#FF0000 0%, #FF0000 25%, #FF0000 75%, #FF0000 100%),
+        linear-gradient(#FF0000, #FF0000),
+        linear-gradient(#b9b9b9 0%, #c2c2c2 20%, #afafaf 80%, #c8c8c8 100%),
+        linear-gradient(#f5f5f5 0%, #dbdbdb 50%, #cacaca 51%, #d7d7d7 100%);
+    -fx-background-insets: 0,1,4,5;
+    -fx-background-radius: 9,8,5,4;
+    -fx-padding: 0 0 0 0;
+    -fx-font-family: "Helvetica";
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-border: #6ED559 6px;
+    -fx-text-fill: #333333;
+    -fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.2) , 1, 0.0 , 0 , 1);
+}
+
+.cancelBtn:hover {
+	 -fx-background-color: 
+        rgba(0,0,0,0.08),
+		 linear-gradient(#FF0000, #FF0000),
+        linear-gradient(#B4B7B3 0%,#B4B7B3 10%, #B4B7B3 50%, #B4B7B3 51%, #B4B7B3 100%);
+       -fx-border: #6ED559 6px;
 }
