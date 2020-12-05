@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+         <children>
+            <Text layoutX="351.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Let's make an order!">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="135.0" fitWidth="176.0" layoutX="884.0" layoutY="-11.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../Downloads/img5.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </top>
+   <left>
+      <AnchorPane prefHeight="464.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" stylesheets="@../clientTry/application.css" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="backBtn" layoutX="37.0" layoutY="12.0" mnemonicParsing="false" onMouseClicked="#backClicked" prefHeight="43.0" prefWidth="68.0" rotate="180.0" styleClass="mybutton1" stylesheets="@../clientTry/application.css" text="Back" />
+         </children></AnchorPane>
+   </left>
+   <center>
+      <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text layoutX="14.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type of order:">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Text>
+            <ToggleButton fx:id="PersonalBtn" layoutX="208.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#PersonalBtnPress" text="Personal">
+               <toggleGroup>
+                  <ToggleGroup fx:id="typeOrder" />
+               </toggleGroup>
+            </ToggleButton>
+            <ToggleButton fx:id="FamilyBtn" layoutX="285.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#FamilyBtnPress" prefHeight="31.0" prefWidth="78.0" text="Family" toggleGroup="$typeOrder" />
+            <ToggleButton fx:id="GroupBtn" layoutX="363.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#GroupBtnPress" prefHeight="31.0" prefWidth="77.0" text="Group" toggleGroup="$typeOrder" />
+            <Text layoutX="14.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Park's name:">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Text>
+            <ComboBox fx:id="parkNameCombo" layoutX="208.0" layoutY="80.0" prefWidth="150.0" />
+            <Text layoutX="15.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of visitors:">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Text>
+            <ComboBox fx:id="numberOfVistorsCombo" layoutX="208.0" layoutY="142.0" prefWidth="150.0" />
+            <Text layoutX="12.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pick Date:">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Text>
+            <DatePicker fx:id="pickDatePicker" layoutX="208.0" layoutY="200.0" />
+            <Text layoutX="13.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hour:">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Text>
+            <ComboBox fx:id="hourCombo" layoutX="208.0" layoutY="263.0" prefWidth="150.0" />
+            <Text layoutX="12.0" layoutY="343.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email:">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Text>
+            <TextField fx:id="emailTextFiled" layoutX="208.0" layoutY="321.0" />
+            <Button fx:id="finishOrderBtn" layoutX="757.0" layoutY="443.0" mnemonicParsing="false" onMouseClicked="#finishOrderClicked" prefHeight="44.0" prefWidth="122.0" styleClass="mybutton1" stylesheets="@../clientTry/application.css" text="Finish order" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
