@@ -37,18 +37,6 @@
 	-fx-top:10px;
 }
 
-.multi-bg-example {
-  -fx-width: 100%;
-  -fx-height: 400px;
-  -fx-background-image: url(https://images.unsplash.com/reserve/bOvf94dPRxWu0u3QsPjF_tree.jpg?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1055&q=80);
-  -fx-background-repeat: no-repeat,
-      no-repeat,
-      no-repeat;
-  -fx-background-position: bottom right,
-      left,
-	  right;
-	  -fx-background-size:1280px;
-}
 
 .textA{
 	-fx-font-size:20px;
