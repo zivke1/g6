@@ -37,7 +37,7 @@
          </children></AnchorPane>
    </left>
    <center>
-      <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="helpBtn" onMouseClicked="#helpBtnPressed" prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
          <children>
             <Text layoutX="14.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type of order:">
                <font>
@@ -82,6 +82,7 @@
             </Text>
             <TextField fx:id="emailTextFiled" layoutX="208.0" layoutY="321.0" />
             <Button fx:id="finishOrderBtn" layoutX="757.0" layoutY="443.0" mnemonicParsing="false" onMouseClicked="#finishOrderClicked" prefHeight="44.0" prefWidth="122.0" styleClass="mybutton1" stylesheets="@../clientTry/application.css" text="Finish order" />
+            <Button layoutX="834.0" layoutY="14.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@../clientTry/application.css" text="?" />
          </children>
       </AnchorPane>
    </center>
