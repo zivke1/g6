@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" stylesheets="@../clientTry/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxmlFiles.LoginController">
+   <top>
+      <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+         <children>
+            <Text layoutX="304.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome To GoNature!">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="135.0" fitWidth="176.0" layoutX="884.0" layoutY="-11.0" pickOnBounds="true" preserveRatio="true" styleClass="imgGoN">
+               <image>
+                  <Image url="@../../img5.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="79.0" layoutY="46.0" styleClass="imgGoN" />
+         </children>
+      </AnchorPane>
+   </top>
+   <left>
+      <AnchorPane prefHeight="521.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" stylesheets="@../clientTry/application.css" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="backBtn" layoutX="37.0" layoutY="12.0" mnemonicParsing="false" onMouseClicked="#backClicked" prefHeight="43.0" prefWidth="68.0" rotate="180.0" styleClass="mybutton1" stylesheets="@../clientTry/application.css" text="Back" />
+         </children></AnchorPane>
+   </left>
+   <center>
+      <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="finishOrderBtn" layoutX="757.0" layoutY="443.0" mnemonicParsing="false" onMouseClicked="#finishOrderClicked" prefHeight="44.0" prefWidth="122.0" styleClass="mybutton1" stylesheets="@../clientTry/application.css" text="next" />
+            <Button layoutX="834.0" layoutY="14.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@../clientTry/application.css" text="?" />
+            <RadioButton fx:id="makeOrderR" layoutX="108.0" layoutY="71.0" mnemonicParsing="false" onAction="#changeIdentificationVisible" text="Make new order">
+               <toggleGroup>
+                  <ToggleGroup fx:id="radio" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="enterAsEmployee" layoutX="524.0" layoutY="71.0" mnemonicParsing="false" onAction="#changeLoginVisible" text="Enter as employee" toggleGroup="$radio" />
+            <Label layoutX="108.0" layoutY="26.0" text="What Whould You Like To Do?">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+            </Label>
+            <AnchorPane fx:id="Identification" layoutX="77.0" layoutY="126.0" prefHeight="92.0" prefWidth="545.0" visible="false">
+               <children>
+                  <Label layoutX="27.0" layoutY="14.0" text="Please enter ID\ membership number: " />
+                  <TextField fx:id="enterIdentification" layoutX="304.0" layoutY="9.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="login" layoutX="93.0" layoutY="118.0" prefHeight="172.0" prefWidth="353.0" visible="false">
+               <children>
+                  <Label layoutX="20.0" layoutY="37.0" text="Enter user name:" />
+                  <Label layoutX="23.0" layoutY="76.0" text="Enter password:" />
+                  <TextField fx:id="enterUserName" layoutX="160.0" layoutY="32.0" />
+                  <TextField fx:id="EnterPsw" layoutX="160.0" layoutY="71.0" />
+               </children>
+            </AnchorPane>
+            <RadioButton fx:id="viewOrder" layoutX="317.0" layoutY="71.0" mnemonicParsing="false" onAction="#changeIdentificationVisible" text="View existing order" toggleGroup="$radio" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
