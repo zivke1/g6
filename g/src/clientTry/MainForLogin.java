@@ -1,4 +1,6 @@
-package fxmlFiles;
+package clientTry;
+
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,7 +27,8 @@ public class MainForLogin extends Application {
 		//EnterIDController controller;
 		try {
 			FXMLLoader loader=new FXMLLoader();
-			loader.setLocation(getClass().getResource("LoginP.fxml"));
+
+			loader.setLocation(getClass().getResource("../fxmlFiles/LoginP.fxml"));
 			borderPane = loader.load();
 			//controller = loader.getController();
 		} catch (IOException e) {
