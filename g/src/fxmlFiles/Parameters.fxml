@@ -13,11 +13,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" stylesheets="@../clientTry/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.paraAndRepController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" stylesheets="@../clientTry/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.paraController">
    <top>
       <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
          <children>
-            <Text layoutX="156.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Update paramaters and generate reports">
+            <Text layoutX="282.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Update paramaters">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font>
@@ -39,20 +39,11 @@
    <center>
       <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="114.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#showParaToUp" prefHeight="41.0" prefWidth="148.0" styleClass="mybutton1" text="Update paramters" />
-            <Button layoutX="315.0" layoutY="16.0" mnemonicParsing="false" onMouseClicked="#showReports" prefHeight="38.0" prefWidth="151.0" styleClass="mybutton1" text="Generate reports" />
-            <RadioButton fx:id="visitCountRep" layoutX="119.0" layoutY="171.0" mnemonicParsing="false" onMouseClicked="#visitCountRep" text="Vistor count" visible="false" />
-            <RadioButton fx:id="usageRep" layoutX="267.0" layoutY="171.0" mnemonicParsing="false" onMouseClicked="#usageRep" text="Usage report" visible="false" />
-            <RadioButton fx:id="incomeRep" layoutX="410.0" layoutY="171.0" mnemonicParsing="false" onMouseClicked="#incomeRep" prefHeight="21.0" prefWidth="133.0" text="Income report" visible="false" />
-            <Label fx:id="repYearLabel" layoutX="119.0" layoutY="231.0" text="Enter the year for the report:" visible="false" />
-            <ComboBox fx:id="repYear" layoutX="356.0" layoutY="231.0" prefWidth="150.0" visible="false" />
-            <ComboBox fx:id="repMonth" layoutX="356.0" layoutY="285.0" prefWidth="150.0" visible="false" />
-            <Label fx:id="repMonthLabel" layoutX="119.0" layoutY="285.0" text="Enter the month for the report:" visible="false" />
-            <RadioButton fx:id="setMaxVisit" layoutX="114.0" layoutY="161.0" mnemonicParsing="false" onMouseClicked="#setMaxVisit" text="Set max visitors to park" visible="false" />
-            <RadioButton fx:id="setVisitDur" layoutX="356.0" layoutY="161.0" mnemonicParsing="false" onMouseClicked="#setVisitDur" text="Set visit duration" visible="false" />
-            <RadioButton fx:id="setMaxOrder" layoutX="114.0" layoutY="210.0" mnemonicParsing="false" onMouseClicked="#setMaxOrder" text="Set max number of orders" visible="false" />
-            <RadioButton fx:id="setDiscount" layoutX="356.0" layoutY="210.0" mnemonicParsing="false" onMouseClicked="#setDiscount" text="Set discount" visible="false" />
-            <Button fx:id="conBtn" layoutX="714.0" layoutY="450.0" mnemonicParsing="false" onMouseClicked="#sendToDepMan" prefHeight="40.0" prefWidth="165.0" styleClass="mybutton1" text="send to cofrimation" visible="false" />
+            <RadioButton fx:id="setMaxVisit" layoutX="114.0" layoutY="161.0" mnemonicParsing="false" onMouseClicked="#setMaxVisit" text="Set max visitors to park" />
+            <RadioButton fx:id="setVisitDur" layoutX="114.0" layoutY="119.0" mnemonicParsing="false" onMouseClicked="#setVisitDur" text="Set visit duration" />
+            <RadioButton fx:id="setMaxOrder" layoutX="114.0" layoutY="210.0" mnemonicParsing="false" onMouseClicked="#setMaxOrder" text="Set max number of orders" />
+            <RadioButton fx:id="setDiscount" layoutX="112.0" layoutY="74.0" mnemonicParsing="false" onMouseClicked="#setDiscount" text="Set discount" />
+            <Button fx:id="conBtn" layoutX="714.0" layoutY="450.0" mnemonicParsing="false" onMouseClicked="#sendToDepMan" prefHeight="40.0" prefWidth="165.0" styleClass="mybutton1" text="send to cofrimation" />
             <Label fx:id="maxVisitorsLabel" layoutX="119.0" layoutY="275.0" text="Set new max visitors:" visible="false" />
             <Label fx:id="visitDurLabel" layoutX="119.0" layoutY="275.0" text="Set new visit duration:" visible="false" />
             <Label fx:id="maxOrderLabel" layoutX="119.0" layoutY="275.0" text="Set new max number of orders:" visible="false" />
@@ -65,7 +56,8 @@
             <TextField fx:id="maxOrderField" layoutX="353.0" layoutY="270.0" prefHeight="30.0" prefWidth="100.0" visible="false" />
             <TextField fx:id="visitDurField" layoutX="352.0" layoutY="270.0" prefHeight="30.0" prefWidth="100.0" visible="false" />
             <TextField fx:id="maxVisitField" layoutX="352.0" layoutY="270.0" prefHeight="30.0" prefWidth="100.0" visible="false" />
-            <Button fx:id="showRep" layoutX="762.0" layoutY="432.0" mnemonicParsing="false" onMouseClicked="#showTheReport" prefHeight="50.0" prefWidth="107.0" styleClass="mybutton1" text="Show report" visible="false" />
+            <Label layoutX="114.0" layoutY="24.0" text="Park's name:" />
+            <ComboBox fx:id="parkName" layoutX="239.0" layoutY="19.0" prefWidth="150.0" />
          </children>
       </AnchorPane>
    </center>
