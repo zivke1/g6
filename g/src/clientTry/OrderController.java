@@ -136,7 +136,7 @@ public class OrderController implements Initializable {
 			}else if(ChatClient.dataInArrayList.contains("InviteConfirm")){
 				ChatClient.dataInArrayList.remove("InviteConfirm");
 				//show successful page and message to confirm the message
-				
+				System.out.println("dddd");
 			}
 			System.out.println(invite);
 		}
