@@ -91,11 +91,11 @@ public class OrderController implements Initializable {
 	void backClicked(MouseEvent event) {
 
 	}
-
+	ArrayList<String> invite;
 	@FXML
 	void finishOrderClicked(MouseEvent event) {
-		ArrayList<String> invite = new ArrayList<String>();
-		invite.add("check invite");
+		invite = new ArrayList<String>();
+		invite.add("checkInvite");
 		try {
 			switch (orderType) {
 			case Personal:
@@ -128,6 +128,16 @@ public class OrderController implements Initializable {
 		} else {
 			notAllfieldFilledLabel.setVisible(false);
 			// TODO send and check if we have place
+			ClientMain.chat.accept(invite);
+			
+			if(ChatClient.dataInArrayList.contains("TheParkIsFull")) {
+				ChatClient.dataInArrayList.remove("TheParkIsFull");
+				//TODO show the waiting list page
+			}else if(ChatClient.dataInArrayList.contains("InviteConfirm")){
+				ChatClient.dataInArrayList.remove("InviteConfirm");
+				//show successful page and message to confirm the message
+				
+			}
 			System.out.println(invite);
 		}
 
