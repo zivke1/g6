@@ -26,7 +26,7 @@
             <Label layoutX="480.0" layoutY="51.0" text="Avi, role / greeting " />
             <ImageView fx:id="imgContactUs" fitHeight="62.0" fitWidth="62.0" layoutX="951.0" layoutY="-1.0" onMouseClicked="#goToContactUsPopUp" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="file:///C:/Users/shani/git/g6/g/contactus.png" />
+                  <Image url="@../../contactus.png" />
                </image>
             </ImageView>
             <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
