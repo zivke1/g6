@@ -1,10 +1,12 @@
-package clientTry;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
-public class HomePageEmpController {
+public class PleaseProvideControllerClassName {
+
+    @FXML
+    private ImageView imgContactUs;
 
     @FXML
     private Button backBtn;
@@ -45,47 +47,52 @@ public class HomePageEmpController {
     }
 
     @FXML
-    void goToApprovePController(MouseEvent event) {
+    void goToApproveP(MouseEvent event) {
 
     }
 
     @FXML
-    void goToAvailbilityCheckContoller(MouseEvent event) {
+    void goToAvailbilityCheck(MouseEvent event) {
 
     }
 
     @FXML
-    void goToGenReportController(MouseEvent event) {
+    void goToContactUsPopUp(MouseEvent event) {
 
     }
 
     @FXML
-    void goToInstructorRegController(MouseEvent event) {
+    void goToGenerateReport(MouseEvent event) {
 
     }
 
     @FXML
-    void goToMakeOrderForCustomerController(MouseEvent event) {
+    void goToInstructorRegistretion(MouseEvent event) {
 
     }
 
     @FXML
-    void goToMemberRegController(MouseEvent event) {
+    void goToMakeOrderForCustomer(MouseEvent event) {
 
     }
 
     @FXML
-    void goToParkDetailContoller(MouseEvent event) {
+    void goToMemberRegistration(MouseEvent event) {
 
     }
 
     @FXML
-    void goToUpdatePController(MouseEvent event) {
+    void goToParkDetail(MouseEvent event) {
 
     }
 
     @FXML
-    void goToViewExistOrderController(MouseEvent event) {
+    void goToUpdateP(MouseEvent event) {
+
+    }
+
+    @FXML
+    void goToViewExistOrder(MouseEvent event) {
 
     }
 
