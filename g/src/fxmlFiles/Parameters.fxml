@@ -17,23 +17,30 @@
    <top>
       <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
          <children>
-            <Text layoutX="282.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Update paramaters">
+            <Text layoutX="178.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Update paramaters">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font>
             </Text>
-            <ImageView fitHeight="135.0" fitWidth="176.0" layoutX="884.0" layoutY="-11.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="135.0" fitWidth="176.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../img5.png" />
                </image>
             </ImageView>
+            <ImageView fx:id="imgContactUs" fitHeight="62.0" fitWidth="62.0" layoutX="951.0" layoutY="-1.0" onMouseClicked="#goToContactUsPopUp" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../contactus.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
+            <Label layoutX="178.0" layoutY="95.0" text="Login &gt; HomePage &gt;  Update parameters" />
          </children>
       </AnchorPane>
    </top>
    <left>
       <AnchorPane prefHeight="464.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" stylesheets="@../clientTry/application.css" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="backBtn" layoutX="37.0" layoutY="12.0" mnemonicParsing="false" onMouseClicked="#backClicked" prefHeight="43.0" prefWidth="68.0" rotate="180.0" styleClass="mybutton1" stylesheets="@../clientTry/application.css" text="Back" />
+            <Button fx:id="backBtn" layoutX="42.0" layoutY="9.0" mnemonicParsing="false" onMouseClicked="#backClicked" prefHeight="43.0" prefWidth="68.0" rotate="180.0" styleClass="mybutton1" stylesheets="@../clientTry/application.css" text="Back" />
          </children></AnchorPane>
    </left>
    <center>
@@ -43,7 +50,7 @@
             <RadioButton fx:id="setVisitDur" layoutX="114.0" layoutY="119.0" mnemonicParsing="false" onMouseClicked="#setVisitDur" text="Set visit duration" />
             <RadioButton fx:id="setMaxOrder" layoutX="114.0" layoutY="210.0" mnemonicParsing="false" onMouseClicked="#setMaxOrder" text="Set max number of orders" />
             <RadioButton fx:id="setDiscount" layoutX="112.0" layoutY="74.0" mnemonicParsing="false" onMouseClicked="#setDiscount" text="Set discount" />
-            <Button fx:id="conBtn" layoutX="714.0" layoutY="450.0" mnemonicParsing="false" onMouseClicked="#sendToDepMan" prefHeight="40.0" prefWidth="165.0" styleClass="mybutton1" text="send to cofrimation" />
+            <Button fx:id="conBtn" layoutX="706.0" layoutY="450.0" mnemonicParsing="false" onMouseClicked="#sendToDepMan" prefHeight="40.0" prefWidth="173.0" styleClass="mybutton1" text="send to confirmation" />
             <Label fx:id="maxVisitorsLabel" layoutX="119.0" layoutY="275.0" text="Set new max visitors:" visible="false" />
             <Label fx:id="visitDurLabel" layoutX="119.0" layoutY="275.0" text="Set new visit duration:" visible="false" />
             <Label fx:id="maxOrderLabel" layoutX="119.0" layoutY="275.0" text="Set new max number of orders:" visible="false" />
@@ -58,6 +65,7 @@
             <TextField fx:id="maxVisitField" layoutX="352.0" layoutY="270.0" prefHeight="30.0" prefWidth="100.0" visible="false" />
             <Label layoutX="114.0" layoutY="24.0" text="Park's name:" />
             <ComboBox fx:id="parkName" layoutX="239.0" layoutY="19.0" prefWidth="150.0" />
+            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@../clientTry/application.css" text="?" />
          </children>
       </AnchorPane>
    </center>
