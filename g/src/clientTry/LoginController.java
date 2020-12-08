@@ -9,40 +9,59 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 
 public class LoginController {
+	
+	  @FXML
+	    private ImageView imgContactUs;
 
-    @FXML
-    private Button backBtn;
+	    @FXML
+	    private Button btnNextPage;
 
-    @FXML
-    private Button finishOrderBtn;
+	    @FXML
+	    private RadioButton makeOrderR;
 
-    @FXML
-    private RadioButton makeOrderR;
+	    @FXML
+	    private ToggleGroup radio;
 
-    @FXML
-    private ToggleGroup radio;
+	    @FXML
+	    private RadioButton enterAsEmployee;
 
-    @FXML
-    private RadioButton enterAsEmployee;
+	    @FXML
+	    private RadioButton viewOrder;
 
-    @FXML
-    private AnchorPane Identification;
+	    @FXML
+	    private AnchorPane Identification;
 
-    @FXML
-    private TextField enterIdentification;
+	    @FXML
+	    private TextField enterIDnumber;
 
-    @FXML
-    private AnchorPane login;
+	    @FXML
+	    private TextField enterMemberID;
 
-    @FXML
-    private TextField enterUserName;
+	    @FXML
+	    private Label txtErrAllFieldsReq1;
 
-    @FXML
-    private TextField EnterPsw;
+	    @FXML
+	    private AnchorPane login;
 
-    private boolean cond = false;
+	    @FXML
+	    private TextField enterUserName;
+
+	    @FXML
+	    private TextField EnterPsw;
+
+	    @FXML
+	    private Label txtErrAllFieldsReq;
+
+	    @FXML
+	    private Label txtErrUserName;
+
+	    @FXML
+	    private Label txtErrPassword;
+
     
     @FXML
     void backClicked(MouseEvent event) {

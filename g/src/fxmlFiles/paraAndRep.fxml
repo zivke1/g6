@@ -22,25 +22,29 @@
                   <Font name="System Bold" size="36.0" />
                </font>
             </Text>
-            <ImageView fitHeight="135.0" fitWidth="176.0" layoutX="884.0" layoutY="-11.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="135.0" fitWidth="176.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../img5.png" />
                </image>
             </ImageView>
+            <Label layoutX="156.0" layoutY="100.0" prefHeight="24.0" prefWidth="257.0" text="Login &gt; Home Page &gt; Update Param" />
+            <ImageView fitHeight="62.0" fitWidth="62.0" layoutX="951.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:///C:/Users/shani/git/g6/g/contactus.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
          </children>
       </AnchorPane>
    </top>
    <left>
-      <AnchorPane prefHeight="464.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" stylesheets="@../clientTry/application.css" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="backBtn" layoutX="37.0" layoutY="12.0" mnemonicParsing="false" onMouseClicked="#backClicked" prefHeight="43.0" prefWidth="68.0" rotate="180.0" styleClass="mybutton1" stylesheets="@../clientTry/application.css" text="Back" />
-         </children></AnchorPane>
+      <AnchorPane prefHeight="464.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" stylesheets="@../clientTry/application.css" BorderPane.alignment="CENTER" />
    </left>
-   <center>
+   <right>
       <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="114.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#showParaToUp" prefHeight="41.0" prefWidth="148.0" styleClass="mybutton1" text="Update paramters" />
-            <Button layoutX="315.0" layoutY="16.0" mnemonicParsing="false" onMouseClicked="#showReports" prefHeight="38.0" prefWidth="151.0" styleClass="mybutton1" text="Generate reports" />
+            <Button layoutX="130.0" layoutY="226.0" mnemonicParsing="false" onMouseClicked="#showParaToUp" prefHeight="40.0" prefWidth="111.0" text="Contact Us" />
+            <Button layoutX="257.0" layoutY="228.0" mnemonicParsing="false" onMouseClicked="#showReports" prefHeight="38.0" prefWidth="151.0" styleClass="mybutton1" text="Contact Us" />
             <RadioButton fx:id="visitCountRep" layoutX="119.0" layoutY="171.0" mnemonicParsing="false" onMouseClicked="#visitCountRep" text="Vistor count" visible="false" />
             <RadioButton fx:id="usageRep" layoutX="267.0" layoutY="171.0" mnemonicParsing="false" onMouseClicked="#usageRep" text="Usage report" visible="false" />
             <RadioButton fx:id="incomeRep" layoutX="410.0" layoutY="171.0" mnemonicParsing="false" onMouseClicked="#incomeRep" prefHeight="21.0" prefWidth="133.0" text="Income report" visible="false" />
@@ -66,7 +70,14 @@
             <TextField fx:id="visitDurField" layoutX="352.0" layoutY="270.0" prefHeight="30.0" prefWidth="100.0" visible="false" />
             <TextField fx:id="maxVisitField" layoutX="352.0" layoutY="270.0" prefHeight="30.0" prefWidth="100.0" visible="false" />
             <Button fx:id="showRep" layoutX="762.0" layoutY="432.0" mnemonicParsing="false" onMouseClicked="#showTheReport" prefHeight="50.0" prefWidth="107.0" styleClass="mybutton1" text="Show report" visible="false" />
+            <Button layoutX="437.0" layoutY="238.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="117.0" styleClass="helpBtn" text="Contact Us" />
+            <ImageView fitHeight="41.0" fitWidth="32.0" layoutX="800.0" layoutY="222.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:///C:/Users/shani/git/g6/g/phone.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="backBtn" alignment="TOP_CENTER" layoutX="579.0" layoutY="213.0" mnemonicParsing="false" onMouseClicked="#backClicked" prefHeight="49.0" prefWidth="171.0" styleClass="mybutton" stylesheets="@../clientTry/application.css" text="Contact Us" />
          </children>
       </AnchorPane>
-   </center>
+   </right>
 </BorderPane>

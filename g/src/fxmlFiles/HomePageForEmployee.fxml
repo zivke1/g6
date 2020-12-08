@@ -18,7 +18,7 @@
                   <Font name="System Bold" size="36.0" />
                </font>
             </Text>
-            <ImageView fitHeight="135.0" fitWidth="176.0" layoutX="884.0" layoutY="-11.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="135.0" fitWidth="176.0" layoutX="-8.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../img5.png" />
                </image>
@@ -42,8 +42,8 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Button fx:id="btnAddMember" layoutX="41.0" layoutY="124.0" mnemonicParsing="false" onMouseClicked="#goToMemberRegController" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Add New Member" />
-            <Button fx:id="btnAddInstructor" layoutX="41.0" layoutY="222.0" mnemonicParsing="false" onMouseClicked="#goToInstructorRegController" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Add New Instructor" />
+            <Button fx:id="btnAddMember" layoutX="41.0" layoutY="124.0" mnemonicParsing="false" onMouseClicked="#goToMemberRegistration" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Add New Member" />
+            <Button fx:id="btnAddInstructor" layoutX="41.0" layoutY="222.0" mnemonicParsing="false" onMouseClicked="#goToInstructorRegistretion" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Add New Instructor" />
             <Button fx:id="btnAvailabilityCheck" layoutX="312.0" layoutY="328.0" mnemonicParsing="false" onMouseClicked="#goToAvailbilityCheckContoller" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Availability Check" />
             <Button fx:id="btnNewOrderFotC" layoutX="312.0" layoutY="124.0" mnemonicParsing="false" onMouseClicked="#goToMakeOrderForCustomerController" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Make New Order" />
             <Button fx:id="btnViewOrder" layoutX="41.0" layoutY="328.0" mnemonicParsing="false" onMouseClicked="#goToViewExistOrderController" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="View Customer's Order" />
