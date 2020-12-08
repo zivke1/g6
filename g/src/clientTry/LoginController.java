@@ -1,6 +1,5 @@
 package clientTry;
 
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -13,86 +12,85 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 
 public class LoginController {
-	
-	  @FXML
-	    private ImageView imgContactUs;
 
-	    @FXML
-	    private Button btnNextPage;
+	@FXML
+	private ImageView imgContactUs;
 
-	    @FXML
-	    private RadioButton makeOrderR;
+	@FXML
+	private Button btnNextPage;
 
-	    @FXML
-	    private ToggleGroup radio;
+	@FXML
+	private RadioButton makeOrderR;
 
-	    @FXML
-	    private RadioButton enterAsEmployee;
+	@FXML
+	private ToggleGroup radio;
 
-	    @FXML
-	    private RadioButton viewOrder;
+	@FXML
+	private RadioButton enterAsEmployee;
 
-	    @FXML
-	    private AnchorPane Identification;
+	@FXML
+	private RadioButton viewOrder;
 
-	    @FXML
-	    private TextField enterIDnumber;
+	@FXML
+	private AnchorPane Identification;
 
-	    @FXML
-	    private TextField enterMemberID;
+	@FXML
+	private TextField enterIDnumber;
 
-	    @FXML
-	    private Label txtErrAllFieldsReq1;
+	@FXML
+	private TextField enterMemberID;
 
-	    @FXML
-	    private AnchorPane login;
+	@FXML
+	private Label txtErrAllFieldsReq1;
 
-	    @FXML
-	    private TextField enterUserName;
+	@FXML
+	private AnchorPane login;
 
-	    @FXML
-	    private TextField EnterPsw;
+	@FXML
+	private TextField enterUserName;
 
-	    @FXML
-	    private Label txtErrAllFieldsReq;
+	@FXML
+	private TextField EnterPsw;
 
-	    @FXML
-	    private Label txtErrUserName;
+	@FXML
+	private Label txtErrAllFieldsReq;
 
-	    @FXML
-	    private Label txtErrPassword;
+	@FXML
+	private Label txtErrUserName;
 
-    
-    @FXML
-    void backClicked(MouseEvent event) {
+	@FXML
+	private Label txtErrPassword;
 
-    }
+	@FXML
+	void goToContactUsPopUp(MouseEvent event) {
 
-    @FXML
-    void changeIdentificationVisible(ActionEvent event) {
-    	loginSetVisibility(false);
-    	identificationSetVisibility(true);
-    	
-    }
+	}
 
-    @FXML
-    void changeLoginVisible(ActionEvent event) {
-    	identificationSetVisibility(false);
-    	loginSetVisibility(true);
+	@FXML
+	void changeIdentificationVisible(ActionEvent event) {
+		loginSetVisibility(false);
+		identificationSetVisibility(true);
 
-    }
+	}
 
-    @FXML
-    void finishOrderClicked(MouseEvent event) {
+	@FXML
+	void changeLoginVisible(ActionEvent event) {
+		identificationSetVisibility(false);
+		loginSetVisibility(true);
 
-    }
+	}
 
-    public void identificationSetVisibility(boolean cond) {
-    	Identification.setVisible(cond);
-    }
-    
-    public void loginSetVisibility(boolean cond) {
-    	login.setVisible(cond);
-    }
+	@FXML
+	void finishOrderClicked(MouseEvent event) {
+
+	}
+
+	public void identificationSetVisibility(boolean cond) {
+		Identification.setVisible(cond);
+	}
+
+	public void loginSetVisibility(boolean cond) {
+		login.setVisible(cond);
+	}
 
 }
