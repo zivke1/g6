@@ -62,8 +62,7 @@
             <ComboBox fx:id="numVisitor" layoutX="214.0" layoutY="329.0" prefHeight="31.0" prefWidth="86.0" />
             <RadioButton fx:id="cash" layoutX="350.0" layoutY="391.0" mnemonicParsing="false" text="no" />
             <RadioButton fx:id="creditC" layoutX="251.0" layoutY="391.0" mnemonicParsing="false" text="yes" />
-            <Label fx:id="ccLabel" layoutX="79.0" layoutY="433.0" text="Credit card number:" visible="false" />
-            <Label fx:id="errorMsg" layoutX="261.0" layoutY="433.0" prefHeight="21.0" prefWidth="79.0" textFill="RED" visible="false" />
+            <Label fx:id="ccLabel" layoutX="68.0" layoutY="433.0" text="Credit card number:" visible="false" />
             <Label layoutX="71.0" layoutY="14.0" text="Please fill all the fields:">
                <font>
                   <Font name="System Bold" size="20.0" />
@@ -71,6 +70,7 @@
             </Label>
             <Button layoutX="358.0" layoutY="328.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="37.0" text="?" />
             <Button layoutX="834.0" layoutY="14.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" text="?" />
+            <TextField fx:id="enterCardNumber" layoutX="214.0" layoutY="428.0" visible="false" />
          </children>
       </AnchorPane>
    </center>
