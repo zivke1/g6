@@ -46,7 +46,7 @@
    <center>
       <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
          <children>
-            <RadioButton fx:id="setMaxVisit" layoutX="114.0" layoutY="161.0" mnemonicParsing="false" onMouseClicked="#setMaxVisit" text="Set max visitors to park" />
+            <RadioButton fx:id="setMaxVisit" layoutX="114.0" layoutY="161.0" mnemonicParsing="false" onMouseClicked="#setMaxVisit" text="Set max capacity" />
             <RadioButton fx:id="setVisitDur" layoutX="114.0" layoutY="119.0" mnemonicParsing="false" onMouseClicked="#setVisitDur" text="Set visit duration" />
             <RadioButton fx:id="setMaxOrder" layoutX="114.0" layoutY="210.0" mnemonicParsing="false" onMouseClicked="#setMaxOrder" text="Set max number of orders" />
             <RadioButton fx:id="setDiscount" layoutX="112.0" layoutY="74.0" mnemonicParsing="false" onMouseClicked="#setDiscount" text="Set discount" />

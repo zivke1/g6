@@ -4,6 +4,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
@@ -23,34 +24,34 @@
                   <Font name="System Bold" size="36.0" />
                </font>
             </Text>
-            <ImageView fitHeight="135.0" fitWidth="176.0" layoutX="-9.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="135.0" fitWidth="176.0" layoutX="-8.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../img5.png" />
                </image>
             </ImageView>
+            <Label fx:id="txtCrumViaHomePage" layoutX="178.0" layoutY="95.0" text="Login &gt; Home Page For Employee &gt; Make New Order Employee &gt; Make New Order" visible="false" />
+            <Label fx:id="txtCrum" layoutX="178.0" layoutY="95.0" text="Login &gt; Make Order" visible="false" />
             <ImageView fx:id="imgContactUs" fitHeight="62.0" fitWidth="62.0" layoutX="951.0" layoutY="-1.0" onMouseClicked="#goToContactUsPopUp" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../contactus.png" />
                </image>
             </ImageView>
             <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
-            <Label fx:id="userOrderCrums" layoutX="178.0" layoutY="95.0" text="Login &gt;  Make new order" visible="false" />
-            <Label fx:id="employeeOrderCrums" layoutX="178.0" layoutY="95.0" text="Login &gt; HomePage &gt; Make new order employee &gt; Make new order" />
          </children>
       </AnchorPane>
    </top>
    <left>
       <AnchorPane prefHeight="464.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" stylesheets="@../clientTry/application.css" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="backBtn" layoutX="42.0" layoutY="9.0" mnemonicParsing="false" onMouseClicked="#backClicked" prefHeight="43.0" prefWidth="68.0" rotate="180.0" styleClass="mybutton1" stylesheets="@../clientTry/application.css" text="Back" />
+            <Button fx:id="backBtn" layoutX="37.0" layoutY="12.0" mnemonicParsing="false" onMouseClicked="#backClicked" prefHeight="40.0" prefWidth="68.0" rotate="180.0" styleClass="mybutton1" stylesheets="@../clientTry/application.css" text="Back" />
          </children></AnchorPane>
    </left>
    <center>
       <AnchorPane fx:id="helpBtn" onMouseClicked="#helpBtnPressed" prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
          <children>
-            <Text layoutX="14.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type of order:">
+            <Text layoutX="13.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type of order:">
                <font>
-                  <Font name="System Bold" size="20.0" />
+                  <Font size="20.0" />
                </font>
             </Text>
             <ToggleButton fx:id="PersonalBtn" layoutX="208.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#PersonalBtnPress" text="Personal">
@@ -60,43 +61,56 @@
             </ToggleButton>
             <ToggleButton fx:id="FamilyBtn" layoutX="285.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#FamilyBtnPress" prefHeight="31.0" prefWidth="78.0" text="Family" toggleGroup="$typeOrder" />
             <ToggleButton fx:id="GroupBtn" layoutX="363.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#GroupBtnPress" prefHeight="31.0" prefWidth="77.0" text="Group" toggleGroup="$typeOrder" />
-            <Text layoutX="14.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Park's name:">
+            <Text layoutX="20.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Park's name:">
                <font>
-                  <Font name="System Bold" size="20.0" />
+                  <Font size="20.0" />
                </font>
             </Text>
             <ComboBox fx:id="parkNameCombo" layoutX="208.0" layoutY="80.0" prefHeight="31.0" prefWidth="184.0" promptText="-choose park-" />
-            <Text layoutX="15.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of visitors:">
+            <Text layoutX="22.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of visitors:">
                <font>
-                  <Font name="System Bold" size="20.0" />
+                  <Font size="20.0" />
                </font>
             </Text>
             <ComboBox id="numberOfVistorsCombo" fx:id="numberOfVistorsCombo" layoutX="208.0" layoutY="142.0" prefHeight="31.0" prefWidth="187.0" promptText="-choose number-" />
-            <Text layoutX="12.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pick Date:">
+            <Text layoutX="20.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pick Date:">
                <font>
-                  <Font name="System Bold" size="20.0" />
+                  <Font size="20.0" />
                </font>
             </Text>
             <DatePicker fx:id="pickDatePicker" layoutX="208.0" layoutY="200.0" promptText="-enter date-" />
-            <Text layoutX="13.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hour:">
+            <Text layoutX="21.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hour:">
                <font>
-                  <Font name="System Bold" size="20.0" />
+                  <Font size="20.0" />
                </font>
             </Text>
             <ComboBox fx:id="hourCombo" layoutX="208.0" layoutY="263.0" prefHeight="31.0" prefWidth="187.0" promptText="-choose time-" />
-            <Text layoutX="12.0" layoutY="343.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email:">
+            <Text layoutX="20.0" layoutY="344.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email:">
                <font>
-                  <Font name="System Bold" size="20.0" />
+                  <Font size="20.0" />
                </font>
             </Text>
             <TextField fx:id="emailTextFiled" layoutX="208.0" layoutY="321.0" promptText="-emter email-" />
-            <Button fx:id="finishOrderBtn" layoutX="757.0" layoutY="443.0" mnemonicParsing="false" onMouseClicked="#finishOrderClicked" prefHeight="44.0" prefWidth="122.0" styleClass="mybutton1" stylesheets="@../clientTry/application.css" text="Finish order" />
+            <Button fx:id="finishOrderBtn" layoutX="757.0" layoutY="443.0" mnemonicParsing="false" onMouseClicked="#finishOrderClicked" prefHeight="44.0" prefWidth="122.0" styleClass="mybutton1" stylesheets="@../clientTry/application.css" text="Checkout" />
             <Button layoutX="834.0" layoutY="14.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@../clientTry/application.css" text="?" />
             <Text fx:id="notAllfieldFilledLabel" fill="RED" layoutX="523.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Note Not all fields are filled in. Please fill in all fields and click Finish Order" visible="false" wrappingWidth="271.11181640625">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Text>
+            <RadioButton layoutX="208.0" layoutY="387.0" mnemonicParsing="false" text="credit card">
+               <toggleGroup>
+                  <ToggleGroup fx:id="payment" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton layoutX="367.0" layoutY="387.0" mnemonicParsing="false" text="cash" toggleGroup="$payment" />
+            <Label layoutX="22.0" layoutY="433.0" text="Enter credit card number:" visible="false" />
+            <Text layoutX="20.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment Method:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <TextField layoutX="207.0" layoutY="428.0" visible="false" />
          </children>
       </AnchorPane>
    </center>
