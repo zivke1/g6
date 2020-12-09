@@ -1,6 +1,7 @@
 package clientTry;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -52,7 +53,7 @@ public class LoginPageEmployeeController {
 		}
 		Scene scene = new Scene(root);
 		scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-		primaryStage.setTitle("HomePage Employee");
+		primaryStage.setTitle("HomePage");
 		primaryStage.setScene(scene);
 		primaryStage.show();
     }
@@ -64,7 +65,20 @@ public class LoginPageEmployeeController {
     
     @FXML
     void viewOrder(MouseEvent event) {
-    	//if the id has order fill the details
+    	String id=ID.getText();
+    	if (id.length() > 0) {
+			ArrayList<String> arr = new ArrayList<>();
+			arr.add("CheckOrder");
+			arr.add(id);
+			ClientMain.chat.accept(arr);
+			//need to return it this way
+			pName.setText(ChatClient.dataInArrayList.get(0));
+			typeOfOr.setText(ChatClient.dataInArrayList.get(1));
+			amOfVisit.setText(ChatClient.dataInArrayList.get(2));
+			date.setText(ChatClient.dataInArrayList.get(3));
+			hour.setText(ChatClient.dataInArrayList.get(4));
+			email.setText(ChatClient.dataInArrayList.get(5));
+		}
     	pName.setVisible(true);
     	typeOfOr.setVisible(true);
     	amOfVisit.setVisible(true);
