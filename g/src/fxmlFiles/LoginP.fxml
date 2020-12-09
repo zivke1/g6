@@ -56,7 +56,7 @@
                   <Font name="System Bold" size="19.0" />
                </font>
             </Label>
-            <AnchorPane fx:id="Identification" layoutX="77.0" layoutY="126.0" prefHeight="133.0" prefWidth="545.0" style="-fx-background-color: LightGray;">
+            <AnchorPane fx:id="Identification" layoutX="77.0" layoutY="126.0" prefHeight="133.0" prefWidth="545.0" style="-fx-background-color: LightGray;" visible="false">
                <children>
                   <Label layoutX="27.0" layoutY="56.0" text="ID Number: " />
                   <TextField fx:id="enterIDnumber" layoutX="158.0" layoutY="51.0" />
