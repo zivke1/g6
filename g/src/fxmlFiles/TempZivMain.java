@@ -25,7 +25,7 @@ public class TempZivMain extends Application {
 		//EnterIDController controller;
 		try {
 			FXMLLoader loader=new FXMLLoader();
-			loader.setLocation(getClass().getResource("OrderNew.fxml"));
+			loader.setLocation(getClass().getResource("WaitingList.fxml"));
 			borderPane = loader.load();
 			//controller = loader.getController();
 		} catch (IOException e) {
