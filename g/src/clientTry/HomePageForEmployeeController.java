@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
@@ -13,7 +14,7 @@ import javafx.stage.Stage;
 
 public class HomePageForEmployeeController {
 
-	private String fName, lName, role;
+	private String fName, lName, role,userID;
 
 	@FXML
 	private ImageView imgContactUs;
@@ -91,7 +92,7 @@ public class HomePageForEmployeeController {
 		
 		Stage stage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
-		VBox root;
+		Parent root;
 		try {
 			root = loader.load(getClass().getResource("/fxmlFiles/MembershipRegistration.fxml").openStream());
 			Scene scene = new Scene(root);
@@ -106,7 +107,22 @@ public class HomePageForEmployeeController {
 
 	@FXML
 	void goToParkDetail(MouseEvent event) {
-
+		Stage stage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Parent root;
+		try {
+			root = loader.load(getClass().getResource("/fxmlFiles/ParkDetails.fxml").openStream());
+			
+			ClientMain.chat.accept(arr);
+			//ParkDetailsController.setParkDetails(String namePark);
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
+			stage.setTitle("Park Details");
+			stage.setScene(scene);
+			stage.show();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 
 	@FXML
@@ -124,9 +140,10 @@ public class HomePageForEmployeeController {
 
 	}
 
-	public void setDetails(String fName, String lName, String role) {
+	public void setDetails(String fName, String lName, String role,String userID) {
 		this.fName = fName;
 		this.lName = lName;
+		this.userID=userID;
 		this.role = role;
 		switch (role) {
 		case "Park Manager": {
