@@ -36,7 +36,7 @@
 	-fx-position:relative;
 	-fx-top:10px;
 }
-
+/* 
 .multi-bg-example {
   -fx-width: 100%;
   -fx-height: 400px;
@@ -48,7 +48,7 @@
       left,
 	  right;
 	  -fx-background-size:1280px;
-}
+}*/
 
 .textA{
 	-fx-font-size:20px;

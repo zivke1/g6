@@ -113,7 +113,7 @@ public class HomePageForEmployeeController {
 		try {
 			root = loader.load(getClass().getResource("/fxmlFiles/ParkDetails.fxml").openStream());
 			
-			ClientMain.chat.accept(arr);
+			//ClientMain.chat.accept(arr);
 			//ParkDetailsController.setParkDetails(String namePark);
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
