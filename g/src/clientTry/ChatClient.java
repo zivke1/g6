@@ -78,6 +78,7 @@ public class ChatClient extends AbstractClient
     	dataInArrayList=dataFromDb;
     		
     }
+    dataInArrayList=dataFromDb;
     
   }
 
