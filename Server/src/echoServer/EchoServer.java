@@ -71,7 +71,7 @@ public class EchoServer extends AbstractServer {
 	 */
 	@Override
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
-
+//TODO we need to change it to switch case or even if else
 		try {
 
 			ArrayList<String> arr = (ArrayList<String>) msg;
@@ -107,9 +107,28 @@ public class EchoServer extends AbstractServer {
 			if (arr.contains("checkIfEmployee")) {
 				arr.remove("checkIfEmployee");
 				arr = mysqlConnection.checkIfEmployee(arr);
-				this.sendToAllClients(arr);
+				client.sendToClient(arr);
 				return;
 			}
+			if (arr.contains("checkIfIdConnectedWithId")) {
+				arr.remove("checkIfIdConnectedWithId");
+				arr = mysqlConnection.checkIfIdConnectedWithId(arr);
+				client.sendToClient(arr);
+				return;
+			}
+			if (arr.contains("checkIfIdConnectedWithMemberId")) {
+				arr.remove("checkIfIdConnectedWithMemberId");
+				arr = mysqlConnection.checkIfIdConnectedWithMemberId(arr);
+				client.sendToClient(arr);
+				return;
+			}
+			if (arr.contains("closeAndSetIdNull")) {
+				arr.remove("closeAndSetIdNull");
+				mysqlConnection.closeAndSetIdNull(arr);
+				clientDisconnected(null);
+				return;
+			}
+	
 			
 			this.sendToAllClients(msg);
 		} catch (Exception e) {

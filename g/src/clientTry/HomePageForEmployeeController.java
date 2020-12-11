@@ -140,7 +140,7 @@ public class HomePageForEmployeeController {
 
 	}
 
-	public void setDetails(String fName, String lName, String role,String userID) {
+	public void setDetails(String fName, String lName, String role,String userID, String park) {
 		this.fName = fName;
 		this.lName = lName;
 		this.userID=userID;
