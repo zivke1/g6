@@ -25,15 +25,15 @@
                   <Image url="@../../img5.png" />
                </image>
             </ImageView>
-            <Label layoutX="480.0" layoutY="51.0" text="Avi, role / greeting " />
+            <Label fx:id="greetingMsg" layoutX="480.0" layoutY="51.0" text="Avi, role / greeting " />
             <ImageView fx:id="imgContactUs" fitHeight="62.0" fitWidth="62.0" layoutX="951.0" layoutY="-1.0" onMouseClicked="#goToContactUsPopUp" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../contactus.png" />
                </image>
             </ImageView>
             <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
-            <Label layoutX="178.0" layoutY="95.0" text="Home Page For Employees" visible="false" />
-            <Label layoutX="178.0" layoutY="95.0" text="Home Page For Customers" />
+            <Label fx:id="employeeCrums" layoutX="178.0" layoutY="95.0" text="Home Page For Employees" visible="false" />
+            <Label fx:id="customerCrums" layoutX="178.0" layoutY="95.0" text="Home Page For Customers" visible="false" />
          </children>
       </AnchorPane>
    </top>
@@ -68,27 +68,28 @@
                <children>
                   <Button fx:id="btnUpdateP" layoutX="262.0" layoutY="35.0" mnemonicParsing="false" onMouseClicked="#goToUpdateP" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Update Parameters" />
                   <Button fx:id="btnParkDetails" layoutX="506.0" layoutY="35.0" mnemonicParsing="false" onMouseClicked="#goToParkDetail" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Parks Details" />
-                  <Button fx:id="btnGenReport" layoutX="14.0" layoutY="35.0" mnemonicParsing="false" onMouseClicked="#goToGenerateReport" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Generate Reports" />
+                  <Button fx:id="btnGenReportParkManager" layoutX="14.0" layoutY="35.0" mnemonicParsing="false" onMouseClicked="#goToGenerateReportParkManager" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Generate Reports" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="anchorDepManager" layoutX="27.0" layoutY="82.0" prefHeight="200.0" prefWidth="558.0" visible="false">
+            <AnchorPane fx:id="anchorDepManager" layoutX="27.0" layoutY="82.0" prefHeight="208.0" prefWidth="757.0" visible="false">
                <children>
-                  <Button fx:id="btnParkDetails" layoutX="270.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#goToParkDetail" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Parks Details" />
+                  <Button fx:id="btnParkDetails" layoutX="524.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#goToParkDetail" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Parks Details" />
                   <Button fx:id="btnApproveP" layoutX="34.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#goToApproveP" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Approve Parameters" />
+                  <Button fx:id="btnGenReportDepManager" layoutX="279.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#goToGenerateReportDepManager" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Generate Reports" />
                </children>
             </AnchorPane>
-            <Button fx:id="btnSignOut" layoutX="757.0" layoutY="443.0" mnemonicParsing="false" onMouseClicked="#backClicked" prefHeight="44.0" prefWidth="122.0" styleClass="mybutton1" stylesheets="@../clientTry/application.css" text="Sign Out" />
+            <Button fx:id="btnSignOut" layoutX="757.0" layoutY="443.0" mnemonicParsing="false" onMouseClicked="#goToLoginP" prefHeight="44.0" prefWidth="122.0" styleClass="mybutton1" stylesheets="@../clientTry/application.css" text="Sign Out" />
             <AnchorPane fx:id="anchorCustomer" layoutX="28.0" layoutY="82.0" prefHeight="370.0" prefWidth="691.0" visible="false">
                <children>
-                  <Button fx:id="btnMakeOrderCustomer" layoutX="26.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#goToParkDetail" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Make New Order" />
-                  <Button fx:id="btnViewExistingOrder" layoutX="286.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#goToParkDetail" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="View Existing Orders" />
+                  <Button fx:id="btnMakeOrderCustomer" layoutX="26.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#goToNewOrderCustomer" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Make New Order" />
+                  <Button fx:id="btnViewExistingOrder" layoutX="286.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#goToViewOrderCustomer" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="View Existing Orders" />
                   <TableView fx:id="tblExisitingOrder" layoutX="286.0" layoutY="119.0" prefHeight="201.0" prefWidth="239.0" visible="false">
                     <columns>
                       <TableColumn prefWidth="130.0" text="Order ID" />
                         <TableColumn prefWidth="108.0" text="Status" />
                     </columns>
                   </TableView>
-                  <Label layoutX="36.0" layoutY="172.0" text="No Existing Orders!" visible="false">
+                  <Label fx:id="NoExistOrderMsg" layoutX="36.0" layoutY="172.0" text="No Existing Orders!" visible="false">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>

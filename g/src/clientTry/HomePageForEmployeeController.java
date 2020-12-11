@@ -3,6 +3,13 @@ package clientTry;
 import java.io.IOException;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,13 +21,25 @@ import javafx.stage.Stage;
 
 public class HomePageForEmployeeController {
 
-	private String fName, lName, role,userID;
+	private String fName, lName, role, userID;
+
+	@FXML
+	private Label greetingMsg;
 
 	@FXML
 	private ImageView imgContactUs;
 
 	@FXML
+	private Label employeeCrums;
+
+	@FXML
+	private Label customerCrums;
+
+	@FXML
 	private Button helpBtn;
+
+	@FXML
+	private AnchorPane anchorCustomerrepResentativeEmp;
 
 	@FXML
 	private Button btnAddMember;
@@ -32,6 +51,9 @@ public class HomePageForEmployeeController {
 	private Button btnParkDetails;
 
 	@FXML
+	private AnchorPane anchorParkEmployee;
+
+	@FXML
 	private Button btnNewOrderFotC;
 
 	@FXML
@@ -41,21 +63,40 @@ public class HomePageForEmployeeController {
 	private Button btnAvailabilityCheck;
 
 	@FXML
+	private AnchorPane anchorParkManager;
+
+	@FXML
 	private Button btnUpdateP;
 
 	@FXML
-	private Button btnGenReport;
+	private Button btnGenReportParkManager;
+
+	@FXML
+	private AnchorPane anchorDepManager;
 
 	@FXML
 	private Button btnApproveP;
 
 	@FXML
-	private Button backBtn;
+	private Button btnGenReportDepManager;
 
 	@FXML
-	void backClicked(MouseEvent event) {
+	private Button btnSignOut;
 
-	}
+	@FXML
+	private AnchorPane anchorCustomer;
+
+	@FXML
+	private Button btnMakeOrderCustomer;
+
+	@FXML
+	private Button btnViewExistingOrder;
+
+	@FXML
+	private TableView<?> tblExisitingOrder;
+
+	@FXML
+	private Label NoExistOrderMsg;
 
 	@FXML
 	void goToApproveP(MouseEvent event) {
@@ -73,7 +114,12 @@ public class HomePageForEmployeeController {
 	}
 
 	@FXML
-	void goToGenerateReport(MouseEvent event) {
+	void goToGenerateReportDepManager(MouseEvent event) {
+
+	}
+
+	@FXML
+	void goToGenerateReportParkManager(MouseEvent event) {
 
 	}
 
@@ -83,13 +129,43 @@ public class HomePageForEmployeeController {
 	}
 
 	@FXML
+	void goToLoginP(MouseEvent event) {
+
+	}
+
+	@FXML
 	void goToMakeOrderForCustomer(MouseEvent event) {
 
 	}
 
 	@FXML
+	void goToNewOrderCustomer(MouseEvent event) {
+
+	}
+
+	@FXML
+	void goToUpdateP(MouseEvent event) {
+
+	}
+
+	@FXML
+	void goToViewExistOrder(MouseEvent event) {
+
+	}
+
+	@FXML
+	void goToViewOrderCustomer(MouseEvent event) {
+
+	}
+
+	@FXML
+	void helpBtnPressed(MouseEvent event) {
+
+	}
+
+	@FXML
 	void goToMemberRegistration(MouseEvent event) {
-		
+
 		Stage stage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Parent root;
@@ -112,9 +188,9 @@ public class HomePageForEmployeeController {
 		Parent root;
 		try {
 			root = loader.load(getClass().getResource("/fxmlFiles/ParkDetails.fxml").openStream());
-			
-			//ClientMain.chat.accept(arr);
-			//ParkDetailsController.setParkDetails(String namePark);
+
+			// ClientMain.chat.accept(arr);
+			// ParkDetailsController.setParkDetails(String namePark);
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
 			stage.setTitle("Park Details");
@@ -125,48 +201,38 @@ public class HomePageForEmployeeController {
 		}
 	}
 
-	@FXML
-	void goToUpdateP(MouseEvent event) {
-
-	}
-
-	@FXML
-	void goToViewExistOrder(MouseEvent event) {
-
-	}
-
-	@FXML
-	void helpBtnPressed(MouseEvent event) {
-
-	}
-
-	public void setDetails(String fName, String lName, String role,String userID) {
+	public void setDetails(String fName, String lName, String role, String userID, String parkName) {
 		this.fName = fName;
 		this.lName = lName;
-		this.userID=userID;
+		this.userID = userID;
 		this.role = role;
 		switch (role) {
 		case "Park Manager": {
-			btnGenReport.setVisible(true);
-			btnUpdateP.setVisible(true);
-			btnParkDetails.setVisible(true);
+			employeeCrums.setVisible(true);
+			anchorParkManager.setVisible(true);
+			/////////להוסיף מחר את הודעת הברכה המתאימה
 		}
 		case "Department Manager": {
-			btnApproveP.setVisible(true);
+			employeeCrums.setVisible(true);
+			anchorDepManager.setVisible(true);
 		}
-		case "Gate Work": {
-			btnAvailabilityCheck.setVisible(true);
-			btnNewOrderFotC.setVisible(true);
-			btnViewOrder.setVisible(true);
-			btnParkDetails.setVisible(true);
+		case "Park Employee": {
+			employeeCrums.setVisible(true);
+			anchorParkEmployee.setVisible(true);
 		}
 		case "Representative": {
-			btnAddInstructor.setVisible(true);
-			btnAddMember.setVisible(true);
-
+			employeeCrums.setVisible(true);
+			anchorCustomerrepResentativeEmp.setVisible(true);
+		}
+		case "Member": {
+			customerCrums.setVisible(true);
+			anchorCustomer.setVisible(true);
+		}
+		case "User":{
+			customerCrums.setVisible(true);
+			anchorCustomer.setVisible(true);
 		}
 		}
 	}
 
 }
-
