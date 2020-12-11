@@ -3,7 +3,6 @@ package echoServer;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import clientTry.ClientMain;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -21,7 +20,7 @@ public class ServerMain extends Application{
 		ServerControl controller;
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/fxmlFiles/Server.fxml"));
+			loader.setLocation(getClass().getResource("/echoServer/Server.fxml"));
 			root = loader.load();
 		
 			controller = loader.getController();
