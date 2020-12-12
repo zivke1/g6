@@ -110,6 +110,18 @@ public class EchoServer extends AbstractServer {
 				this.sendToAllClients(arr);
 				return;
 			}
+			if(arr.contains("RegisterMember"))
+			{
+				ArrayList<String> returnArr=new ArrayList<>();
+				arr.remove("RegisterMember");
+				if(mysqlConnection.RegisterMember(arr))
+					returnArr.add("Success");
+				else
+					returnArr.add("Exists");
+				returnArr.add("RegisterMember");
+				this.sendToAllClients(returnArr);
+				return;
+			}
 			
 			this.sendToAllClients(msg);
 		} catch (Exception e) {

@@ -103,11 +103,11 @@ public class mysqlConnection {
 
 	public static ArrayList<String> checkIfEmployee(ArrayList<String> arr) throws SQLException {
 		String id, firstName, lastName, role, connected, password;
-		connected="true";
+		connected = "true";
 		ArrayList<String> toReturn = new ArrayList<String>();
 		Statement stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery("select * from employee Where UserID=" + arr.get(0));
-		if (rs.next()) {//check if employee exist
+		if (rs.next()) {// check if employee exist
 			firstName = rs.getString("FirstName");
 			lastName = rs.getString("LastName");
 			id = rs.getString("UserID");
@@ -120,10 +120,10 @@ public class mysqlConnection {
 		if (password.equals(arr.get(1))) {// the password right
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("select * from useres Where UserID=" + id);
-			if (rs.next()) //check if employee exist
-			connected = rs.getString("Connect");
-			if(connected == null) {
-				toReturn.add(id);	
+			if (rs.next()) // check if employee exist
+				connected = rs.getString("Connect");
+			if (connected == null) {
+				toReturn.add(id);
 				toReturn.add(firstName);
 				toReturn.add(lastName);
 				toReturn.add(role);
@@ -131,14 +131,45 @@ public class mysqlConnection {
 				update.setString(1, id);
 				update.executeUpdate();
 				return toReturn;
-				
+
 			}
-		}else {//the user already connected
+		} else {// the user already connected
 			toReturn.add("false");
 			return toReturn;
 		}
 		return toReturn;
 
+	}
+
+	public static boolean RegisterMember(ArrayList<String> arr) {
+		try {// inserting new row to the table
+			PreparedStatement update = conn.prepareStatement(
+					"INSERT INTO members (FirstName,LastName,ID,Email,PhoneNumber,numberOfPepole,creditCard) VALUES (?, ?, ?, ?,?,?,?)");
+			for (int i = 0; i < ((ArrayList<String>) arr).size(); i++)
+				update.setString(i + 1, ((ArrayList<String>) arr).get(i));
+			update.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		if (!insertToUsers(arr.get(2)))
+			return false;
+
+		return true;
+	}
+
+	private static boolean insertToUsers(String id)// adding new user
+	{
+		try {
+			PreparedStatement update = conn.prepareStatement("INSERT INTO useres (UserID,Connect) VALUES (?, ?)");
+			update.setString(1, id);
+			update.setString(2, null);
+			update.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 }
