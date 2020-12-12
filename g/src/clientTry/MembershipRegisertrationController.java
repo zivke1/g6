@@ -183,11 +183,11 @@ public class MembershipRegisertrationController {
 			arr.add(email.getText());
 			arr.add(phoneNum.getText());
 			arr.add(numVisitor.getValue().toString());
-			// arr.add(id.getText());
 			if (flagCC)
 				arr.add(enterCardNumber.getText());
 			else
 				arr.add("cash");
+			arr.add("member");
 			FakeMain.chat.accept(arr);
 			if (ChatClient.dataInArrayList.contains("Exists")) {
 				ChatClient.dataInArrayList.clear();

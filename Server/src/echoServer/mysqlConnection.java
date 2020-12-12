@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 import com.mysql.cj.jdbc.SuspendableXAConnection;
@@ -143,10 +144,35 @@ public class mysqlConnection {
 
 	public static boolean RegisterMember(ArrayList<String> arr) {
 		try {// inserting new row to the table
+			Random rand = new Random();
+			int memberID = 0;
 			PreparedStatement update = conn.prepareStatement(
-					"INSERT INTO members (FirstName,LastName,ID,Email,PhoneNumber,numberOfPepole,creditCard) VALUES (?, ?, ?, ?,?,?,?)");
+					"INSERT INTO members (FirstName,LastName,ID,Email,PhoneNumber,numberOfPepole,creditCard,memberID,MemberOrGuide) "
+							+ "VALUES (?, ?, ?, ?,?,?,?,?,?)");
 			for (int i = 0; i < ((ArrayList<String>) arr).size(); i++)
-				update.setString(i + 1, ((ArrayList<String>) arr).get(i));
+				if (i == 7)
+					update.setString(i + 2, ((ArrayList<String>) arr).get(i));
+				else
+					update.setString(i + 1, ((ArrayList<String>) arr).get(i));
+			boolean flagExists = true;
+			while (flagExists) {
+				try {
+
+					memberID = rand.nextInt(899999);
+					memberID += 100000;
+					String ID = "";
+					Statement stmt = conn.createStatement();
+					ResultSet rs = stmt.executeQuery("select * from visitor Where memberID=" + memberID);
+					while (rs.next()) {
+						ID = rs.getString("ID");
+					}
+				} catch (SQLException e) {
+					flagExists = false;
+					update.setString(8, "" + memberID);
+				}
+
+			}
+
 			update.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
