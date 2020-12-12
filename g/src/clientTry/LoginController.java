@@ -18,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.image.ImageView;
 
 public class LoginController {
@@ -55,8 +56,8 @@ public class LoginController {
 	@FXML
 	private TextField enterUserName;
 
-	@FXML
-	private TextField EnterPsw;
+    @FXML
+    private PasswordField EnterPsw;
 
 	@FXML
 	private Label txtErrAllFieldsReq;
