@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLSyntaxErrorException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -106,7 +107,13 @@ public class mysqlConnection {
 		connected = "true";
 		ArrayList<String> toReturn = new ArrayList<String>();
 		Statement stmt = conn.createStatement();
-		ResultSet rs = stmt.executeQuery("select * from employee Where EmployeeNumber=" + arr.get(0));
+		ResultSet rs=null;
+		try {
+		rs = stmt.executeQuery("select * from employee Where EmployeeNumber=" + arr.get(0).toString());
+		}catch (SQLSyntaxErrorException e) {
+			toReturn.add("employeeNotFound");
+			return toReturn;
+		}
 		if (rs.next()) {// check if employee exist
 			firstName = rs.getString("FirstName");
 			lastName = rs.getString("LastName");
@@ -150,9 +157,14 @@ public class mysqlConnection {
 		Statement stmt = conn.createStatement();
 		int id;
 		stmt = conn.createStatement();
-		ResultSet rs;
+		ResultSet rs = null;
 		String connected = null;
+		try {
 		rs = stmt.executeQuery("select * from useres Where UserID=" + arr.get(0));// check if this Id connected before
+		}	catch (SQLSyntaxErrorException e) {
+			toReturn.add("notValidUserID");
+			return toReturn;
+		}
 		if (rs.next()) { // check if the ID exist
 			connected = rs.getString("Connect");
 			if (connected == null) {
@@ -196,7 +208,13 @@ public class mysqlConnection {
 		ResultSet rs;
 		Statement stmt = conn.createStatement();
 		stmt = conn.createStatement();
+		try {
 		rs = stmt.executeQuery("select * from members Where memberID=" + arr.get(0));
+		}	
+		catch (SQLSyntaxErrorException e) {
+			toReturn.add("notMember");
+			return toReturn;
+		}
 		if (rs.next()) { 
 			 id = rs.getString("ID");
 			String firstName = rs.getString("FirstName");

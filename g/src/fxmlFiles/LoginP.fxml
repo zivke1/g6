@@ -112,6 +112,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
+            <Label fx:id="IDError" layoutX="108.0" layoutY="316.0" text="The ID number doesn't valid" textFill="RED" visible="false" />
          </children>
       </AnchorPane>
    </center>

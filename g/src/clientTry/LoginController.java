@@ -72,6 +72,9 @@ public class LoginController {
 
 	@FXML
 	private Label txtErrPassword;
+    
+	@FXML
+    private Label IDError;
 
 	String fName = null;
 	String lName = null;
@@ -107,6 +110,7 @@ public class LoginController {
 	void finishOrderClicked(MouseEvent event) throws Exception {
 		m_event= event;
 		ArrayList<String> toSend = new ArrayList<String>();
+		clearAllErrorMessage();
 		if (enterAsEmployee.isSelected()) {//check if employee
 			
 			String empNumber = enterUserName.getText();
@@ -146,6 +150,9 @@ public class LoginController {
 					toSend.add("checkIfIdConnectedWithId");
 					toSend.add(idNumber);
 					ClientMain.chat.accept(toSend);
+					if(ChatClient.dataInArrayList.contains("notValidUserID")) {
+						IDError.setVisible(true);
+					}
 					statusToOpen();
 
 				}
@@ -163,6 +170,16 @@ public class LoginController {
 		}
 	}
 
+	private void clearAllErrorMessage() {
+		dontFindMemberShipIDLabel.setVisible(false);
+		txtErrUserName.setVisible(false);
+		txtErrAllFieldsReq1.setVisible(false);
+		logInBeforeLabel.setVisible(false);
+		txtErrPassword.setVisible(false);
+		txtErrAllFieldsReq1.setVisible(false);
+		IDError.setVisible(false);
+	}
+
 	private void statusToOpen() throws Exception {
 		if (ChatClient.dataInArrayList.contains("connectedBefore")) {
 			logInBeforeLabel.setVisible(true);
@@ -176,6 +193,7 @@ public class LoginController {
 
 	private void openHomePage(UserType userType) throws Exception {
 		// TODO
+		System.out.println(userType);
 		FXMLLoader loader = new FXMLLoader();
 		Stage primaryStage = new Stage();
 		Pane root = loader.load(getClass().getResource("/fxmlFiles/HomePageForEmployee.fxml").openStream());
@@ -199,6 +217,7 @@ public class LoginController {
 		}
 		case user: {
 			userID = ChatClient.dataInArrayList.get(0);
+			role = "user" ;
 			break;
 		}
 		default:
