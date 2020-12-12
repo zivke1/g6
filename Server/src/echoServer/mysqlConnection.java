@@ -160,7 +160,7 @@ public class mysqlConnection {
 		ResultSet rs = null;
 		String connected = null;
 		try {
-		rs = stmt.executeQuery("select * from useres Where UserID=" + arr.get(0));// check if this Id connected before
+		rs = stmt.executeQuery("select * from useres Where UserID=" + arr.get(0)+";");// check if this Id connected before
 		}	catch (SQLSyntaxErrorException e) {
 			toReturn.add("notValidUserID");
 			return toReturn;
@@ -168,6 +168,7 @@ public class mysqlConnection {
 		if (rs.next()) { // check if the ID exist
 			connected = rs.getString("Connect");
 			if (connected == null) {
+				
 				toReturn.add(arr.get(0));
 				PreparedStatement update = conn.prepareStatement("UPDATE useres SET Connect = true WHERE UserID=?");
 				update.setString(1, arr.get(0));
@@ -177,9 +178,10 @@ public class mysqlConnection {
 				if (rs.next()) {
 					String firstName = rs.getString("FirstName");
 					String lastName = rs.getString("LastName");
+					String memberOrGuide = rs.getString("MemberOrGuide");
 					toReturn.add(firstName);
 					toReturn.add(lastName);
-					toReturn.add("member");
+					toReturn.add(memberOrGuide);
 				}else {
 					toReturn.add("user");	
 				}
@@ -191,9 +193,9 @@ public class mysqlConnection {
 			}
 		}else {//if i don't find the user i will add him
 			PreparedStatement insertStatement;
-			insertStatement = conn.prepareStatement("INSERT INTO useres (UserID, Connect VALUES (?,?);");
+			insertStatement = conn.prepareStatement("INSERT INTO useres (UserID, Connect) VALUES (?,?);");
 			insertStatement.setString(1, arr.get(0));
-			insertStatement.setString(2, null);
+			insertStatement.setString(2, "true");
 			insertStatement.execute();
 			toReturn.add(arr.get(0));
 			toReturn.add("user");
@@ -219,10 +221,11 @@ public class mysqlConnection {
 			 id = rs.getString("ID");
 			String firstName = rs.getString("FirstName");
 			String lastName = rs.getString("LastName");
+			String memberOrGuide = rs.getString("MemberOrGuide");
 			toReturn.add(id);
 			toReturn.add(firstName);
 			toReturn.add(lastName);
-			toReturn.add("member");
+			toReturn.add(memberOrGuide);
 		}else {
 			toReturn.add("notMember");
 			return toReturn;

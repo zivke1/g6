@@ -170,7 +170,9 @@ public class LoginController {
 			}
 		}
 	}
-
+/**
+ * this function for clear all warrninig 
+ */
 	private void clearAllErrorMessage() {
 		dontFindMemberShipIDLabel.setVisible(false);
 		txtErrUserName.setVisible(false);
@@ -185,7 +187,7 @@ public class LoginController {
 		if (ChatClient.dataInArrayList.contains("connectedBefore")) {
 			logInBeforeLabel.setVisible(true);
 			return;
-		} else if (ChatClient.dataInArrayList.contains("member")) {
+		} else if (ChatClient.dataInArrayList.contains("member")||ChatClient.dataInArrayList.contains("guide")) {
 			openHomePage(UserType.member);
 		} else if (ChatClient.dataInArrayList.contains("user")){
 			openHomePage(UserType.user);
@@ -194,7 +196,7 @@ public class LoginController {
 
 	private void openHomePage(UserType userType) throws Exception {
 		// TODO
-		System.out.println(userType);
+//	System.out.println(userType);
 		FXMLLoader loader = new FXMLLoader();
 		Stage primaryStage = new Stage();
 		Pane root = loader.load(getClass().getResource("/fxmlFiles/HomePageForEmployee.fxml").openStream());
@@ -205,7 +207,7 @@ public class LoginController {
 			fName = ChatClient.dataInArrayList.get(1);
 			lName = ChatClient.dataInArrayList.get(2);
 			userID = ChatClient.dataInArrayList.get(0);
-			role="member";
+			role=ChatClient.dataInArrayList.get(3);;
 			break;
 		}
 		case employee: {
