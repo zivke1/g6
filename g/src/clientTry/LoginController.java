@@ -222,7 +222,7 @@ public class LoginController {
 			fName = ChatClient.dataInArrayList.get(1);
 			lName = ChatClient.dataInArrayList.get(2);
 			userID = ChatClient.dataInArrayList.get(0);
-			role=ChatClient.dataInArrayList.get(3);;
+			role=ChatClient.dataInArrayList.get(3);
 			break;
 		}
 		case employee: {
