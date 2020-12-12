@@ -112,6 +112,13 @@ public class EchoServer extends AbstractServer {
 				return;
 			}
 			
+			if(arr.contains("CheckUserIDInTable")) {
+				arr.remove("CheckUserIDInTable");
+				arr = mysqlConnection.checkIfEmployee(arr);
+				this.sendToAllClients(arr);
+				return;
+			}
+			
 			this.sendToAllClients(msg);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -44,7 +44,7 @@ public class mysqlConnection {
 			e.printStackTrace();
 		}
 	}
-
+/*
 	public static ArrayList<String> showTable(Object id) {
 		ArrayList<String> dataFromDB = new ArrayList<>();
 		try {// inserting new row to the table
@@ -69,7 +69,16 @@ public class mysqlConnection {
 		}
 		return dataFromDB;
 	}
-
+	
+	public static String CheckID(Object id) {
+		if (id != null) {
+			ArrayList<String> arr = showTable(id);
+			if (((ArrayList<String>) id).get(0).equals(arr.get(2)))
+				return "True";
+		}
+		return "False";
+	}
+*/
 	public static void updateTable(Object arr)// arr={the new value u want,its ID,the column we want to change}
 	{
 		try {
@@ -92,31 +101,55 @@ public class mysqlConnection {
 		}
 	}
 
-	public static String CheckID(Object id) {
-		if (id != null) {
-			ArrayList<String> arr = showTable(id);
-			if (((ArrayList<String>) id).get(0).equals(arr.get(2)))
-				return "True";
+// need to go over existing table given its name and find the id
+	// or search id in a given table- maybe not show it 
+	public static String CheckUserIDInTable(Object arr) {
+		try {
+			ArrayList<String> array = (ArrayList<String>) arr;
+			
+			if (array.get(0) != null) {				// index 0 = userID
+				ArrayList<String> ar = showTable(array.get(0), array.get(1));  // index 1 = table name
+				if (((ArrayList<String>) id).get(0).equals(array.get(2))) 
+					return "True";
+			}
+			return "False";
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		return "False";
+	}
+	public static ArrayList<String> showTable(Object id, Object tableName) {
+		ArrayList<String> dataFromDB = new ArrayList<>();
+		try {// inserting new row to the table
+			String firstName = null, lastName = null, ID = null, email = null, phoneNum = null;
+			Statement stmt = conn.createStatement();
+			String tmpId = ((ArrayList<String>) id).get(0);
+			ResultSet rs = stmt.executeQuery("select * from orderes Where ID=" + tmpId);
+			while (rs.next()) {
+				firstName = rs.getString("FirstName");
+				lastName = rs.getString("LastName");
+				ID = rs.getString("ID");
+				email = rs.getString("Email");
+				phoneNum = rs.getString("PhoneNumber");
+			}
+			dataFromDB.add(firstName);
+			dataFromDB.add(lastName);
+			dataFromDB.add(ID);
+			dataFromDB.add(email);
+			dataFromDB.add(phoneNum);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dataFromDB;
 	}
 	
-	public static String CheckID(Object id) {
-		if (id != null) {
-			ArrayList<String> arr = showTable(id);
-			if (((ArrayList<String>) id).get(0).equals(arr.get(2)))
-				return "True";
-		}
-		return "False";
-	}
-	
+
 	public static ArrayList<String> checkIfEmployee(ArrayList<String> arr) throws SQLException {
 		String id, firstName, lastName, role, connected, password;
-		connected="true";
+		connected = "true";
 		ArrayList<String> toReturn = new ArrayList<String>();
 		Statement stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery("select * from employee Where UserID=" + arr.get(0));
-		if (rs.next()) {//check if employee exist
+		if (rs.next()) {// check if employee exist
 			firstName = rs.getString("FirstName");
 			lastName = rs.getString("LastName");
 			id = rs.getString("UserID");
@@ -129,10 +162,10 @@ public class mysqlConnection {
 		if (password.equals(arr.get(1))) {// the password right
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("select * from useres Where UserID=" + id);
-			if (rs.next()) //check if employee exist
-			connected = rs.getString("Connect");
-			if(connected == null) {
-				toReturn.add(id);	
+			if (rs.next()) // check if employee exist
+				connected = rs.getString("Connect");
+			if (connected == null) {
+				toReturn.add(id);
 				toReturn.add(firstName);
 				toReturn.add(lastName);
 				toReturn.add(role);
@@ -140,9 +173,9 @@ public class mysqlConnection {
 				update.setString(1, id);
 				update.executeUpdate();
 				return toReturn;
-				
+
 			}
-		}else {//the user already connected
+		} else {// the user already connected
 			toReturn.add("false");
 			return toReturn;
 		}

@@ -4,6 +4,7 @@ import util.NextStages;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
@@ -106,19 +107,19 @@ public class HomePageForEmployeeController implements Initializable {
 
 	@FXML
 	void goToApproveP(MouseEvent event) {
-		NextStages nextStages = new NextStages("/fxmlFiles/ReportDepartmentManager.fxml","View Customer's Order");
+		NextStages nextStages = new NextStages("/fxmlFiles/ApproveParameters.fxml","View Customer's Order");
 		nextStages.goToNextStage();
 	}
 
 	@FXML
 	void goToAvailbilityCheck(MouseEvent event) {
-		NextStages nextStages = new NextStages("/fxmlFiles/ReportDepartmentManager.fxml","View Customer's Order");
+		NextStages nextStages = new NextStages("/fxmlFiles/CheckAvailability.fxml","View Customer's Order");
 		nextStages.goToNextStage();
 	}
 
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
-		NextStages nextStages = new NextStages("/fxmlFiles/ReportDepartmentManager.fxml","View Customer's Order");
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml","View Customer's Order");
 		nextStages.goToNextStage();
 	}
 
@@ -144,7 +145,7 @@ public class HomePageForEmployeeController implements Initializable {
 	void goToLoginP(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/LoginP.fxml","View Customer's Order");
 		nextStages.goToNextStage();
-	////////// need to disconnect
+	////////// need to disconnect - UPDATE users SET Connect = null WHERE UserID=315766014
 	}
 
 	//Employee does
@@ -165,19 +166,24 @@ public class HomePageForEmployeeController implements Initializable {
 		NextStages nextStages = new NextStages("/fxmlFiles/Parameters.fxml","Update Parameters");
 		nextStages.goToNextStage();
 	}
-
+	//Employee view customers order
 	@FXML
 	void goToViewExistOrder(MouseEvent event) {
 		 // here employee will need to enter customer id to view his order
-		NextStages nextStages = new NextStages("/fxmlFiles/ViewOrderEnterID.fxml","View Customer's Order"); 
+		NextStages nextStages = new NextStages("/fxmlFiles/EmployeeEnterCustomerID.fxml","View Customer's Order"); 
 		nextStages.goToNextStage();
 	}
-
+	// customer wants to view his orders
 	@FXML
 	void goToViewOrderCustomer(MouseEvent event) {
 		//if customer Id is in orders table -> set visible tblExisitingOrder
+		ArrayList<String> arr = new ArrayList<>();
+		arr.add(userID);
+		arr.add("orders");
+		arr.add("CheckUserIDInTable");
+		ClientMain.chat.accept(arr);
 		///חסר עמוד לעבור אליו שמציג הזמנה
-		NextStages nextStages = new NextStages("/fxmlFiles////.....fxml","View Order");
+		NextStages nextStages = new NextStages("/fxmlFiles/ViewOrder.fxml","View Order");
 		nextStages.goToNextStage();
 	}
 
