@@ -97,6 +97,7 @@ public class EchoServer extends AbstractServer {
 				clientDisconnected(null);
 
 			}
+			// check if id exist in visitor table
 			if (arr.contains("CheckID")) {
 				arr.remove("CheckID");
 				arr.add(mysqlConnection.CheckID(arr));

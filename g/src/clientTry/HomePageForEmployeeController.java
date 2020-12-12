@@ -1,6 +1,10 @@
 package clientTry;
 
+import util.NextStages;
+
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -18,8 +23,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-public class HomePageForEmployeeController {
+import util.NextStages;
+import util.Role;
+public class HomePageForEmployeeController implements Initializable {
 
 	private String fName, lName, role, userID;
 
@@ -100,62 +106,79 @@ public class HomePageForEmployeeController {
 
 	@FXML
 	void goToApproveP(MouseEvent event) {
-
+		NextStages nextStages = new NextStages("/fxmlFiles/ReportDepartmentManager.fxml","View Customer's Order");
+		nextStages.goToNextStage();
 	}
 
 	@FXML
 	void goToAvailbilityCheck(MouseEvent event) {
-
+		NextStages nextStages = new NextStages("/fxmlFiles/ReportDepartmentManager.fxml","View Customer's Order");
+		nextStages.goToNextStage();
 	}
 
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
-
+		NextStages nextStages = new NextStages("/fxmlFiles/ReportDepartmentManager.fxml","View Customer's Order");
+		nextStages.goToNextStage();
 	}
 
 	@FXML
 	void goToGenerateReportDepManager(MouseEvent event) {
-
+		NextStages nextStages = new NextStages("/fxmlFiles/ReportDepartmentManager.fxml","View Customer's Order");
+		nextStages.goToNextStage();
 	}
 
 	@FXML
 	void goToGenerateReportParkManager(MouseEvent event) {
-
+		NextStages nextStages = new NextStages("/fxmlFiles/ReportParkManager.fxml","View Customer's Order");
+		nextStages.goToNextStage();
 	}
 
 	@FXML
 	void goToInstructorRegistretion(MouseEvent event) {
-
+		NextStages nextStages = new NextStages("/fxmlFiles/AddInstructor.fxml","View Customer's Order");
+		nextStages.goToNextStage();
 	}
 
 	@FXML
 	void goToLoginP(MouseEvent event) {
-
+		NextStages nextStages = new NextStages("/fxmlFiles/LoginP.fxml","View Customer's Order");
+		nextStages.goToNextStage();
+	////////// need to disconnect
 	}
 
+	//Employee does
 	@FXML
 	void goToMakeOrderForCustomer(MouseEvent event) {
-
+		NextStages nextStages = new NextStages("/fxmlFiles/NewOrderEmployee.fxml","View Customer's Order");
+		nextStages.goToNextStage();
 	}
-
+	// customer does
 	@FXML
 	void goToNewOrderCustomer(MouseEvent event) {
-
+		NextStages nextStages = new NextStages("/fxmlFiles/OrderNew.fxml","View Customer's Order");
+		nextStages.goToNextStage();
 	}
 
 	@FXML
 	void goToUpdateP(MouseEvent event) {
-
+		NextStages nextStages = new NextStages("/fxmlFiles/Parameters.fxml","Update Parameters");
+		nextStages.goToNextStage();
 	}
 
 	@FXML
 	void goToViewExistOrder(MouseEvent event) {
-
+		 // here employee will need to enter customer id to view his order
+		NextStages nextStages = new NextStages("/fxmlFiles/ViewOrderEnterID.fxml","View Customer's Order"); 
+		nextStages.goToNextStage();
 	}
 
 	@FXML
 	void goToViewOrderCustomer(MouseEvent event) {
-
+		//if customer Id is in orders table -> set visible tblExisitingOrder
+		///חסר עמוד לעבור אליו שמציג הזמנה
+		NextStages nextStages = new NextStages("/fxmlFiles////.....fxml","View Order");
+		nextStages.goToNextStage();
 	}
 
 	@FXML
@@ -165,74 +188,77 @@ public class HomePageForEmployeeController {
 
 	@FXML
 	void goToMemberRegistration(MouseEvent event) {
-
-		Stage stage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Parent root;
-		try {
-			root = loader.load(getClass().getResource("/fxmlFiles/MembershipRegistration.fxml").openStream());
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-			stage.setTitle("Membership Registration");
-			stage.setScene(scene);
-			stage.show();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		NextStages nextStages = new NextStages("/fxmlFiles/MembershipRegistration.fxml","Membership Registration");
+		nextStages.goToNextStage();
+		///details
 	}
 
 	@FXML
 	void goToParkDetail(MouseEvent event) {
-		Stage stage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Parent root;
-		try {
-			root = loader.load(getClass().getResource("/fxmlFiles/ParkDetails.fxml").openStream());
-
-			// ClientMain.chat.accept(arr);
-			// ParkDetailsController.setParkDetails(String namePark);
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-			stage.setTitle("Park Details");
-			stage.setScene(scene);
-			stage.show();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		NextStages nextStages = new NextStages("/fxmlFiles/ParkDetails.fxml","Park Details");
+		nextStages.goToNextStage();
 	}
+	
+	//prepare form - preset all as invisible 
+	public void setAllUnvisible() {
+		anchorParkManager.setVisible(false);
+		anchorDepManager.setVisible(false);
+		anchorCustomerrepResentativeEmp.setVisible(false);
+		anchorCustomer.setVisible(false);
+		tblExisitingOrder.setVisible(false);
+		NoExistOrderMsg.setVisible(false);
+	}
+	
 
+	// receive from login form all user info and set visibility  
 	public void setDetails(String fName, String lName, String role, String userID, String parkName) {
 		this.fName = fName;
 		this.lName = lName;
 		this.userID = userID;
 		this.role = role;
+		
 		switch (role) {
 		case "Park Manager": {
 			employeeCrums.setVisible(true);
 			anchorParkManager.setVisible(true);
-			/////////להוסיף מחר את הודעת הברכה המתאימה
+			greetingMsg.setText(fName + ", " + role + ", have a great day!");
 		}
 		case "Department Manager": {
 			employeeCrums.setVisible(true);
 			anchorDepManager.setVisible(true);
+			greetingMsg.setText(fName + ", " + role + ", have a great day!");
 		}
 		case "Park Employee": {
 			employeeCrums.setVisible(true);
 			anchorParkEmployee.setVisible(true);
+			greetingMsg.setText(fName + ", " + role + ", have a great day!");
 		}
-		case "Representative": {
+		case "Service Representative": {
 			employeeCrums.setVisible(true);
 			anchorCustomerrepResentativeEmp.setVisible(true);
+			greetingMsg.setText(fName + ", " + role + ", have a great day!");
 		}
 		case "Member": {
 			customerCrums.setVisible(true);
 			anchorCustomer.setVisible(true);
+			greetingMsg.setText(fName + ", happy to see you!");
 		}
 		case "User":{
 			customerCrums.setVisible(true);
 			anchorCustomer.setVisible(true);
+			greetingMsg.setText("Thank you for choosing us!");
+		}
+		case "Guide":{
+			customerCrums.setVisible(true);
+			anchorCustomer.setVisible(true);
+			greetingMsg.setText(fName + ", " + role + ", happy to see you!");
 		}
 		}
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		setAllUnvisible();
 	}
 
 }

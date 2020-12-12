@@ -100,7 +100,16 @@ public class mysqlConnection {
 		}
 		return "False";
 	}
-
+	
+	public static String CheckID(Object id) {
+		if (id != null) {
+			ArrayList<String> arr = showTable(id);
+			if (((ArrayList<String>) id).get(0).equals(arr.get(2)))
+				return "True";
+		}
+		return "False";
+	}
+	
 	public static ArrayList<String> checkIfEmployee(ArrayList<String> arr) throws SQLException {
 		String id, firstName, lastName, role, connected, password;
 		connected="true";
