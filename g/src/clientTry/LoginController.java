@@ -2,6 +2,8 @@ package clientTry;
 
 import java.util.ArrayList;
 
+import javax.management.openmbean.OpenDataException;
+
 //import com.mysql.cj.x.protobuf.MysqlxExpect.Open;
 
 import javafx.event.ActionEvent;
@@ -106,7 +108,11 @@ public class LoginController {
 		loginSetVisibility(true);
 
 	}
-
+/**
+ * when we the next btn click
+ * @param event
+ * @throws Exception
+ */
 	@FXML
 	void finishOrderClicked(MouseEvent event) throws Exception {
 		m_event= event;
@@ -182,7 +188,10 @@ public class LoginController {
 		txtErrAllFieldsReq1.setVisible(false);
 		IDError.setVisible(false);
 	}
-
+/**
+ * check witch status we need to open
+ * @throws Exception
+ */
 	private void statusToOpen() throws Exception {
 		if (ChatClient.dataInArrayList.contains("connectedBefore")) {
 			logInBeforeLabel.setVisible(true);
@@ -194,9 +203,15 @@ public class LoginController {
 		}
 	}
 
+	
+	/**
+	 * this function open the next page it get which type of user the next page will get
+	 * @param userType
+	 * @throws Exception
+	 */
 	private void openHomePage(UserType userType) throws Exception {
 		// TODO
-//	System.out.println(userType);
+
 		FXMLLoader loader = new FXMLLoader();
 		Stage primaryStage = new Stage();
 		Pane root = loader.load(getClass().getResource("/fxmlFiles/HomePageForEmployee.fxml").openStream());
