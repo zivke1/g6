@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 
 public class MembershipRegistrationSucccesCon {
 
+
     @FXML
     private ImageView imgContactUs;
 
@@ -48,6 +49,7 @@ public class MembershipRegistrationSucccesCon {
 
     @FXML
     void goToContactUsPopUp(MouseEvent event) {
+    	((Node) event.getSource()).getScene().getWindow().hide();
     	Stage stage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Parent root;
@@ -62,6 +64,10 @@ public class MembershipRegistrationSucccesCon {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+    }
+    public void updateMemberNum(String num)
+    {
+    	memberNum.setText(num);
     }
 
 }

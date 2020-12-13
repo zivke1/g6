@@ -28,7 +28,7 @@ public class FakeMain extends Application {
 		try {
 			FXMLLoader loader=new FXMLLoader();
 
-			loader.setLocation(getClass().getResource("../fxmlFiles/MembershipRegistration.fxml"));
+			loader.setLocation(getClass().getResource("/fxmlFiles/MembershipRegistration.fxml"));
 			borderPane = loader.load();
 			//controller = loader.getController();
 		} catch (IOException e) {

@@ -142,10 +142,12 @@ public class mysqlConnection {
 
 	}
 
-	public static boolean RegisterMember(ArrayList<String> arr) {
+	public static String RegisterMember(ArrayList<String> arr) {
+		int memberID = 0;
+		if (!insertToUsers(arr.get(2)))
+			return "Exists";
 		try {// inserting new row to the table
 			Random rand = new Random();
-			int memberID = 0;
 			PreparedStatement update = conn.prepareStatement(
 					"INSERT INTO members (FirstName,LastName,ID,Email,PhoneNumber,numberOfPepole,creditCard,memberID,MemberOrGuide) "
 							+ "VALUES (?, ?, ?, ?,?,?,?,?,?)");
@@ -176,12 +178,11 @@ public class mysqlConnection {
 			update.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
+			return "Exists";
 		}
-		if (!insertToUsers(arr.get(2)))
-			return false;
+		
 
-		return true;
+		return memberID+"";
 	}
 
 	private static boolean insertToUsers(String id)// adding new user
@@ -192,7 +193,6 @@ public class mysqlConnection {
 			update.setString(2, null);
 			update.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
 			return false;
 		}
 		return true;

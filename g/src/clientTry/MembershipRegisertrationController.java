@@ -25,6 +25,7 @@ public class MembershipRegisertrationController {
 	ObservableList<String> amountOfVisitors = FXCollections.observableArrayList("1", "2", "3", "4", "5", "6", "7", "8",
 			"9", "10", "11", "12", "13", "14", "15");
 
+	public static Label memberNum=new Label();
 	@FXML
 	private ImageView imgContactUs;
 
@@ -194,12 +195,16 @@ public class MembershipRegisertrationController {
 				errorMsg.setText("This ID already exists in our system");
 			}
 			if (ChatClient.dataInArrayList.contains("Success")) {
+				ChatClient.dataInArrayList.remove("Success");
+				//memberNum.setText(ChatClient.dataInArrayList.get(0));
 				((Node) event.getSource()).getScene().getWindow().hide();
 				Stage stage = new Stage();
 				FXMLLoader loader = new FXMLLoader();
 				BorderPane root;
 				try {
 					root = loader.load(getClass().getResource("/fxmlFiles/MembershipRegistrationSuccess.fxml").openStream());
+					MembershipRegistrationSucccesCon controller=loader.getController();
+					controller.updateMemberNum(ChatClient.dataInArrayList.get(0));
 					Scene scene = new Scene(root);
 					scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
 					stage.setTitle("Membership Registration Success");
