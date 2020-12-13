@@ -71,7 +71,7 @@ public class EchoServer extends AbstractServer {
 	 */
 	@Override
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
-
+//TODO we need to change it to switch case or even if else
 		try {
 
 			ArrayList<String> arr = (ArrayList<String>) msg;
@@ -107,27 +107,43 @@ public class EchoServer extends AbstractServer {
 			if (arr.contains("checkIfEmployee")) {
 				arr.remove("checkIfEmployee");
 				arr = mysqlConnection.checkIfEmployee(arr);
-				this.sendToAllClients(arr);
+				client.sendToClient(arr);
 				return;
 			}
-			if(arr.contains("RegisterMember"))
-			{
-				ArrayList<String> returnArr=new ArrayList<>();
+
+			if (arr.contains("RegisterMember")) {
+				ArrayList<String> returnArr = new ArrayList<>();
 				arr.remove("RegisterMember");
-				String str=mysqlConnection.RegisterMember(arr);
-				if(!str.equals("Exists"))
-				{
+				String str = mysqlConnection.RegisterMember(arr);
+				if (!str.equals("Exists")) {
 					returnArr.add("Success");
 					returnArr.add(str);
-				}
-				else
+				} else
 					returnArr.add(str);
 				returnArr.add("RegisterMember");
 				client.sendToClient(returnArr);
 				return;
 			}
-			
-			this.sendToAllClients(msg);
+
+			if (arr.contains("checkIfIdConnectedWithId")) {
+				arr.remove("checkIfIdConnectedWithId");
+				arr = mysqlConnection.checkIfIdConnectedWithId(arr);
+				client.sendToClient(arr);
+				return;
+			}
+			if (arr.contains("checkIfIdConnectedWithMemberId")) {
+				arr.remove("checkIfIdConnectedWithMemberId");
+				arr = mysqlConnection.checkIfIdConnectedWithMemberId(arr);
+				client.sendToClient(arr);
+				return;
+			}
+			if (arr.contains("closeAndSetIdNull")) {
+				arr.remove("closeAndSetIdNull");
+				mysqlConnection.closeAndSetIdNull(arr);
+				clientDisconnected(null);
+				return;
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -178,6 +194,5 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
-	
 }
 //End of EchoServer class
