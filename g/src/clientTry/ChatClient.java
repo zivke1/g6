@@ -78,6 +78,12 @@ public class ChatClient extends AbstractClient
     	dataInArrayList=dataFromDb;
     		
     }
+    if(dataFromDb.contains("FetchParkDetails"))
+    {
+    	System.out.println("7");
+    	dataFromDb.remove("FetchParkDetails");
+    	dataInArrayList=dataFromDb;
+    }
     
   }
 

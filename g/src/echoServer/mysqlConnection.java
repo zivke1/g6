@@ -47,7 +47,7 @@ public class mysqlConnection {
 	
 	public static ArrayList<String> showTable(Object id){
 		ArrayList<String> dataFromDB=new ArrayList<>();
-		try {//inserting new row to the table
+		try {
 			String firstName = null,lastName = null,ID = null,email = null,phoneNum = null;
 			Statement stmt=conn.createStatement();
 			String tmpId=((ArrayList<String>)id).get(0);
@@ -97,6 +97,38 @@ public class mysqlConnection {
 				return "True";
 		}
 		return "False";
+	}
+
+	public static ArrayList<String> FetchParkDetails(ArrayList<String> arr) {
+		ArrayList<String> dataFromDB=new ArrayList<>();
+		try {
+			String Capacity= null, TimeOfAvergeVisit = null,MaxAmountOfOrders = null, ManagerName = null, GapVisitors= null;
+			Statement stmt=conn.createStatement();
+			String parkName="'"+arr.get(0)+"'";
+			System.out.println(parkName);
+			System.out.println("3");
+			
+			ResultSet rs=stmt.executeQuery("select * from park Where ParkName="+parkName);
+			System.out.println("4");
+			while(rs.next())
+			{
+				Capacity=rs.getString("Capacity");
+				TimeOfAvergeVisit=rs.getString("TimeOfAverageVisit");
+				MaxAmountOfOrders=rs.getString("MaxAmountOfOrders");
+				ManagerName=rs.getString("ManagerName");
+				GapVisitors=rs.getString("GapVisitors");
+			}
+			System.out.println("5");
+			dataFromDB.add("FetchParkDetails");
+			dataFromDB.add(Capacity);
+			dataFromDB.add(TimeOfAvergeVisit);
+			dataFromDB.add(MaxAmountOfOrders);
+			dataFromDB.add(ManagerName);
+			dataFromDB.add(GapVisitors);
+			System.out.println(dataFromDB);
+		} catch (SQLException e) {	e.printStackTrace();}
+		return dataFromDB;
+		
 	}
 			
 }

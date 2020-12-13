@@ -42,13 +42,11 @@ public class EchoServer extends AbstractServer {
 	}
 
 	protected void clientConnected(ConnectionToClient client) {
+		
 		String ipAndHost = client.toString();
 		String[] ipAndHostArray = ipAndHost.split(" ");
-		m_ServerControl.setParameters(client.getInetAddress().getHostName(), client.getInetAddress().getHostAddress(),
-				"connected");
-
+		//m_ServerControl.setParameters(client.getInetAddress().getHostName(), client.getInetAddress().getHostAddress(),"connected");
 	}
-
 	/**
 	 * Hook method called each time a client disconnects. The default implementation
 	 * does nothing. The method may be overridden by subclasses but should remains
@@ -69,11 +67,18 @@ public class EchoServer extends AbstractServer {
 	 * @param client The connection from which the message originated.
 	 */
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
-
+		ArrayList<String> dataFromDb;
 		try {
-
+			System.out.println("1.2");
 			ArrayList<String> arr = (ArrayList<String>) msg;
-
+			if(arr.contains("FetchParkDetails"))
+			{
+				System.out.println("2");
+				arr.remove("FetchParkDetails");
+				dataFromDb=mysqlConnection.FetchParkDetails(arr);
+				System.out.println("6");
+				this.sendToAllClients(dataFromDb);
+			}
 			if (arr.contains("updateTable")) {
 				arr.remove("updateTable");
 				mysqlConnection.updateTable(msg);
@@ -85,7 +90,7 @@ public class EchoServer extends AbstractServer {
 			}
 			if (arr.contains("showTable")) {
 				arr.remove("showTable");
-				ArrayList<String> dataFromDb = mysqlConnection.showTable(msg);
+				dataFromDb = mysqlConnection.showTable(msg);
 				dataFromDb.add("showTable");
 				this.sendToAllClients(dataFromDb);
 				return;
