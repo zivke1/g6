@@ -25,7 +25,7 @@ public class TempZivMain extends Application {
 		//EnterIDController controller;
 		try {
 			FXMLLoader loader=new FXMLLoader();
-			loader.setLocation(getClass().getResource("WaitingList.fxml"));
+			loader.setLocation(getClass().getResource("NumberOfVisitorsReport.fxml"));
 			borderPane = loader.load();
 			//controller = loader.getController();
 		} catch (IOException e) {
@@ -33,7 +33,7 @@ public class TempZivMain extends Application {
 		}	
 		Scene scene=new Scene(borderPane);
 		primaryStage.setScene(scene);
-		primaryStage.setTitle("Login");
+//		primaryStage.setTitle("Login");
 		primaryStage.show();
 	}
 }
