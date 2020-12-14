@@ -1,7 +1,6 @@
 package clientTry;
 
 import util.NextStages;
-import util.Node;
 
 import java.io.IOException;
 import java.net.URL;
@@ -111,16 +110,16 @@ public class HomePageForEmployeeController implements Initializable {
 	void goToApproveP(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ApproveParameters.fxml","View Customer's Order");
 		nextStages.goToNextStage(event);
-		ApproveParametersController approvePcontrol = loader.getController();
-		approvePcontrol.setDetails(fName, lName, role, userID, parkName);
+	//	ApproveParametersController approvePcontrol = loader.getController();
+		//approvePcontrol.setDetails(fName, lName, role, userID, parkName);
 	}
 
 	@FXML
 	void goToAvailbilityCheck(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/CheckAvailability.fxml","View Customer's Order");
 		nextStages.goToNextStage(event);
-		CheckAvailbilityController check = loader.getController();
-		check.setDetails(fName, lName, role, userID, parkName);
+	//	CheckAvailbilityController check = loader.getController();
+		//check.setDetails(fName, lName, role, userID, parkName);
 	}
 
 	@FXML
@@ -133,16 +132,16 @@ public class HomePageForEmployeeController implements Initializable {
 	void goToGenerateReportDepManager(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ReportDepartmentManager.fxml","View Customer's Order");
 		nextStages.goToNextStage(event);
-		ReportDepartmentManagerController repControl = loader.getController();
-		repControl.setDetails(fName, lName, role, userID, parkName);
+	//	ReportDepartmentManagerController repControl = loader.getController();
+	//	repControl.setDetails(fName, lName, role, userID, parkName);
 	}
 
 	@FXML
 	void goToGenerateReportParkManager(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ReportParkManager.fxml","View Customer's Order");
 		nextStages.goToNextStage(event);
-		ReportParkManagerController repControl = loader.getController();
-		repControl.setDetails(fName, lName, role, userID, parkName);
+	//	ReportParkManagerController repControl = loader.getController();
+	//	repControl.setDetails(fName, lName, role, userID, parkName);
 	}
 
 	@FXML
@@ -150,7 +149,7 @@ public class HomePageForEmployeeController implements Initializable {
 		NextStages nextStages = new NextStages("/fxmlFiles/AddInstructor.fxml","View Customer's Order");
 		nextStages.goToNextStage(event);
 		AddInstructorController addInstructor = loader.getController();
-		addInstructor.setDetails(fName, lName, role, userID, parkName);
+	//	addInstructor.setDetails(fName, lName, role, userID, parkName);
 	}
 
 	@FXML
@@ -160,7 +159,7 @@ public class HomePageForEmployeeController implements Initializable {
 	////////// need to disconnect - UPDATE users SET Connect = null WHERE UserID=315766014
 		//ClientMain.chat.stopConnection();
 		LoginController logControl = loader.getController();
-		logControl.setDetails(fName, lName, role, userID, parkName);
+//		logControl.setDetails(fName, lName, role, userID, parkName);
 		
 	}
 
@@ -170,7 +169,7 @@ public class HomePageForEmployeeController implements Initializable {
 		NextStages nextStages = new NextStages("/fxmlFiles/NewOrderEmployee.fxml","View Customer's Order");
 		nextStages.goToNextStage(event);
 		NewOrderEmployeeController orderByEmployee = loader.getController();
-		orderByEmployee.setDetails(fName, lName, role, userID, parkName);
+//		orderByEmployee.setDetails(fName, lName, role, userID, parkName);
 	}
 	// customer does
 	@FXML
@@ -178,15 +177,15 @@ public class HomePageForEmployeeController implements Initializable {
 		NextStages nextStages = new NextStages("/fxmlFiles/OrderNew.fxml","View Customer's Order");
 		nextStages.goToNextStage(event);
 		OrderController orderControl = loader.getController();
-		orderControl.setDetails(fName, lName, role, userID, parkName);
+	//	orderControl.setDetails(fName, lName, role, userID, parkName);
 	}
 
 	@FXML
 	void goToUpdateP(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/Parameters.fxml","Update Parameters");
 		nextStages.goToNextStage(event);
-		UpdateParametersController updatePcontrol = loader.getController();
-		updatePcontrol.setDetails(fName, lName, role, userID, parkName);
+	//	UpdateParametersController updatePcontrol = loader.getController();
+		//updatePcontrol.setDetails(fName, lName, role, userID, parkName);
 	}
 	//Employee view customers order
 	@FXML
@@ -194,8 +193,8 @@ public class HomePageForEmployeeController implements Initializable {
 		 // here employee will need to enter customer id to view his order
 		NextStages nextStages = new NextStages("/fxmlFiles/EmployeeEnterCustomerID.fxml","View Customer's Order"); 
 		nextStages.goToNextStage(event);
-		ViewOrderController viewOrderControl = loader.getController();
-		viewOrderControl.setDetails(fName, lName, role, userID, parkName);
+//		ViewOrderController viewOrderControl = loader.getController();
+	//	viewOrderControl.setDetails(fName, lName, role, userID, parkName);
 	}
 	
 	// customer wants to view his orders
@@ -230,8 +229,8 @@ public class HomePageForEmployeeController implements Initializable {
 	void goToMemberRegistration(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/MembershipRegistration.fxml","Membership Registration");
 		nextStages.goToNextStage(event);
-		MembershipRegistrationController memberRegControl = loader.getController();
-		memberRegControl.setDetails(fName, lName, role, userID, parkName);
+//		MembershipRegistrationController memberRegControl = loader.getController();
+	//	memberRegControl.setDetails(fName, lName, role, userID, parkName);
 	}
 
 	@FXML
@@ -284,17 +283,17 @@ public class HomePageForEmployeeController implements Initializable {
 			anchorCustomerrepResentativeEmp.setVisible(true);
 			greetingMsg.setText(fName + ", " + role + ", have a great day!");
 		}
-		case "Member": {
+		case "member": {
 			customerCrums.setVisible(true);
 			anchorCustomer.setVisible(true);
 			greetingMsg.setText(fName + ", happy to see you!");
 		}
-		case "User":{
+		case "user":{
 			customerCrums.setVisible(true);
 			anchorCustomer.setVisible(true);
 			greetingMsg.setText("Thank you for choosing us!");
 		}
-		case "Guide":{
+		case "guide":{
 			customerCrums.setVisible(true);
 			anchorCustomer.setVisible(true);
 			greetingMsg.setText(fName + ", " + role + ", happy to see you!");
