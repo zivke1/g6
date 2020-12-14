@@ -1,6 +1,7 @@
 
 package echoServer;
 
+import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,16 +9,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLSyntaxErrorException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.TooManyListenersException;
 
 import com.mysql.cj.jdbc.SuspendableXAConnection;
+import com.sun.xml.internal.ws.model.CheckedExceptionImpl;
 
 public class mysqlConnection {
 	static Connection conn;
 	static HashSet<String> m_connectedID = new HashSet<String>();
+
 	public static void connectDB() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
@@ -105,8 +111,7 @@ public class mysqlConnection {
 		return "False";
 	}
 
-	
-		public static ArrayList<String> checkIfEmployee(ArrayList<String> arr) throws SQLException {
+	public static ArrayList<String> checkIfEmployee(ArrayList<String> arr) throws SQLException {
 		String id, firstName, lastName, role, connected, password, park;
 		connected = "true";
 		ArrayList<String> toReturn = new ArrayList<String>();
@@ -176,7 +181,6 @@ public class mysqlConnection {
 			return toReturn;
 		}
 
-
 	}
 
 	public static String RegisterMember(ArrayList<String> arr) {
@@ -234,13 +238,12 @@ public class mysqlConnection {
 		return true;
 	}
 
-
 	public static ArrayList<String> checkIfIdConnectedWithMemberId(ArrayList<String> arr) throws SQLException {
 		ArrayList<String> toReturn = new ArrayList<String>();
 		String id;
 		ResultSet rs;
 		Statement stmt = conn.createStatement();
-		stmt = conn.createStatement();
+//		stmt = conn.createStatement();
 		try {
 			rs = stmt.executeQuery("select * from members Where memberID=" + arr.get(0));
 		} catch (SQLSyntaxErrorException e) {
@@ -269,34 +272,22 @@ public class mysqlConnection {
 		}
 		return toReturn;
 
-
 	}
 
-	public static void closeAndSetIdNull(ArrayList<String> arr) throws SQLException {
-		String id= arr.get(0);
-		PreparedStatement preparedStatement;
-		preparedStatement = conn.prepareStatement(
-				"UPDATE useres SET Connect=null WHERE UserID=?;");
-		preparedStatement.setString(1, id);
-
-
-		preparedStatement.executeUpdate();
-		
-	}
 	public static ArrayList<String> FetchParkDetails(ArrayList<String> arr) {
-		ArrayList<String> dataFromDB=new ArrayList<>();
+		ArrayList<String> dataFromDB = new ArrayList<>();
 		try {
-			String Capacity= null, TimeOfAvergeVisit = null,MaxAmountOfOrders = null, ManagerName = null, GapVisitors= null;
-			Statement stmt=conn.createStatement();
-			String parkName="'"+arr.get(0)+"'";	
-			ResultSet rs=stmt.executeQuery("select * from park Where ParkName="+parkName);
-			while(rs.next())
-			{
-				Capacity=rs.getString("Capacity");
-				TimeOfAvergeVisit=rs.getString("TimeOfAverageVisit");
-				MaxAmountOfOrders=rs.getString("MaxAmountOfOrders");
-				ManagerName=rs.getString("ManagerName");
-				GapVisitors=rs.getString("GapVisitors");
+			String Capacity = null, TimeOfAvergeVisit = null, MaxAmountOfOrders = null, ManagerName = null,
+					GapVisitors = null;
+			Statement stmt = conn.createStatement();
+			String parkName = "'" + arr.get(0) + "'";
+			ResultSet rs = stmt.executeQuery("select * from park Where ParkName=" + parkName);
+			while (rs.next()) {
+				Capacity = rs.getString("Capacity");
+				TimeOfAvergeVisit = rs.getString("TimeOfAverageVisit");
+				MaxAmountOfOrders = rs.getString("MaxAmountOfOrders");
+				ManagerName = rs.getString("ManagerName");
+				GapVisitors = rs.getString("GapVisitors");
 			}
 			dataFromDB.add("FetchParkDetails");
 			dataFromDB.add(Capacity);
@@ -305,14 +296,76 @@ public class mysqlConnection {
 			dataFromDB.add(ManagerName);
 			dataFromDB.add(GapVisitors);
 			System.out.println(dataFromDB);
-		} catch (SQLException e) {	e.printStackTrace();}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return dataFromDB;
-		
+
 	}
-		public static void closeAndSetIdNull(ArrayList<String> arr) throws SQLException {
+
+	public static void closeAndSetIdNull(ArrayList<String> arr) throws SQLException {
 		String id = arr.get(0);
 		m_connectedID.remove(id);
 
 	}
-}
+/**
+ * ziv need to check how it will work doesn't work
+ * @param arr
+ * @return
+ * @throws SQLException
+ */
+	public static ArrayList<String> CheckAvailabilityForThisPark(ArrayList<String> arr) throws SQLException {
+		ArrayList<String> toReturn = new ArrayList<String>();
+		String parkName = arr.get(0);
+		String Capacity = "";
+		
+		//check the capacity of the park
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery("select * from park Where ParkName=" + "'" + parkName + "'");
+		while (rs.next())// check the capacity of this park
+		{
+			Capacity = rs.getString("Capacity");
+		}
+		System.out.println(Capacity);
+		
+		
+		
+		Date currentDate = new Date();
+		String today = currentDate.toString();
+		String[] result = today.split(" ");
+		String todayToSend = result[1] + " " + result[2] + " " + result[5];
+		String time = result[3].substring(0, 5);
+		String toTime = "";
+		boolean add30;
+		if (time.substring(3, 5).compareTo("30") > 0) {
+			time = time.substring(0, 3) + "30";
+			add30=false;
+		} else {
+			time = time.substring(0, 3) + "00";
+			add30=true;
+		}
+		int hour = Integer.parseInt(time.substring(0, 2));
+		hour = hour - 4;
+		if (hour > 9) {
+			toTime=String.valueOf(hour);
+		} else {
+			toTime="0"+String.valueOf(hour);
+		}
+		if(add30) {
+			toTime=toTime+":30";
+		}else {
+			toTime=toTime+":00";
+		}
 
+		rs = stmt.executeQuery("SELECT SUM(VisitorsAmount) from orderes Where VisitDate='" + todayToSend
+				+ "' AND ExpectedEnterTime<='" + time + "' AND ExpectedEnterTime>='"+toTime+"'");// TODO need to check if the order is good
+//			rs=stmt.executeQuery("SELECT SUM(VisitorsAmount) from orderes;");
+		String NumberInThePark= "";
+		while (rs.next())// check the capacity of this park
+		{
+			NumberInThePark = rs.getString("SUM(VisitorsAmount)");
+		}
+		return toReturn;
+
+	}
+}

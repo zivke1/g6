@@ -141,6 +141,12 @@ public class EchoServer extends AbstractServer {
 				client.sendToClient(arr);
 				return;
 			}
+			if (arr.contains("CheckAvailabilityForThisPark")) {
+				arr.remove("CheckAvailabilityForThisPark");
+				arr = mysqlConnection.CheckAvailabilityForThisPark(arr);
+				client.sendToClient(arr);
+				return;
+			}
 			if (arr.contains("closeAndSetIdNull")) {
 				arr.remove("closeAndSetIdNull");
 				mysqlConnection.closeAndSetIdNull(arr);
