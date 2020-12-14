@@ -114,6 +114,21 @@ public class EchoServer extends AbstractServer {
 				client.sendToClient(arr);
 				return;
 			}
+
+			if (arr.contains("RegisterMember")) {
+				ArrayList<String> returnArr = new ArrayList<>();
+				arr.remove("RegisterMember");
+				String str = mysqlConnection.RegisterMember(arr);
+				if (!str.equals("Exists")) {
+					returnArr.add("Success");
+					returnArr.add(str);
+				} else
+					returnArr.add(str);
+				returnArr.add("RegisterMember");
+				client.sendToClient(returnArr);
+				return;
+			}
+
 			if (arr.contains("checkIfIdConnectedWithId")) {
 				arr.remove("checkIfIdConnectedWithId");
 				arr = mysqlConnection.checkIfIdConnectedWithId(arr);
@@ -132,9 +147,7 @@ public class EchoServer extends AbstractServer {
 				clientDisconnected(null);
 				return;
 			}
-	
-			
-			this.sendToAllClients(msg);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -185,6 +198,5 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
-	
 }
 //End of EchoServer class
