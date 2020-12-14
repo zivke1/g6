@@ -45,9 +45,7 @@ public class EchoServer extends AbstractServer {
 	protected void clientConnected(ConnectionToClient client) {
 		String ipAndHost = client.toString();
 		String[] ipAndHostArray = ipAndHost.split(" ");
-		m_ServerControl.setParameters(client.getInetAddress().getHostName(), client.getInetAddress().getHostAddress(),
-				"connected");
-
+		m_ServerControl.setParameters(client.getInetAddress().getHostName(), client.getInetAddress().getHostAddress(),"connected");
 	}
 
 	/**
@@ -73,9 +71,15 @@ public class EchoServer extends AbstractServer {
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
 //TODO we need to change it to switch case or even if else
 		try {
-
+			ArrayList<String> dataFromDb;
 			ArrayList<String> arr = (ArrayList<String>) msg;
-
+			if(arr.contains("FetchParkDetails"))
+			{
+				arr.remove("FetchParkDetails");
+				dataFromDb=mysqlConnection.FetchParkDetails(arr);
+				this.sendToAllClients(dataFromDb);
+				return;
+			}
 			if (arr.contains("updateTable")) {
 				arr.remove("updateTable");
 				mysqlConnection.updateTable(msg);
@@ -87,7 +91,7 @@ public class EchoServer extends AbstractServer {
 			}
 			if (arr.contains("showTable")) {
 				arr.remove("showTable");
-				ArrayList<String> dataFromDb = mysqlConnection.showTable(msg);
+				dataFromDb = mysqlConnection.showTable(msg);
 				dataFromDb.add("showTable");
 				this.sendToAllClients(dataFromDb);
 				return;

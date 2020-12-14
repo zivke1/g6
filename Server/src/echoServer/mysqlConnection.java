@@ -262,4 +262,30 @@ public class mysqlConnection {
 		preparedStatement.executeUpdate();
 		
 	}
+	public static ArrayList<String> FetchParkDetails(ArrayList<String> arr) {
+		ArrayList<String> dataFromDB=new ArrayList<>();
+		try {
+			String Capacity= null, TimeOfAvergeVisit = null,MaxAmountOfOrders = null, ManagerName = null, GapVisitors= null;
+			Statement stmt=conn.createStatement();
+			String parkName="'"+arr.get(0)+"'";	
+			ResultSet rs=stmt.executeQuery("select * from park Where ParkName="+parkName);
+			while(rs.next())
+			{
+				Capacity=rs.getString("Capacity");
+				TimeOfAvergeVisit=rs.getString("TimeOfAverageVisit");
+				MaxAmountOfOrders=rs.getString("MaxAmountOfOrders");
+				ManagerName=rs.getString("ManagerName");
+				GapVisitors=rs.getString("GapVisitors");
+			}
+			dataFromDB.add("FetchParkDetails");
+			dataFromDB.add(Capacity);
+			dataFromDB.add(TimeOfAvergeVisit);
+			dataFromDB.add(MaxAmountOfOrders);
+			dataFromDB.add(ManagerName);
+			dataFromDB.add(GapVisitors);
+			System.out.println(dataFromDB);
+		} catch (SQLException e) {	e.printStackTrace();}
+		return dataFromDB;
+		
+	}
 }
