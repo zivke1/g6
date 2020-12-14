@@ -1,4 +1,6 @@
-package fxmlFiles;
+package clientTry;
+
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,20 +14,21 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-public class TempZivMain extends Application {
-	
+public class FakeMain extends Application {
+	public static ClientConsole chat; //only one instance
 	public static void main(String[] args) {
 		launch(args);
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		
+		chat=new ClientConsole("localhost", 5555);
 		BorderPane borderPane = null;
 		//EnterIDController controller;
 		try {
 			FXMLLoader loader=new FXMLLoader();
-			loader.setLocation(getClass().getResource("NumberOfVisitorsReport.fxml"));
+
+			loader.setLocation(getClass().getResource("/fxmlFiles/AddInstructor.fxml"));
 			borderPane = loader.load();
 			//controller = loader.getController();
 		} catch (IOException e) {
@@ -33,7 +36,7 @@ public class TempZivMain extends Application {
 		}	
 		Scene scene=new Scene(borderPane);
 		primaryStage.setScene(scene);
-//		primaryStage.setTitle("Login");
+		primaryStage.setTitle("Login");
 		primaryStage.show();
 	}
 }

@@ -20,7 +20,9 @@ public class ServerMain extends Application{
 		ServerControl controller;
 		try {
 			FXMLLoader loader = new FXMLLoader();
+			
 			loader.setLocation(getClass().getResource("/echoServer/Server.fxml"));
+			
 			root = loader.load();
 		
 			controller = loader.getController();

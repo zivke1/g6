@@ -47,7 +47,7 @@
    <center>
       <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="757.0" layoutY="443.0" mnemonicParsing="false" onMouseClicked="#moveToSuccess" prefHeight="44.0" prefWidth="122.0" styleClass="mybutton1" stylesheets="@../clientTry/application.css" text="Confirm" />
+            <Button layoutX="757.0" layoutY="443.0" mnemonicParsing="false" onMouseClicked="#checkRegistration" prefHeight="44.0" prefWidth="122.0" styleClass="mybutton1" stylesheets="@../clientTry/application.css" text="Confirm" />
             <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@../clientTry/application.css" text="?" />
             <HBox layoutX="72.0" layoutY="59.0">
                <children>
@@ -80,9 +80,10 @@
                         </Label>
                         <Label text="Save credit card:">
                            <VBox.margin>
-                              <Insets bottom="20.0" />
+                              <Insets />
                            </VBox.margin>
                         </Label>
+                        <Label fx:id="ccLabel" text="Credit card number:" visible="false" />
                         <Label fx:id="ccLabel" text="Credit card number:" visible="false" />
                      </children>
                      <HBox.margin>
@@ -91,35 +92,35 @@
                   </VBox>
                   <VBox>
                      <children>
-                        <TextField>
+                        <TextField fx:id="id">
                            <VBox.margin>
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </TextField>
-                        <TextField>
+                        <TextField fx:id="fName">
                            <VBox.margin>
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </TextField>
-                        <TextField>
+                        <TextField fx:id="lName">
                            <VBox.margin>
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </TextField>
-                        <TextField>
+                        <TextField fx:id="email">
                            <VBox.margin>
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </TextField>
-                        <TextField>
+                        <TextField fx:id="phoneNum">
                            <VBox.margin>
                               <Insets bottom="15.0" />
                            </VBox.margin>
                         </TextField>
                         <HBox>
                            <children>
-                              <RadioButton fx:id="yBtn" mnemonicParsing="false" onMouseClicked="#ccYes" text="Yes" />
-                              <RadioButton fx:id="nBtn" mnemonicParsing="false" onMouseClicked="#ccNo" text="No">
+                              <RadioButton fx:id="creditC" mnemonicParsing="false" onMouseClicked="#saveCC" text="Yes" />
+                              <RadioButton fx:id="cash" mnemonicParsing="false" onMouseClicked="#saveCash" text="No">
                                  <HBox.margin>
                                     <Insets left="10.0" />
                                  </HBox.margin>
@@ -129,7 +130,7 @@
                               <Insets bottom="15.0" />
                            </VBox.margin>
                         </HBox>
-                        <TextField fx:id="ccField" visible="false" />
+                        <TextField fx:id="enterCardNumber" visible="false" />
                      </children>
                      <HBox.margin>
                         <Insets left="20.0" />
@@ -137,6 +138,7 @@
                   </VBox>
                </children>
             </HBox>
+            <Label fx:id="errorMsg" layoutX="600.0" layoutY="59.0" textFill="RED" />
          </children>
       </AnchorPane>
    </center>

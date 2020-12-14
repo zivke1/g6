@@ -43,7 +43,7 @@
             <Button fx:id="backBtn" layoutX="42.0" layoutY="9.0" mnemonicParsing="false" onMouseClicked="#backClicked" prefHeight="43.0" prefWidth="68.0" rotate="180.0" styleClass="mybutton1" stylesheets="@../clientTry/application.css" text="Back" />
          </children></AnchorPane>
    </left>
-   <center>
+   <right>
       <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
          <children>
             <RadioButton fx:id="setMaxVisit" layoutX="114.0" layoutY="161.0" mnemonicParsing="false" onMouseClicked="#setMaxVisit" text="Set max capacity">
@@ -67,7 +67,7 @@
                   <Button fx:id="btnSaveDiscount" layoutX="470.0" layoutY="118.0" mnemonicParsing="false" onMouseClicked="#saveDiscount" prefHeight="48.0" prefWidth="117.0" styleClass="approvalBtn" text="save" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="anchorSetMaxVisit" layoutX="99.0" layoutY="281.0" prefHeight="141.0" prefWidth="478.0">
+            <AnchorPane fx:id="anchorSetMaxVisit" layoutX="99.0" layoutY="281.0" prefHeight="141.0" prefWidth="478.0" visible="false">
                <children>
                   <Label fx:id="maxVisitorsLabel" layoutX="14.0" layoutY="21.0" text="Set new maximum capacity:" />
                   <TextField fx:id="maxVisitField" layoutX="214.0" layoutY="16.0" prefHeight="30.0" prefWidth="100.0" />
@@ -89,8 +89,8 @@
                </children>
             </AnchorPane>
             <Label fx:id="parks_name" layoutX="185.0" layoutY="24.0" prefHeight="17.0" prefWidth="90.0" />
-            <Label fx:id="errorMsg" layoutX="645.0" layoutY="59.0" prefHeight="17.0" prefWidth="75.0" text="error " textFill="RED" />
+            <Label fx:id="errorMsg" layoutX="541.0" layoutY="30.0" prefHeight="130.0" prefWidth="264.0" textFill="RED" />
          </children>
       </AnchorPane>
-   </center>
+   </right>
 </BorderPane>

@@ -28,29 +28,13 @@ public class ClientMain extends Application {
 	    	ClientMain.chat.stopConnection();
 			}
 		});
-//		VBox vbox = null;
-//		EnterIDController controller;
-//		try {
-//			FXMLLoader loader=new FXMLLoader();
-//			loader.setLocation(getClass().getResource("EnterID.fxml"));
-//			vbox = loader.load();
-//			controller = loader.getController();
-//		} catch (IOException e) {
-//		e.printStackTrace();
-//		}	
-//		Scene scene=new Scene(vbox);
-//		primaryStage.setScene(scene);
-//		primaryStage.setTitle("Enter ID");
-//		primaryStage.show();
-		
-		
-		/////////////////////////////////////////////////////type name = new type();
+
 		BorderPane borderPane = null;
 		//EnterIDController controller;
 		try {
 			FXMLLoader loader=new FXMLLoader();
-
-			loader.setLocation(getClass().getResource("../fxmlFiles/LoginP.fxml"));
+			loader.setLocation(getClass().getResource("/fxmlFiles/Parameters.fxml"));
+			//loader.setLocation(getClass().getResource("../fxmlFiles/LoginP.fxml"));
 			borderPane = loader.load();
 			//controller = loader.getController();
 		} catch (IOException e) {
