@@ -27,14 +27,13 @@ public class ClientMain extends Application {
 			ClientMain.chat.accept(arr);
 	    	ClientMain.chat.stopConnection();
 			}
-		});
-
+		});	
+		
 		BorderPane borderPane = null;
 		//EnterIDController controller;
 		try {
 			FXMLLoader loader=new FXMLLoader();
-			loader.setLocation(getClass().getResource("/fxmlFiles/Parameters.fxml"));
-			//loader.setLocation(getClass().getResource("../fxmlFiles/LoginP.fxml"));
+			loader.setLocation(getClass().getResource("../fxmlFiles/LoginP.fxml"));
 			borderPane = loader.load();
 			//controller = loader.getController();
 		} catch (IOException e) {
@@ -46,5 +45,4 @@ public class ClientMain extends Application {
 		primaryStage.show();
 		/////////////////////////////////////////////////
 	}
-
 }
