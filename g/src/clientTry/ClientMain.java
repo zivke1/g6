@@ -46,6 +46,4 @@ public class ClientMain extends Application {
 		primaryStage.show();
 		/////////////////////////////////////////////////
 	}
-
->>>>>>> refs/heads/shani-HP-11.12
 }
