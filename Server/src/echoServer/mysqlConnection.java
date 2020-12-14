@@ -8,12 +8,15 @@ import java.sql.SQLException;
 import java.sql.SQLSyntaxErrorException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Scanner;
 
 import com.mysql.cj.jdbc.SuspendableXAConnection;
 
 public class mysqlConnection {
 	static Connection conn;
+	static HashSet<String> m_connectedID = new HashSet<String>();
 
 	public static void connectDB() {
 		try {
@@ -107,10 +110,10 @@ public class mysqlConnection {
 		connected = "true";
 		ArrayList<String> toReturn = new ArrayList<String>();
 		Statement stmt = conn.createStatement();
-		ResultSet rs=null;
+		ResultSet rs = null;
 		try {
-		rs = stmt.executeQuery("select * from employee Where EmployeeNumber=" + arr.get(0).toString());
-		}catch (SQLSyntaxErrorException e) {
+			rs = stmt.executeQuery("select * from employee Where EmployeeNumber=" + arr.get(0).toString());
+		} catch (SQLSyntaxErrorException e) {
 			toReturn.add("employeeNotFound");
 			return toReturn;
 		}
@@ -126,23 +129,17 @@ public class mysqlConnection {
 			return toReturn;
 		}
 		if (password.equals(arr.get(1))) {// the password right
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select * from useres Where UserID=" + id);
-			if (rs.next()) // check if employee exist
-				connected = rs.getString("Connect");
-			if (connected == null) {
+
+			if (m_connectedID.contains(id)) {
+				toReturn.add("connectedBefore");
+				return toReturn;
+			} else {
 				toReturn.add(id);
 				toReturn.add(firstName);
 				toReturn.add(lastName);
 				toReturn.add(role);
 				toReturn.add(park);
-				PreparedStatement update = conn.prepareStatement("UPDATE useres SET Connect = true WHERE UserID=?");
-				update.setString(1, id);
-				update.executeUpdate();
-				return toReturn;
-
-			} else {// the user already connected
-				toReturn.add("connectedBefore");
+				m_connectedID.add(id);
 				return toReturn;
 			}
 
@@ -155,52 +152,29 @@ public class mysqlConnection {
 	public static ArrayList<String> checkIfIdConnectedWithId(ArrayList<String> arr) throws SQLException {
 		ArrayList<String> toReturn = new ArrayList<String>();
 		Statement stmt = conn.createStatement();
-		int id;
 		stmt = conn.createStatement();
 		ResultSet rs = null;
-		String connected = null;
-		try {
-		rs = stmt.executeQuery("select * from useres Where UserID=" + arr.get(0)+";");// check if this Id connected before
-		}	catch (SQLSyntaxErrorException e) {
-			toReturn.add("notValidUserID");
+
+		toReturn.add(arr.get(0));
+		if (m_connectedID.contains(arr.get(0))) {
+			toReturn.add("connectedBefore");
 			return toReturn;
-		}
-		if (rs.next()) { // check if the ID exist
-			connected = rs.getString("Connect");
-			if (connected == null) {
-				
-				toReturn.add(arr.get(0));
-				PreparedStatement update = conn.prepareStatement("UPDATE useres SET Connect = true WHERE UserID=?");
-				update.setString(1, arr.get(0));
-				update.executeUpdate();
-				// TODO check if he is member
-				rs = stmt.executeQuery("select * from members Where ID=" + arr.get(0));
-				if (rs.next()) {
-					String firstName = rs.getString("FirstName");
-					String lastName = rs.getString("LastName");
-					String memberOrGuide = rs.getString("MemberOrGuide");
-					toReturn.add(firstName);
-					toReturn.add(lastName);
-					toReturn.add(memberOrGuide);
-				}else {
-					toReturn.add("user");	
-				}
-				return toReturn;
-			
-			}else {
-				toReturn.add("connectedBefore");
-				return toReturn;
+		} else {
+			m_connectedID.add(arr.get(0));
+			rs = stmt.executeQuery("select * from members Where ID=" + arr.get(0));
+			if (rs.next()) {
+				String firstName = rs.getString("FirstName");
+				String lastName = rs.getString("LastName");
+				String memberOrGuide = rs.getString("MemberOrGuide");
+				toReturn.add(firstName);
+				toReturn.add(lastName);
+				toReturn.add(memberOrGuide);
+			} else {
+				toReturn.add("user");
 			}
-		}else {//if i don't find the user i will add him
-			PreparedStatement insertStatement;
-			insertStatement = conn.prepareStatement("INSERT INTO useres (UserID, Connect) VALUES (?,?);");
-			insertStatement.setString(1, arr.get(0));
-			insertStatement.setString(2, "true");
-			insertStatement.execute();
-			toReturn.add(arr.get(0));
-			toReturn.add("user");
 			return toReturn;
 		}
+
 
 	}
 
@@ -211,14 +185,13 @@ public class mysqlConnection {
 		Statement stmt = conn.createStatement();
 		stmt = conn.createStatement();
 		try {
-		rs = stmt.executeQuery("select * from members Where memberID=" + arr.get(0));
-		}	
-		catch (SQLSyntaxErrorException e) {
+			rs = stmt.executeQuery("select * from members Where memberID=" + arr.get(0));
+		} catch (SQLSyntaxErrorException e) {
 			toReturn.add("notMember");
 			return toReturn;
 		}
-		if (rs.next()) { 
-			 id = rs.getString("ID");
+		if (rs.next()) {
+			id = rs.getString("ID");
 			String firstName = rs.getString("FirstName");
 			String lastName = rs.getString("LastName");
 			String memberOrGuide = rs.getString("MemberOrGuide");
@@ -226,40 +199,25 @@ public class mysqlConnection {
 			toReturn.add(firstName);
 			toReturn.add(lastName);
 			toReturn.add(memberOrGuide);
-		}else {
+		} else {
 			toReturn.add("notMember");
 			return toReturn;
 		}
-		//check if the member already connected
-		
-		rs = stmt.executeQuery("select * from useres Where UserID=" + id);// check if this Id connected before
-		if (rs.next()) { // check if the ID exist
-			String connected = rs.getString("Connect");
-			if (connected == null) {
-		PreparedStatement preparedStatement;
-		preparedStatement = conn.prepareStatement(
-				"UPDATE useres SET Connect=true WHERE UserID=?;");
-		preparedStatement.setString(1, id);
-
-
-		preparedStatement.executeUpdate();
-		return toReturn;
-		}else {
+		// check if the member already connected
+		if (m_connectedID.contains(arr.get(0))) {
 			toReturn.add("connectedBefore");
 			return toReturn;
-			}
-		}return toReturn;
+		} else {
+			m_connectedID.add(arr.get(0));
+		}
+		return toReturn;
+
+
 	}
 
 	public static void closeAndSetIdNull(ArrayList<String> arr) throws SQLException {
-		String id= arr.get(0);
-		PreparedStatement preparedStatement;
-		preparedStatement = conn.prepareStatement(
-				"UPDATE useres SET Connect=null WHERE UserID=?;");
-		preparedStatement.setString(1, id);
+		String id = arr.get(0);
+		m_connectedID.remove(id);
 
-
-		preparedStatement.executeUpdate();
-		
 	}
 }
