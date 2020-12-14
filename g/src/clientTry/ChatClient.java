@@ -42,35 +42,13 @@ public class ChatClient extends AbstractClient {
 	 * @param clientUI The interface type variable.
 	 */
 
-<<<<<<< HEAD
-    }
-    if(dataFromDb.contains("CheckID"))
-    {
-    	dataFromDb.remove("CheckID");
-    	dataInArrayList=dataFromDb;
-    		
-    }
-    if(dataFromDb.contains("FetchParkDetails"))
-    {
-    	dataFromDb.remove("FetchParkDetails");
-    	dataInArrayList=dataFromDb;
-    }
-    if(dataFromDb.contains("RegisterMember"))
-    {
-    	dataFromDb.remove("RegisterMember");
-    }
-    if(dataFromDb.contains("sendToDeparmentManager"))
-    	dataFromDb.remove("sendToDeparmentManager");
-    dataInArrayList=dataFromDb;
-    
-  }
-=======
+
 	public ChatClient(String host, int port, ChatIF clientUI) throws IOException {
 		super(host, port); // Call the superclass constructor
 		this.clientUI = clientUI;
 		openConnection();
 	}
->>>>>>> branch 'main' of https://github.com/zivke1/g6
+
 
 	// Instance methods ************************************************
 
@@ -110,6 +88,8 @@ public class ChatClient extends AbstractClient {
 	    {
 	    	dataFromDb.remove("RegisterMember");
 	    }
+	    if(dataFromDb.contains("sendToDeparmentManager"))
+	    	dataFromDb.remove("sendToDeparmentManager");
 	    dataInArrayList=dataFromDb;
 	    
 	  }
