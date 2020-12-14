@@ -209,18 +209,21 @@ public class mysqlConnection {
 
 	public static String RegisterMember(ArrayList<String> arr) {
 		int memberID = 0;
-		if (!insertToUsers(arr.get(2)))
-			return "Exists";
+		//need to check if the memberID exists already
 		try {// inserting new row to the table
 			Random rand = new Random();
 			PreparedStatement update = conn.prepareStatement(
 					"INSERT INTO members (FirstName,LastName,ID,Email,PhoneNumber,numberOfPepole,creditCard,memberID,MemberOrGuide) "
 							+ "VALUES (?, ?, ?, ?,?,?,?,?,?)");
 			for (int i = 0; i < ((ArrayList<String>) arr).size(); i++)
+			{
+//				if(i==5&&arr.contains("guide"))
+//					update.setString(6, null);
 				if (i == 7)
-					update.setString(i + 2, ((ArrayList<String>) arr).get(i));
+					update.setString(i + 2, ((ArrayList<String>) arr).get(i));//MemberOrGuide
 				else
-					update.setString(i + 1, ((ArrayList<String>) arr).get(i));
+					update.setString(i + 1, ((ArrayList<String>) arr).get(i));//the rest of the values
+			}
 			boolean flagExists = true;
 			while (flagExists) {
 				try {
@@ -249,18 +252,18 @@ public class mysqlConnection {
 		return memberID + "";
 	}
 
-	private static boolean insertToUsers(String id)// adding new user
-	{
-		try {
-			PreparedStatement update = conn.prepareStatement("INSERT INTO useres (UserID,Connect) VALUES (?, ?)");
-			update.setString(1, id);
-			update.setString(2, null);
-			update.executeUpdate();
-		} catch (SQLException e) {
-			return false;
-		}
-		return true;
-	}
+//	private static boolean insertToUsers(String id)// adding new user
+//	{
+//		try {
+//			PreparedStatement update = conn.prepareStatement("INSERT INTO useres (UserID,Connect) VALUES (?, ?)");
+//			update.setString(1, id);
+//			update.setString(2, null);
+//			update.executeUpdate();
+//		} catch (SQLException e) {
+//			return false;
+//		}
+//		return true;
+//	}
 
 
 	public static ArrayList<String> checkIfIdConnectedWithMemberId(ArrayList<String> arr) throws SQLException {
