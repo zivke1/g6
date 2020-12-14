@@ -3,6 +3,7 @@ package clientTry;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -56,17 +57,20 @@ public class WaitingListController implements Initializable {
     		return time;
     	}
     	public String getDate() {
-    		return date.get();
+    		return date.getValue();
     	}
     	
      	public String getTime() {
-    		return time.get();
+    		return time.getValue();
      	}
     }
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		Platform.runLater(()->{
+			freeOrder x = new freeOrder("hello", "world");
+		list1.add(x);
 		freePlaceTable.setItems(list1);
-		list1.add(new freeOrder("hello", "world"));
+		});
 	}
     
     @FXML
