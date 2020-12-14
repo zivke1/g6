@@ -43,7 +43,7 @@ public class ClientMain extends Application {
 		Scene scene=new Scene(borderPane);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Login");
-		primaryStage.show();
+		primaryStage.show();s
 		/////////////////////////////////////////////////
 	}
 
