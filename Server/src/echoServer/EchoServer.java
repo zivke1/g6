@@ -97,14 +97,14 @@ public class EchoServer extends AbstractServer {
 				clientDisconnected(null);
 
 			}
-			// check if id exist in visitor table
+		/*	// check if id exist in visitor table
 			if (arr.contains("CheckID")) {
 				arr.remove("CheckID");
 				arr.add(mysqlConnection.CheckID(arr));
 				arr.add("CheckID");
 				this.sendToAllClients(arr);
 				return;
-			}
+			}*/
 			if (arr.contains("checkIfEmployee")) {
 				arr.remove("checkIfEmployee");
 				arr = mysqlConnection.checkIfEmployee(arr);

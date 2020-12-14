@@ -1,6 +1,7 @@
 package clientTry;
 
 import util.NextStages;
+import util.Node;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,7 +29,8 @@ import util.NextStages;
 import util.Role;
 public class HomePageForEmployeeController implements Initializable {
 
-	private String fName, lName, role, userID;
+	private String fName, lName, role, userID, parkName;
+	FXMLLoader loader = new FXMLLoader();
 
 	@FXML
 	private Label greetingMsg;
@@ -108,71 +110,94 @@ public class HomePageForEmployeeController implements Initializable {
 	@FXML
 	void goToApproveP(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ApproveParameters.fxml","View Customer's Order");
-		nextStages.goToNextStage();
+		nextStages.goToNextStage(event);
+		ApproveParametersController approvePcontrol = loader.getController();
+		approvePcontrol.setDetails(fName, lName, role, userID, parkName);
 	}
 
 	@FXML
 	void goToAvailbilityCheck(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/CheckAvailability.fxml","View Customer's Order");
-		nextStages.goToNextStage();
+		nextStages.goToNextStage(event);
+		CheckAvailbilityController check = loader.getController();
+		check.setDetails(fName, lName, role, userID, parkName);
 	}
 
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml","View Customer's Order");
-		nextStages.goToNextStage();
+		nextStages.openPopUp();
 	}
 
 	@FXML
 	void goToGenerateReportDepManager(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ReportDepartmentManager.fxml","View Customer's Order");
-		nextStages.goToNextStage();
+		nextStages.goToNextStage(event);
+		ReportDepartmentManagerController repControl = loader.getController();
+		repControl.setDetails(fName, lName, role, userID, parkName);
 	}
 
 	@FXML
 	void goToGenerateReportParkManager(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ReportParkManager.fxml","View Customer's Order");
-		nextStages.goToNextStage();
+		nextStages.goToNextStage(event);
+		ReportParkManagerController repControl = loader.getController();
+		repControl.setDetails(fName, lName, role, userID, parkName);
 	}
 
 	@FXML
 	void goToInstructorRegistretion(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/AddInstructor.fxml","View Customer's Order");
-		nextStages.goToNextStage();
+		nextStages.goToNextStage(event);
+		AddInstructorController addInstructor = loader.getController();
+		addInstructor.setDetails(fName, lName, role, userID, parkName);
 	}
 
 	@FXML
 	void goToLoginP(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/LoginP.fxml","View Customer's Order");
-		nextStages.goToNextStage();
+		nextStages.goToNextStage(event);
 	////////// need to disconnect - UPDATE users SET Connect = null WHERE UserID=315766014
+		//ClientMain.chat.stopConnection();
+		LoginController logControl = loader.getController();
+		logControl.setDetails(fName, lName, role, userID, parkName);
+		
 	}
 
 	//Employee does
 	@FXML
 	void goToMakeOrderForCustomer(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/NewOrderEmployee.fxml","View Customer's Order");
-		nextStages.goToNextStage();
+		nextStages.goToNextStage(event);
+		NewOrderEmployeeController orderByEmployee = loader.getController();
+		orderByEmployee.setDetails(fName, lName, role, userID, parkName);
 	}
 	// customer does
 	@FXML
 	void goToNewOrderCustomer(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/OrderNew.fxml","View Customer's Order");
-		nextStages.goToNextStage();
+		nextStages.goToNextStage(event);
+		OrderController orderControl = loader.getController();
+		orderControl.setDetails(fName, lName, role, userID, parkName);
 	}
 
 	@FXML
 	void goToUpdateP(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/Parameters.fxml","Update Parameters");
-		nextStages.goToNextStage();
+		nextStages.goToNextStage(event);
+		UpdateParametersController updatePcontrol = loader.getController();
+		updatePcontrol.setDetails(fName, lName, role, userID, parkName);
 	}
 	//Employee view customers order
 	@FXML
 	void goToViewExistOrder(MouseEvent event) {
 		 // here employee will need to enter customer id to view his order
 		NextStages nextStages = new NextStages("/fxmlFiles/EmployeeEnterCustomerID.fxml","View Customer's Order"); 
-		nextStages.goToNextStage();
+		nextStages.goToNextStage(event);
+		ViewOrderController viewOrderControl = loader.getController();
+		viewOrderControl.setDetails(fName, lName, role, userID, parkName);
 	}
+	
 	// customer wants to view his orders
 	@FXML
 	void goToViewOrderCustomer(MouseEvent event) {
@@ -182,9 +207,17 @@ public class HomePageForEmployeeController implements Initializable {
 		arr.add("orders");
 		arr.add("CheckUserIDInTable");
 		ClientMain.chat.accept(arr);
-		///חסר עמוד לעבור אליו שמציג הזמנה
-		NextStages nextStages = new NextStages("/fxmlFiles/ViewOrder.fxml","View Order");
-		nextStages.goToNextStage();
+		ArrayList<String> temp = ChatClient.dataInArrayList;
+		if(temp.get(0).equals("True")) {
+			//set visible table 
+			//make existing orders table
+			//need to go to view existing order after pressing line in table
+			//NextStages nextStages = new NextStages("/fxmlFiles/ViewOrder.fxml","View Order");
+			//nextStages.goToNextStage(event);
+		}
+		else {
+			NoExistOrderMsg.setVisible(true);
+		}
 	}
 
 	@FXML
@@ -195,18 +228,23 @@ public class HomePageForEmployeeController implements Initializable {
 	@FXML
 	void goToMemberRegistration(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/MembershipRegistration.fxml","Membership Registration");
-		nextStages.goToNextStage();
-		///details
+		nextStages.goToNextStage(event);
+		MembershipRegistrationController memberRegControl = loader.getController();
+		memberRegControl.setDetails(fName, lName, role, userID, parkName);
 	}
 
 	@FXML
 	void goToParkDetail(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ParkDetails.fxml","Park Details");
-		nextStages.goToNextStage();
+		nextStages.goToNextStage(event);
+		ParkDetailsController parkDetailsControl = loader.getController();
+		parkDetailsControl.setDetails(fName, lName, role, userID, parkName);
+
 	}
 	
 	//prepare form - preset all as invisible 
 	public void setAllUnvisible() {
+		anchorParkEmployee.setVisible(false);
 		anchorParkManager.setVisible(false);
 		anchorDepManager.setVisible(false);
 		anchorCustomerrepResentativeEmp.setVisible(false);
@@ -222,6 +260,7 @@ public class HomePageForEmployeeController implements Initializable {
 		this.lName = lName;
 		this.userID = userID;
 		this.role = role;
+		this.parkName = parkName;
 		
 		switch (role) {
 		case "Park Manager": {
