@@ -140,5 +140,19 @@ public class mysqlConnection {
 		return toReturn;
 
 	}
-
+	public static void insertParaUpdate(Object arr) {
+		try {// inserting new row to the table
+			PreparedStatement update = conn.prepareStatement(
+					"INSERT INTO paraUpdate (parkName,paraToUpdate,ParaVal,Date,From,Until) VALUES (?, ?, ?, ?,?,?)");
+			if ( ((ArrayList<String>) arr).size()==4) {
+				update.setString(5, null);
+				update.setString(6, null);
+			}
+			for (int i = 0; i < ((ArrayList<String>) arr).size(); i++)
+				update.setString(i + 1, ((ArrayList<String>) arr).get(i));
+			update.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

@@ -110,6 +110,11 @@ public class EchoServer extends AbstractServer {
 				this.sendToAllClients(arr);
 				return;
 			}
+			if (arr.contains("sendToDeparmentManager")) {
+				arr.remove("sendToDeparmentManager");
+				mysqlConnection.insertParaUpdate(arr);
+				return;
+			}
 			
 			this.sendToAllClients(msg);
 		} catch (Exception e) {
