@@ -28,7 +28,8 @@ public class MainForLogin extends Application {
 		try {
 			FXMLLoader loader=new FXMLLoader();
 
-			loader.setLocation(getClass().getResource("../fxmlFiles/LoginP.fxml"));
+//			loader.setLocation(getClass().getResource("../fxmlFiles/LoginP.fxml"));
+			loader.setLocation(getClass().getResource("../fxmlFiles/WaitingList.fxml"));
 			borderPane = loader.load();
 			//controller = loader.getController();
 		} catch (IOException e) {

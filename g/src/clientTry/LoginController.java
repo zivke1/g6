@@ -75,6 +75,9 @@ public class LoginController {
 
 	@FXML
 	private Label txtErrPassword;
+	
+	 @FXML
+	 private Label memberNotNumbers;
     
 	@FXML
     private Label IDError;
@@ -126,6 +129,7 @@ public class LoginController {
 				txtErrAllFieldsReq.setVisible(true);
 				return;
 			} else {
+				
 				toSend.add("checkIfEmployee");
 				toSend.add(empNumber);
 				toSend.add(password);
@@ -154,16 +158,32 @@ public class LoginController {
 				return;
 			} else {
 				if (!idNumber.equals("")) {//if the user enter id number
+					char[] chars = idNumber.toCharArray();
+					for (char c : chars) {
+						if (!Character.isDigit(c)) {
+							IDError.setVisible(true);
+							return;
+							}
+						}
+
 					toSend.add("checkIfIdConnectedWithId");
 					toSend.add(idNumber);
 					ClientMain.chat.accept(toSend);
-					if(ChatClient.dataInArrayList.contains("notValidUserID")) {
-						IDError.setVisible(true);
-					}
+//					if(ChatClient.dataInArrayList.contains("notValidUserID")) {
+//						IDError.setVisible(true);
+//					}
 					statusToOpen();
 
 				}
 				if (!memberNumber.equals("")) {//if the user enter membership number
+					char[] chars = memberNumber.toCharArray();
+					for (char c : chars) {
+						if (!Character.isDigit(c)) {
+							memberNotNumbers.setVisible(true);
+							return;
+							}  
+						}
+					
 					toSend.add("checkIfIdConnectedWithMemberId");
 					toSend.add(memberNumber);
 					ClientMain.chat.accept(toSend);
@@ -187,6 +207,7 @@ public class LoginController {
 		txtErrPassword.setVisible(false);
 		txtErrAllFieldsReq1.setVisible(false);
 		IDError.setVisible(false);
+		memberNotNumbers.setVisible(false);
 	}
 /**
  * check witch status we need to open
