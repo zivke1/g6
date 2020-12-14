@@ -45,7 +45,8 @@ public class EchoServer extends AbstractServer {
 	protected void clientConnected(ConnectionToClient client) {
 		String ipAndHost = client.toString();
 		String[] ipAndHostArray = ipAndHost.split(" ");
-		m_ServerControl.setParameters(client.getInetAddress().getHostName(), client.getInetAddress().getHostAddress(),"connected");
+		m_ServerControl.setParameters(client.getInetAddress().getHostName(), client.getInetAddress().getHostAddress(),
+				"connected");
 	}
 
 	/**
@@ -73,10 +74,9 @@ public class EchoServer extends AbstractServer {
 		try {
 			ArrayList<String> dataFromDb;
 			ArrayList<String> arr = (ArrayList<String>) msg;
-			if(arr.contains("FetchParkDetails"))
-			{
+			if (arr.contains("FetchParkDetails")) {
 				arr.remove("FetchParkDetails");
-				dataFromDb=mysqlConnection.FetchParkDetails(arr);
+				dataFromDb = mysqlConnection.FetchParkDetails(arr);
 				this.sendToAllClients(dataFromDb);
 				return;
 			}
@@ -91,7 +91,7 @@ public class EchoServer extends AbstractServer {
 			}
 			if (arr.contains("showTable")) {
 				arr.remove("showTable");
-				dataFromDb = mysqlConnection.showTable(msg);
+				dataFromDb = mysqlConnection.showTableOrders(msg);
 				dataFromDb.add("showTable");
 				this.sendToAllClients(dataFromDb);
 				return;
@@ -99,15 +99,12 @@ public class EchoServer extends AbstractServer {
 			if (arr.contains("close")) {
 				arr.remove("close");
 				clientDisconnected(null);
-
 			}
-			if (arr.contains("CheckID")) {
-				arr.remove("CheckID");
-				arr.add(mysqlConnection.CheckID(arr));
-				arr.add("CheckID");
-				this.sendToAllClients(arr);
-				return;
-			}
+			/*
+			 * // check if id exist in visitor table if (arr.contains("CheckID")) {
+			 * arr.remove("CheckID"); arr.add(mysqlConnection.CheckID(arr));
+			 * arr.add("CheckID"); this.sendToAllClients(arr); return; }
+			 */
 			if (arr.contains("checkIfEmployee")) {
 				arr.remove("checkIfEmployee");
 				arr = mysqlConnection.checkIfEmployee(arr);
@@ -147,8 +144,13 @@ public class EchoServer extends AbstractServer {
 				clientDisconnected(null);
 				return;
 			}
-
-		} catch (Exception e) {
+			if(arr.contains("CheckUserIDInTable")) {
+				arr.remove("CheckUserIDInTable");
+				arr = mysqlConnection.checkIfEmployee(arr);
+				this.sendToAllClients(arr);
+				return;
+			}
+		}catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
