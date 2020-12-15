@@ -154,13 +154,13 @@ public class HomePageForEmployeeController implements Initializable {
 
 	@FXML
 	void goToLoginP(MouseEvent event) {
+		ArrayList<String> arr = new ArrayList<String>();
+		arr.add("closeAndSetIdNull");
+		arr.add(userID);
+		ClientMain.chat.accept(arr);
 		NextStages nextStages = new NextStages("/fxmlFiles/LoginP.fxml","View Customer's Order");
 		nextStages.goToNextStage(event);
-	////////// need to disconnect - UPDATE users SET Connect = null WHERE UserID=315766014
-		//ClientMain.chat.stopConnection();
 		LoginController logControl = loader.getController();
-//		logControl.setDetails(fName, lName, role, userID, parkName);
-		
 	}
 
 	//Employee does
@@ -208,7 +208,7 @@ public class HomePageForEmployeeController implements Initializable {
 		ClientMain.chat.accept(arr);
 		ArrayList<String> temp = ChatClient.dataInArrayList;
 		if(temp.get(0).equals("True")) {
-			//set visible table 
+			tblExisitingOrder.setVisible(true);
 			//make existing orders table
 			//need to go to view existing order after pressing line in table
 			//NextStages nextStages = new NextStages("/fxmlFiles/ViewOrder.fxml","View Order");
@@ -261,43 +261,54 @@ public class HomePageForEmployeeController implements Initializable {
 		this.userID = userID;
 		this.role = role;
 		this.parkName = parkName;
+		String roleM = Role.Member.toString().toLowerCase();
+		String rolePM = Role.ParkManager.toString().toLowerCase();
+		String roleDM = Role.DepartmentManager.toString().toLowerCase();
+		String rolePE = Role.ParkEmployee.toString().toLowerCase();
+		String roleSR = Role.ServiceRepresentative.toString().toLowerCase();
+		String roleU = Role.User.toString().toLowerCase();
+		String roleG = Role.Guide.toString().toLowerCase();
 		
-		switch (role) {
-		case "Park Manager": {
+		if (role.equals(rolePM)) {
 			employeeCrums.setVisible(true);
 			anchorParkManager.setVisible(true);
 			greetingMsg.setText(fName + ", " + role + ", have a great day!");
+			
 		}
-		case "Department Manager": {
+		else if (role.equals(roleDM)) {
 			employeeCrums.setVisible(true);
 			anchorDepManager.setVisible(true);
 			greetingMsg.setText(fName + ", " + role + ", have a great day!");
+			
 		}
-		case "Park Employee": {
+		else if (role.equals(rolePE)) {
 			employeeCrums.setVisible(true);
 			anchorParkEmployee.setVisible(true);
 			greetingMsg.setText(fName + ", " + role + ", have a great day!");
+			
 		}
-		case "Service Representative": {
+		else if (role.equals(roleSR)) {
 			employeeCrums.setVisible(true);
 			anchorCustomerrepResentativeEmp.setVisible(true);
 			greetingMsg.setText(fName + ", " + role + ", have a great day!");
+			
 		}
-		case "member": {
+		else if (role.equals(roleM)) {
 			customerCrums.setVisible(true);
 			anchorCustomer.setVisible(true);
 			greetingMsg.setText(fName + ", happy to see you!");
+			
 		}
-		case "user":{
+		else if (role.equals(roleU)) {
 			customerCrums.setVisible(true);
 			anchorCustomer.setVisible(true);
 			greetingMsg.setText("Thank you for choosing us!");
+			
 		}
-		case "guide":{
+		else if (role.equals(roleG)) {
 			customerCrums.setVisible(true);
 			anchorCustomer.setVisible(true);
-			greetingMsg.setText(fName + ", " + role + ", happy to see you!");
-		}
+			greetingMsg.setText(fName + ", " + role + ", happy to see you!");	
 		}
 	}
 

@@ -275,6 +275,7 @@ public class LoginController {
 			if (ClientMain.chat.checkConnection()) {
 	    	ArrayList<String> arr = new ArrayList<String>();
 			arr.add("closeAndSetIdNull");
+			arr.add("disconnect");
 			arr.add(userID);
 			ClientMain.chat.accept(arr);
 	    	ClientMain.chat.stopConnection();

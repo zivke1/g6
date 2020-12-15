@@ -75,8 +75,8 @@ public class ChatClient extends AbstractClient {
 		if (dataFromDb.contains("CheckUserIDInTable")) {
 			dataFromDb.remove("CheckUserIDInTable");
 			dataInArrayList = dataFromDb;
-
 		}
+		
 	    if(dataFromDb.contains("FetchParkDetails"))
 	    {
 	    	dataFromDb.remove("FetchParkDetails");

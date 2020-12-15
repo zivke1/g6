@@ -141,8 +141,12 @@ public class EchoServer extends AbstractServer {
 			if (arr.contains("closeAndSetIdNull")) {
 				arr.remove("closeAndSetIdNull");
 				mysqlConnection.closeAndSetIdNull(arr);
-				clientDisconnected(null);
+				if(arr.contains("disconnect")) {
+					arr.remove("disconnect");
+					clientDisconnected(null);
+				}
 				return;
+				
 			}
 			if(arr.contains("CheckUserIDInTable")) {
 				arr.remove("CheckUserIDInTable");
