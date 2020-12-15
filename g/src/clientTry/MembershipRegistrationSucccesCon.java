@@ -69,6 +69,7 @@ public class MembershipRegistrationSucccesCon {
     public void updateMemberNum(String num)
     {
     	memberNum.setText(num);
+
     }
 
     public void setParkName(String pName)

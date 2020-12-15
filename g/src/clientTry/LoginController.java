@@ -17,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
@@ -232,10 +233,13 @@ public class LoginController {
 	 */
 	private void openHomePage(UserType userType) throws Exception {
 		// TODO
-
+		BorderPane borderPane = null;
 		FXMLLoader loader = new FXMLLoader();
 		Stage primaryStage = new Stage();
-		Pane root = loader.load(getClass().getResource("/fxmlFiles/HomePageForEmployee.fxml").openStream());
+		//Pane root = loader.load(getClass().getResource("../fxmlFiles/HomePageForEmployee.fxml").openStream());
+		
+		loader.setLocation(getClass().getResource("../fxmlFiles/HomePageForEmployee.fxml"));
+		borderPane = loader.load();
 		HomePageForEmployeeController homePageForEmployeeController = loader.getController();
 
 		switch (userType) {
@@ -263,7 +267,8 @@ public class LoginController {
 			break;
 		}
 		homePageForEmployeeController.setDetails(fName, lName, role, userID , park);
-		Scene scene = new Scene(root);
+		//Scene scene = new Scene(root);
+		Scene scene = new Scene(borderPane);
 		primaryStage.setTitle("Home Page");
 		primaryStage.setScene(scene);
 		primaryStage.setOnCloseRequest(evt->{

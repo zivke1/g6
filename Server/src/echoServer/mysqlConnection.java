@@ -1,4 +1,3 @@
-
 package echoServer;
 
 import java.sql.Connection;
@@ -50,31 +49,24 @@ public class mysqlConnection {
 		}
 	}
 
-	public static ArrayList<String> showTable(Object id) {
-		ArrayList<String> dataFromDB = new ArrayList<>();
-		try {// inserting new row to the table
-			String firstName = null, lastName = null, ID = null, email = null, phoneNum = null;
-			Statement stmt = conn.createStatement();
-			String tmpId = ((ArrayList<String>) id).get(0);
-			ResultSet rs = stmt.executeQuery("select * from visitor Where ID=" + tmpId);
-			while (rs.next()) {
-				firstName = rs.getString("FirstName");
-				lastName = rs.getString("LastName");
-				ID = rs.getString("ID");
-				email = rs.getString("Email");
-				phoneNum = rs.getString("PhoneNumber");
-			}
-			dataFromDB.add(firstName);
-			dataFromDB.add(lastName);
-			dataFromDB.add(ID);
-			dataFromDB.add(email);
-			dataFromDB.add(phoneNum);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return dataFromDB;
-	}
-
+	/*
+	 * public static ArrayList<String> showTable(Object id) { ArrayList<String>
+	 * dataFromDB = new ArrayList<>(); try {// inserting new row to the table String
+	 * firstName = null, lastName = null, ID = null, email = null, phoneNum = null;
+	 * Statement stmt = conn.createStatement(); String tmpId = ((ArrayList<String>)
+	 * id).get(0); ResultSet rs =
+	 * stmt.executeQuery("select * from visitor Where ID=" + tmpId); while
+	 * (rs.next()) { firstName = rs.getString("FirstName"); lastName =
+	 * rs.getString("LastName"); ID = rs.getString("ID"); email =
+	 * rs.getString("Email"); phoneNum = rs.getString("PhoneNumber"); }
+	 * dataFromDB.add(firstName); dataFromDB.add(lastName); dataFromDB.add(ID);
+	 * dataFromDB.add(email); dataFromDB.add(phoneNum); } catch (SQLException e) {
+	 * e.printStackTrace(); } return dataFromDB; }
+	 * 
+	 * public static String CheckID(Object id) { if (id != null) { ArrayList<String>
+	 * arr = showTable(id); if (((ArrayList<String>) id).get(0).equals(arr.get(2)))
+	 * return "True"; } return "False"; }
+	 */
 	public static void updateTable(Object arr)// arr={the new value u want,its ID,the column we want to change}
 	{
 		try {
@@ -97,16 +89,48 @@ public class mysqlConnection {
 		}
 	}
 
-	public static String CheckID(Object id) {
-		if (id != null) {
-			ArrayList<String> arr = showTable(id);
-			if (((ArrayList<String>) id).get(0).equals(arr.get(2)))
-				return "True";
+// need to go over existing table given its name and find the id
+	// or search id in a given table- maybe not show it
+	public static String CheckUserIDInTable(Object arr) {
+		if (arr instanceof ArrayList) {
+			ArrayList<String> array = (ArrayList<String>) arr;
+
+			if (array.get(0) != null) { // index 0 = userID
+				ArrayList<String> ar = showTableOrders(array.get(0)); 
+				if (((ArrayList<String>) array).get(0).equals(array.get(0)))
+					return "True";
+			}
 		}
 		return "False";
 	}
 
+	public static ArrayList<String> showTableOrders(Object id) {
+		ArrayList<String> dataFromDB = new ArrayList<>();
+		try {// inserting new row to the table
+			String firstName = null, lastName = null, ID = null, email = null, phoneNum = null;
+			Statement stmt = conn.createStatement();
+			String tmpId = ((ArrayList<String>) id).get(0);
+			ResultSet rs = stmt.executeQuery("select * from orderes Where ID=" + tmpId);
+			while (rs.next()) {
+				firstName = rs.getString("FirstName");
+				lastName = rs.getString("LastName");
+				ID = rs.getString("ID");
+				email = rs.getString("Email");
+				phoneNum = rs.getString("PhoneNumber");
+			}
+			dataFromDB.add(firstName);
+			dataFromDB.add(lastName);
+			dataFromDB.add(ID);
+			dataFromDB.add(email);
+			dataFromDB.add(phoneNum);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dataFromDB;
+	}
+
 	public static ArrayList<String> checkIfEmployee(ArrayList<String> arr) throws SQLException {
+
 		String id, firstName, lastName, role, connected, password, park;
 		connected = "true";
 		ArrayList<String> toReturn = new ArrayList<String>();
@@ -280,6 +304,22 @@ public class mysqlConnection {
 		}
 		return toReturn;
 
+	}
+
+	public static boolean insertParaUpdate(Object arr) {
+		try {// inserting new row to the table
+			ArrayList<String> a=(ArrayList<String>)arr;
+			PreparedStatement update = conn.prepareStatement(
+					"INSERT INTO paraUpdate (ParkName, ParaToUpdate, ParaVal, DateOfRequestparaupdate, StartDate, EndDate) VALUES (?, ?, ?, ?,?,?)");
+			System.out.println("arr size "+a.size()+ " arr val "+arr);
+			for (int i = 0; i < ((ArrayList<String>) arr).size(); i++)
+				update.setString(i + 1, ((ArrayList<String>) arr).get(i));
+			update.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 	public static ArrayList<String> FetchParkDetails(ArrayList<String> arr) {
