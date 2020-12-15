@@ -3,6 +3,7 @@ package clientTry;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -174,15 +175,16 @@ public class paraController {
 	void sendToDepMan(MouseEvent event) {
 		ArrayList<String> arr = new ArrayList<>();
 		errorMsg.setText("");
-		Date d;
+		LocalDateTime d;
 		if (chosenCapacity) {
 			arr.add("sendToDeparmentManager");
 			// arr.add(parkName);
 			arr.add("Haalid park");
-			arr.add("MaxCapacity");
+			arr.add("capacity");
 			arr.add(maxCapacity);
-			d = new Date();
-			arr.add(d.toString() + " ");
+			d = LocalDateTime.now();
+		//	String str= d.getYear()+"-"+d.getDay()+"-"+d.getMonth()+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+			arr.add(d.toString());
 			arr.add(null);
 			arr.add(null);
 			ClientMain.chat.accept(arr);
@@ -190,6 +192,7 @@ public class paraController {
 				errorMsg.setText(errorMsg.getText()
 						+ "\n the parameter of Capacity update request \n has been sent to the department manager\n");
 			arr.clear();
+			maxVisitField.clear();
 		}
 		if (chosenDiscount) {
 			arr.add("sendToDeparmentManager");
@@ -197,8 +200,9 @@ public class paraController {
 			arr.add("Hallid is Acbar");
 			arr.add("Discount");
 			arr.add(discount);
-			d = new Date();
-			arr.add(d.toString() + "  ");
+			d = LocalDateTime.now();
+			//String str= d.getYear()+"-"+d.getDay()+"-"+d.getMonth()+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+			arr.add(d.toString());
 			arr.add(from.toString());
 			arr.add(until.toString());
 			System.out.println(from + " haalid  " + until);
@@ -207,6 +211,7 @@ public class paraController {
 				errorMsg.setText(errorMsg.getText()
 						+ "\n the parameter Discount update request \n has been sent to the department manager\n");
 			arr.clear();
+			discountField.clear();
 		}
 		if (chosenDuration) {
 			arr.add("sendToDeparmentManager");
@@ -214,8 +219,9 @@ public class paraController {
 			arr.add("Haalid park");
 			arr.add("Duration");
 			arr.add(duration);
-			d = new Date();
-			arr.add(d.toString() + "   ");
+			d = LocalDateTime.now();
+			//
+			arr.add(d.toString());
 			arr.add(null);
 			arr.add(null);
 			ClientMain.chat.accept(arr);
@@ -223,6 +229,7 @@ public class paraController {
 				errorMsg.setText(errorMsg.getText()
 						+ "\n the parameter Duration update request \n has been sent to the department manager\n");
 			arr.clear();
+			visitDurField.clear();
 		}
 		if (chosenGap) {
 			arr.add("sendToDeparmentManager");
@@ -230,8 +237,9 @@ public class paraController {
 			arr.add("Haalid park");
 			arr.add("Gap");
 			arr.add(gap);
-			d = new Date();
-			arr.add(d.toString() + "   ");
+			d = LocalDateTime.now();
+//			String str= d.getYear()+"-"+d.getDay()+"-"+d.getMonth()+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+			arr.add(d.toString());
 			arr.add(null);
 			arr.add(null);
 			ClientMain.chat.accept(arr);
@@ -239,6 +247,7 @@ public class paraController {
 				errorMsg.setText(errorMsg.getText()
 						+ "\n the parameter Gap between \n max orders and max visitors update request has been sent to the department manager\n");
 			arr.clear();
+			maxOrderField.clear();
 
 		}
 		if (!chosenCapacity && !chosenDiscount && !chosenDuration && !chosenGap)
@@ -309,6 +318,9 @@ public class paraController {
 		maxCapacity = maxVisitField.getText();
 		if (maxCapacity.length() == 0)
 			errorMsg.setText("\nPlease fill all filed\n");
+		int capaInt=Integer.parseInt(maxCapacity);
+		if(capaInt<=0)
+			errorMsg.setText("\nThe capacity value must be possitve number\n");
 		boolean flag = true;
 		char chars[] = maxCapacity.toCharArray();
 		for (char c : chars) {
@@ -339,6 +351,9 @@ public class paraController {
 		}
 		if (from.compareTo(until) > 0)
 			errorMsg.setText("\"from\" date must be earlier than the \"until\" date \n");
+		int discountInt=Integer.parseInt(discount);
+		if(discountInt<=0)
+			errorMsg.setText("\nThe discount value must be possitve number\n");
 		Date d=new Date();
 		if(LocalDate.now().compareTo(fromDate.getValue())>0)
 			errorMsg.setText(errorMsg.getText() + "Please enter a valid from date\n");
@@ -353,7 +368,7 @@ public class paraController {
 				break;
 			}
 		}
-		if (chars[chars.length - 1] == '%' && flag)
+		if (flag)
 			chosenDiscount = true;
 		else
 			errorMsg.setText(errorMsg.getText() + "Please enter a valid discount\nfor example 10%");
@@ -370,6 +385,9 @@ public class paraController {
 		duration = visitDurField.getText();
 		if (duration.length() == 0)
 			errorMsg.setText("\nPlease fill all filed\n");
+		int durInt=Integer.parseInt(duration);
+		if(durInt<=0)
+			errorMsg.setText("\nThe duration must be possitve number\n");
 		boolean flag = true;
 		char chars[] = duration.toCharArray();
 		for (char c : chars) {
@@ -395,6 +413,9 @@ public class paraController {
 		gap = maxOrderField.getText();
 		if (gap.length() == 0)
 			errorMsg.setText("\nPlease fill all filed\n");
+		int gapInt=Integer.parseInt(gap);
+		if(gapInt<=0)
+			errorMsg.setText("\nThe gap must be possitve number\n");
 		boolean flag = true;
 		char chars[] = gap.toCharArray();
 		for (char c : chars) {
