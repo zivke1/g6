@@ -29,7 +29,15 @@ public class MembershipRegistrationSucccesCon {
     @FXML
     private Label memberNum;
 
-	private String pName="";
+	private String fNameH;
+
+	private String lNameH;
+
+	private String roleH;
+
+	private String userIDH;
+
+	private String parkNameH;
 
     @FXML
     void backClicked(MouseEvent event) {
@@ -41,6 +49,8 @@ public class MembershipRegistrationSucccesCon {
 			root = loader.load(getClass().getResource("/fxmlFiles/HomePageForEmployee.fxml").openStream());
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
+			HomePageForEmployeeController controller=loader.getController();
+			controller.setDetails(fNameH, lNameH, roleH, userIDH, parkNameH);
 			stage.setTitle("HomePage");
 			stage.setScene(scene);
 			stage.show();
@@ -72,8 +82,12 @@ public class MembershipRegistrationSucccesCon {
 
     }
 
-    public void setParkName(String pName)
+    public void setDetails(String fName, String lName, String role, String userID, String parkName)
 	{
-		this.pName=pName;
+		this.fNameH=fName;
+		this.lNameH=lName;
+		this.roleH=role;
+		this.userIDH=userID;
+		this.parkNameH=parkName;
 	}
 }

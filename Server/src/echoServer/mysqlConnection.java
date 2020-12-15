@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.SQLSyntaxErrorException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
@@ -49,24 +50,28 @@ public class mysqlConnection {
 		}
 	}
 
-	/*
-	 * public static ArrayList<String> showTable(Object id) { ArrayList<String>
-	 * dataFromDB = new ArrayList<>(); try {// inserting new row to the table String
-	 * firstName = null, lastName = null, ID = null, email = null, phoneNum = null;
-	 * Statement stmt = conn.createStatement(); String tmpId = ((ArrayList<String>)
-	 * id).get(0); ResultSet rs =
-	 * stmt.executeQuery("select * from visitor Where ID=" + tmpId); while
-	 * (rs.next()) { firstName = rs.getString("FirstName"); lastName =
-	 * rs.getString("LastName"); ID = rs.getString("ID"); email =
-	 * rs.getString("Email"); phoneNum = rs.getString("PhoneNumber"); }
-	 * dataFromDB.add(firstName); dataFromDB.add(lastName); dataFromDB.add(ID);
-	 * dataFromDB.add(email); dataFromDB.add(phoneNum); } catch (SQLException e) {
-	 * e.printStackTrace(); } return dataFromDB; }
-	 * 
-	 * public static String CheckID(Object id) { if (id != null) { ArrayList<String>
-	 * arr = showTable(id); if (((ArrayList<String>) id).get(0).equals(arr.get(2)))
-	 * return "True"; } return "False"; }
-	 */
+//	public static ArrayList<String> showTable(Object id) { ArrayList<String>
+//	  dataFromDB = new ArrayList<>(); try {// inserting new row to the table String
+//	  firstName = null, lastName = null, ID = null, email = null, phoneNum = null;
+//	  Statement stmt = conn.createStatement(); String tmpId = ((ArrayList<String>)
+//	  id).get(0); ResultSet rs =
+//	  stmt.executeQuery("select * from visitor Where ID=" + tmpId); while
+//	  (rs.next()) { firstName = rs.getString("FirstName"); lastName =
+//	  rs.getString("LastName"); ID = rs.getString("ID"); email =
+//	  rs.getString("Email"); phoneNum = rs.getString("PhoneNumber"); }
+//	  dataFromDB.add(firstName); dataFromDB.add(lastName); dataFromDB.add(ID);
+//	  dataFromDB.add(email); dataFromDB.add(phoneNum); } catch (SQLException e) {
+//	  e.printStackTrace(); } return dataFromDB; }
+//
+//	public static String CheckID(Object id) {
+//		if (id != null) {
+//			ArrayList<String> arr = showTable(id);
+//			if (((ArrayList<String>) id).get(0).equals(arr.get(2)))
+//				return "True";
+//		}
+//		return "False";
+//	}
+
 	public static void updateTable(Object arr)// arr={the new value u want,its ID,the column we want to change}
 	{
 		try {
@@ -96,7 +101,7 @@ public class mysqlConnection {
 			ArrayList<String> array = (ArrayList<String>) arr;
 
 			if (array.get(0) != null) { // index 0 = userID
-				ArrayList<String> ar = showTableOrders(array.get(0)); 
+				ArrayList<String> ar = showTableOrders(array.get(0));
 				if (((ArrayList<String>) array).get(0).equals(array.get(0)))
 					return "True";
 			}
@@ -217,9 +222,9 @@ public class mysqlConnection {
 				else
 					update.setString(i + 1, ((ArrayList<String>) arr).get(i));
 			do {
-					memberID = rand.nextInt(899999);
-					memberID += 100000;
-			}while(!checkMemberIDExistsInMembership(""+memberID));
+				memberID = rand.nextInt(899999);
+				memberID += 100000;
+			} while (!checkMemberIDExistsInMembership("" + memberID));
 
 			update.setString(8, "" + memberID);
 			update.executeUpdate();
@@ -237,34 +242,35 @@ public class mysqlConnection {
 			String firstName = null, lastName = null, ID = null, email = null, phoneNum = null;
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("select * from members Where ID=" + id);
-			int count=0;
+			int count = 0;
 			while (rs.next()) {
 				ID = rs.getString("ID");
 				count++;
 			}
-			if(count==0)
+			if (count == 0)
 				return true;
-			
-		} catch (SQLException e) {			
+
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
-	
+
 	private static boolean checkMemberIDExistsInMembership(String memberID)// adding new user
 	{
 		try {// inserting new row to the table
 			String firstName = null, lastName = null, ID = null, email = null, phoneNum = null;
-			Statement stmt = conn.createStatement();;
+			Statement stmt = conn.createStatement();
+			;
 			ResultSet rs = stmt.executeQuery("select * from members Where memberID=" + memberID);
-			int count=0;
+			int count = 0;
 			while (rs.next()) {
 				ID = rs.getString("memberID");
 				count++;
 			}
-			if(count==0)
+			if (count == 0)
 				return true;
-		} catch (SQLException e) {			
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return false;
@@ -308,10 +314,10 @@ public class mysqlConnection {
 
 	public static boolean insertParaUpdate(Object arr) {
 		try {// inserting new row to the table
-			ArrayList<String> a=(ArrayList<String>)arr;
+			ArrayList<String> a = (ArrayList<String>) arr;
 			PreparedStatement update = conn.prepareStatement(
 					"INSERT INTO paraUpdate (ParkName, ParaToUpdate, ParaVal, DateOfRequestparaupdate, StartDate, EndDate) VALUES (?, ?, ?, ?,?,?)");
-			System.out.println("arr size "+a.size()+ " arr val "+arr);
+			System.out.println("arr size " + a.size() + " arr val " + arr);
 			for (int i = 0; i < ((ArrayList<String>) arr).size(); i++)
 				update.setString(i + 1, ((ArrayList<String>) arr).get(i));
 			update.executeUpdate();
@@ -355,5 +361,51 @@ public class mysqlConnection {
 		String id = arr.get(0);
 		m_connectedID.remove(id);
 
+	}
+
+	public static ArrayList<String> ViewOrders(ArrayList<String> arr) {
+
+		ArrayList<String> dataFromDB = new ArrayList<>();
+		try {
+			String parkName="",ExpectedEnterTime="",TypeOfOrder="",OrderStatus="",Email="";
+			Date VisitDate = null;
+			Integer VisitorsAmount=0;
+			Float Payment=0f;
+			Statement stmt = conn.createStatement();
+			String orderID = arr.get(0);
+			ResultSet rs = stmt.executeQuery("select * from orders Where OrderID=" + orderID);
+			while (rs.next()) {
+				parkName = rs.getString("ParkName");
+				ExpectedEnterTime = rs.getString("ExpectedEnterTime");
+				VisitDate = rs.getDate("VisitDate");
+				VisitorsAmount = rs.getInt("VisitorsAmount");
+				TypeOfOrder= rs.getString("TypeOfOrder");
+				OrderStatus=rs.getString("OrderStatus");
+				Payment=rs.getFloat("Payment");
+				Email=rs.getString("Email");
+			}
+			dataFromDB.add(orderID);
+			dataFromDB.add(parkName);
+			dataFromDB.add(ExpectedEnterTime);
+			dataFromDB.add(VisitDate.toString());
+			dataFromDB.add(VisitorsAmount.toString());
+			dataFromDB.add(TypeOfOrder);
+			dataFromDB.add(OrderStatus);
+			dataFromDB.add(Payment.toString());
+			dataFromDB.add(Email);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dataFromDB;
+	}
+
+	public static String DelOrder(ArrayList<String> arr) {
+		try {
+			PreparedStatement update = conn.prepareStatement("DELETE FROM orders WHERE OrderID=" + arr.get(0));
+			update.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "The Order Deleted Successfully";
 	}
 }

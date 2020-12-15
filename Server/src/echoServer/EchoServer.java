@@ -6,6 +6,9 @@ package echoServer;
 
 import java.io.*;
 import java.util.ArrayList;
+
+import com.mysql.cj.MysqlConnection;
+
 import echoServer.ServerControl;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
@@ -124,7 +127,22 @@ public class EchoServer extends AbstractServer {
 				return;
 			}
 
-
+			if(arr.contains("ViewOrder"))
+			{
+				arr.remove("ViewOrder");
+				ArrayList<String> returnArr = new ArrayList<>();
+				returnArr=mysqlConnection.ViewOrders(arr);
+				client.sendToClient(returnArr);
+				return;
+			}
+			if(arr.contains("DelOrder"))
+			{
+				arr.remove("DelOrder");
+				ArrayList<String> returnArr = new ArrayList<>();
+				String ret=mysqlConnection.DelOrder(arr);
+				returnArr.add(ret);
+				client.sendToClient(returnArr);
+			}
 			if (arr.contains("RegisterMember")) {
 				ArrayList<String> returnArr = new ArrayList<>();
 				arr.remove("RegisterMember");
