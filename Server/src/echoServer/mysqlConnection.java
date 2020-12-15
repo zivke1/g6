@@ -310,7 +310,7 @@ public class mysqlConnection {
 		try {// inserting new row to the table
 			ArrayList<String> a=(ArrayList<String>)arr;
 			PreparedStatement update = conn.prepareStatement(
-					"INSERT INTO paraUpdate (ParkName, ParaToUpdate, ParaVal, DateOfRequestparaupdate, StartDate, EndDate) VALUES (?, ?, ?, ?,?,?)");
+					"INSERT INTO paraUpdate (ParkName, paraType, ParaVal, dateOfRequest, FromDate, UntilDate) VALUES (?, ?, ?, ?,?,?)");
 			System.out.println("arr size "+a.size()+ " arr val "+arr);
 			for (int i = 0; i < ((ArrayList<String>) arr).size(); i++)
 				update.setString(i + 1, ((ArrayList<String>) arr).get(i));
