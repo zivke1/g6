@@ -1,20 +1,11 @@
 package clientTry;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
 public class SimulationController {
-
-    @FXML
-    private Button finishOrderBtn;
-
-    @FXML
-    private Button helpBtn;
-
-    @FXML
-    private Button backBtn;
 
     @FXML
     private Text phoneNumber;
@@ -23,18 +14,9 @@ public class SimulationController {
     private Text emailAddress;
 
     @FXML
-    void backClicked(MouseEvent event) {
-
+    void exit(MouseEvent event) {
+    	((Node) event.getSource()).getScene().getWindow().hide();
     }
 
-    @FXML
-    void finishOrderClicked(MouseEvent event) {
-
-    }
-
-    @FXML
-    void helpBtnPressed(MouseEvent event) {
-
-    }
-
+   
 }

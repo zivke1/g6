@@ -64,6 +64,16 @@ public class AddInstructorController {
 	@FXML
 	private Label errorMsg;
 
+	private String fNameHM;
+
+	private String lNameHM;
+
+	private String userIDHM;
+
+	private String roleHM;
+
+	private String parkNameHM;
+
 	@FXML
 	void helpBtnPressed(MouseEvent event) {
 
@@ -190,7 +200,7 @@ public class AddInstructorController {
 			else
 				arr.add("cash");
 			arr.add("guide");
-			ClientMain.chat.accept(arr);
+			FakeMain.chat.accept(arr);
 			if (ChatClient.dataInArrayList.contains("Exists")) {
 				ChatClient.dataInArrayList.clear();
 				errorMsg.setText("This ID already exists in our system");
@@ -249,6 +259,14 @@ public class AddInstructorController {
 		creditC.setSelected(false);
 		ccLabel.setVisible(false);
 		enterCardNumber.setVisible(false);
+	}
+	
+	public void setDetails(String fName, String lName, String role, String userID, String parkName) {
+		this.fNameHM = fName;
+		this.lNameHM = lName;
+		this.userIDHM = userID;
+		this.roleHM = role;
+		this.parkNameHM = parkName;
 	}
 
 }

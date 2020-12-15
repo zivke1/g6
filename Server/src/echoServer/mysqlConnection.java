@@ -180,7 +180,7 @@ public class mysqlConnection {
 
 	public static String RegisterMember(ArrayList<String> arr) {
 		int memberID = 0;
-		if (!insertToUsers(arr.get(2)))
+		if (!checkIDExistsInMembership(arr.get(2)))
 			return "Exists";
 		try {// inserting new row to the table
 			Random rand = new Random();
@@ -192,25 +192,12 @@ public class mysqlConnection {
 					update.setString(i + 2, ((ArrayList<String>) arr).get(i));
 				else
 					update.setString(i + 1, ((ArrayList<String>) arr).get(i));
-			boolean flagExists = true;
-			while (flagExists) {
-				try {
-
+			do {
 					memberID = rand.nextInt(899999);
 					memberID += 100000;
-					String ID = "";
-					Statement stmt = conn.createStatement();
-					ResultSet rs = stmt.executeQuery("select * from visitor Where memberID=" + memberID);
-					while (rs.next()) {
-						ID = rs.getString("ID");
-					}
-				} catch (SQLException e) {
-					flagExists = false;
-					update.setString(8, "" + memberID);
-				}
+			}while(!checkMemberIDExistsInMembership(""+memberID));
 
-			}
-
+			update.setString(8, "" + memberID);
 			update.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -220,17 +207,43 @@ public class mysqlConnection {
 		return memberID + "";
 	}
 
-	private static boolean insertToUsers(String id)// adding new user
+	private static boolean checkIDExistsInMembership(String id)// adding new user
 	{
-		try {
-			PreparedStatement update = conn.prepareStatement("INSERT INTO useres (UserID,Connect) VALUES (?, ?)");
-			update.setString(1, id);
-			update.setString(2, null);
-			update.executeUpdate();
-		} catch (SQLException e) {
-			return false;
+		try {// inserting new row to the table
+			String firstName = null, lastName = null, ID = null, email = null, phoneNum = null;
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from members Where ID=" + id);
+			int count=0;
+			while (rs.next()) {
+				ID = rs.getString("ID");
+				count++;
+			}
+			if(count==0)
+				return true;
+			
+		} catch (SQLException e) {			
+			e.printStackTrace();
 		}
-		return true;
+		return false;
+	}
+	
+	private static boolean checkMemberIDExistsInMembership(String memberID)// adding new user
+	{
+		try {// inserting new row to the table
+			String firstName = null, lastName = null, ID = null, email = null, phoneNum = null;
+			Statement stmt = conn.createStatement();;
+			ResultSet rs = stmt.executeQuery("select * from members Where memberID=" + memberID);
+			int count=0;
+			while (rs.next()) {
+				ID = rs.getString("memberID");
+				count++;
+			}
+			if(count==0)
+				return true;
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	public static ArrayList<String> checkIfIdConnectedWithMemberId(ArrayList<String> arr) throws SQLException {

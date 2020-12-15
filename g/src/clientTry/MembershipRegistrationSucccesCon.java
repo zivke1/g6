@@ -29,6 +29,8 @@ public class MembershipRegistrationSucccesCon {
     @FXML
     private Label memberNum;
 
+	private String pName="";
+
     @FXML
     void backClicked(MouseEvent event) {
     	((Node) event.getSource()).getScene().getWindow().hide();
@@ -49,7 +51,6 @@ public class MembershipRegistrationSucccesCon {
 
     @FXML
     void goToContactUsPopUp(MouseEvent event) {
-    	((Node) event.getSource()).getScene().getWindow().hide();
     	Stage stage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Parent root;
@@ -70,4 +71,8 @@ public class MembershipRegistrationSucccesCon {
     	memberNum.setText(num);
     }
 
+    public void setParkName(String pName)
+	{
+		this.pName=pName;
+	}
 }
