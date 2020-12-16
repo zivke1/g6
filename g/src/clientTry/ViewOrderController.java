@@ -80,6 +80,8 @@ public class ViewOrderController {
 
 	private String orderIDH;
 
+	private String orderStatusH;
+
 	@FXML
 	void backClicked(MouseEvent event) {
 		((Node) event.getSource()).getScene().getWindow().hide();
@@ -102,12 +104,16 @@ public class ViewOrderController {
 
 	@FXML
 	void cancelOrder(MouseEvent event) {
+		if(orderStatusH.equals("waitingList")||orderStatusH.equals("waitingToApprove")||orderStatusH.equals("waitingToVisit"))
+		{
 		ArrayList<String> arr = new ArrayList<>();
-		arr.add("DelOrder");
+		arr.add("CancelOrder");
 		arr.add(orderIDH);
 		ClientMain.chat.accept(arr);
 		anchorAll.setVisible(false);
 		errorMsg.setText(ChatClient.dataInArrayList.get(0));
+		}
+		else errorMsg.setText("Can not cancel active/finished/exipred order");
 	}
 
 	@FXML
@@ -161,6 +167,7 @@ public class ViewOrderController {
 		numVisit.setText(arr.get(4));
 		typeOfOrder.setText(arr.get(5) + "'s order");
 		orderStatus.setText(arr.get(6));
+		this.orderStatusH=orderStatus.getText();
 		totalCost.setText(arr.get(7) + "₪");
 		email.setText(arr.get(8));
 	}

@@ -317,7 +317,7 @@ public class mysqlConnection {
 			ArrayList<String> a = (ArrayList<String>) arr;
 			PreparedStatement update = conn.prepareStatement(
 					"INSERT INTO paraUpdate (ParkName, paraType, ParaVal, dateOfRequest, FromDate, UntilDate) VALUES (?, ?, ?, ?,?,?)");
-			System.out.println("arr size "+a.size()+ " arr val "+arr);
+			System.out.println("arr size " + a.size() + " arr val " + arr);
 			for (int i = 0; i < ((ArrayList<String>) arr).size(); i++)
 				update.setString(i + 1, ((ArrayList<String>) arr).get(i));
 			update.executeUpdate();
@@ -367,10 +367,10 @@ public class mysqlConnection {
 
 		ArrayList<String> dataFromDB = new ArrayList<>();
 		try {
-			String parkName="",ExpectedEnterTime="",TypeOfOrder="",OrderStatus="",Email="";
+			String parkName = "", ExpectedEnterTime = "", TypeOfOrder = "", OrderStatus = "", Email = "";
 			Date VisitDate = null;
-			Integer VisitorsAmount=0;
-			Float Payment=0f;
+			Integer VisitorsAmount = 0;
+			Float Payment = 0f;
 			Statement stmt = conn.createStatement();
 			String orderID = arr.get(0);
 			ResultSet rs = stmt.executeQuery("select * from orders Where OrderID=" + orderID);
@@ -379,10 +379,10 @@ public class mysqlConnection {
 				ExpectedEnterTime = rs.getString("ExpectedEnterTime");
 				VisitDate = rs.getDate("VisitDate");
 				VisitorsAmount = rs.getInt("VisitorsAmount");
-				TypeOfOrder= rs.getString("TypeOfOrder");
-				OrderStatus=rs.getString("OrderStatus");
-				Payment=rs.getFloat("Payment");
-				Email=rs.getString("Email");
+				TypeOfOrder = rs.getString("TypeOfOrder");
+				OrderStatus = rs.getString("OrderStatus");
+				Payment = rs.getFloat("Payment");
+				Email = rs.getString("Email");
 			}
 			dataFromDB.add(orderID);
 			dataFromDB.add(parkName);
@@ -399,13 +399,16 @@ public class mysqlConnection {
 		return dataFromDB;
 	}
 
-	public static String DelOrder(ArrayList<String> arr) {
+	public static String CancelOrder(ArrayList<String> arr) {
 		try {
-			PreparedStatement update = conn.prepareStatement("DELETE FROM orders WHERE OrderID=" + arr.get(0));
+			PreparedStatement update = conn.prepareStatement("UPDATE orders SET OrderStatus=? WHERE OrderID=?");
+			update.setString(7, "cancelled");
+			update.setString(2, arr.get(0));
 			update.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return "The Order Deleted Successfully";
+		return "The Order Cancelled Successfully";
+
 	}
 }

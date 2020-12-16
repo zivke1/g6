@@ -135,11 +135,11 @@ public class EchoServer extends AbstractServer {
 				client.sendToClient(returnArr);
 				return;
 			}
-			if(arr.contains("DelOrder"))
+			if(arr.contains("CancelOrder"))
 			{
-				arr.remove("DelOrder");
+				arr.remove("CancelOrder");
 				ArrayList<String> returnArr = new ArrayList<>();
-				String ret=mysqlConnection.DelOrder(arr);
+				String ret=mysqlConnection.CancelOrder(arr);
 				returnArr.add(ret);
 				client.sendToClient(returnArr);
 			}
