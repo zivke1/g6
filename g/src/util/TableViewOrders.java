@@ -1,16 +1,18 @@
 package util;
 
+import java.util.ArrayList;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class TableViewOrders {
-	public ObservableList<OrderToView> getOrders(){
+	public ObservableList<OrderToView> getOrders(ArrayList<OrderToView> temp){
 		ObservableList<OrderToView> orders = FXCollections.observableArrayList();
 		
-		orders.add(new OrderToView());
-		
-		
-		
+		for( int i = 0; i < temp.size(); i++) {
+			if(temp.get(i) != null)
+				orders.add(temp.get(i));
+		}
 		
 		return orders;
 	}

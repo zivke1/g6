@@ -1,5 +1,6 @@
 package clientTry;
 import util.NextStages;
+import util.OrderToView;
 
 import java.io.IOException;
 import java.net.URL;
@@ -9,7 +10,9 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
@@ -25,6 +28,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import util.NextStages;
 import util.Role;
+import util.TableViewOrders;
 public class HomePageForEmployeeController implements Initializable {
 
 	private String fName, lName, role, userID, parkName;
@@ -100,7 +104,7 @@ public class HomePageForEmployeeController implements Initializable {
 	private Button btnViewExistingOrder;
 
 	@FXML
-	private TableView<?> tblExisitingOrder;
+	private TableView<?> tblExistingOrder;
 
 	@FXML
 	private Label NoExistOrderMsg;
@@ -150,16 +154,16 @@ public class HomePageForEmployeeController implements Initializable {
 		AddInstructorController addInstructor = loader.getController();
 	//	addInstructor.setDetails(fName, lName, role, userID, parkName);
 	}
-
+	//user sign out
 	@FXML
 	void goToLoginP(MouseEvent event) {
 		ArrayList<String> arr = new ArrayList<String>();
 		arr.add("closeAndSetIdNull");
 		arr.add(userID);
 		ClientMain.chat.accept(arr);
-		NextStages nextStages = new NextStages("/fxmlFiles/LoginP.fxml","View Customer's Order");
+		NextStages nextStages = new NextStages("/fxmlFiles/LoginP.fxml","Login");
 		nextStages.goToNextStage(event);
-		LoginController logControl = loader.getController();
+		//LoginController logControl = loader.getController();
 	}
 
 	//Employee does
@@ -202,13 +206,35 @@ public class HomePageForEmployeeController implements Initializable {
 		//if customer Id is in orders table -> set visible tblExisitingOrder
 		ArrayList<String> arr = new ArrayList<>();
 		arr.add(userID);
-		arr.add("orders");
+		//arr.add("orders");
 		arr.add("CheckUserIDInTable");
 		ClientMain.chat.accept(arr);
-		ArrayList<String> temp = ChatClient.dataInArrayList;
-		if(temp.get(0).equals("True")) {
-			tblExisitingOrder.setVisible(true);
-			//make existing orders table
+		ArrayList<OrderToView> temp = ChatClient.dataInArrayListObject;
+		if(temp != null) {
+			TableView<OrderToView> table;
+			//OrderID Column
+			TableColumn<OrderToView, String> orderIDcolumn = new TableColumn<>("Order ID");
+			orderIDcolumn.setMinWidth(200);
+			orderIDcolumn.setCellValueFactory(new PropertyValueFactory<>("orderID"));
+			
+			//Status Column
+			TableColumn<OrderToView, String> statusColumn = new TableColumn<>("Status");
+			statusColumn.setMinWidth(200);
+			statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));		
+			
+			//Date Column
+			TableColumn<OrderToView, String> dateColumn = new TableColumn<>("Date");
+			dateColumn.setMinWidth(200);
+			dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));	
+			
+			TableViewOrders obsList = new TableViewOrders();
+			
+			table = new TableView<>();
+			table.setItems(obsList.getOrders(temp));
+			table.getColumns().addAll(orderIDcolumn, statusColumn, dateColumn);
+			tblExistingOrder = table;
+			tblExistingOrder.setVisible(true);
+			
 			//need to go to view existing order after pressing line in table
 			//NextStages nextStages = new NextStages("/fxmlFiles/ViewOrder.fxml","View Order");
 			//nextStages.goToNextStage(event);
@@ -248,7 +274,7 @@ public class HomePageForEmployeeController implements Initializable {
 		anchorDepManager.setVisible(false);
 		anchorCustomerrepResentativeEmp.setVisible(false);
 		anchorCustomer.setVisible(false);
-		tblExisitingOrder.setVisible(false);
+		tblExistingOrder.setVisible(false);
 		NoExistOrderMsg.setVisible(false);
 	}
 	
@@ -271,31 +297,31 @@ public class HomePageForEmployeeController implements Initializable {
 		if (role.equals(rolePM)) {
 			employeeCrums.setVisible(true);
 			anchorParkManager.setVisible(true);
-			greetingMsg.setText(fName + ", " + role + ", have a great day!");
+			greetingMsg.setText(fName.substring(0, 1).toUpperCase() + fName.substring(1) + ", " + role + ", have a great day!");
 			
 		}
 		else if (role.equals(roleDM)) {
 			employeeCrums.setVisible(true);
 			anchorDepManager.setVisible(true);
-			greetingMsg.setText(fName + ", " + role + ", have a great day!");
+			greetingMsg.setText(fName.substring(0, 1).toUpperCase() + fName.substring(1) + ", " + role + ", have a great day!");
 			
 		}
 		else if (role.equals(rolePE)) {
 			employeeCrums.setVisible(true);
 			anchorParkEmployee.setVisible(true);
-			greetingMsg.setText(fName + ", " + role + ", have a great day!");
+			greetingMsg.setText(fName.substring(0, 1).toUpperCase() + fName.substring(1) + ", " + role + ", have a great day!");
 			
 		}
 		else if (role.equals(roleSR)) {
 			employeeCrums.setVisible(true);
 			anchorCustomerrepResentativeEmp.setVisible(true);
-			greetingMsg.setText(fName + ", " + role + ", have a great day!");
+			greetingMsg.setText(fName.substring(0, 1).toUpperCase() + fName.substring(1) + ", " + role + ", have a great day!");
 			
 		}
 		else if (role.equals(roleM)) {
 			customerCrums.setVisible(true);
 			anchorCustomer.setVisible(true);
-			greetingMsg.setText(fName + ", happy to see you!");
+			greetingMsg.setText(fName.substring(0, 1).toUpperCase() + fName.substring(1) + ", happy to see you!");
 			
 		}
 		else if (role.equals(roleU)) {
@@ -307,7 +333,7 @@ public class HomePageForEmployeeController implements Initializable {
 		else if (role.equals(roleG)) {
 			customerCrums.setVisible(true);
 			anchorCustomer.setVisible(true);
-			greetingMsg.setText(fName + ", " + role + ", happy to see you!");	
+			greetingMsg.setText(fName.substring(0, 1).toUpperCase() + fName.substring(1) + ", " + role + ", happy to see you!");	
 		}
 	}
 

@@ -83,10 +83,11 @@
                <children>
                   <Button fx:id="btnMakeOrderCustomer" layoutX="26.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#goToNewOrderCustomer" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Make New Order" />
                   <Button fx:id="btnViewExistingOrder" layoutX="286.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#goToViewOrderCustomer" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="View Existing Orders" />
-                  <TableView fx:id="tblExisitingOrder" layoutX="286.0" layoutY="119.0" prefHeight="201.0" prefWidth="239.0" visible="false">
+                  <TableView fx:id="tblExistingOrder" layoutX="286.0" layoutY="119.0" prefHeight="201.0" prefWidth="336.0" visible="false">
                     <columns>
                       <TableColumn prefWidth="130.0" text="Order ID" />
                         <TableColumn prefWidth="108.0" text="Status" />
+                        <TableColumn prefWidth="75.0" text="Column X" />
                     </columns>
                   </TableView>
                   <Label fx:id="NoExistOrderMsg" layoutX="36.0" layoutY="172.0" text="No Existing Orders!" visible="false">

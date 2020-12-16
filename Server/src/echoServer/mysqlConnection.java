@@ -94,16 +94,16 @@ public class mysqlConnection {
 
 // need to go over existing table given its name and find the id
 	// or search id in a given table- maybe not show it
-	
-	public static ArrayList<OrderToView> ReturnUserIDInTable(Object arr) {
+
+	public static ArrayList<OrderToView> ReturnUserIDInTableOrders(Object arr) {
 		if (arr instanceof ArrayList) {
 			ArrayList<String> array = (ArrayList<String>) arr;
-
-			if (array.get(0) != null) { // index 0 = userID
+			if (array != null && array.get(0) != null) {// index 0 = userID
 				ArrayList<OrderToView> ar = showTableOrders(array.get(0));
 				return ar;
 			}
-			return ;
+		}
+		return null;
 	}
 
 	public static String CheckUserIDInTable(Object arr) {
