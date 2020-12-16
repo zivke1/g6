@@ -33,7 +33,8 @@ public class ClientMain extends Application {
 		//EnterIDController controller;
 		try {
 			FXMLLoader loader=new FXMLLoader();
-			loader.setLocation(getClass().getResource("../fxmlFiles/LoginP.fxml"));
+//			loader.setLocation(getClass().getResource("../fxmlFiles/LoginP.fxml"));
+			loader.setLocation(getClass().getResource("../fxmlFiles/OrderNew.fxml"));
 			borderPane = loader.load();
 			//controller = loader.getController();
 		} catch (IOException e) {
