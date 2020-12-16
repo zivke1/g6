@@ -1,4 +1,3 @@
-
 package echoServer;
 
 import java.sql.Connection;
@@ -9,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.SQLSyntaxErrorException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
@@ -50,30 +50,27 @@ public class mysqlConnection {
 		}
 	}
 
-	public static ArrayList<String> showTable(Object id) {
-		ArrayList<String> dataFromDB = new ArrayList<>();
-		try {// inserting new row to the table
-			String firstName = null, lastName = null, ID = null, email = null, phoneNum = null;
-			Statement stmt = conn.createStatement();
-			String tmpId = ((ArrayList<String>) id).get(0);
-			ResultSet rs = stmt.executeQuery("select * from visitor Where ID=" + tmpId);
-			while (rs.next()) {
-				firstName = rs.getString("FirstName");
-				lastName = rs.getString("LastName");
-				ID = rs.getString("ID");
-				email = rs.getString("Email");
-				phoneNum = rs.getString("PhoneNumber");
-			}
-			dataFromDB.add(firstName);
-			dataFromDB.add(lastName);
-			dataFromDB.add(ID);
-			dataFromDB.add(email);
-			dataFromDB.add(phoneNum);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return dataFromDB;
-	}
+//	public static ArrayList<String> showTable(Object id) { ArrayList<String>
+//	  dataFromDB = new ArrayList<>(); try {// inserting new row to the table String
+//	  firstName = null, lastName = null, ID = null, email = null, phoneNum = null;
+//	  Statement stmt = conn.createStatement(); String tmpId = ((ArrayList<String>)
+//	  id).get(0); ResultSet rs =
+//	  stmt.executeQuery("select * from visitor Where ID=" + tmpId); while
+//	  (rs.next()) { firstName = rs.getString("FirstName"); lastName =
+//	  rs.getString("LastName"); ID = rs.getString("ID"); email =
+//	  rs.getString("Email"); phoneNum = rs.getString("PhoneNumber"); }
+//	  dataFromDB.add(firstName); dataFromDB.add(lastName); dataFromDB.add(ID);
+//	  dataFromDB.add(email); dataFromDB.add(phoneNum); } catch (SQLException e) {
+//	  e.printStackTrace(); } return dataFromDB; }
+//
+//	public static String CheckID(Object id) {
+//		if (id != null) {
+//			ArrayList<String> arr = showTable(id);
+//			if (((ArrayList<String>) id).get(0).equals(arr.get(2)))
+//				return "True";
+//		}
+//		return "False";
+//	}
 
 	public static void updateTable(Object arr)// arr={the new value u want,its ID,the column we want to change}
 	{
@@ -97,16 +94,48 @@ public class mysqlConnection {
 		}
 	}
 
-	public static String CheckID(Object id) {
-		if (id != null) {
-			ArrayList<String> arr = showTable(id);
-			if (((ArrayList<String>) id).get(0).equals(arr.get(2)))
-				return "True";
+// need to go over existing table given its name and find the id
+	// or search id in a given table- maybe not show it
+	public static String CheckUserIDInTable(Object arr) {
+		if (arr instanceof ArrayList) {
+			ArrayList<String> array = (ArrayList<String>) arr;
+
+			if (array.get(0) != null) { // index 0 = userID
+				ArrayList<String> ar = showTableOrders(array.get(0));
+				if (((ArrayList<String>) array).get(0).equals(array.get(0)))
+					return "True";
+			}
 		}
 		return "False";
 	}
 
+	public static ArrayList<String> showTableOrders(Object id) {
+		ArrayList<String> dataFromDB = new ArrayList<>();
+		try {// inserting new row to the table
+			String firstName = null, lastName = null, ID = null, email = null, phoneNum = null;
+			Statement stmt = conn.createStatement();
+			String tmpId = ((ArrayList<String>) id).get(0);
+			ResultSet rs = stmt.executeQuery("select * from orderes Where ID=" + tmpId);
+			while (rs.next()) {
+				firstName = rs.getString("FirstName");
+				lastName = rs.getString("LastName");
+				ID = rs.getString("ID");
+				email = rs.getString("Email");
+				phoneNum = rs.getString("PhoneNumber");
+			}
+			dataFromDB.add(firstName);
+			dataFromDB.add(lastName);
+			dataFromDB.add(ID);
+			dataFromDB.add(email);
+			dataFromDB.add(phoneNum);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dataFromDB;
+	}
+
 	public static ArrayList<String> checkIfEmployee(ArrayList<String> arr) throws SQLException {
+
 		String id, firstName, lastName, role, connected, password, park;
 		connected = "true";
 		ArrayList<String> toReturn = new ArrayList<String>();
@@ -180,7 +209,7 @@ public class mysqlConnection {
 
 	public static String RegisterMember(ArrayList<String> arr) {
 		int memberID = 0;
-		if (!insertToUsers(arr.get(2)))
+		if (!checkIDExistsInMembership(arr.get(2)))
 			return "Exists";
 		try {// inserting new row to the table
 			Random rand = new Random();
@@ -192,25 +221,12 @@ public class mysqlConnection {
 					update.setString(i + 2, ((ArrayList<String>) arr).get(i));
 				else
 					update.setString(i + 1, ((ArrayList<String>) arr).get(i));
-			boolean flagExists = true;
-			while (flagExists) {
-				try {
+			do {
+				memberID = rand.nextInt(899999);
+				memberID += 100000;
+			} while (!checkMemberIDExistsInMembership("" + memberID));
 
-					memberID = rand.nextInt(899999);
-					memberID += 100000;
-					String ID = "";
-					Statement stmt = conn.createStatement();
-					ResultSet rs = stmt.executeQuery("select * from visitor Where memberID=" + memberID);
-					while (rs.next()) {
-						ID = rs.getString("ID");
-					}
-				} catch (SQLException e) {
-					flagExists = false;
-					update.setString(8, "" + memberID);
-				}
-
-			}
-
+			update.setString(8, "" + memberID);
 			update.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -220,17 +236,44 @@ public class mysqlConnection {
 		return memberID + "";
 	}
 
-	private static boolean insertToUsers(String id)// adding new user
+	private static boolean checkIDExistsInMembership(String id)// adding new user
 	{
-		try {
-			PreparedStatement update = conn.prepareStatement("INSERT INTO useres (UserID,Connect) VALUES (?, ?)");
-			update.setString(1, id);
-			update.setString(2, null);
-			update.executeUpdate();
+		try {// inserting new row to the table
+			String firstName = null, lastName = null, ID = null, email = null, phoneNum = null;
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from members Where ID=" + id);
+			int count = 0;
+			while (rs.next()) {
+				ID = rs.getString("ID");
+				count++;
+			}
+			if (count == 0)
+				return true;
+
 		} catch (SQLException e) {
-			return false;
+			e.printStackTrace();
 		}
-		return true;
+		return false;
+	}
+
+	private static boolean checkMemberIDExistsInMembership(String memberID)// adding new user
+	{
+		try {// inserting new row to the table
+			String firstName = null, lastName = null, ID = null, email = null, phoneNum = null;
+			Statement stmt = conn.createStatement();
+			;
+			ResultSet rs = stmt.executeQuery("select * from members Where memberID=" + memberID);
+			int count = 0;
+			while (rs.next()) {
+				ID = rs.getString("memberID");
+				count++;
+			}
+			if (count == 0)
+				return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	public static ArrayList<String> checkIfIdConnectedWithMemberId(ArrayList<String> arr) throws SQLException {
@@ -269,6 +312,22 @@ public class mysqlConnection {
 
 	}
 
+	public static boolean insertParaUpdate(Object arr) {
+		try {// inserting new row to the table
+			ArrayList<String> a = (ArrayList<String>) arr;
+			PreparedStatement update = conn.prepareStatement(
+					"INSERT INTO paraUpdate (ParkName, paraType, ParaVal, dateOfRequest, FromDate, UntilDate) VALUES (?, ?, ?, ?,?,?)");
+			System.out.println("arr size " + a.size() + " arr val " + arr);
+			for (int i = 0; i < ((ArrayList<String>) arr).size(); i++)
+				update.setString(i + 1, ((ArrayList<String>) arr).get(i));
+			update.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
 	public static ArrayList<String> FetchParkDetails(ArrayList<String> arr) {
 		ArrayList<String> dataFromDB = new ArrayList<>();
 		try {
@@ -304,6 +363,7 @@ public class mysqlConnection {
 
 	}
 
+
 	public static ArrayList<String> visitorAmountReport(ArrayList<String> arr) {
 		ArrayList<String> dataFromDB = new ArrayList<>();
 		String year = arr.get(1), month = arr.get(2), amountOfVisitors = null, amountOfPersonal = null,
@@ -327,9 +387,7 @@ public class mysqlConnection {
 			}
 			
 			while (rs.next()) {
-			
-				amountOfVisitors = rs.getString(1);
-				
+				amountOfVisitors = rs.getString(1);	
 			}
 
 		} catch (SQLException e) {
@@ -413,6 +471,53 @@ public class mysqlConnection {
 		dataFromDB.add(amountOfMember);
 		dataFromDB.add("VisitorAmountReport");
 		return dataFromDB;
+}
+	public static ArrayList<String> ViewOrders(ArrayList<String> arr) {
+
+		ArrayList<String> dataFromDB = new ArrayList<>();
+		try {
+			String parkName = "", ExpectedEnterTime = "", TypeOfOrder = "", OrderStatus = "", Email = "";
+			Date VisitDate = null;
+			Integer VisitorsAmount = 0;
+			Float Payment = 0f;
+			Statement stmt = conn.createStatement();
+			String orderID = arr.get(0);
+			ResultSet rs = stmt.executeQuery("select * from orders Where OrderID=" + orderID);
+			while (rs.next()) {
+				parkName = rs.getString("ParkName");
+				ExpectedEnterTime = rs.getString("ExpectedEnterTime");
+				VisitDate = rs.getDate("VisitDate");
+				VisitorsAmount = rs.getInt("VisitorsAmount");
+				TypeOfOrder = rs.getString("TypeOfOrder");
+				OrderStatus = rs.getString("OrderStatus");
+				Payment = rs.getFloat("Payment");
+				Email = rs.getString("Email");
+			}
+			dataFromDB.add(orderID);
+			dataFromDB.add(parkName);
+			dataFromDB.add(ExpectedEnterTime);
+			dataFromDB.add(VisitDate.toString());
+			dataFromDB.add(VisitorsAmount.toString());
+			dataFromDB.add(TypeOfOrder);
+			dataFromDB.add(OrderStatus);
+			dataFromDB.add(Payment.toString());
+			dataFromDB.add(Email);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dataFromDB;
+	}
+
+	public static String CancelOrder(ArrayList<String> arr) {
+		try {
+			PreparedStatement update = conn.prepareStatement("UPDATE orders SET OrderStatus=? WHERE OrderID=?");
+			update.setString(7, "cancelled");
+			update.setString(2, arr.get(0));
+			update.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "The Order Cancelled Successfully";
 
 	}
 }

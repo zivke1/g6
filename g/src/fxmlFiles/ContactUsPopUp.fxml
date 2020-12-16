@@ -32,7 +32,7 @@
    <center>
       <AnchorPane prefHeight="434.0" prefWidth="455.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="finishOrderBtn" layoutX="319.0" layoutY="376.0" mnemonicParsing="false" onMouseClicked="#finishOrderClicked" prefHeight="44.0" prefWidth="122.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Exit" />
+            <Button layoutX="319.0" layoutY="376.0" mnemonicParsing="false" onMouseClicked="#exit" prefHeight="44.0" prefWidth="122.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Exit" />
             <Text layoutX="19.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You are welcome to contact us via:">
                <font>
                   <Font size="20.0" />

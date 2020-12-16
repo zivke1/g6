@@ -21,7 +21,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class MembershipRegisertrationController {
-
+	//private String pName="";
 	ObservableList<String> amountOfVisitors = FXCollections.observableArrayList("1", "2", "3", "4", "5", "6", "7", "8",
 			"9", "10", "11", "12", "13", "14", "15");
 
@@ -66,6 +66,11 @@ public class MembershipRegisertrationController {
 
 	@FXML
 	private Label errorMsg;
+	private String fNameH;
+	private String lNameH;
+	private String roleH;
+	private String userIDH;
+	private String parkNameH;
 
 	@FXML
 	void backClicked(MouseEvent event) {
@@ -77,6 +82,8 @@ public class MembershipRegisertrationController {
 			root = loader.load(getClass().getResource("/fxmlFiles/HomePageForEmployee.fxml").openStream());
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
+			HomePageForEmployeeController controller=loader.getController();
+			controller.setDetails(fNameH, lNameH, roleH, userIDH, parkNameH);
 			stage.setTitle("HomePage");
 			stage.setScene(scene);
 			stage.show();
@@ -203,6 +210,7 @@ public class MembershipRegisertrationController {
 					root = loader.load(getClass().getResource("/fxmlFiles/MembershipRegistrationSuccess.fxml").openStream());
 					MembershipRegistrationSucccesCon controller=loader.getController();
 					controller.updateMemberNum(ChatClient.dataInArrayList.get(0));
+					controller.setDetails(fNameH, lNameH, roleH, userIDH, parkNameH);;
 					Scene scene = new Scene(root);
 					scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
 					stage.setTitle("Membership Registration Success");
@@ -218,7 +226,6 @@ public class MembershipRegisertrationController {
 
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
-		((Node) event.getSource()).getScene().getWindow().hide();
 		Stage stage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Parent root;
@@ -252,5 +259,13 @@ public class MembershipRegisertrationController {
 	public void initialize() {// initializing the combo box
 		numVisitor.setValue("1");
 		numVisitor.setItems(amountOfVisitors);
+	}
+	public void setDetails(String fName, String lName, String role, String userID, String parkName)
+	{
+		this.fNameH=fName;
+		this.lNameH=lName;
+		this.roleH=role;
+		this.userIDH=userID;
+		this.parkNameH=parkName;
 	}
 }

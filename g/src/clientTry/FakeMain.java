@@ -28,9 +28,10 @@ public class FakeMain extends Application {
 		try {
 			FXMLLoader loader=new FXMLLoader();
 
-			loader.setLocation(getClass().getResource("/fxmlFiles/AddInstructor.fxml"));
+			loader.setLocation(getClass().getResource("/fxmlFiles/ViewOrder.fxml"));
 			borderPane = loader.load();
-			//controller = loader.getController();
+			ViewOrderController controller = loader.getController();
+			controller.setDetails(null, null, "Member", null, null, "11");
 		} catch (IOException e) {
 		e.printStackTrace();
 		}	

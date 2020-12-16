@@ -1,3 +1,4 @@
+
 package clientTry;
 
 import java.io.IOException;
@@ -128,6 +129,8 @@ public class ParkDetailsController {
 		Parent root;
 		try {
 			root = loader.load(getClass().getResource("/fxmlFiles/HomePageForEmployee.fxml").openStream());
+			HomePageForEmployeeController v=loader.getController();
+			v.setDetails(fName,lName,role,userID,parkNameS);
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
 			stage.setTitle("Home Page For Employee");
@@ -187,3 +190,4 @@ public class ParkDetailsController {
 	}
 
 }
+
