@@ -207,7 +207,7 @@ public class HomePageForEmployeeController implements Initializable {
 		ArrayList<String> arr = new ArrayList<>();
 		arr.add(userID);
 		//arr.add("orders");
-		arr.add("CheckUserIDInTable");
+		arr.add("ReturnUserIDInTableOrders");
 		ClientMain.chat.accept(arr);
 		ArrayList<OrderToView> temp = ChatClient.dataInArrayListObject;
 		if(temp != null) {

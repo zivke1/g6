@@ -106,6 +106,7 @@ public class mysqlConnection {
 		return null;
 	}
 
+	
 	public static String CheckUserIDInTable(Object arr) {
 		if (arr instanceof ArrayList) {
 			ArrayList<String> array = (ArrayList<String>) arr;
@@ -133,9 +134,10 @@ public class mysqlConnection {
 			Date OrderDate = null;
 
 			Statement stmt = conn.createStatement();
-			String tmpId = ((ArrayList<String>) id).get(0);
+			
+			String tmpId = (String)id;
 
-			ResultSet rs = stmt.executeQuery("select * from orders Where ID=" + tmpId);
+			ResultSet rs = stmt.executeQuery("select * from orders Where UserID=" + tmpId);
 			while (rs.next()) {
 				UserID = rs.getString("UserID");
 				OrderID = rs.getString("OrderID");

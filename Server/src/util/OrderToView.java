@@ -1,9 +1,10 @@
 package util;
+import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
 
 
-public class OrderToView {
+public class OrderToView implements Serializable {
 	private String userID;
 	private String orderID;
 	private String status;
