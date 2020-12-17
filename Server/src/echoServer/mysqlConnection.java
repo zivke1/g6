@@ -409,7 +409,7 @@ public class mysqlConnection {
 		}else {
 			// parkDetils=Capacity,GapVisitors,TimeOfAvergeVisit
 			int visitosAmount = checkNumberOfVisitorsNow(arr.get(1));
-			if(visitosAmount+numberOfVisitorsInInvite<Capacity) {
+			if(visitosAmount+numberOfVisitorsInInvite>Capacity) {
 				toReturn.add("TheParkIsFull");
 				return toReturn;//TODO if there is not occaional invite i retrun only TheParkIsFull
 			}else {
@@ -424,6 +424,9 @@ public class mysqlConnection {
 				price = (float) (price * (100 - extraDiscount) / 100.0);
 				toReturn.add("InviteConfirm");
 				toReturn.add(String.valueOf(price));// confirmed or theParkIsFull then price
+				String orderNumber = getOrderNumber();
+				
+				addToOrdersTable(arr, price, orderNumber, "active");
 			}
 		}
 		return toReturn;
@@ -475,10 +478,13 @@ public class mysqlConnection {
 				orderID = rand.nextInt(899999);
 				orderID += 100000;
 				String ID = "";
-				Statement stmt = conn.createStatement();
-				ResultSet rs = stmt.executeQuery("select * from orders Where OrderID=" + orderID);
+				Statement stmt = conn.createStatement();//select count(*) from foo where id
+				ResultSet rs = stmt.executeQuery("select count(*) from orders Where OrderID=" + orderID);
 				while (rs.next()) {
-					ID = rs.getString("ID");
+					ID = rs.getString("count(*)");
+				}
+				if(ID.equals("0")) {
+					break;
 				}
 			} catch (SQLException e) {
 				flagExists = false;
@@ -493,12 +499,12 @@ public class mysqlConnection {
 			throws SQLException {
 		PreparedStatement update = conn.prepareStatement(
 				"INSERT INTO orders (UserID, OrderID, ParkName, ExpectedEnterTime, VisitDate, VisitorsAmount,TypeOfOrder,OrderStatus,EnterTime,ExitTime,Occasional,VisitorsAmountActual,Payment,Email) VALUES (?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?)");
-		update.setString(1, arr.get(0));
+		update.setString(1, arr.get(0));//INSERT INTO `visitorschema`.`orders` (`UserID`, `OrderID`, `ParkName`, `ExpectedEnterTime`, `VisitDate`, `VisitorsAmount`, `TypeOfOrder`, `OrderStatus`, `EnterTime`, `ExitTime`, `Occasional`, `VisitorsAmountActual`, `Payment`, `Email`) VALUES ('a', 'q', '1', '2', '1', '1', '1', '2', '3', '4', '5', '4', '4', '4');
 		update.setString(2, orderNumber);
 		update.setString(3, arr.get(1));
-		update.setString(4, arr.get(3));
-		update.setString(5, arr.get(4));
-		update.setString(6, arr.get(5));
+		update.setString(4, arr.get(2));
+		update.setString(5, arr.get(3));
+		update.setString(6, arr.get(4));
 		if (!(arr.get(7).equals("guide"))) {
 			update.setString(7, arr.get(7));
 		} else {

@@ -190,7 +190,7 @@ public class OrderController implements Initializable {
 		setParkCombo(tempArrayList);
 		setNumberOfVistors(15);
 		
-		setDetailsOfOwner("315766014", "member",false);
+		setDetailsOfOwner("315766014", "member",true);
 	}
 
 	@FXML
