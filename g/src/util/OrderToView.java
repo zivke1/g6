@@ -5,6 +5,10 @@ import java.util.Date;
 
 
 public class OrderToView implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String orderID;
 	private String status;
 	private Date date;
@@ -28,6 +32,34 @@ public class OrderToView implements Serializable {
 	//	this.email = email;
 	//	this.occasional = occasional;
 	//	this.totalCost = totalCost;
+	}
+
+	public String getOrderID() {
+		return orderID;
+	}
+
+	public void setOrderID(String orderID) {
+		this.orderID = orderID;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	
 	

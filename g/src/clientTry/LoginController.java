@@ -241,7 +241,8 @@ public class LoginController {
 		loader.setLocation(getClass().getResource("../fxmlFiles/HomePageForEmployee.fxml"));
 		borderPane = loader.load();
 		HomePageForEmployeeController homePageForEmployeeController = loader.getController();
-
+		
+		
 		switch (userType) {
 		case member: {
 			fName = ChatClient.dataInArrayList.get(1);

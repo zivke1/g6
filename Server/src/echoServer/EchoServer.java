@@ -73,6 +73,7 @@ public class EchoServer extends AbstractServer {
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
 //TODO we need to change it to switch case or even if else
 		try {
+			
 			ArrayList<String> dataFromDb;
 			ArrayList<String> arr = (ArrayList<String>) msg;
 			if (arr.contains("FetchParkDetails")) {
@@ -143,7 +144,9 @@ public class EchoServer extends AbstractServer {
 			}
 			if (arr.contains("closeAndSetIdNull")) {
 				arr.remove("closeAndSetIdNull");
-				mysqlConnection.closeAndSetIdNull(arr);
+				String tmp = "";
+				tmp = mysqlConnection.closeAndSetIdNull(arr);
+				client.sendToClient(tmp);
 				if(arr.contains("disconnect")) {
 					arr.remove("disconnect");
 					clientDisconnected(null);

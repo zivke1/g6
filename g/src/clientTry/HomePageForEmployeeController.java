@@ -104,7 +104,7 @@ public class HomePageForEmployeeController implements Initializable {
 	private Button btnViewExistingOrder;
 
 	@FXML
-	private TableView<?> tblExistingOrder;
+	private TableView<OrderToView> tblExistingOrder;
 
 	@FXML
 	private Label NoExistOrderMsg;
@@ -207,32 +207,35 @@ public class HomePageForEmployeeController implements Initializable {
 		ArrayList<String> arr = new ArrayList<>();
 		arr.add(userID);
 		//arr.add("orders");
+		//ReturnUserIDInTableOrders
 		arr.add("ReturnUserIDInTableOrders");
 		ClientMain.chat.accept(arr);
 		ArrayList<OrderToView> temp = ChatClient.dataInArrayListObject;
-		if(temp != null) {
-			TableView<OrderToView> table;
+		if(!temp.isEmpty()) {
+		//	TableView<OrderToView> table;
 			//OrderID Column
 			TableColumn<OrderToView, String> orderIDcolumn = new TableColumn<>("Order ID");
-			orderIDcolumn.setMinWidth(200);
+			orderIDcolumn.setMinWidth(150);
 			orderIDcolumn.setCellValueFactory(new PropertyValueFactory<>("orderID"));
 			
 			//Status Column
 			TableColumn<OrderToView, String> statusColumn = new TableColumn<>("Status");
-			statusColumn.setMinWidth(200);
+			statusColumn.setMinWidth(150);
 			statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));		
 			
 			//Date Column
 			TableColumn<OrderToView, String> dateColumn = new TableColumn<>("Date");
-			dateColumn.setMinWidth(200);
+			dateColumn.setMinWidth(150);
 			dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));	
 			
 			TableViewOrders obsList = new TableViewOrders();
-			
-			table = new TableView<>();
-			table.setItems(obsList.getOrders(temp));
-			table.getColumns().addAll(orderIDcolumn, statusColumn, dateColumn);
-			tblExistingOrder = table;
+		//	tblExistingOrder = new TableView<>();
+			tblExistingOrder.setItems(obsList.getOrders(temp));
+			tblExistingOrder.getColumns().addAll(orderIDcolumn, statusColumn, dateColumn);
+			//table = new TableView<>();
+			//table.setItems(obsList.getOrders(temp));
+		//	table.getColumns().addAll(orderIDcolumn, statusColumn, dateColumn);
+			//tblExistingOrder = table;
 			tblExistingOrder.setVisible(true);
 			
 			//need to go to view existing order after pressing line in table
@@ -287,10 +290,10 @@ public class HomePageForEmployeeController implements Initializable {
 		this.role = role;
 		this.parkName = parkName;
 		String roleM = Role.Member.toString().toLowerCase();
-		String rolePM = Role.ParkManager.toString().toLowerCase();
-		String roleDM = Role.DepartmentManager.toString().toLowerCase();
-		String rolePE = Role.ParkEmployee.toString().toLowerCase();
-		String roleSR = Role.ServiceRepresentative.toString().toLowerCase();
+		String rolePM = Role.ParkManager.toString();
+		String roleDM = Role.DepartmentManager.toString();
+		String rolePE = Role.ParkEmployee.toString();
+		String roleSR = Role.ServiceRepresentative.toString();
 		String roleU = Role.User.toString().toLowerCase();
 		String roleG = Role.Guide.toString().toLowerCase();
 		

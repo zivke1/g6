@@ -355,9 +355,10 @@ public class mysqlConnection {
 
 	}
 
-	public static void closeAndSetIdNull(ArrayList<String> arr) throws SQLException {
+	public static String closeAndSetIdNull(ArrayList<String> arr) throws SQLException {
 		String id = arr.get(0);
 		m_connectedID.remove(id);
+		return "true";
 
 	}
 }
