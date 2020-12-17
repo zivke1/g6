@@ -241,10 +241,10 @@ public class mysqlConnection {
 		try {// inserting new row to the table
 			String firstName = null, lastName = null, ID = null, email = null, phoneNum = null;
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("select * from members Where ID=" + id);
+			ResultSet rs = stmt.executeQuery("select * from members Where memberID=" + id);
 			int count = 0;
 			while (rs.next()) {
-				ID = rs.getString("ID");
+				ID = rs.getString("memberID");
 				count++;
 			}
 			if (count == 0)

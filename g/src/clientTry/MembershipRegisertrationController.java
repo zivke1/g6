@@ -195,7 +195,7 @@ public class MembershipRegisertrationController {
 			else
 				arr.add("cash");
 			arr.add("member");
-			ClientMain.chat.accept(arr);
+			FakeMain.chat.accept(arr);
 			if (ChatClient.dataInArrayList.contains("Exists")) {
 				ChatClient.dataInArrayList.clear();
 				errorMsg.setText("This ID already exists in our system");
