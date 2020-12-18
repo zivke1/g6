@@ -200,7 +200,7 @@ public class AddInstructorController {
 			else
 				arr.add("cash");
 			arr.add("guide");
-			FakeMain.chat.accept(arr);
+			ClientMain.chat.accept(arr);
 			if (ChatClient.dataInArrayList.contains("Exists")) {
 				ChatClient.dataInArrayList.clear();
 				errorMsg.setText("This ID already exists in our system");
