@@ -35,7 +35,7 @@ import javafx.stage.Stage;
  */
 
 public class paraController {
-	private String parkName, discount, duration, gap, maxCapacity;
+	private String parkName, discount, duration, gap, maxCapacity,fNameH,lNameH,roleH,userIDH,parkNameH;
 	private LocalDate from, until;
 	private boolean chosenDuration = false, chosenDiscount = false, chosenGap = false, chosenCapacity = false;
 
@@ -143,6 +143,8 @@ public class paraController {
 		Parent root;
 		try {
 			root = loader.load(getClass().getResource("/fxmlFiles/HomePageForEmployee.fxml").openStream());
+			HomePageForEmployeeController controller=loader.getController();
+			controller.setDetails(fNameH, lNameH, roleH, userIDH, parkNameH);
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
 			stage.setTitle("HomePage");
@@ -438,6 +440,15 @@ public class paraController {
 	public void sendToParaController(String parkName) {
 		this.parkName = parkName;
 		parks_name.setText(parkName);
+
+	}
+	public void setDetails(String fName, String lName, String role, String userID, String parkName)
+	{
+		this.fNameH=fName;
+		this.lNameH=lName;
+		this.roleH=role;
+		this.userIDH=userID;
+		this.parkNameH=parkName;
 
 	}
 
