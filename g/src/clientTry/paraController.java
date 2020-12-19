@@ -180,12 +180,10 @@ public class paraController {
 		LocalDateTime d;
 		if (chosenCapacity) {
 			arr.add("sendToDeparmentManager");
-			// arr.add(parkName);
-			arr.add("Haalid park");
+			arr.add(parkName);
 			arr.add("capacity");
 			arr.add(maxCapacity);
 			d = LocalDateTime.now();
-		//	String str= d.getYear()+"-"+d.getDay()+"-"+d.getMonth()+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
 			arr.add(d.toString());
 			arr.add(null);
 			arr.add(null);
@@ -198,12 +196,10 @@ public class paraController {
 		}
 		if (chosenDiscount) {
 			arr.add("sendToDeparmentManager");
-			// arr.add(parkName);
-			arr.add("Hallid is Acbar");
+			arr.add(parkName);
 			arr.add("Discount");
 			arr.add(discount);
 			d = LocalDateTime.now();
-			//String str= d.getYear()+"-"+d.getDay()+"-"+d.getMonth()+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
 			arr.add(d.toString());
 			arr.add(from.toString());
 			arr.add(until.toString());
@@ -217,8 +213,7 @@ public class paraController {
 		}
 		if (chosenDuration) {
 			arr.add("sendToDeparmentManager");
-			// arr.add(parkName);
-			arr.add("Haalid park");
+			 arr.add(parkName);
 			arr.add("Duration");
 			arr.add(duration);
 			d = LocalDateTime.now();
@@ -235,12 +230,10 @@ public class paraController {
 		}
 		if (chosenGap) {
 			arr.add("sendToDeparmentManager");
-			// arr.add(parkName);
-			arr.add("Haalid park");
+			arr.add(parkName);
 			arr.add("Gap");
 			arr.add(gap);
 			d = LocalDateTime.now();
-//			String str= d.getYear()+"-"+d.getDay()+"-"+d.getMonth()+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
 			arr.add(d.toString());
 			arr.add(null);
 			arr.add(null);

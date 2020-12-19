@@ -1,6 +1,7 @@
 package clientTry;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,35 +14,35 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class CancelReportController {
-	private String fNameH,lNameH,roleH,userIDH,parkNameH;
+	private String fNameH, lNameH, roleH, userIDH, parkNameH;
 
-    @FXML
-    private Button backBtn;
+	@FXML
+	private Button backBtn;
 
-    @FXML
-    private Button helpBtn;
+	@FXML
+	private Button helpBtn;
 
-    @FXML
-    private Label numCancelOrders;
+	@FXML
+	private Label numCancelOrders;
 
-    @FXML
-    private Label numExpiredOrders;
+	@FXML
+	private Label numExpiredOrders;
 
-    @FXML
-    private ImageView imgContactUs;
+	@FXML
+	private ImageView imgContactUs;
 
-    @FXML
-    void backClicked(MouseEvent event) {
-    	Stage stage = new Stage();
+	@FXML
+	void backClicked(MouseEvent event) {
+		Stage stage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Parent root;
 		try {
 			root = loader.load(getClass().getResource("/fxmlFiles/ReportDepartmentManagerPage.fxml").openStream());
-			HomePageForEmployeeController controller=loader.getController();
+			ReportDeparmentManagerController controller = loader.getController();
 			controller.setDetails(fNameH, lNameH, roleH, userIDH, parkNameH);
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-			stage.setTitle("HomePage");
+			stage.setTitle("Report Deparment Manager");
 			stage.setScene(scene);
 			stage.show();
 		} catch (IOException e1) {
@@ -49,25 +50,28 @@ public class CancelReportController {
 		}
 	}
 
-    
+	@FXML
+	void goToContactUsPopUp(MouseEvent event) {
 
-    @FXML
-    void goToContactUsPopUp(MouseEvent event) {
+	}
 
-    }
+	@FXML
+	void helpBtnPressed(MouseEvent event) {
 
-    @FXML
-    void helpBtnPressed(MouseEvent event) {
+	}
 
-    }
-
-}
-public void setDetails(String fName, String lName, String role, String userID, String parkName)
-{
-	this.fNameH=fName;
-	this.lNameH=lName;
-	this.roleH=role;
-	this.userIDH=userID;
-	this.parkNameH=parkName;
-
+	public void setDetails(String fName, String lName, String role, String userID, String parkName) {
+		this.fNameH = fName;
+		this.lNameH = lName;
+		this.roleH = role;
+		this.userIDH = userID;
+		this.parkNameH = parkName;
+		//all the func work from here 
+		ArrayList<String> arr= new ArrayList<>();
+		arr.add("cancel report");
+		//ClientMain
+		FakeMain.chat.accept(arr);
+		numCancelOrders.setText(ChatClient.dataInArrayList.get(0));
+		numExpiredOrders.setText(ChatClient.dataInArrayList.get(1));
+	}
 }

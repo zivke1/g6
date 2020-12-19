@@ -13,19 +13,19 @@
    <top>
       <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
          <children>
-            <Text layoutX="178.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HeadLine">
+            <Text layoutX="178.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cancellation Report">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font>
             </Text>
             <ImageView fitHeight="135.0" fitWidth="176.0" layoutX="-9.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../img5.png" />
+                  <Image url="@/img/img5.png" />
                </image>
             </ImageView>
             <ImageView fx:id="imgContactUs" fitHeight="62.0" fitWidth="62.0" layoutX="951.0" layoutY="-1.0" onMouseClicked="#goToContactUsPopUp" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../contactus.png" />
+                  <Image url="@/img/contactus.png" />
                </image>
             </ImageView>
             <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
@@ -58,7 +58,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="numExpiredOrders" layoutX="203.0" layoutY="140.0">
+            <Label fx:id="numExpiredOrders" layoutX="217.0" layoutY="140.0" prefHeight="20.0" prefWidth="0.0">
                <font>
                   <Font size="14.0" />
                </font>

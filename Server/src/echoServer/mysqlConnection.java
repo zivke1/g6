@@ -17,6 +17,8 @@ import java.util.Scanner;
 
 import com.mysql.cj.jdbc.SuspendableXAConnection;
 
+import util.Role;
+
 public class mysqlConnection {
 	static Connection conn;
 	static HashSet<String> m_connectedID = new HashSet<String>();
@@ -228,7 +230,6 @@ public class mysqlConnection {
 				memberID = rand.nextInt(899999);
 				memberID += 100000;
 			} while (!checkMemberIDExistsInMembership("" + memberID));
-			
 
 			update.executeUpdate();
 		} catch (SQLException e) {
@@ -317,7 +318,6 @@ public class mysqlConnection {
 
 	}
 
-
 	public static boolean insertParaUpdate(Object arr) {
 		try {// inserting new row to the table
 			ArrayList<String> a = (ArrayList<String>) arr;
@@ -363,40 +363,39 @@ public class mysqlConnection {
 
 	}
 
-
-
 	public static void closeAndSetIdNull(ArrayList<String> arr) throws SQLException {
 		String id = arr.get(0);
 		m_connectedID.remove(id);
 
 	}
 
-
-
 	public static ArrayList<String> visitorAmountReport(ArrayList<String> arr) {
 		ArrayList<String> dataFromDB = new ArrayList<>();
 		String year = arr.get(1), month = arr.get(2), amountOfVisitors = null, amountOfPersonal = null,
 				amountOfGroup = null, amountOfMember = null;
-		String parkName="'"+arr.get(3)+"'";
+		String parkName = "'" + arr.get(3) + "'";
 		try {
 			ResultSet rs = null;
 			Statement stmt = conn.createStatement();
 			if (month.equals("02")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '" + year
-						+ "-" + month + "-01' AND '" + year + "-" + month + "-28' AND OrderStatus='finished' AND ParkName="+parkName);
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-28' AND OrderStatus='finished' AND ParkName=" + parkName);
 			}
 			if (month.equals("01") || month.equals("03") || month.equals("05") || month.equals("07")
 					|| month.equals("08") || month.equals("10") || month.equals("12")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '" + year
-						+ "-" + month + "-01' AND '" + year + "-" + month + "-31' AND OrderStatus='finished' AND ParkName="+parkName);
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-31' AND OrderStatus='finished' AND ParkName=" + parkName);
 			}
 			if (month.equals("04") || month.equals("06") || month.equals("09") || month.equals("11")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where (VisitDate BETWEEN '" + year
-						+ "-" + month + "-01' AND '" + year + "-" + month + "-30') AND OrderStatus='finished' AND ParkName="+parkName);
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where (VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-30') AND OrderStatus='finished' AND ParkName=" + parkName);
 			}
-			
+
 			while (rs.next()) {
-				amountOfVisitors = rs.getString(1);	
+				amountOfVisitors = rs.getString(1);
 			}
 
 		} catch (SQLException e) {
@@ -407,17 +406,20 @@ public class mysqlConnection {
 			ResultSet rs = null;
 			Statement stmt = conn.createStatement();
 			if (month.equals("02")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '" + year
-						+ "-" + month + "-01' AND '" + year + "-" + month + "-28' AND OrderStatus='finished' AND TypeOfOrder='user' AND ParkName="+parkName);
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-28' AND OrderStatus='finished' AND TypeOfOrder='user' AND ParkName=" + parkName);
 			}
 			if (month.equals("01") || month.equals("03") || month.equals("05") || month.equals("07")
 					|| month.equals("08") || month.equals("10") || month.equals("12")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '" + year
-						+ "-" + month + "-01' AND '" + year + "-" + month + "-31' AND OrderStatus='finished' AND TypeOfOrder='user' AND ParkName="+parkName);
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-31' AND OrderStatus='finished' AND TypeOfOrder='user' AND ParkName=" + parkName);
 			}
 			if (month.equals("04") || month.equals("06") || month.equals("09") || month.equals("11")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where (VisitDate BETWEEN '" + year
-						+ "-" + month + "-01' AND '" + year + "-" + month + "-30') AND OrderStatus='finished' AND TypeOfOrder='user' AND ParkName="+parkName);
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where (VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-30') AND OrderStatus='finished' AND TypeOfOrder='user' AND ParkName=" + parkName);
 			}
 			while (rs.next()) {
 				amountOfPersonal = rs.getString(1);
@@ -431,17 +433,20 @@ public class mysqlConnection {
 			ResultSet rs = null;
 			Statement stmt = conn.createStatement();
 			if (month.equals("02")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '" + year
-						+ "-" + month + "-01' AND '" + year + "-" + month + "-28' AND OrderStatus='finished' AND TypeOfOrder='member' AND ParkName="+parkName);
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-28' AND OrderStatus='finished' AND TypeOfOrder='member' AND ParkName=" + parkName);
 			}
 			if (month.equals("01") || month.equals("03") || month.equals("05") || month.equals("07")
 					|| month.equals("08") || month.equals("10") || month.equals("12")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '" + year
-						+ "-" + month + "-01' AND '" + year + "-" + month + "-31' AND OrderStatus='finished' AND TypeOfOrder='member' AND ParkName="+parkName);
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-31' AND OrderStatus='finished' AND TypeOfOrder='member' AND ParkName=" + parkName);
 			}
 			if (month.equals("04") || month.equals("06") || month.equals("09") || month.equals("11")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where (VisitDate BETWEEN '" + year
-						+ "-" + month + "-01' AND '" + year + "-" + month + "-30') AND OrderStatus='finished' AND TypeOfOrder='member' AND ParkName="+parkName);
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where (VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-30') AND OrderStatus='finished' AND TypeOfOrder='member' AND ParkName=" + parkName);
 			}
 			while (rs.next()) {
 				amountOfMember = rs.getString(1);
@@ -455,17 +460,20 @@ public class mysqlConnection {
 			ResultSet rs = null;
 			Statement stmt = conn.createStatement();
 			if (month.equals("02")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '" + year
-						+ "-" + month + "-01' AND '" + year + "-" + month + "-28' AND OrderStatus='finished' AND TypeOfOrder='group' AND ParkName="+parkName);
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-28' AND OrderStatus='finished' AND TypeOfOrder='group' AND ParkName=" + parkName);
 			}
 			if (month.equals("01") || month.equals("03") || month.equals("05") || month.equals("07")
 					|| month.equals("08") || month.equals("10") || month.equals("12")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '" + year
-						+ "-" + month + "-01' AND '" + year + "-" + month + "-31' AND OrderStatus='finished' AND TypeOfOrder='group' AND ParkName="+parkName);
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-31' AND OrderStatus='finished' AND TypeOfOrder='group' AND ParkName=" + parkName);
 			}
 			if (month.equals("04") || month.equals("06") || month.equals("09") || month.equals("11")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where (VisitDate BETWEEN '" + year
-						+ "-" + month + "-01' AND '" + year + "-" + month + "-30') AND OrderStatus='finished' AND TypeOfOrder='group' AND ParkName="+parkName);
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where (VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-30') AND OrderStatus='finished' AND TypeOfOrder='group' AND ParkName=" + parkName);
 			}
 			while (rs.next()) {
 				amountOfGroup = rs.getString(1);
@@ -480,7 +488,8 @@ public class mysqlConnection {
 		dataFromDB.add(amountOfMember);
 		dataFromDB.add("VisitorAmountReport");
 		return dataFromDB;
-}
+	}
+
 	public static ArrayList<String> ViewOrders(ArrayList<String> arr) {
 
 		ArrayList<String> dataFromDB = new ArrayList<>();
@@ -528,6 +537,7 @@ public class mysqlConnection {
 		}
 		return "The Order Cancelled Successfully";
 	}
+
 	public static ArrayList<String> checkInvite(ArrayList<String> arr) throws SQLException {// arr=ID,parkName,time,date,numberOfVisitors,email,occasional,status=(user,member,guide)
 		ArrayList<Integer> parkDetils = checkCapacityAndAvarageVisitTime(arr.get(1));
 		ArrayList<String> toReturn = new ArrayList<String>();
@@ -535,18 +545,17 @@ public class mysqlConnection {
 		int gap = parkDetils.get(1);
 		int Capacity = parkDetils.get(0);
 		int numberOfVisitorsInInvite = Integer.parseInt(arr.get(4));
-		
+
 		if (arr.get(6).equals("notOccasional")) {
-		ArrayList<String> sendTocheckNumberOfVistorsInPark = new ArrayList<String>();
-		sendTocheckNumberOfVistorsInPark.add(arr.get(1));
-		sendTocheckNumberOfVistorsInPark.add(arr.get(3));
-		sendTocheckNumberOfVistorsInPark.add(arr.get(2));
-		sendTocheckNumberOfVistorsInPark.add(parkDetils.get(2).toString());// sendTocheckNumberOfVistorsInPark=
-																			// parkName,date,time,TimeOfAvrageVisit
+			ArrayList<String> sendTocheckNumberOfVistorsInPark = new ArrayList<String>();
+			sendTocheckNumberOfVistorsInPark.add(arr.get(1));
+			sendTocheckNumberOfVistorsInPark.add(arr.get(3));
+			sendTocheckNumberOfVistorsInPark.add(arr.get(2));
+			sendTocheckNumberOfVistorsInPark.add(parkDetils.get(2).toString());// sendTocheckNumberOfVistorsInPark=
+																				// parkName,date,time,TimeOfAvrageVisit
 
-		// this only for not occasional visit
+			// this only for not occasional visit
 
-	
 			int numberOfVisitorsInTimeBefore = checkNumberOfVistorsInParkBack(sendTocheckNumberOfVistorsInPark);// this
 																												// check
 																												// for
@@ -572,9 +581,9 @@ public class mysqlConnection {
 			toDiscount.add(arr.get(7));
 			toDiscount.add(arr.get(6));
 			ArrayList<Integer> regularDiscount = getDiscount(toDiscount);
-				if(arr.get(7).equals("guide")) {
-					numberOfVisitorsInInvite--;
-				}															// him
+			if (arr.get(7).equals("guide")) {
+				numberOfVisitorsInInvite--;
+			} // him
 			int extraDiscount = getExtraDiscount(arr.get(1));
 			float price = 100 * numberOfVisitorsInInvite;// TODO check about the price
 			price = (float) (price * (100 - regularDiscount.get(0)) / 100.0);
@@ -585,15 +594,15 @@ public class mysqlConnection {
 				String orderNumber = getOrderNumber();
 				addToOrdersTable(arr, price, orderNumber, "waitingToApprove");
 			}
-			//TODO need to add the message to confirm
-		////end of not occasional visit
-		}else {
+			// TODO need to add the message to confirm
+			//// end of not occasional visit
+		} else {
 			// parkDetils=Capacity,GapVisitors,TimeOfAvergeVisit
 			int visitosAmount = checkNumberOfVisitorsNow(arr.get(1));
-			if(visitosAmount+numberOfVisitorsInInvite>Capacity) {
+			if (visitosAmount + numberOfVisitorsInInvite > Capacity) {
 				toReturn.add("TheParkIsFull");
-				return toReturn;//TODO if there is not occaional invite i retrun only TheParkIsFull
-			}else {
+				return toReturn;// TODO if there is not occaional invite i retrun only TheParkIsFull
+			} else {
 				ArrayList<String> toDiscount = new ArrayList<String>();// status=(user,member,guide),occaional
 				toDiscount.add(arr.get(7));
 				toDiscount.add(arr.get(6));
@@ -606,7 +615,7 @@ public class mysqlConnection {
 				toReturn.add("InviteConfirm");
 				toReturn.add(String.valueOf(price));// confirmed or theParkIsFull then price
 				String orderNumber = getOrderNumber();
-				
+
 				addToOrdersTable(arr, price, orderNumber, "active");
 			}
 		}
@@ -616,12 +625,13 @@ public class mysqlConnection {
 
 	private static int checkNumberOfVisitorsNow(String string) throws SQLException {
 		Statement stmt = conn.createStatement();
-		int visitorsNow=0;
-		
+		int visitorsNow = 0;
+
 		Date d = new Date();
 		String dateToMySql = d.getYear() + "-" + d.getMonth() + "-" + d.getDay();
 		try {
-			ResultSet rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders Where OrderStatus ='active'");
+			ResultSet rs = stmt
+					.executeQuery("select SUM(VisitorsAmountActual) from orders Where OrderStatus ='active'");
 			while (rs.next()) {
 				visitorsNow = rs.getInt("SUM(VisitorsAmountActual)");
 			}
@@ -659,12 +669,12 @@ public class mysqlConnection {
 				orderID = rand.nextInt(899999);
 				orderID += 100000;
 				String ID = "";
-				Statement stmt = conn.createStatement();//select count(*) from foo where id
+				Statement stmt = conn.createStatement();// select count(*) from foo where id
 				ResultSet rs = stmt.executeQuery("select count(*) from orders Where OrderID=" + orderID);
 				while (rs.next()) {
 					ID = rs.getString("count(*)");
 				}
-				if(ID.equals("0")) {
+				if (ID.equals("0")) {
 					break;
 				}
 			} catch (SQLException e) {
@@ -680,7 +690,11 @@ public class mysqlConnection {
 			throws SQLException {
 		PreparedStatement update = conn.prepareStatement(
 				"INSERT INTO orders (UserID, OrderID, ParkName, ExpectedEnterTime, VisitDate, VisitorsAmount,TypeOfOrder,OrderStatus,EnterTime,ExitTime,Occasional,VisitorsAmountActual,Payment,Email) VALUES (?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?)");
-		update.setString(1, arr.get(0));//INSERT INTO `visitorschema`.`orders` (`UserID`, `OrderID`, `ParkName`, `ExpectedEnterTime`, `VisitDate`, `VisitorsAmount`, `TypeOfOrder`, `OrderStatus`, `EnterTime`, `ExitTime`, `Occasional`, `VisitorsAmountActual`, `Payment`, `Email`) VALUES ('a', 'q', '1', '2', '1', '1', '1', '2', '3', '4', '5', '4', '4', '4');
+		update.setString(1, arr.get(0));// INSERT INTO `visitorschema`.`orders` (`UserID`, `OrderID`, `ParkName`,
+										// `ExpectedEnterTime`, `VisitDate`, `VisitorsAmount`, `TypeOfOrder`,
+										// `OrderStatus`, `EnterTime`, `ExitTime`, `Occasional`, `VisitorsAmountActual`,
+										// `Payment`, `Email`) VALUES ('a', 'q', '1', '2', '1', '1', '1', '2', '3', '4',
+										// '5', '4', '4', '4');
 		update.setString(2, orderNumber);
 		update.setString(3, arr.get(1));
 		update.setString(4, arr.get(2));
@@ -769,7 +783,7 @@ public class mysqlConnection {
 
 		int TimeOfAvergeVisit = 0, GapVisitors = 0, Capacity = 0;
 		Statement stmt = conn.createStatement();
-		ResultSet rs = stmt.executeQuery("select * from park Where ParkName='" + parkName+"'");
+		ResultSet rs = stmt.executeQuery("select * from park Where ParkName='" + parkName + "'");
 
 		while (rs.next()) {
 			Capacity = rs.getInt("Capacity");
@@ -781,6 +795,30 @@ public class mysqlConnection {
 		parkDetilsNumbers.add(TimeOfAvergeVisit);
 		return parkDetilsNumbers;
 
+	}
+
+	public static ArrayList<String> cancelReport() {
+		ArrayList<String> arr = new ArrayList<>();
+		Integer cancelNum = 0, expiredNum = 0;
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from orders Where OrderStatus=6");//6=cancelled
+			while (rs.next()) {
+				cancelNum++;
+				System.out.println(cancelNum.toString()+"cancel");
+			}
+			ResultSet rs2 = stmt.executeQuery("select * from orders Where OrderStatus=2");//2= expired
+			while (rs2.next()) {
+				expiredNum++;
+				System.out.println(expiredNum.toString());
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		arr.add(cancelNum.toString());
+		arr.add(expiredNum.toString());
+		return arr;
 
 	}
 }

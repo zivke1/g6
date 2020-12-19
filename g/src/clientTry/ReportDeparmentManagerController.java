@@ -26,11 +26,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-
+/**
+ * 
+ * @author Idan
+ *  Controller  for Report Department Manager GUI 
+ */
 public class ReportDeparmentManagerController {
 	
 	private String fNameH,lNameH,roleH,userIDH,parkNameH;
-	private boolean chosenVisitRep = false, chosenCancelRep = false; 
+
 
     @FXML
     private ImageView imgContactUs;
@@ -60,6 +64,7 @@ public class ReportDeparmentManagerController {
 
     @FXML
     void backClicked(MouseEvent event) {
+    	((Node) event.getSource()).getScene().getWindow().hide();
     	Stage stage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Parent root;
@@ -92,16 +97,17 @@ public class ReportDeparmentManagerController {
     @FXML
     void finishOrderClicked(MouseEvent event) {
     	if (cancelBTN.isSelected()){
+    		((Node) event.getSource()).getScene().getWindow().hide();
     		Stage stage = new Stage();
     		FXMLLoader loader = new FXMLLoader();
     		Parent root;
     		try {
     			root = loader.load(getClass().getResource("/fxmlFiles/CancelReport.fxml").openStream());
-    			HomePageForEmployeeController controller=loader.getController();
+    			CancelReportController controller=loader.getController();
     			controller.setDetails(fNameH, lNameH, roleH, userIDH, parkNameH);
     			Scene scene = new Scene(root);
     			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-    			stage.setTitle("HomePage");
+    			stage.setTitle("Cancellation Report"); 
     			stage.setScene(scene);
     			stage.show();
     		} catch (IOException e1) {
@@ -109,6 +115,7 @@ public class ReportDeparmentManagerController {
     		}
     	}
     	if(visitBTN.isSelected()) {
+    		((Node) event.getSource()).getScene().getWindow().hide();
     		//show cancel report
     	}
     	if(!visitBTN.isSelected()&& !cancelBTN.isSelected())

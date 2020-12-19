@@ -134,6 +134,12 @@ public class EchoServer extends AbstractServer {
 				client.sendToClient(a);
 				return;
 			}
+			if (arr.contains("cancel report")) {
+				arr.remove("cancel report");
+				ArrayList<String>answer=mysqlConnection.cancelReport();
+				client.sendToClient(answer);
+				return;
+			}
 
 			if(arr.contains("ViewOrder"))
 			{
