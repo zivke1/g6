@@ -5,6 +5,7 @@
 package clientTry;
 
 import ocsf.client.*;
+import util.OrderToView;
 import clientTry.UserInformationController;
 
 import java.io.*;
@@ -31,6 +32,7 @@ public class ChatClient extends AbstractClient {
 	 */
 	ChatIF clientUI;
 	public static ArrayList<String> dataInArrayList = new ArrayList<String>();
+	public static ArrayList<OrderToView> dataInArrayListObject = new ArrayList<OrderToView>();
 	public static boolean awaitResponse = false;
 	// Constructors ****************************************************
 
@@ -63,7 +65,19 @@ public class ChatClient extends AbstractClient {
 	{
 		String st;
 		awaitResponse = false;
+		
+		try {
+		ArrayList<OrderToView> dataFromDbCheck = (ArrayList<OrderToView>) msg;
+		
+		if (dataFromDbCheck != null)	
+			if(dataFromDbCheck.get(0) instanceof OrderToView) {
+				dataInArrayListObject = dataFromDbCheck;
+				return;
+			}
+		}catch(ClassCastException e) {}
+		
 		ArrayList<String> dataFromDb = (ArrayList<String>) msg;
+		
 		if (dataFromDb.contains("showTable")) {
 			dataFromDb.remove("showTable");
 			dataInArrayList = dataFromDb;
@@ -94,7 +108,7 @@ public class ChatClient extends AbstractClient {
 	    
 	  }
 
-	
+		
 
 	/**
 	 * This method handles all data coming from the UI

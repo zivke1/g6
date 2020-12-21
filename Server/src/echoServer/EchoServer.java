@@ -12,6 +12,7 @@ import com.mysql.cj.MysqlConnection;
 import echoServer.ServerControl;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
+import util.OrderToView;
 
 /**
  * This class overrides some of the methods in the abstract superclass in order
@@ -75,6 +76,7 @@ public class EchoServer extends AbstractServer {
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
 //TODO we need to change it to switch case or even if else
 		try {
+			
 			ArrayList<String> dataFromDb;
 			ArrayList<String> arr = (ArrayList<String>) msg;
 
@@ -100,13 +102,15 @@ public class EchoServer extends AbstractServer {
 				mysqlConnection.insertTable(msg);
 				arr.add("insertTable");
 			}
+			/*
 			if (arr.contains("showTable")) {
 				arr.remove("showTable");
-				dataFromDb = mysqlConnection.showTableOrders(msg);
+				ArrayList<OrderToView> ar = mysqlConnection.showTableOrders(msg);
 				dataFromDb.add("showTable");
 				this.sendToAllClients(dataFromDb);
 				return;
-			}
+			}*/
+			
 			if (arr.contains("close")) {
 				arr.remove("close");
 				clientDisconnected(null);
@@ -185,13 +189,20 @@ public class EchoServer extends AbstractServer {
 			}
 			if (arr.contains("closeAndSetIdNull")) {
 				arr.remove("closeAndSetIdNull");
-				mysqlConnection.closeAndSetIdNull(arr);
+				String tmp = "";
+				tmp = mysqlConnection.closeAndSetIdNull(arr);
+				client.sendToClient(tmp);
 				if(arr.contains("disconnect")) {
 					arr.remove("disconnect");
 					clientDisconnected(null);
 				}
 				return;
-				
+			}
+			if(arr.contains("ReturnUserIDInTableOrders")) {
+				arr.remove("ReturnUserIDInTableOrders");
+				ArrayList<OrderToView> ar = mysqlConnection.ReturnUserIDInTableOrders(arr);
+				client.sendToClient(ar);
+				return;
 			}
 			if(arr.contains("CheckUserIDInTable")) {
 				arr.remove("CheckUserIDInTable");

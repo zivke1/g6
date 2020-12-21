@@ -146,7 +146,8 @@ public class ViewOrderController {
 		this.userIDH = userID;
 		this.parkNameH = parkName;
 		this.orderIDH = orderID;
-		if (roleH.equals(Role.Member.toString()) || roleH.equals(Role.User.toString())||roleH.equals(Role.Guide.toString())) {
+
+		if (roleH.equals(Role.Member.toString().toLowerCase()) || roleH.equals(Role.User.toString().toLowerCase())) {
 			cancelBtn.setVisible(true);
 			customerOrder.setVisible(true);
 			employeeOrder.setVisible(false);
@@ -168,7 +169,8 @@ public class ViewOrderController {
 		typeOfOrder.setText(arr.get(5) + "'s order");
 		orderStatus.setText(arr.get(6));
 		this.orderStatusH=orderStatus.getText();
-		totalCost.setText(arr.get(7) + "â‚ª");
+		totalCost.setText(arr.get(7) + "¤");
 		email.setText(arr.get(8));
 	}
 }
+
