@@ -85,12 +85,13 @@ public class OrderController implements Initializable {
 	String m_ownerUserID, m_status;
 	boolean m_occasional;
 	ArrayList<String> invite;
-	MouseEvent m_event;
+	MouseEvent m_event,m_eventMain,m_previousPage;
 	String m_backTo;
 
 	@FXML
 	void backClicked(MouseEvent event) {
-
+    	((Node) event.getSource()).getScene().getWindow().hide();
+    	((Stage)((Node) m_previousPage.getSource()).getScene().getWindow()).show();
 	}
 
 	@FXML
@@ -157,11 +158,15 @@ public class OrderController implements Initializable {
 		// Pane root =
 		// loader.load(getClass().getResource("../fxmlFiles/HomePageForEmployee.fxml").openStream());
 
-		loader.setLocation(getClass().getResource("../fxmlFiles/OrderConfirmed.fxml"));
+		loader.setLocation(getClass().getResource("../fxmlFiles/PaymentPage.fxml"));
 		borderPane = loader.load();
-//		HomePageForEmployeeController homePageForEmployeeController = loader.getController();
-//		homePageForEmployeeController.setDetails(fName, lName, role, userID , park);
-		// Scene scene = new Scene(root);
+		PaymentPageController paymentPageController = loader.getController();
+		paymentPageController.setDetails(m_fName, m_lName, m_role, m_userID , m_parkName);
+		invite.remove(0);
+	
+		paymentPageController.setOrderDetails(invite,ChatClient.dataInArrayList.get(0));
+		paymentPageController.setPreviousPage(m_event) ;
+		paymentPageController.setMainPage(m_eventMain);
 		Scene scene = new Scene(borderPane);
 		primaryStage.setTitle("Home Page");
 		primaryStage.setScene(scene);
@@ -189,11 +194,14 @@ public class OrderController implements Initializable {
 
 		loader.setLocation(getClass().getResource("../fxmlFiles/WaitingList.fxml"));
 		borderPane = loader.load();
-//		HomePageForEmployeeController homePageForEmployeeController = loader.getController();
-//		homePageForEmployeeController.setDetails(fName, lName, role, userID , park);
-		// Scene scene = new Scene(root);
+		
+		WaitingListController waitingListController = loader.getController();
+		waitingListController.setDetails(m_fName, m_lName, m_role, m_userID , m_parkName);
+		waitingListController.setMainPage(m_eventMain);
+		waitingListController.setPreviousPage(m_event);
+		waitingListController.setOrderDetails(invite,ChatClient.dataInArrayList.get(0));
 		Scene scene = new Scene(borderPane);
-		primaryStage.setTitle("Home Page");
+		primaryStage.setTitle("Waiting List");
 		primaryStage.setScene(scene);
 		primaryStage.setOnCloseRequest(evt -> {
 			if (ClientMain.chat.checkConnection()) {
@@ -270,7 +278,7 @@ public class OrderController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		setDetails("", "", "", "", "Carmel Park");
-		setDetailsOfOwner("315766014", "member", true, "amount of memvers", "backTo");
+		setDetailsOfOwner("315766014", "member", false, "amount of memvers", "backTo");
 
 	}
 
@@ -310,7 +318,7 @@ public class OrderController implements Initializable {
 			setParkCombo(tempArrayList);
 			setNumberOfVistors(15);
 		}
-		if (m_status.equals("guide") == false) {
+		if (m_status.equals("guide")) {
 			guideWelcomeText.setVisible(true);
 			if (occasional == false) {
 				payTimeCheckBox.setVisible(true);
@@ -318,5 +326,14 @@ public class OrderController implements Initializable {
 		}
 
 	}
+	public void setMainPage(MouseEvent event) {
+		m_eventMain=event;
+	}
+	
+	public void setPreviousPage(MouseEvent event) {
+		// TODO Auto-generated method stub
+		m_previousPage = event;
+	}
+    
 
 }
