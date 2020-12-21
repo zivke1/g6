@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.StackedBarChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -10,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.VisitorAmountReportController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.VisitorReportDepartmentController">
    <top>
       <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
          <children>
@@ -44,37 +46,14 @@
       <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
-            <PieChart fx:id="pieChart" layoutX="230.0" layoutY="25.0" />
-            <Label layoutX="29.0" layoutY="82.0" text="Month: ">
-               <font>
-                  <Font size="18.0" />
-               </font></Label>
-            <Label layoutX="28.0" layoutY="46.0" text="Year: ">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label layoutX="33.0" layoutY="425.0" text="Total amount of visitors: ">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label layoutX="26.0" layoutY="171.0" text="Users:" />
-            <Label layoutX="27.0" layoutY="192.0" text="Members:" />
-            <Label layoutX="27.0" layoutY="214.0" text="Group:" />
-            <Label fx:id="year" layoutX="76.0" layoutY="49.0" />
-            <Label fx:id="month" layoutX="94.0" layoutY="85.0" />
-            <Label fx:id="amountOfUsers" layoutX="75.0" layoutY="171.0" />
-            <Label fx:id="amountOfMembers" layoutX="97.0" layoutY="192.0" />
-            <Label fx:id="amountOfGroug" layoutX="77.0" layoutY="214.0" />
-            <Label fx:id="totalAmountOfVisitors" layoutX="230.0" layoutY="428.0" />
-            <Label layoutX="29.0" layoutY="14.0" text="Park Name:" />
-            <Label fx:id="noReportToPresent" layoutX="224.0" layoutY="137.0" text="IN THIS TIME LINE THERE IN NO REPORT TO PRESENT" textFill="RED" visible="false">
-               <font>
-                  <Font size="23.0" />
-               </font>
-            </Label>
-            <Label fx:id="parkName" layoutX="114.0" layoutY="14.0" />
+            <StackedBarChart fx:id="chart" layoutX="53.0" layoutY="26.0">
+              <xAxis>
+                <CategoryAxis prefHeight="23.0" prefWidth="443.0" side="BOTTOM" fx:id="xaxis" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis fx:id="yaxis" side="LEFT" />
+              </yAxis>
+            </StackedBarChart>
          </children>
       </AnchorPane>
    </right>

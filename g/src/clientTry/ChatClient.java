@@ -5,6 +5,7 @@
 package clientTry;
 
 import ocsf.client.*;
+import util.HourAmount;
 import clientTry.UserInformationController;
 
 import java.io.*;
@@ -31,6 +32,7 @@ public class ChatClient extends AbstractClient {
 	 */
 	ChatIF clientUI;
 	public static ArrayList<String> dataInArrayList = new ArrayList<String>();
+	public static ArrayList<HourAmount> dataInArrayListHour = new ArrayList<HourAmount>();
 	public static boolean awaitResponse = false;
 	// Constructors ****************************************************
 
@@ -42,13 +44,11 @@ public class ChatClient extends AbstractClient {
 	 * @param clientUI The interface type variable.
 	 */
 
-
 	public ChatClient(String host, int port, ChatIF clientUI) throws IOException {
 		super(host, port); // Call the superclass constructor
 		this.clientUI = clientUI;
 		openConnection();
 	}
-
 
 	// Instance methods ************************************************
 
@@ -63,6 +63,11 @@ public class ChatClient extends AbstractClient {
 	{
 		String st;
 		awaitResponse = false;
+		try {
+			 dataInArrayListHour  = (ArrayList<HourAmount>) msg;
+			return;
+		} catch (ClassCastException e) {
+		}
 		ArrayList<String> dataFromDb = (ArrayList<String>) msg;
 		if (dataFromDb.contains("showTable")) {
 			dataFromDb.remove("showTable");
@@ -79,22 +84,18 @@ public class ChatClient extends AbstractClient {
 			dataInArrayList = dataFromDb;
 
 		}
-	    if(dataFromDb.contains("FetchParkDetails"))
-	    {
-	    	dataFromDb.remove("FetchParkDetails");
-	    	dataInArrayList=dataFromDb;
-	    }
-	    if(dataFromDb.contains("RegisterMember"))
-	    {
-	    	dataFromDb.remove("RegisterMember");
-	    }
-	    if(dataFromDb.contains("sendToDeparmentManager"))
-	    	dataFromDb.remove("sendToDeparmentManager");
-	    dataInArrayList=dataFromDb;
-	    
-	  }
+		if (dataFromDb.contains("FetchParkDetails")) {
+			dataFromDb.remove("FetchParkDetails");
+			dataInArrayList = dataFromDb;
+		}
+		if (dataFromDb.contains("RegisterMember")) {
+			dataFromDb.remove("RegisterMember");
+		}
+		if (dataFromDb.contains("sendToDeparmentManager"))
+			dataFromDb.remove("sendToDeparmentManager");
+		dataInArrayList = dataFromDb;
 
-	
+	}
 
 	/**
 	 * This method handles all data coming from the UI

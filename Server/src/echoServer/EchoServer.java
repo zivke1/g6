@@ -8,10 +8,13 @@ import java.io.*;
 import java.util.ArrayList;
 
 import com.mysql.cj.MysqlConnection;
+import com.mysql.cj.xdevapi.Client;
 
 import echoServer.ServerControl;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
+import util.HourAmount;
+import util.TypeOfOrder;
 
 /**
  * This class overrides some of the methods in the abstract superclass in order
@@ -199,6 +202,27 @@ public class EchoServer extends AbstractServer {
 				arr.remove("checkInvite");
 				arr = mysqlConnection.checkInvite(arr);
 				this.sendToAllClients(arr);
+				return;
+			}
+			if(arr.contains("depManVisitRep")) {
+				arr.remove("depManVisitRep");
+				TypeOfOrder type = null;
+				switch(arr.get(0))
+				{
+				case "member":
+					type=TypeOfOrder.member;
+					break;
+				case "user":
+					type=TypeOfOrder.user;
+					break;
+				case "group":
+					type= TypeOfOrder.group;
+					break;
+				}
+				ArrayList<HourAmount> answer;
+				answer = mysqlConnection.depManVisitRep(type);
+				client.sendToClient(answer);
+			
 				return;
 			}
 			

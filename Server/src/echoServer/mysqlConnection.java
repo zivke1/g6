@@ -17,7 +17,9 @@ import java.util.Scanner;
 
 import com.mysql.cj.jdbc.SuspendableXAConnection;
 
+import util.HourAmount;
 import util.Role;
+import util.TypeOfOrder;
 
 public class mysqlConnection {
 	static Connection conn;
@@ -802,12 +804,12 @@ public class mysqlConnection {
 		Integer cancelNum = 0, expiredNum = 0;
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("select * from orders Where OrderStatus=6");//6=cancelled
+			ResultSet rs = stmt.executeQuery("select * from orders Where OrderStatus=6");// 6=cancelled
 			while (rs.next()) {
 				cancelNum++;
-				System.out.println(cancelNum.toString()+"cancel");
+				System.out.println(cancelNum.toString() + "cancel");
 			}
-			ResultSet rs2 = stmt.executeQuery("select * from orders Where OrderStatus=2");//2= expired
+			ResultSet rs2 = stmt.executeQuery("select * from orders Where OrderStatus=2");// 2= expired
 			while (rs2.next()) {
 				expiredNum++;
 				System.out.println(expiredNum.toString());
@@ -819,6 +821,35 @@ public class mysqlConnection {
 		arr.add(cancelNum.toString());
 		arr.add(expiredNum.toString());
 		return arr;
+
+	}
+
+	public static ArrayList<HourAmount> depManVisitRep(TypeOfOrder type) {
+		ArrayList<HourAmount> dataFromDB = new ArrayList<>();
+		ResultSet rs = null;
+		Time t1, t2;
+		t1 = new Time(8, 0, 0);
+		t2 = new Time(9, 0, 0);
+		int[]  sum= new int [9];// sum for each hour 
+		try {
+			for (int i=0;i<9;i++,t1.setHours(t1.getHours()+1),t2.setHours(t2.getHours()+1)) {
+			Statement stmt = conn.createStatement();
+			rs = stmt.executeQuery("select * from orders Where EnterTime BETWEEN '" + t1 + "' AND '" + t2
+					+ "' AND OrderStatus=1 AND TypeOfOrder='" + type + "'");
+			while (rs.next())
+				sum[i] += rs.getInt("VisitorsAmountActual");
+			
+				Integer temp=t1.getHours();
+				dataFromDB.add(new HourAmount(temp.toString() , sum[i]));
+			}
+			
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(dataFromDB.get(0).getAmount() + " "+ dataFromDB.get(0).getHour());
+		return dataFromDB;
 
 	}
 }
