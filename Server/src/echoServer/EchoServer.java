@@ -224,12 +224,12 @@ public class EchoServer extends AbstractServer {
 			}
 			if(arr.contains("getFreePlace")){
 				arr.remove("getFreePlace");
-				arr = mysqlConnection.getFreePlace(arr);
+//				arr = mysqlConnection.getFreePlace(arr);
 				client.sendToClient(arr);
 				return;
 			}
 			
-			m_invite
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
