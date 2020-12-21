@@ -363,31 +363,33 @@ public class mysqlConnection {
 
 	}
 
-
 	public static ArrayList<String> visitorAmountReport(ArrayList<String> arr) {
 		ArrayList<String> dataFromDB = new ArrayList<>();
 		String year = arr.get(1), month = arr.get(2), amountOfVisitors = null, amountOfPersonal = null,
 				amountOfGroup = null, amountOfMember = null;
-		String parkName="'"+arr.get(3)+"'";
+		String parkName = "'" + arr.get(3) + "'";
 		try {
 			ResultSet rs = null;
 			Statement stmt = conn.createStatement();
 			if (month.equals("02")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '" + year
-						+ "-" + month + "-01' AND '" + year + "-" + month + "-28' AND OrderStatus='finished' AND ParkName="+parkName);
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-28' AND OrderStatus='finished' AND ParkName=" + parkName);
 			}
 			if (month.equals("01") || month.equals("03") || month.equals("05") || month.equals("07")
 					|| month.equals("08") || month.equals("10") || month.equals("12")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '" + year
-						+ "-" + month + "-01' AND '" + year + "-" + month + "-31' AND OrderStatus='finished' AND ParkName="+parkName);
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-31' AND OrderStatus='finished' AND ParkName=" + parkName);
 			}
 			if (month.equals("04") || month.equals("06") || month.equals("09") || month.equals("11")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where (VisitDate BETWEEN '" + year
-						+ "-" + month + "-01' AND '" + year + "-" + month + "-30') AND OrderStatus='finished' AND ParkName="+parkName);
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where (VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-30') AND OrderStatus='finished' AND ParkName=" + parkName);
 			}
-			
+
 			while (rs.next()) {
-				amountOfVisitors = rs.getString(1);	
+				amountOfVisitors = rs.getString(1);
 			}
 
 		} catch (SQLException e) {
@@ -398,17 +400,20 @@ public class mysqlConnection {
 			ResultSet rs = null;
 			Statement stmt = conn.createStatement();
 			if (month.equals("02")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '" + year
-						+ "-" + month + "-01' AND '" + year + "-" + month + "-28' AND OrderStatus='finished' AND TypeOfOrder='user' AND ParkName="+parkName);
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-28' AND OrderStatus='finished' AND TypeOfOrder='user' AND ParkName=" + parkName);
 			}
 			if (month.equals("01") || month.equals("03") || month.equals("05") || month.equals("07")
 					|| month.equals("08") || month.equals("10") || month.equals("12")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '" + year
-						+ "-" + month + "-01' AND '" + year + "-" + month + "-31' AND OrderStatus='finished' AND TypeOfOrder='user' AND ParkName="+parkName);
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-31' AND OrderStatus='finished' AND TypeOfOrder='user' AND ParkName=" + parkName);
 			}
 			if (month.equals("04") || month.equals("06") || month.equals("09") || month.equals("11")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where (VisitDate BETWEEN '" + year
-						+ "-" + month + "-01' AND '" + year + "-" + month + "-30') AND OrderStatus='finished' AND TypeOfOrder='user' AND ParkName="+parkName);
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where (VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-30') AND OrderStatus='finished' AND TypeOfOrder='user' AND ParkName=" + parkName);
 			}
 			while (rs.next()) {
 				amountOfPersonal = rs.getString(1);
@@ -422,17 +427,20 @@ public class mysqlConnection {
 			ResultSet rs = null;
 			Statement stmt = conn.createStatement();
 			if (month.equals("02")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '" + year
-						+ "-" + month + "-01' AND '" + year + "-" + month + "-28' AND OrderStatus='finished' AND TypeOfOrder='member' AND ParkName="+parkName);
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-28' AND OrderStatus='finished' AND TypeOfOrder='member' AND ParkName=" + parkName);
 			}
 			if (month.equals("01") || month.equals("03") || month.equals("05") || month.equals("07")
 					|| month.equals("08") || month.equals("10") || month.equals("12")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '" + year
-						+ "-" + month + "-01' AND '" + year + "-" + month + "-31' AND OrderStatus='finished' AND TypeOfOrder='member' AND ParkName="+parkName);
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-31' AND OrderStatus='finished' AND TypeOfOrder='member' AND ParkName=" + parkName);
 			}
 			if (month.equals("04") || month.equals("06") || month.equals("09") || month.equals("11")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where (VisitDate BETWEEN '" + year
-						+ "-" + month + "-01' AND '" + year + "-" + month + "-30') AND OrderStatus='finished' AND TypeOfOrder='member' AND ParkName="+parkName);
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where (VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-30') AND OrderStatus='finished' AND TypeOfOrder='member' AND ParkName=" + parkName);
 			}
 			while (rs.next()) {
 				amountOfMember = rs.getString(1);
@@ -446,17 +454,20 @@ public class mysqlConnection {
 			ResultSet rs = null;
 			Statement stmt = conn.createStatement();
 			if (month.equals("02")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '" + year
-						+ "-" + month + "-01' AND '" + year + "-" + month + "-28' AND OrderStatus='finished' AND TypeOfOrder='group' AND ParkName="+parkName);
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-28' AND OrderStatus='finished' AND TypeOfOrder='group' AND ParkName=" + parkName);
 			}
 			if (month.equals("01") || month.equals("03") || month.equals("05") || month.equals("07")
 					|| month.equals("08") || month.equals("10") || month.equals("12")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '" + year
-						+ "-" + month + "-01' AND '" + year + "-" + month + "-31' AND OrderStatus='finished' AND TypeOfOrder='group' AND ParkName="+parkName);
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-31' AND OrderStatus='finished' AND TypeOfOrder='group' AND ParkName=" + parkName);
 			}
 			if (month.equals("04") || month.equals("06") || month.equals("09") || month.equals("11")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where (VisitDate BETWEEN '" + year
-						+ "-" + month + "-01' AND '" + year + "-" + month + "-30') AND OrderStatus='finished' AND TypeOfOrder='group' AND ParkName="+parkName);
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where (VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-30') AND OrderStatus='finished' AND TypeOfOrder='group' AND ParkName=" + parkName);
 			}
 			while (rs.next()) {
 				amountOfGroup = rs.getString(1);
@@ -465,13 +476,24 @@ public class mysqlConnection {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		dataFromDB.add(amountOfVisitors);
-		dataFromDB.add(amountOfPersonal);
-		dataFromDB.add(amountOfGroup);
-		dataFromDB.add(amountOfMember);
+		if(amountOfPersonal==null)
+			dataFromDB.add("0");
+		else
+			dataFromDB.add(amountOfPersonal);
+		if(amountOfGroup==null)
+			dataFromDB.add("0");
+		else
+			dataFromDB.add(amountOfGroup);
+		if(amountOfMember==null)
+			dataFromDB.add("0");
+		else
+			dataFromDB.add(amountOfMember);
 		dataFromDB.add("VisitorAmountReport");
 		return dataFromDB;
-}
+	}
+
 	public static ArrayList<String> ViewOrders(ArrayList<String> arr) {
 
 		ArrayList<String> dataFromDB = new ArrayList<>();
@@ -519,5 +541,43 @@ public class mysqlConnection {
 		}
 		return "The Order Cancelled Successfully";
 
+	}
+
+	public static ArrayList<String> incomeReport(ArrayList<String> arr) {
+		ArrayList<String> dataFromDB = new ArrayList<>();
+		String year = arr.get(1), month = arr.get(2),income=null;
+		String parkName = "'" + arr.get(3) + "'";
+		try {
+			ResultSet rs = null;
+			Statement stmt = conn.createStatement();
+			if (month.equals("02")) {
+				rs = stmt.executeQuery("select SUM(Payment) from orders" + " Where VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-28' AND OrderStatus='finished' AND ParkName=" + parkName);
+			}
+			if (month.equals("01") || month.equals("03") || month.equals("05") || month.equals("07")
+					|| month.equals("08") || month.equals("10") || month.equals("12")) {
+				rs = stmt.executeQuery("select SUM(Payment) from orders" + " Where VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-31' AND OrderStatus='finished' AND ParkName=" + parkName);
+			}
+			if (month.equals("04") || month.equals("06") || month.equals("09") || month.equals("11")) {
+				rs = stmt.executeQuery("select SUM(Payment) from orders" + " Where (VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-30') AND OrderStatus='finished' AND ParkName=" + parkName);
+			}
+			while (rs.next()) {
+				income = rs.getString(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		dataFromDB.add("incomeReport");
+		if(income==null)
+			dataFromDB.add("0");
+		else
+			dataFromDB.add(income);
+		return dataFromDB;
 	}
 }

@@ -19,7 +19,14 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
+/**
+ * @author eliran
+ * this class is controller for the FXML VisitorAmountReport
+ * the controller fetch from the DB the data for the report 
+ * in a specific month
+ * and display chart with the data.
+ *
+ */
 public class VisitorAmountReportController implements Initializable {
 
 	@FXML

@@ -90,8 +90,7 @@ public class ChatClient extends AbstractClient {
 	    }
 	    if(dataFromDb.contains("sendToDeparmentManager"))
 	    	dataFromDb.remove("sendToDeparmentManager");
-	    dataInArrayList=dataFromDb;
-	    
+	    dataInArrayList=dataFromDb; 
 	  }
 
 	

@@ -77,7 +77,12 @@ public class EchoServer extends AbstractServer {
 		try {
 			ArrayList<String> dataFromDb;
 			ArrayList<String> arr = (ArrayList<String>) msg;
-
+			if(arr.contains("incomeReport"))
+			{
+				dataFromDb=mysqlConnection.incomeReport(arr);
+				this.sendToAllClients(dataFromDb);
+				return;
+			}
 			if(arr.contains("VisitorAmountReport"))
 			{
 				dataFromDb=mysqlConnection.visitorAmountReport(arr);

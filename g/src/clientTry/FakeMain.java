@@ -28,10 +28,10 @@ public class FakeMain extends Application {
 		try {
 			FXMLLoader loader=new FXMLLoader();
 
-			loader.setLocation(getClass().getResource("/fxmlFiles/ViewOrder.fxml"));
+			loader.setLocation(getClass().getResource("/fxmlFiles/incomeReport.fxml"));
 			borderPane = loader.load();
-			ViewOrderController controller = loader.getController();
-			controller.setDetails(null, null, "Member", null, null, "11");
+			incomeReportController controller = loader.getController();
+			controller.setDetails("2020", "02", "Member", null, null, "11", "Tal Park");
 		} catch (IOException e) {
 		e.printStackTrace();
 		}	
