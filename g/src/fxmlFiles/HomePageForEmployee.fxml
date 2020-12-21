@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -56,12 +55,11 @@
                   <Button fx:id="btnParkDetails" layoutX="493.0" layoutY="37.0" mnemonicParsing="false" onMouseClicked="#goToParkDetail" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Parks Details" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="anchorParkEmployee" layoutX="27.0" layoutY="82.0" prefHeight="249.0" prefWidth="554.0" visible="false">
+            <AnchorPane fx:id="anchorParkEmployee" layoutX="27.0" layoutY="82.0" prefHeight="256.0" prefWidth="781.0" visible="false">
                <children>
-                  <Button fx:id="btnNewOrderFotC" layoutX="40.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#goToMakeOrderForCustomer" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Make New Order" />
-                  <Button fx:id="btnViewOrder" layoutX="40.0" layoutY="146.0" mnemonicParsing="false" onMouseClicked="#goToViewExistOrder" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="View Customer's Order" />
+                  <Button fx:id="btnViewOrder" layoutX="36.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#goToViewExistOrder" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="View Customer's Order" />
                   <Button fx:id="btnAvailabilityCheck" layoutX="296.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#goToAvailbilityCheck" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Availability Check" />
-                  <Button fx:id="btnParkDetails" layoutX="296.0" layoutY="146.0" mnemonicParsing="false" onMouseClicked="#goToParkDetail" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Parks Details" />
+                  <Button fx:id="btnParkDetails" layoutX="558.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#goToParkDetail" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Parks Details" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="anchorParkManager" layoutX="27.0" layoutY="99.0" prefHeight="215.0" prefWidth="720.0" visible="false">
@@ -83,12 +81,7 @@
                <children>
                   <Button fx:id="btnMakeOrderCustomer" layoutX="26.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#goToNewOrderCustomer" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Make New Order" />
                   <Button fx:id="btnViewExistingOrder" layoutX="286.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#goToViewOrderCustomer" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="View Existing Orders" />
-                  <TableView fx:id="tblExisitingOrder" layoutX="286.0" layoutY="119.0" prefHeight="201.0" prefWidth="239.0" visible="false">
-                    <columns>
-                      <TableColumn prefWidth="130.0" text="Order ID" />
-                        <TableColumn prefWidth="108.0" text="Status" />
-                    </columns>
-                  </TableView>
+                  <TableView fx:id="tblExistingOrder" layoutX="286.0" layoutY="119.0" prefHeight="201.0" prefWidth="450.0" visible="false" />
                   <Label fx:id="NoExistOrderMsg" layoutX="36.0" layoutY="172.0" text="No Existing Orders!" visible="false">
                      <font>
                         <Font name="System Bold" size="18.0" />

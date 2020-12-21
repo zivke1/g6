@@ -21,7 +21,10 @@ public class CheckAvailabilityController {
     private Text parkNameText;
 
     @FXML
-    private Text numberToFullCapacitiy;
+    private Text FreeSpaceLeft;
+
+    @FXML
+    private Button btnNewOrderFotCustomer;
 
     @FXML
     void backClicked(MouseEvent event) {
@@ -30,6 +33,11 @@ public class CheckAvailabilityController {
 
     @FXML
     void goToContactUsPopUp(MouseEvent event) {
+
+    }
+
+    @FXML
+    void goToMakeOrderForCustomer(MouseEvent event) {
 
     }
 

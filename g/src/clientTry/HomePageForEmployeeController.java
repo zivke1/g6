@@ -1,6 +1,7 @@
 package clientTry;
 
 import util.NextStages;
+import util.OrderToView;
 
 import java.io.IOException;
 import java.net.URL;
@@ -10,7 +11,10 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
@@ -26,6 +30,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import util.NextStages;
 import util.Role;
+import util.TableViewOrders;
+
 public class HomePageForEmployeeController implements Initializable {
 
 	private String fName, lName, role, userID, parkName;
@@ -60,9 +66,6 @@ public class HomePageForEmployeeController implements Initializable {
 
 	@FXML
 	private AnchorPane anchorParkEmployee;
-
-	@FXML
-	private Button btnNewOrderFotC;
 
 	@FXML
 	private Button btnViewOrder;
@@ -101,120 +104,144 @@ public class HomePageForEmployeeController implements Initializable {
 	private Button btnViewExistingOrder;
 
 	@FXML
-	private TableView<?> tblExisitingOrder;
+	private TableView<OrderToView> tblExistingOrder;
 
 	@FXML
 	private Label NoExistOrderMsg;
 
 	@FXML
 	void goToApproveP(MouseEvent event) {
-		NextStages nextStages = new NextStages("/fxmlFiles/ApproveParameters.fxml","View Customer's Order");
-		nextStages.goToNextStage(event);
-	//	ApproveParametersController approvePcontrol = loader.getController();
-		//approvePcontrol.setDetails(fName, lName, role, userID, parkName);
+		NextStages nextStages = new NextStages("/fxmlFiles/ApproveParameters.fxml", "View Customer's Order");
+		FXMLLoader loader = nextStages.goToNextStage(event);
+		// ApproveParametersController approvePcontrol = loader.getController();
+		// approvePcontrol.setDetails(fName, lName, role, userID, parkName);
 	}
 
 	@FXML
 	void goToAvailbilityCheck(MouseEvent event) {
-		NextStages nextStages = new NextStages("/fxmlFiles/CheckAvailability.fxml","View Customer's Order");
-		nextStages.goToNextStage(event);
-	//	CheckAvailbilityController check = loader.getController();
-		//check.setDetails(fName, lName, role, userID, parkName);
+		NextStages nextStages = new NextStages("/fxmlFiles/CheckAvailability.fxml", "View Customer's Order");
+		FXMLLoader loader = nextStages.goToNextStage(event);
+		// CheckAvailbilityController check = loader.getController();
+		// check.setDetails(fName, lName, role, userID, parkName);
 	}
 
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
-		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml","View Customer's Order");
-		nextStages.openPopUp();
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order");
+		FXMLLoader loader = nextStages.openPopUp();
+		loader.getController();
 	}
 
 	@FXML
 	void goToGenerateReportDepManager(MouseEvent event) {
-		NextStages nextStages = new NextStages("/fxmlFiles/ReportDepartmentManager.fxml","View Customer's Order");
-		nextStages.goToNextStage(event);
-	//	ReportDepartmentManagerController repControl = loader.getController();
-	//	repControl.setDetails(fName, lName, role, userID, parkName);
+		NextStages nextStages = new NextStages("/fxmlFiles/ReportDepartmentManager.fxml", "View Customer's Order");
+		FXMLLoader loader = nextStages.goToNextStage(event);
+		// ReportDepartmentManagerController repControl = loader.getController();
+		// repControl.setDetails(fName, lName, role, userID, parkName);
 	}
 
 	@FXML
 	void goToGenerateReportParkManager(MouseEvent event) {
-		NextStages nextStages = new NextStages("/fxmlFiles/ReportParkManager.fxml","View Customer's Order");
-		nextStages.goToNextStage(event);
-	//	ReportParkManagerController repControl = loader.getController();
-	//	repControl.setDetails(fName, lName, role, userID, parkName);
+		NextStages nextStages = new NextStages("/fxmlFiles/ReportParkManager.fxml", "View Customer's Order");
+		FXMLLoader loader = nextStages.goToNextStage(event);
+		// ReportParkManagerController repControl = loader.getController();
+		// repControl.setDetails(fName, lName, role, userID, parkName);
 	}
 
 	@FXML
 	void goToInstructorRegistretion(MouseEvent event) {
-		NextStages nextStages = new NextStages("/fxmlFiles/AddInstructor.fxml","View Customer's Order");
-		nextStages.goToNextStage(event);
+		NextStages nextStages = new NextStages("/fxmlFiles/AddInstructor.fxml", "View Customer's Order");
+		FXMLLoader loader = nextStages.goToNextStage(event);
 		AddInstructorController addInstructor = loader.getController();
-	//	addInstructor.setDetails(fName, lName, role, userID, parkName);
+		// addInstructor.setDetails(fName, lName, role, userID, parkName);
 	}
 
+	// user sign out
 	@FXML
 	void goToLoginP(MouseEvent event) {
-		NextStages nextStages = new NextStages("/fxmlFiles/LoginP.fxml","View Customer's Order");
-		nextStages.goToNextStage(event);
-	////////// need to disconnect - UPDATE users SET Connect = null WHERE UserID=315766014
-		//ClientMain.chat.stopConnection();
+		ArrayList<String> arr = new ArrayList<String>();
+		arr.add("closeAndSetIdNull");
+		arr.add(userID);
+		ClientMain.chat.accept(arr);
+		NextStages nextStages = new NextStages("/fxmlFiles/LoginP.fxml", "Login");
+		FXMLLoader loader = nextStages.goToNextStage(event);
 		LoginController logControl = loader.getController();
-//		logControl.setDetails(fName, lName, role, userID, parkName);
-		
 	}
 
-	//Employee does
-	@FXML
-	void goToMakeOrderForCustomer(MouseEvent event) {
-		NextStages nextStages = new NextStages("/fxmlFiles/NewOrderEmployee.fxml","View Customer's Order");
-		nextStages.goToNextStage(event);
-		NewOrderEmployeeController orderByEmployee = loader.getController();
-//		orderByEmployee.setDetails(fName, lName, role, userID, parkName);
-	}
 	// customer does
 	@FXML
 	void goToNewOrderCustomer(MouseEvent event) {
-		NextStages nextStages = new NextStages("/fxmlFiles/OrderNew.fxml","View Customer's Order");
-		nextStages.goToNextStage(event);
+		NextStages nextStages = new NextStages("/fxmlFiles/OrderNew.fxml", "View Customer's Order");
+		FXMLLoader loader = nextStages.goToNextStage(event);
 		OrderController orderControl = loader.getController();
-	//	orderControl.setDetails(fName, lName, role, userID, parkName);
+		//orderControl.setDetails(fName, lName, role, userID, parkName);
 	}
 
 	@FXML
 	void goToUpdateP(MouseEvent event) {
-		NextStages nextStages = new NextStages("/fxmlFiles/Parameters.fxml","Update Parameters");
-		nextStages.goToNextStage(event);
-	//	UpdateParametersController updatePcontrol = loader.getController();
-		//updatePcontrol.setDetails(fName, lName, role, userID, parkName);
+		NextStages nextStages = new NextStages("/fxmlFiles/Parameters.fxml", "Update Parameters");
+		FXMLLoader loader = nextStages.goToNextStage(event);
+		// UpdateParametersController updatePcontrol = loader.getController();
+		// updatePcontrol.setDetails(fName, lName, role, userID, parkName);
 	}
-	//Employee view customers order
+
+	// Employee view customers order
 	@FXML
 	void goToViewExistOrder(MouseEvent event) {
-		 // here employee will need to enter customer id to view his order
-		NextStages nextStages = new NextStages("/fxmlFiles/EmployeeEnterCustomerID.fxml","View Customer's Order"); 
-		nextStages.goToNextStage(event);
+		// here employee will need to enter customer id to view his order
+		NextStages nextStages = new NextStages("/fxmlFiles/EmployeeEnterCustomerID.fxml", "View Customer's Order");
+		FXMLLoader loader = nextStages.goToNextStage(event);
 //		ViewOrderController viewOrderControl = loader.getController();
-	//	viewOrderControl.setDetails(fName, lName, role, userID, parkName);
+		// viewOrderControl.setDetails(fName, lName, role, userID, parkName);
 	}
-	
+
 	// customer wants to view his orders
 	@FXML
 	void goToViewOrderCustomer(MouseEvent event) {
-		//if customer Id is in orders table -> set visible tblExisitingOrder
+		// if customer Id is in orders table -> set visible tblExisitingOrder
 		ArrayList<String> arr = new ArrayList<>();
 		arr.add(userID);
-		arr.add("orders");
-		arr.add("CheckUserIDInTable");
+		arr.add("ReturnUserIDInTableOrders");
 		ClientMain.chat.accept(arr);
-		ArrayList<String> temp = ChatClient.dataInArrayList;
-		if(temp.get(0).equals("True")) {
-			//set visible table 
-			//make existing orders table
-			//need to go to view existing order after pressing line in table
-			//NextStages nextStages = new NextStages("/fxmlFiles/ViewOrder.fxml","View Order");
-			//nextStages.goToNextStage(event);
-		}
-		else {
+		ArrayList<OrderToView> temp = ChatClient.dataInArrayListObject;
+		if (!temp.isEmpty()) {
+
+			TableColumn<OrderToView, String> orderIDcolumn = new TableColumn<>("Order ID");
+			orderIDcolumn.setMinWidth(150);
+			orderIDcolumn.setCellValueFactory(new PropertyValueFactory<>("orderID"));
+
+			// Status Column
+			TableColumn<OrderToView, String> statusColumn = new TableColumn<>("Status");
+			statusColumn.setMinWidth(150);
+			statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+			// Date Column
+			TableColumn<OrderToView, String> dateColumn = new TableColumn<>("Date");
+			dateColumn.setMinWidth(150);
+			dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+			TableViewOrders obsList = new TableViewOrders();
+			// tblExistingOrder = new TableView<>();
+			tblExistingOrder.setItems(obsList.getOrders(temp));
+			
+			tblExistingOrder.setRowFactory(tv -> {
+				TableRow<OrderToView> row = new TableRow<>();
+				row.setOnMouseClicked(evento -> {
+					if (evento.getClickCount() == 2 && (!row.isEmpty())) {
+						OrderToView rowData = row.getItem();
+						NextStages nextStages = new NextStages("/fxmlFiles/ViewOrder.fxml", "View Order");
+						FXMLLoader loader = nextStages.goToNextStage(evento);
+						ViewOrderController viewOrderControl = loader.getController();
+						viewOrderControl.setDetails(fName, lName, role, userID, parkName, rowData.getOrderID());
+					}
+				});
+				return row;
+			});
+
+			tblExistingOrder.getColumns().addAll(orderIDcolumn, statusColumn, dateColumn);
+			tblExistingOrder.setVisible(true);
+
+		} else {
 			NoExistOrderMsg.setVisible(true);
 		}
 	}
@@ -224,80 +251,88 @@ public class HomePageForEmployeeController implements Initializable {
 
 	}
 
-
 	@FXML
 	void goToMemberRegistration(MouseEvent event) {
-		NextStages nextStages = new NextStages("/fxmlFiles/MembershipRegistration.fxml","Membership Registration");
-		nextStages.goToNextStage(event);
+		NextStages nextStages = new NextStages("/fxmlFiles/MembershipRegistration.fxml", "Membership Registration");
+		FXMLLoader loader = nextStages.goToNextStage(event);
 //		MembershipRegistrationController memberRegControl = loader.getController();
-	//	memberRegControl.setDetails(fName, lName, role, userID, parkName);
+		// memberRegControl.setDetails(fName, lName, role, userID, parkName);
 	}
 
 	@FXML
 	void goToParkDetail(MouseEvent event) {
-		NextStages nextStages = new NextStages("/fxmlFiles/ParkDetails.fxml","Park Details");
-		nextStages.goToNextStage(event);
+		NextStages nextStages = new NextStages("/fxmlFiles/ParkDetails.fxml", "Park Details");
+		FXMLLoader loader = nextStages.goToNextStage(event);
 		ParkDetailsController parkDetailsControl = loader.getController();
 		parkDetailsControl.setDetails(fName, lName, role, userID, parkName);
 
 	}
-	
-	//prepare form - preset all as invisible 
+
+	// prepare form - preset all as invisible
 	public void setAllUnvisible() {
 		anchorParkEmployee.setVisible(false);
 		anchorParkManager.setVisible(false);
 		anchorDepManager.setVisible(false);
 		anchorCustomerrepResentativeEmp.setVisible(false);
 		anchorCustomer.setVisible(false);
-		tblExisitingOrder.setVisible(false);
+		tblExistingOrder.setVisible(false);
 		NoExistOrderMsg.setVisible(false);
 	}
-	
 
-	// receive from login form all user info and set visibility  
+	// receive from login form all user info and set visibility
 	public void setDetails(String fName, String lName, String role, String userID, String parkName) {
 		this.fName = fName;
 		this.lName = lName;
 		this.userID = userID;
 		this.role = role;
 		this.parkName = parkName;
-		
-		switch (role) {
-		case "Park Manager": {
+		String roleM = Role.Member.toString().toLowerCase();
+		String rolePM = Role.ParkManager.toString();
+		String roleDM = Role.DepartmentManager.toString();
+		String rolePE = Role.ParkEmployee.toString();
+		String roleSR = Role.ServiceRepresentative.toString();
+		String roleU = Role.User.toString().toLowerCase();
+		String roleG = Role.Guide.toString().toLowerCase();
+
+		if (role.equals(rolePM)) {
 			employeeCrums.setVisible(true);
 			anchorParkManager.setVisible(true);
-			greetingMsg.setText(fName + ", " + role + ", have a great day!");
-		}
-		case "Department Manager": {
+			greetingMsg.setText(
+					fName.substring(0, 1).toUpperCase() + fName.substring(1) + ", " + role + ", have a great day!");
+
+		} else if (role.equals(roleDM)) {
 			employeeCrums.setVisible(true);
 			anchorDepManager.setVisible(true);
-			greetingMsg.setText(fName + ", " + role + ", have a great day!");
-		}
-		case "Park Employee": {
+			greetingMsg.setText(
+					fName.substring(0, 1).toUpperCase() + fName.substring(1) + ", " + role + ", have a great day!");
+
+		} else if (role.equals(rolePE)) {
 			employeeCrums.setVisible(true);
 			anchorParkEmployee.setVisible(true);
-			greetingMsg.setText(fName + ", " + role + ", have a great day!");
-		}
-		case "Service Representative": {
+			greetingMsg.setText(
+					fName.substring(0, 1).toUpperCase() + fName.substring(1) + ", " + role + ", have a great day!");
+
+		} else if (role.equals(roleSR)) {
 			employeeCrums.setVisible(true);
 			anchorCustomerrepResentativeEmp.setVisible(true);
-			greetingMsg.setText(fName + ", " + role + ", have a great day!");
-		}
-		case "member": {
+			greetingMsg.setText(
+					fName.substring(0, 1).toUpperCase() + fName.substring(1) + ", " + role + ", have a great day!");
+
+		} else if (role.equals(roleM)) {
 			customerCrums.setVisible(true);
 			anchorCustomer.setVisible(true);
-			greetingMsg.setText(fName + ", happy to see you!");
-		}
-		case "user":{
+			greetingMsg.setText(fName.substring(0, 1).toUpperCase() + fName.substring(1) + ", happy to see you!");
+
+		} else if (role.equals(roleU)) {
 			customerCrums.setVisible(true);
 			anchorCustomer.setVisible(true);
 			greetingMsg.setText("Thank you for choosing us!");
-		}
-		case "guide":{
+
+		} else if (role.equals(roleG)) {
 			customerCrums.setVisible(true);
 			anchorCustomer.setVisible(true);
-			greetingMsg.setText(fName + ", " + role + ", happy to see you!");
-		}
+			greetingMsg.setText(
+					fName.substring(0, 1).toUpperCase() + fName.substring(1) + ", " + role + ", happy to see you!");
 		}
 	}
 

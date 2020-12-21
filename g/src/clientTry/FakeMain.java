@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import util.Role;
 
 public class FakeMain extends Application {
 	public static ClientConsole chat; //only one instance
@@ -27,11 +28,12 @@ public class FakeMain extends Application {
 		//EnterIDController controller;
 		try {
 			FXMLLoader loader=new FXMLLoader();
-
 			loader.setLocation(getClass().getResource("/fxmlFiles/incomeReport.fxml"));
 			borderPane = loader.load();
-			incomeReportController controller = loader.getController();
-			controller.setDetails("2020", "02", "Member", null, null, "11", "Tal Park");
+
+			ViewOrderController controller = loader.getController();
+			controller.setDetails(null, null, Role.Member.toString(), null, null,11+"");
+
 		} catch (IOException e) {
 		e.printStackTrace();
 		}	

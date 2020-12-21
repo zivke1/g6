@@ -12,6 +12,7 @@ import com.mysql.cj.MysqlConnection;
 import echoServer.ServerControl;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
+import util.OrderToView;
 
 /**
  * This class overrides some of the methods in the abstract superclass in order
@@ -75,6 +76,7 @@ public class EchoServer extends AbstractServer {
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
 //TODO we need to change it to switch case or even if else
 		try {
+			
 			ArrayList<String> dataFromDb;
 			ArrayList<String> arr = (ArrayList<String>) msg;
 			if(arr.contains("incomeReport"))
@@ -105,13 +107,15 @@ public class EchoServer extends AbstractServer {
 				mysqlConnection.insertTable(msg);
 				arr.add("insertTable");
 			}
+			/*
 			if (arr.contains("showTable")) {
 				arr.remove("showTable");
-				dataFromDb = mysqlConnection.showTableOrders(msg);
+				ArrayList<OrderToView> ar = mysqlConnection.showTableOrders(msg);
 				dataFromDb.add("showTable");
 				this.sendToAllClients(dataFromDb);
 				return;
-			}
+			}*/
+			
 			if (arr.contains("close")) {
 				arr.remove("close");
 				clientDisconnected(null);
@@ -137,6 +141,12 @@ public class EchoServer extends AbstractServer {
 					a.add("False");
 				//a.add("sendToDeparmentManager");
 				client.sendToClient(a);
+				return;
+			}
+			if (arr.contains("cancel report")) {
+				arr.remove("cancel report");
+				ArrayList<String>answer=mysqlConnection.cancelReport();
+				client.sendToClient(answer);
 				return;
 			}
 
@@ -184,8 +194,19 @@ public class EchoServer extends AbstractServer {
 			}
 			if (arr.contains("closeAndSetIdNull")) {
 				arr.remove("closeAndSetIdNull");
-				mysqlConnection.closeAndSetIdNull(arr);
-				clientDisconnected(null);
+				String tmp = "";
+				tmp = mysqlConnection.closeAndSetIdNull(arr);
+				client.sendToClient(tmp);
+				if(arr.contains("disconnect")) {
+					arr.remove("disconnect");
+					clientDisconnected(null);
+				}
+				return;
+			}
+			if(arr.contains("ReturnUserIDInTableOrders")) {
+				arr.remove("ReturnUserIDInTableOrders");
+				ArrayList<OrderToView> ar = mysqlConnection.ReturnUserIDInTableOrders(arr);
+				client.sendToClient(ar);
 				return;
 			}
 			if(arr.contains("CheckUserIDInTable")) {
@@ -194,6 +215,26 @@ public class EchoServer extends AbstractServer {
 				this.sendToAllClients(arr);
 				return;
 			}
+			if(arr.contains("checkInvite")) {
+				arr.remove("checkInvite");
+				arr = mysqlConnection.checkInvite(arr);
+				client.sendToClient(arr);
+				return;
+			}
+			if(arr.contains("setInvite")){
+				arr.remove("setInvite");
+				arr = mysqlConnection.setInvite(arr);
+				client.sendToClient(arr);
+				return;
+			}
+			if(arr.contains("getFreePlace")){
+				arr.remove("getFreePlace");
+//				arr = mysqlConnection.getFreePlace(arr);
+				client.sendToClient(arr);
+				return;
+			}
+			
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
