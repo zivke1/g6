@@ -21,5 +21,4 @@ public class ContactUsController {
     void ExitPopUp(MouseEvent event) {
     	((Node) event.getSource()).getScene().getWindow().hide();
     }
-
 }
