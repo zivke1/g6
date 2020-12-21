@@ -30,7 +30,7 @@ public class NextStages {
 	/**
 	 * open next stage with hiding current page
 	 */
-	public void goToNextStage(MouseEvent event) {
+	public FXMLLoader goToNextStage(MouseEvent event) {
 		Stage stage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Parent root;
@@ -45,12 +45,13 @@ public class NextStages {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+		return loader;
 	}
 
 	/**
 	 * open next stage without hiding current page - for popUps
 	 */
-	public void openPopUp() {
+	public FXMLLoader openPopUp() {
 		Stage stage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Parent root;
@@ -64,6 +65,7 @@ public class NextStages {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+		return loader;
 	}
 	
 	public String getPath() {
