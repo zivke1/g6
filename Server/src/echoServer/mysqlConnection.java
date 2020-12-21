@@ -520,7 +520,7 @@ public class mysqlConnection {
 	public static String CancelOrder(ArrayList<String> arr) {
 		try {
 			PreparedStatement update = conn.prepareStatement("UPDATE orders SET OrderStatus=? WHERE OrderID=?");
-			update.setString(7, "cancelled");
+			update.setString(1, "cancelled");
 			update.setString(2, arr.get(0));
 			update.executeUpdate();
 		} catch (SQLException e) {

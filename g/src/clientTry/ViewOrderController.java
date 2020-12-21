@@ -146,7 +146,7 @@ public class ViewOrderController {
 		this.userIDH = userID;
 		this.parkNameH = parkName;
 		this.orderIDH = orderID;
-		if (roleH.equals(Role.Member.toString()) || roleH.equals(Role.User.toString())) {
+		if (roleH.equals(Role.Member.toString()) || roleH.equals(Role.User.toString())||roleH.equals(Role.Guide.toString())) {
 			cancelBtn.setVisible(true);
 			customerOrder.setVisible(true);
 			employeeOrder.setVisible(false);
