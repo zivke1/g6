@@ -216,6 +216,19 @@ public class EchoServer extends AbstractServer {
 				client.sendToClient(arr);
 				return;
 			}
+			if(arr.contains("setInvite")){
+				arr.remove("setInvite");
+				arr = mysqlConnection.setInvite(arr);
+				client.sendToClient(arr);
+				return;
+			}
+			if(arr.contains("getFreePlace")){
+				arr.remove("getFreePlace");
+//				arr = mysqlConnection.getFreePlace(arr);
+				client.sendToClient(arr);
+				return;
+			}
+			
 			
 		}catch(Exception e) {
 			e.printStackTrace();
