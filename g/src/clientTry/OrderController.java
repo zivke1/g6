@@ -1,9 +1,13 @@
 package clientTry;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
+
+import javax.management.openmbean.OpenDataException;
 
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
@@ -11,18 +15,35 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 
 public class OrderController implements Initializable {
+
+	@FXML
+	private Label txtCrumViaHomePage;
+
+	@FXML
+	private Label txtCrum;
+
+	@FXML
+	private ImageView imgContactUs;
 
 	@FXML
 	private Button backBtn;
@@ -31,16 +52,7 @@ public class OrderController implements Initializable {
 	private AnchorPane helpBtn;
 
 	@FXML
-	private ToggleButton PersonalBtn;
-
-	@FXML
-	private ToggleGroup typeOrder;
-
-	@FXML
-	private ToggleButton FamilyBtn;
-
-	@FXML
-	private ToggleButton GroupBtn;
+	private Text guideWelcomeText;
 
 	@FXML
 	private ComboBox<String> parkNameCombo;
@@ -63,60 +75,50 @@ public class OrderController implements Initializable {
 	@FXML
 	private Text notAllfieldFilledLabel;
 
-	enum OrderType {
-		Family, Group, Personal,Init
-	}
-
-	OrderType orderType=OrderType.Init;
+	@FXML
+	private CheckBox payTimeCheckBox;
 
 	@FXML
-	void FamilyBtnPress(MouseEvent event) {
-		setNumberOfVistors(15);
-		orderType = OrderType.Family;
-	}
+	private Label emailNotVaild;
 
-	@FXML
-	void GroupBtnPress(MouseEvent event) {
-		setNumberOfVistors(15);
-		orderType = OrderType.Group;
-	}
-
-	@FXML
-	void PersonalBtnPress(MouseEvent event) {
-		setNumberOfVistors(1);
-		orderType = OrderType.Personal;
-	}
+	String m_fName, m_lName, m_role, m_userID, m_parkName;
+	String m_ownerUserID, m_status;
+	boolean m_occasional;
+	ArrayList<String> invite;
+	MouseEvent m_event;
+	String m_backTo;
 
 	@FXML
 	void backClicked(MouseEvent event) {
 
 	}
-	ArrayList<String> invite;
+
 	@FXML
-	void finishOrderClicked(MouseEvent event) {
+	void finishOrderClicked(MouseEvent event) throws IOException {
+		m_event = event;
 		invite = new ArrayList<String>();
 		invite.add("checkInvite");
 		try {
-			switch (orderType) {
-			case Personal:
-				invite.add("Personal");
-				break;
-			case Group:
-				invite.add("Group");
-				break;
-			case Family:
-				invite.add("Family");
-				break;
-			default:
-				throw new Exception();
-			
-			}
-
+			invite.add(m_ownerUserID);
 			invite.add(parkNameCombo.getValue().toString());
-			invite.add(numberOfVistorsCombo.getValue().toString());
-			invite.add(pickDatePicker.getValue().toString());// problem
 			invite.add(hourCombo.getValue().toString());
+			invite.add(pickDatePicker.getValue().toString());// check if the date is vaild TODO
+			invite.add(numberOfVistorsCombo.getValue().toString());
+			if (checkEmail(emailTextFiled.getText()) == false) {
+				return;
+			}
+			emailNotVaild.setVisible(false);
 			invite.add(emailTextFiled.getText());
+
+			if (m_occasional == true) {
+				invite.add("occasional");
+			} else {
+				invite.add("notOccasional");
+			}
+			invite.add(m_status);
+			if (payTimeCheckBox.isSelected()) {
+				invite.add("payBefore");
+			}
 		} catch (Exception e) {
 			Platform.runLater(() -> {
 				notAllfieldFilledLabel.setVisible(true);
@@ -125,22 +127,96 @@ public class OrderController implements Initializable {
 
 		if (invite.contains("")) {
 			notAllfieldFilledLabel.setVisible(true);
+			return;
 		} else {
 			notAllfieldFilledLabel.setVisible(false);
 			// TODO send and check if we have place
 			ClientMain.chat.accept(invite);
-			
-			if(ChatClient.dataInArrayList.contains("TheParkIsFull")) {
+
+			if (ChatClient.dataInArrayList.contains("TheParkIsFull")) {
 				ChatClient.dataInArrayList.remove("TheParkIsFull");
-				//TODO show the waiting list page
-			}else if(ChatClient.dataInArrayList.contains("InviteConfirm")){
+				// TODO show the waiting list page
+				openWaitingListPage();
+
+			} else if (ChatClient.dataInArrayList.contains("InviteConfirm")) {
 				ChatClient.dataInArrayList.remove("InviteConfirm");
-				//show successful page and message to confirm the message
-				
+				// show successful page and message to confirm the message
+				OpenInviteConfirmPage();
+
 			}
 			System.out.println(invite);
 		}
 
+	}
+
+	private void OpenInviteConfirmPage() throws IOException {
+		// TODO Auto-generated method stub
+		BorderPane borderPane = null;
+		FXMLLoader loader = new FXMLLoader();
+		Stage primaryStage = new Stage();
+		// Pane root =
+		// loader.load(getClass().getResource("../fxmlFiles/HomePageForEmployee.fxml").openStream());
+
+		loader.setLocation(getClass().getResource("../fxmlFiles/OrderConfirmed.fxml"));
+		borderPane = loader.load();
+//		HomePageForEmployeeController homePageForEmployeeController = loader.getController();
+//		homePageForEmployeeController.setDetails(fName, lName, role, userID , park);
+		// Scene scene = new Scene(root);
+		Scene scene = new Scene(borderPane);
+		primaryStage.setTitle("Home Page");
+		primaryStage.setScene(scene);
+		primaryStage.setOnCloseRequest(evt -> {
+			if (ClientMain.chat.checkConnection()) {
+				ArrayList<String> arr = new ArrayList<String>();
+				arr.add("closeAndSetIdNull");
+				arr.add(m_userID);
+				ClientMain.chat.accept(arr);
+				ClientMain.chat.stopConnection();
+			}
+		});
+		((Node) m_event.getSource()).getScene().getWindow().hide();
+		primaryStage.show();
+
+	}
+
+	private void openWaitingListPage() throws IOException {
+		// TODO Auto-generated method stub
+		BorderPane borderPane = null;
+		FXMLLoader loader = new FXMLLoader();
+		Stage primaryStage = new Stage();
+		// Pane root =
+		// loader.load(getClass().getResource("../fxmlFiles/HomePageForEmployee.fxml").openStream());
+
+		loader.setLocation(getClass().getResource("../fxmlFiles/WaitingList.fxml"));
+		borderPane = loader.load();
+//		HomePageForEmployeeController homePageForEmployeeController = loader.getController();
+//		homePageForEmployeeController.setDetails(fName, lName, role, userID , park);
+		// Scene scene = new Scene(root);
+		Scene scene = new Scene(borderPane);
+		primaryStage.setTitle("Home Page");
+		primaryStage.setScene(scene);
+		primaryStage.setOnCloseRequest(evt -> {
+			if (ClientMain.chat.checkConnection()) {
+				ArrayList<String> arr = new ArrayList<String>();
+				arr.add("closeAndSetIdNull");
+				arr.add(m_userID);
+				ClientMain.chat.accept(arr);
+				ClientMain.chat.stopConnection();
+			}
+		});
+		((Node) m_event.getSource()).getScene().getWindow().hide();
+		primaryStage.show();
+	}
+
+	private boolean checkEmail(String emailS) {
+		if (!((emailS.split("@").length == 2) && (emailS.indexOf("@") != 0) && (emailS.indexOf(".") != 0)
+				&& (emailS.lastIndexOf(".") != emailS.length() - 1) && (emailS.length() >= 5 && emailS.length() <= 30)
+				&& (emailS.indexOf("@") != emailS.indexOf(".") + 1 || emailS.indexOf("@") != (emailS.indexOf(".") + 1))
+				&& emailS.contains(".") && emailS.lastIndexOf('.') > emailS.indexOf('@')) || emailS.length() == 0) {
+			emailNotVaild.setVisible(true);
+			return false;
+		}
+		return true;
 	}
 
 	@FXML
@@ -164,17 +240,23 @@ public class OrderController implements Initializable {
 	// we need to call this function when we know the park the costumer chose
 	private void setHourCombo(Time fromTime, Time toTime) {
 		ArrayList<String> al = new ArrayList<String>();
-		while (fromTime.compareTo(toTime) < 0) {
-			al.add(String.valueOf(fromTime.toString().substring(0, 5)));
-			if (fromTime.getMinutes() == 30) {
-				fromTime.setMinutes(0);
+		if (fromTime != null) {
+			while (fromTime.compareTo(toTime) < 0) {
+				al.add(String.valueOf(fromTime.toString()));
 				fromTime.setHours(fromTime.getHours() + 1);
-			} else {
-				fromTime.setMinutes(30);
+
 			}
+			list = FXCollections.observableArrayList(al);
+			hourCombo.setItems(list);
+		} else {
+			Date currentDate = new Date();
+			String today = currentDate.toString();
+			String[] result = today.split(" ");
+			String time = result[3].substring(0, 8);
+			al.add(String.valueOf(time));
+			list = FXCollections.observableArrayList(al);
+			hourCombo.setItems(list);
 		}
-		list = FXCollections.observableArrayList(al);
-		hourCombo.setItems(list);
 	}
 
 	private void setParkCombo(ArrayList<String> parkList) {
@@ -186,13 +268,55 @@ public class OrderController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		setHourCombo(new Time(0, 0, 0), new Time(23, 29, 0));
-		ArrayList<String> tempArrayList = new ArrayList<String>();
-		tempArrayList.add("ziv");
-		tempArrayList.add("kenig");
-		tempArrayList.add("chttlatar");
-		setParkCombo(tempArrayList);
-		setNumberOfVistors(1);
+
+		setDetails("", "", "", "", "Carmel Park");
+		setDetailsOfOwner("315766014", "member", true, "amount of memvers", "backTo");
+
+	}
+
+	@FXML
+	void goToContactUsPopUp(MouseEvent event) {
+
+	}
+
+	public void setDetails(String fName, String lName, String role, String userID, String parkName) {
+		m_fName = fName;
+		m_lName = lName;
+		m_role = role;
+		m_userID = userID;
+		m_parkName = parkName;
+
+	}
+
+	public void setDetailsOfOwner(String ownerUserID, String status, boolean occasional, String membersAmount,
+			String backTo) {// in status i want to know if
+		ArrayList<String> tempArrayList = new ArrayList<String>(); // the user owner is a
+		// member user or guide
+		m_ownerUserID = ownerUserID;
+		m_status = status;
+		m_occasional = occasional;
+		if (m_occasional) {
+
+			tempArrayList.add(m_parkName);
+			setParkCombo(tempArrayList);
+			setHourCombo(null, null);
+//			setNumberOfVistors("free place");
+		} else {
+			setHourCombo(new Time(8, 0, 0), new Time(16, 29, 0));
+			;
+			tempArrayList.add("Carmel Park");
+			tempArrayList.add("Tal Park");
+			tempArrayList.add("Jorden Park");
+			setParkCombo(tempArrayList);
+			setNumberOfVistors(15);
+		}
+		if (m_status.equals("guide") == false) {
+			guideWelcomeText.setVisible(true);
+			if (occasional == false) {
+				payTimeCheckBox.setVisible(true);
+			}
+		}
+
 	}
 
 }

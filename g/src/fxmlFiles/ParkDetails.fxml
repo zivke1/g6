@@ -13,7 +13,8 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.ParkDetailsController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.ParkDetailsController">
+
    <top>
       <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
          <children>
@@ -165,7 +166,7 @@
             </HBox>
             <Label fx:id="explanation" layoutX="100.0" layoutY="333.0" prefHeight="21.0" prefWidth="296.0" text="*Gap between max capacity to max orders" visible="false" />
             <Button fx:id="QuestionBtn" layoutX="326.0" layoutY="302.0" mnemonicParsing="false" onMouseClicked="#explainGapVisitors" text="?" />
-            <AnchorPane fx:id="optOfManager" layoutX="89.0" layoutY="13.0" prefHeight="47.0" prefWidth="402.0" visible="false">
+            <AnchorPane fx:id="optOfManager" layoutX="89.0" layoutY="13.0" prefHeight="47.0" prefWidth="402.0">
                <children>
                   <Label layoutY="10.0" text="Choose Park:">
                      <font>

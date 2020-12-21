@@ -6,6 +6,9 @@ package echoServer;
 
 import java.io.*;
 import java.util.ArrayList;
+
+import com.mysql.cj.MysqlConnection;
+
 import echoServer.ServerControl;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
@@ -74,7 +77,15 @@ public class EchoServer extends AbstractServer {
 		try {
 			ArrayList<String> dataFromDb;
 			ArrayList<String> arr = (ArrayList<String>) msg;
-			if (arr.contains("FetchParkDetails")) {
+
+			if(arr.contains("VisitorAmountReport"))
+			{
+				dataFromDb=mysqlConnection.visitorAmountReport(arr);
+				this.sendToAllClients(dataFromDb);
+				return;
+			}
+			if(arr.contains("FetchParkDetails"))
+			{
 				arr.remove("FetchParkDetails");
 				dataFromDb = mysqlConnection.FetchParkDetails(arr);
 				this.sendToAllClients(dataFromDb);
@@ -112,6 +123,40 @@ public class EchoServer extends AbstractServer {
 				return;
 			}
 
+			if (arr.contains("sendToDeparmentManager")) {
+				arr.remove("sendToDeparmentManager");
+				ArrayList<String> a=new ArrayList<>();
+				if(mysqlConnection.insertParaUpdate(arr))
+					a.add("True");
+				else
+					a.add("False");
+				//a.add("sendToDeparmentManager");
+				client.sendToClient(a);
+				return;
+			}
+			if (arr.contains("cancel report")) {
+				arr.remove("cancel report");
+				ArrayList<String>answer=mysqlConnection.cancelReport();
+				client.sendToClient(answer);
+				return;
+			}
+
+			if(arr.contains("ViewOrder"))
+			{
+				arr.remove("ViewOrder");
+				ArrayList<String> returnArr = new ArrayList<>();
+				returnArr=mysqlConnection.ViewOrders(arr);
+				client.sendToClient(returnArr);
+				return;
+			}
+			if(arr.contains("CancelOrder"))
+			{
+				arr.remove("CancelOrder");
+				ArrayList<String> returnArr = new ArrayList<>();
+				String ret=mysqlConnection.CancelOrder(arr);
+				returnArr.add(ret);
+				client.sendToClient(returnArr);
+			}
 			if (arr.contains("RegisterMember")) {
 				ArrayList<String> returnArr = new ArrayList<>();
 				arr.remove("RegisterMember");
@@ -154,6 +199,13 @@ public class EchoServer extends AbstractServer {
 				this.sendToAllClients(arr);
 				return;
 			}
+			if(arr.contains("checkInvite")) {
+				arr.remove("checkInvite");
+				arr = mysqlConnection.checkInvite(arr);
+				client.sendToClient(arr);
+				return;
+			}
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
