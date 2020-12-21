@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" stylesheets="@../clientTry/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.LoginController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" stylesheets="@/clientTry/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.LoginController">
    <top>
       <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
          <children>
@@ -24,13 +24,13 @@
             </Text>
             <ImageView fitHeight="135.0" fitWidth="176.0" layoutX="-8.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true" styleClass="imgGoN">
                <image>
-                  <Image url="@../../img5.png" />
+                  <Image url="@/img/img5.png" />
                </image>
             </ImageView>
             <Label layoutX="79.0" layoutY="46.0" styleClass="imgGoN" />
             <ImageView fx:id="imgContactUs" fitHeight="62.0" fitWidth="62.0" layoutX="951.0" layoutY="-1.0" onMouseClicked="#goToContactUsPopUp" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../contactus.png" />
+                  <Image url="@/img/contactus.png" />
                </image>
             </ImageView>
             <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
@@ -39,13 +39,13 @@
       </AnchorPane>
    </top>
    <left>
-      <AnchorPane prefHeight="521.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" stylesheets="@../clientTry/application.css" BorderPane.alignment="CENTER" />
+      <AnchorPane prefHeight="521.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" stylesheets="@/clientTry/application.css" BorderPane.alignment="CENTER" />
    </left>
    <center>
       <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnNextPage" layoutX="757.0" layoutY="443.0" mnemonicParsing="false" onMouseClicked="#finishOrderClicked" prefHeight="44.0" prefWidth="122.0" styleClass="mybutton1" stylesheets="@../clientTry/application.css" text="next" />
-            <Button layoutX="834.0" layoutY="14.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@../clientTry/application.css" text="?" />
+            <Button fx:id="btnNextPage" layoutX="757.0" layoutY="443.0" mnemonicParsing="false" onMouseClicked="#finishOrderClicked" prefHeight="44.0" prefWidth="122.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="next" />
+            <Button layoutX="834.0" layoutY="14.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
             <RadioButton fx:id="enterAsCoustumerRadioBtn" layoutX="108.0" layoutY="71.0" mnemonicParsing="false" onAction="#changeIdentificationVisible" text="Enter as coustumer">
                <toggleGroup>
                   <ToggleGroup fx:id="radio" />

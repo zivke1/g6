@@ -1,5 +1,6 @@
 package echoServer;
 
+import util.OrderToView;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,7 +9,6 @@ import java.sql.SQLException;
 import java.sql.SQLSyntaxErrorException;
 import java.sql.Statement;
 import java.sql.Time;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -102,38 +102,66 @@ public class mysqlConnection {
 
 // need to go over existing table given its name and find the id
 	// or search id in a given table- maybe not show it
+
+	public static ArrayList<OrderToView> ReturnUserIDInTableOrders(Object arr) {
+		if (arr instanceof ArrayList) {
+			ArrayList<String> array = (ArrayList<String>) arr;
+			if (array != null && array.get(0) != null) {// index 0 = userID
+				ArrayList<OrderToView> ar = showTableOrders(array.get(0));
+				return ar;
+			}
+		}
+		return null;
+	}
+
+	
 	public static String CheckUserIDInTable(Object arr) {
 		if (arr instanceof ArrayList) {
 			ArrayList<String> array = (ArrayList<String>) arr;
 
 			if (array.get(0) != null) { // index 0 = userID
-				ArrayList<String> ar = showTableOrders(array.get(0));
-				if (((ArrayList<String>) array).get(0).equals(array.get(0)))
+				ArrayList<OrderToView> ar = showTableOrders(array.get(0));
+				if (ar.size() > 0) {
 					return "True";
+				}
 			}
 		}
 		return "False";
 	}
 
-	public static ArrayList<String> showTableOrders(Object id) {
-		ArrayList<String> dataFromDB = new ArrayList<>();
+	/**
+	 * 
+	 * @param id
+	 * @return arrayList with order details of a given UserID (row form orders
+	 *         table)
+	 */
+	public static ArrayList<OrderToView> showTableOrders(Object id) {
+		ArrayList<OrderToView> dataFromDB = new ArrayList<>();
 		try {// inserting new row to the table
-			String firstName = null, lastName = null, ID = null, email = null, phoneNum = null;
-			Statement stmt = conn.createStatement();
-			String tmpId = ((ArrayList<String>) id).get(0);
-			ResultSet rs = stmt.executeQuery("select * from orders Where ID=" + tmpId);
+			String UserID = null, OrderID = null, OrderStatus = null;
+			Date OrderDate = null;
+
+			Statement stmt = conn.createStatement();	
+			String tmpId = (String)id;
+			ResultSet rs = stmt.executeQuery("select * from orders Where UserID=" + tmpId);
 			while (rs.next()) {
-				firstName = rs.getString("FirstName");
-				lastName = rs.getString("LastName");
-				ID = rs.getString("ID");
-				email = rs.getString("Email");
-				phoneNum = rs.getString("PhoneNumber");
+				UserID = rs.getString("UserID");
+				OrderID = rs.getString("OrderID");
+				OrderStatus = rs.getString("OrderStatus");
+				OrderDate = rs.getDate("VisitDate");
+				// cost = rs.getFloat("Payment");
+				// orderType = rs.getString("TypeOfOrder");
+				// orderEnterTime = rs.getTime("EnterTime");
+				// email = rs.getString("Email");
+
+				dataFromDB.add(new OrderToView(UserID, OrderID, OrderStatus, OrderDate));
+				/*
+				 * dataFromDB.add(email); dataFromDB.add(orderEnterTime.toString());
+				 * dataFromDB.add(orderType); dataFromDB.add(cost + ""); dataFromDB.add(UserID);
+				 * dataFromDB.add(OrderID); dataFromDB.add(OrderStatus);
+				 * dataFromDB.add(OrderDate.toString());
+				 */
 			}
-			dataFromDB.add(firstName);
-			dataFromDB.add(lastName);
-			dataFromDB.add(ID);
-			dataFromDB.add(email);
-			dataFromDB.add(phoneNum);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -365,9 +393,10 @@ public class mysqlConnection {
 
 	}
 
-	public static void closeAndSetIdNull(ArrayList<String> arr) throws SQLException {
+	public static String closeAndSetIdNull(ArrayList<String> arr) throws SQLException {
 		String id = arr.get(0);
 		m_connectedID.remove(id);
+		return "true";
 
 	}
 
@@ -531,7 +560,7 @@ public class mysqlConnection {
 	public static String CancelOrder(ArrayList<String> arr) {
 		try {
 			PreparedStatement update = conn.prepareStatement("UPDATE orders SET OrderStatus=? WHERE OrderID=?");
-			update.setString(7, "cancelled");
+			update.setString(1, "cancelled");
 			update.setString(2, arr.get(0));
 			update.executeUpdate();
 		} catch (SQLException e) {
@@ -591,6 +620,9 @@ public class mysqlConnection {
 			price = (float) (price * (100 - regularDiscount.get(0)) / 100.0);
 			price = (float) (price * (100 - regularDiscount.get(1)) / 100.0);
 			price = (float) (price * (100 - extraDiscount) / 100.0);
+			if(arr.contains("payBefore")) {
+				price = (float) (price * (100 - 12) / 100.0);
+			}
 			toReturn.add(String.valueOf(price));// confirmed or theParkIsFull then price
 			if (toReturn.contains("InviteConfirm")) {
 				String orderNumber = getOrderNumber();

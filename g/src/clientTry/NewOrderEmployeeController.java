@@ -69,5 +69,9 @@ public class NewOrderEmployeeController {
     void helpBtnPressed(MouseEvent event) {
     	
     }
-
+    
+    public void setDetails(String fName, String lName, String role, String userID, String parkName, String orderID)
+    {
+    	
+    }
 }

@@ -16,6 +16,8 @@ import ocsf.server.ConnectionToClient;
 import util.HourAmount;
 import util.TypeOfOrder;
 
+import util.OrderToView;
+
 /**
  * This class overrides some of the methods in the abstract superclass in order
  * to give more functionality to the server.
@@ -78,17 +80,16 @@ public class EchoServer extends AbstractServer {
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
 //TODO we need to change it to switch case or even if else
 		try {
+
 			ArrayList<String> dataFromDb;
 			ArrayList<String> arr = (ArrayList<String>) msg;
 
-			if(arr.contains("VisitorAmountReport"))
-			{
-				dataFromDb=mysqlConnection.visitorAmountReport(arr);
+			if (arr.contains("VisitorAmountReport")) {
+				dataFromDb = mysqlConnection.visitorAmountReport(arr);
 				this.sendToAllClients(dataFromDb);
 				return;
 			}
-			if(arr.contains("FetchParkDetails"))
-			{
+			if (arr.contains("FetchParkDetails")) {
 				arr.remove("FetchParkDetails");
 				dataFromDb = mysqlConnection.FetchParkDetails(arr);
 				this.sendToAllClients(dataFromDb);
@@ -103,13 +104,12 @@ public class EchoServer extends AbstractServer {
 				mysqlConnection.insertTable(msg);
 				arr.add("insertTable");
 			}
-			if (arr.contains("showTable")) {
-				arr.remove("showTable");
-				dataFromDb = mysqlConnection.showTableOrders(msg);
-				dataFromDb.add("showTable");
-				this.sendToAllClients(dataFromDb);
-				return;
-			}
+			/*
+			 * if (arr.contains("showTable")) { arr.remove("showTable");
+			 * ArrayList<OrderToView> ar = mysqlConnection.showTableOrders(msg);
+			 * dataFromDb.add("showTable"); this.sendToAllClients(dataFromDb); return; }
+			 */
+
 			if (arr.contains("close")) {
 				arr.remove("close");
 				clientDisconnected(null);
@@ -128,35 +128,33 @@ public class EchoServer extends AbstractServer {
 
 			if (arr.contains("sendToDeparmentManager")) {
 				arr.remove("sendToDeparmentManager");
-				ArrayList<String> a=new ArrayList<>();
-				if(mysqlConnection.insertParaUpdate(arr))
+				ArrayList<String> a = new ArrayList<>();
+				if (mysqlConnection.insertParaUpdate(arr))
 					a.add("True");
 				else
 					a.add("False");
-				//a.add("sendToDeparmentManager");
+				// a.add("sendToDeparmentManager");
 				client.sendToClient(a);
 				return;
 			}
 			if (arr.contains("cancel report")) {
 				arr.remove("cancel report");
-				ArrayList<String>answer=mysqlConnection.cancelReport();
+				ArrayList<String> answer = mysqlConnection.cancelReport();
 				client.sendToClient(answer);
 				return;
 			}
 
-			if(arr.contains("ViewOrder"))
-			{
+			if (arr.contains("ViewOrder")) {
 				arr.remove("ViewOrder");
 				ArrayList<String> returnArr = new ArrayList<>();
-				returnArr=mysqlConnection.ViewOrders(arr);
+				returnArr = mysqlConnection.ViewOrders(arr);
 				client.sendToClient(returnArr);
 				return;
 			}
-			if(arr.contains("CancelOrder"))
-			{
+			if (arr.contains("CancelOrder")) {
 				arr.remove("CancelOrder");
 				ArrayList<String> returnArr = new ArrayList<>();
-				String ret=mysqlConnection.CancelOrder(arr);
+				String ret = mysqlConnection.CancelOrder(arr);
 				returnArr.add(ret);
 				client.sendToClient(returnArr);
 			}
@@ -188,45 +186,55 @@ public class EchoServer extends AbstractServer {
 			}
 			if (arr.contains("closeAndSetIdNull")) {
 				arr.remove("closeAndSetIdNull");
-				mysqlConnection.closeAndSetIdNull(arr);
-				clientDisconnected(null);
+				String tmp = "";
+				tmp = mysqlConnection.closeAndSetIdNull(arr);
+				client.sendToClient(tmp);
+				if (arr.contains("disconnect")) {
+					arr.remove("disconnect");
+					clientDisconnected(null);
+				}
 				return;
 			}
-			if(arr.contains("CheckUserIDInTable")) {
+			if (arr.contains("ReturnUserIDInTableOrders")) {
+				arr.remove("ReturnUserIDInTableOrders");
+				ArrayList<OrderToView> ar = mysqlConnection.ReturnUserIDInTableOrders(arr);
+				client.sendToClient(ar);
+				return;
+			}
+			if (arr.contains("CheckUserIDInTable")) {
 				arr.remove("CheckUserIDInTable");
 				arr = mysqlConnection.checkIfEmployee(arr);
 				this.sendToAllClients(arr);
 				return;
 			}
-			if(arr.contains("checkInvite")) {
+			if (arr.contains("checkInvite")) {
 				arr.remove("checkInvite");
 				arr = mysqlConnection.checkInvite(arr);
-				this.sendToAllClients(arr);
+				client.sendToClient(arr);
 				return;
 			}
-			if(arr.contains("depManVisitRep")) {
+			if (arr.contains("depManVisitRep")) {
 				arr.remove("depManVisitRep");
 				TypeOfOrder type = null;
-				switch(arr.get(0))
-				{
+				switch (arr.get(0)) {
 				case "member":
-					type=TypeOfOrder.member;
+					type = TypeOfOrder.member;
 					break;
 				case "user":
-					type=TypeOfOrder.user;
+					type = TypeOfOrder.user;
 					break;
 				case "group":
-					type= TypeOfOrder.group;
+					type = TypeOfOrder.group;
 					break;
 				}
 				ArrayList<HourAmount> answer;
 				answer = mysqlConnection.depManVisitRep(type);
 				client.sendToClient(answer);
-			
+
 				return;
 			}
-			
-		}catch(Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
