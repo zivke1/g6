@@ -198,7 +198,7 @@ public class EchoServer extends AbstractServer {
 			if(arr.contains("checkInvite")) {
 				arr.remove("checkInvite");
 				arr = mysqlConnection.checkInvite(arr);
-				this.sendToAllClients(arr);
+				client.sendToClient(arr);
 				return;
 			}
 			

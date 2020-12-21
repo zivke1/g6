@@ -177,7 +177,7 @@ public class HomePageForEmployeeController implements Initializable {
 		NextStages nextStages = new NextStages("/fxmlFiles/OrderNew.fxml","View Customer's Order");
 		nextStages.goToNextStage(event);
 		OrderController orderControl = loader.getController();
-	//	orderControl.setDetails(fName, lName, role, userID, parkName);
+		orderControl.setDetails(fName, lName, role, userID, parkName);
 	}
 
 	@FXML

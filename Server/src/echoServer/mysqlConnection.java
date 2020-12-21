@@ -589,6 +589,9 @@ public class mysqlConnection {
 			price = (float) (price * (100 - regularDiscount.get(0)) / 100.0);
 			price = (float) (price * (100 - regularDiscount.get(1)) / 100.0);
 			price = (float) (price * (100 - extraDiscount) / 100.0);
+			if(arr.contains("payBefore")) {
+				price = (float) (price * (100 - 12) / 100.0);
+			}
 			toReturn.add(String.valueOf(price));// confirmed or theParkIsFull then price
 			if (toReturn.contains("InviteConfirm")) {
 				String orderNumber = getOrderNumber();
