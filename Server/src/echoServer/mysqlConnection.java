@@ -1,5 +1,6 @@
 package echoServer;
 
+import util.FreePlaceInPark;
 import util.OrderToView;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -112,7 +113,6 @@ public class mysqlConnection {
 		return null;
 	}
 
-	
 	public static String CheckUserIDInTable(Object arr) {
 		if (arr instanceof ArrayList) {
 			ArrayList<String> array = (ArrayList<String>) arr;
@@ -139,8 +139,8 @@ public class mysqlConnection {
 			String UserID = null, OrderID = null, OrderStatus = null;
 			Date OrderDate = null;
 
-			Statement stmt = conn.createStatement();	
-			String tmpId = (String)id;
+			Statement stmt = conn.createStatement();
+			String tmpId = (String) id;
 			ResultSet rs = stmt.executeQuery("select * from orders Where UserID=" + tmpId);
 			while (rs.next()) {
 				UserID = rs.getString("UserID");
@@ -618,7 +618,7 @@ public class mysqlConnection {
 			price = (float) (price * (100 - regularDiscount.get(0)) / 100.0);
 			price = (float) (price * (100 - regularDiscount.get(1)) / 100.0);
 			price = (float) (price * (100 - extraDiscount) / 100.0);
-			if(arr.contains("payBefore")) {
+			if (arr.contains("payBefore")) {
 				price = (float) (price * (100 - 12) / 100.0);
 			}
 			toReturn.add(String.valueOf(price));// confirmed or theParkIsFull then price
@@ -628,7 +628,7 @@ public class mysqlConnection {
 //			}
 			// TODO need to add the message to confirm
 			//// end of not occasional visit
-		} else {//occasional visit only
+		} else {// occasional visit only
 			// parkDetils=Capacity,GapVisitors,TimeOfAvergeVisit
 			int visitosAmount = checkNumberOfVisitorsNow(arr.get(1));
 			if (visitosAmount + numberOfVisitorsInInvite > Capacity) {
@@ -650,7 +650,7 @@ public class mysqlConnection {
 //
 //				addToOrdersTable(arr, price, orderNumber, "active");
 			}
-		}//occasional visit only end
+		} // occasional visit only end
 		return toReturn;
 
 	}
@@ -770,7 +770,7 @@ public class mysqlConnection {
 
 	// need to unit back and next
 	private static int checkNumberOfVistorsInParkNext(ArrayList<String> sendTocheckNumberOfVistorsInPark)
-			throws SQLException {
+			throws SQLException {//this not include the hour
 		Statement stmt = conn.createStatement();
 		String visitTime = sendTocheckNumberOfVistorsInPark.get(2);
 		String hour = visitTime.substring(0, 2);
@@ -781,8 +781,8 @@ public class mysqlConnection {
 		ResultSet rs = stmt.executeQuery("select SUM(VisitorsAmount) from orders "
 				+ "Where OrderStatus= 'waitingToVisit' OR OrderStatus='waitingToApprove' " + "AND VisitDate = '"
 				+ sendTocheckNumberOfVistorsInPark.get(1) + "' AND ParkName = '"
-				+ sendTocheckNumberOfVistorsInPark.get(1) + "' AND  EnterTime>='"
-				+ sendTocheckNumberOfVistorsInPark.get(2) + "'AND EnterTime<'" + fromThisTime + "'");
+				+ sendTocheckNumberOfVistorsInPark.get(0) + "' AND  ExpectedEnterTime>'"
+				+ sendTocheckNumberOfVistorsInPark.get(2) + "'AND ExpectedEnterTime<'" + fromThisTime + "'");
 		while (rs.next()) {
 			numberOfVisitors = rs.getInt("SUM(VisitorsAmount)");
 		}
@@ -802,8 +802,8 @@ public class mysqlConnection {
 		ResultSet rs = stmt.executeQuery("select SUM(VisitorsAmount) from orders "
 				+ "Where OrderStatus= 'waitingToVisit' OR OrderStatus='waitingToApprove' " + "AND VisitDate = '"
 				+ sendTocheckNumberOfVistorsInParkBack.get(1) + "' AND ParkName = '"
-				+ sendTocheckNumberOfVistorsInParkBack.get(1) + "' AND  EnterTime<='"
-				+ sendTocheckNumberOfVistorsInParkBack.get(2) + "'AND EnterTime>'" + fromThisTime + "'");
+				+ sendTocheckNumberOfVistorsInParkBack.get(0) + "' AND  ExpectedEnterTime<='"
+				+ sendTocheckNumberOfVistorsInParkBack.get(2) + "'AND ExpectedEnterTime>'" + fromThisTime + "'");
 		while (rs.next()) {
 			numberOfVisitors = rs.getInt("SUM(VisitorsAmount)");
 		}
@@ -834,12 +834,12 @@ public class mysqlConnection {
 		Integer cancelNum = 0, expiredNum = 0;
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("select * from orders Where OrderStatus=6");//6=cancelled
+			ResultSet rs = stmt.executeQuery("select * from orders Where OrderStatus=6");// 6=cancelled
 			while (rs.next()) {
 				cancelNum++;
-				System.out.println(cancelNum.toString()+"cancel");
+				System.out.println(cancelNum.toString() + "cancel");
 			}
-			ResultSet rs2 = stmt.executeQuery("select * from orders Where OrderStatus=2");//2= expired
+			ResultSet rs2 = stmt.executeQuery("select * from orders Where OrderStatus=2");// 2= expired
 			while (rs2.next()) {
 				expiredNum++;
 				System.out.println(expiredNum.toString());
@@ -855,10 +855,20 @@ public class mysqlConnection {
 	}
 
 	public static ArrayList<String> setInvite(ArrayList<String> arr) throws SQLException {
-		ArrayList<String> toReturn= new ArrayList<String>();
+		ArrayList<String> toReturn = new ArrayList<String>();
 		String orderNumber = getOrderNumber();
-		addToOrdersTable(arr, orderNumber, "active");
+		if (arr.contains("Occasional")) {
+			addToOrdersTable(arr, orderNumber, "active");
+		}else {
+			addToOrdersTable(arr, orderNumber, "waitingToApprove");
+		}
 		toReturn.add(orderNumber);
 		return toReturn;
+	}
+
+	public static ArrayList<FreePlaceInPark> getFreePlace(ArrayList<String> arr) {
+		ArrayList<FreePlaceInPark> toReturn = new ArrayList<FreePlaceInPark>();
+
+		return null;
 	}
 }

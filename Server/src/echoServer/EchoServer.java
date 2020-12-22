@@ -12,6 +12,7 @@ import com.mysql.cj.MysqlConnection;
 import echoServer.ServerControl;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
+import util.FreePlaceInPark;
 import util.OrderToView;
 
 /**
@@ -224,8 +225,8 @@ public class EchoServer extends AbstractServer {
 			}
 			if(arr.contains("getFreePlace")){
 				arr.remove("getFreePlace");
-//				arr = mysqlConnection.getFreePlace(arr);
-				client.sendToClient(arr);
+				ArrayList<FreePlaceInPark> ar = mysqlConnection.getFreePlace(arr);
+				client.sendToClient(ar);
 				return;
 			}
 			

@@ -17,6 +17,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import util.FreePlaceInPark;
 
 public class WaitingListController implements Initializable {
 	String m_fName,m_lName,m_role,m_userID,m_parkName;
@@ -36,47 +37,20 @@ public class WaitingListController implements Initializable {
     private Button helpBtn;
 
     @FXML
-    private TableView<freeOrder> freePlaceTable;
+    private TableView<FreePlaceInPark> freePlaceTable;
 
     @FXML
-    private TableColumn<freeOrder, String> dateCol;
+    private TableColumn<FreePlaceInPark, String> dateCol;
 
     @FXML
-    private TableColumn<freeOrder, String> timeCol;
+    private TableColumn<FreePlaceInPark, String> timeCol;
 
-    private ObservableList<freeOrder> list1 = FXCollections.observableArrayList();
+//    private ObservableList<freeOrder> list1 = FXCollections.observableArrayList();
    
-    class freeOrder{
-    	private SimpleStringProperty date;
-    	private SimpleStringProperty  time;
-    	
-    	public freeOrder(String date, String time) {
-    		this.date = new SimpleStringProperty(date);
-    		this.time = new SimpleStringProperty(time);
-    	}
-    	
-    	public SimpleStringProperty getDateProperty() {
-    		return date;
-    	}
-    	
-     	public SimpleStringProperty getTimeProperty() {
-    		return time;
-    	}
-    	public String getDate() {
-    		return date.getValue();
-    	}
-    	
-     	public String getTime() {
-    		return time.getValue();
-     	}
-    }
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		Platform.runLater(()->{
-			freeOrder x = new freeOrder("hello", "world");
-		list1.add(x);
-		freePlaceTable.setItems(list1);
-		});
+
 	}
     
     @FXML
