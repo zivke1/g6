@@ -190,8 +190,8 @@ public class EchoServer extends AbstractServer {
 			}
 			if (arr.contains("closeAndSetIdNull")) {
 				arr.remove("closeAndSetIdNull");
-				String tmp = "";
-				tmp = mysqlConnection.closeAndSetIdNull(arr);
+				ArrayList<String> tmp = new ArrayList<>();
+				tmp.add(mysqlConnection.closeAndSetIdNull(arr));
 				client.sendToClient(tmp);
 				if (arr.contains("disconnect")) {
 					arr.remove("disconnect");
@@ -218,7 +218,22 @@ public class EchoServer extends AbstractServer {
 				return;
 			}
 
-		} catch (Exception e) {
+			if(arr.contains("setInvite")){
+				arr.remove("setInvite");
+				arr = mysqlConnection.setInvite(arr);
+				client.sendToClient(arr);
+				return;
+			}
+			if(arr.contains("getFreePlace")){
+				arr.remove("getFreePlace");
+//				arr = mysqlConnection.getFreePlace(arr);
+				client.sendToClient(arr);
+				return;
+			}
+			
+			
+		}catch(Exception e) {
+
 			e.printStackTrace();
 		}
 	}
@@ -237,9 +252,9 @@ public class EchoServer extends AbstractServer {
 		//orderOpenSpot.start();// checking if any of the cancelled orders in the future can fit anyone in the
 								// waiting list
 	}
-
+ 
 	/**
-	 * This method overrides the one in the superclass. Called when the server stops
+	 * This method overrides the one in the superclass. Called when the server stops 
 	 * listening for connections.
 	 */
 	protected void serverStopped() {

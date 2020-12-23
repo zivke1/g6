@@ -112,7 +112,13 @@ public class WaitingListController implements Initializable {
     public void setOrderDetails(ArrayList<String> invite, String price) {
     	m_invite=invite;
     	m_invite.add(price);
-    
+
+    	m_invite.add(0,"getFreePlace");
+    	ClientMain.chat.accept(m_invite);
+    	
+    	
+    	//TODO check set the values in the chart
+    	
     }
     
 

@@ -35,7 +35,7 @@ import util.SimulationDetails;
 
 public class mysqlConnection {
 	static Connection conn;
-	static HashSet<String> m_connectedID = new HashSet<String>();
+	static HashSet<String> m_connectedID = new HashSet<String>();  
 
 	public static void connectDB() {
 		try {
@@ -635,13 +635,13 @@ public class mysqlConnection {
 				price = (float) (price * (100 - 12) / 100.0);
 			}
 			toReturn.add(String.valueOf(price));// confirmed or theParkIsFull then price
-			if (toReturn.contains("InviteConfirm")) {
-				String orderNumber = getOrderNumber();
-				addToOrdersTable(arr, price, orderNumber, "waitingToApprove");
-			}
+//			if (toReturn.contains("InviteConfirm")) {
+//				String orderNumber = getOrderNumber();
+//				addToOrdersTable(arr, price, orderNumber, "waitingToApprove");
+//			}
 			// TODO need to add the message to confirm
 			//// end of not occasional visit
-		} else {
+		} else {//occasional visit only
 			// parkDetils=Capacity,GapVisitors,TimeOfAvergeVisit
 			int visitosAmount = checkNumberOfVisitorsNow(arr.get(1));
 			if (visitosAmount + numberOfVisitorsInInvite > Capacity) {
@@ -659,11 +659,11 @@ public class mysqlConnection {
 				price = (float) (price * (100 - extraDiscount) / 100.0);
 				toReturn.add("InviteConfirm");
 				toReturn.add(String.valueOf(price));// confirmed or theParkIsFull then price
-				String orderNumber = getOrderNumber();
-
-				addToOrdersTable(arr, price, orderNumber, "active");
+//				String orderNumber = getOrderNumber();
+//
+//				addToOrdersTable(arr, price, orderNumber, "active");
 			}
-		}
+		}//occasional visit only end
 		return toReturn;
 
 	}
@@ -731,7 +731,7 @@ public class mysqlConnection {
 		return String.valueOf(orderID);
 	}
 
-	private static void addToOrdersTable(ArrayList<String> arr, float price, String orderNumber, String orderStatus)
+	private static void addToOrdersTable(ArrayList<String> arr, String orderNumber, String orderStatus)
 			throws SQLException {
 		PreparedStatement update = conn.prepareStatement(
 				"INSERT INTO orders (UserID, OrderID, ParkName, ExpectedEnterTime, VisitDate, VisitorsAmount,TypeOfOrder,OrderStatus,EnterTime,ExitTime,Occasional,VisitorsAmountActual,Payment,Email) VALUES (?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?)");
@@ -755,7 +755,7 @@ public class mysqlConnection {
 		update.setString(10, null);
 		update.setBoolean(11, arr.get(6).equals("occasional"));
 		update.setString(12, null);
-		update.setFloat(13, price);
+		update.setFloat(13, Float.parseFloat(arr.get(8)));
 		update.setString(14, arr.get(5));
 		update.executeUpdate();
 
@@ -866,6 +866,7 @@ public class mysqlConnection {
 		return arr;
 
 	}
+
 
 	/**
 	 * getting phone number, email, order ID for an order to the day after
@@ -1137,5 +1138,13 @@ public class mysqlConnection {
 			}
 		}
 		return arr;
+	}
+	public static ArrayList<String> setInvite(ArrayList<String> arr) throws SQLException {
+		ArrayList<String> toReturn= new ArrayList<String>();
+		String orderNumber = getOrderNumber();
+		addToOrdersTable(arr, orderNumber, "active");
+		toReturn.add(orderNumber);
+		return toReturn;
+
 	}
 }

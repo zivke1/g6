@@ -34,7 +34,7 @@ import javafx.stage.Stage;
  *
  */
 
-public class paraController {
+public class UpdateParametersController {
 	private String parkName, discount, duration, gap, maxCapacity,fNameH,lNameH,roleH,userIDH,parkNameH;
 	private LocalDate from, until;
 	private boolean chosenDuration = false, chosenDiscount = false, chosenGap = false, chosenCapacity = false;
