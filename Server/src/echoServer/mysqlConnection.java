@@ -25,17 +25,20 @@ import java.util.TreeSet;
 import com.mysql.cj.jdbc.SuspendableXAConnection;
 import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
 
+import util.HourAmount;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 import util.Role;
+import util.TypeOfOrder;
 import util.SimulationDetails;
 
 public class mysqlConnection {
 	static Connection conn;
-	static HashSet<String> m_connectedID = new HashSet<String>();  
+	static HashSet<String> m_connectedID = new HashSet<String>();
 
 	static EchoServer server;
 	public static void SetServer(EchoServer server1)
@@ -648,7 +651,7 @@ public class mysqlConnection {
 //			}
 			// TODO need to add the message to confirm
 			//// end of not occasional visit
-		} else {//occasional visit only
+		} else {// occasional visit only
 			// parkDetils=Capacity,GapVisitors,TimeOfAvergeVisit
 			int visitosAmount = checkNumberOfVisitorsNow(arr.get(1));
 			if (visitosAmount + numberOfVisitorsInInvite > Capacity) {
@@ -670,7 +673,7 @@ public class mysqlConnection {
 //
 //				addToOrdersTable(arr, price, orderNumber, "active");
 			}
-		}//occasional visit only end
+		} // occasional visit only end
 		return toReturn;
 
 	}
@@ -874,6 +877,32 @@ public class mysqlConnection {
 
 	}
 
+	public static ArrayList<HourAmount> depManVisitRep(TypeOfOrder type) {
+		ArrayList<HourAmount> dataFromDB = new ArrayList<>();
+		ResultSet rs = null;
+		Time t1, t2;
+		t1 = new Time(8, 0, 0);
+		t2 = new Time(9, 0, 0);
+		int[] sum = new int[9];// sum for each hour
+		try {
+			for (int i = 0; i < 9; i++, t1.setHours(t1.getHours() + 1), t2.setHours(t2.getHours() + 1)) {
+				Statement stmt = conn.createStatement();
+				rs = stmt.executeQuery("select * from orders Where EnterTime BETWEEN '" + t1 + "' AND '" + t2
+						+ "' AND OrderStatus=1 AND TypeOfOrder='" + type + "'");
+				while (rs.next())
+					sum[i] += rs.getInt("VisitorsAmountActual");
+
+				Integer temp = t1.getHours();
+				dataFromDB.add(new HourAmount(temp.toString(), sum[i]));
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(dataFromDB.get(0).getAmount() + " " + dataFromDB.get(0).getHour());
+		return dataFromDB;
+	}
 
 	/**
 	 * getting phone number, email, order ID for an order to the day after
@@ -1146,8 +1175,9 @@ public class mysqlConnection {
 		}
 		return arr;
 	}
+
 	public static ArrayList<String> setInvite(ArrayList<String> arr) throws SQLException {
-		ArrayList<String> toReturn= new ArrayList<String>();
+		ArrayList<String> toReturn = new ArrayList<String>();
 		String orderNumber = getOrderNumber();
 		addToOrdersTable(arr, orderNumber, "active");
 		toReturn.add(orderNumber);

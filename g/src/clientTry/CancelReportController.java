@@ -12,7 +12,11 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
+/**
+ * 
+ * @author Idan
+ *controller for cancel report of department manager 
+ */
 public class CancelReportController {
 	private String fNameH, lNameH, roleH, userIDH, parkNameH;
 
@@ -70,7 +74,7 @@ public class CancelReportController {
 		ArrayList<String> arr= new ArrayList<>();
 		arr.add("cancel report");
 		//ClientMain
-		FakeMain.chat.accept(arr);
+		ClientMain.chat.accept(arr);
 		numCancelOrders.setText(ChatClient.dataInArrayList.get(0));
 		numExpiredOrders.setText(ChatClient.dataInArrayList.get(1));
 	}

@@ -8,6 +8,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 import com.mysql.cj.MysqlConnection;
+import com.mysql.cj.xdevapi.Client;
 
 import echoServer.ServerControl;
 import javafx.application.Application;
@@ -18,7 +19,12 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
+
+import util.HourAmount;
+import util.TypeOfOrder;
+
 import util.OrderToChange;
+
 import util.OrderToView;
 import util.SimulationDetails;
 
@@ -222,21 +228,41 @@ public class EchoServer extends AbstractServer {
 				return;
 			}
 
-			if(arr.contains("setInvite")){
+			if (arr.contains("depManVisitRep")) {
+				arr.remove("depManVisitRep");
+				TypeOfOrder type = null;
+				switch (arr.get(0)) {
+				case "member":
+					type = TypeOfOrder.member;
+					break;
+				case "user":
+					type = TypeOfOrder.user;
+					break;
+				case "group":
+					type = TypeOfOrder.group;
+					break;
+				}
+				ArrayList<HourAmount> answer;
+				answer = mysqlConnection.depManVisitRep(type);
+				client.sendToClient(answer);
+
+				return;
+			}
+
+			if (arr.contains("setInvite")) {
 				arr.remove("setInvite");
 				arr = mysqlConnection.setInvite(arr);
 				client.sendToClient(arr);
 				return;
 			}
-			if(arr.contains("getFreePlace")){
+			if (arr.contains("getFreePlace")) {
 				arr.remove("getFreePlace");
 //				arr = mysqlConnection.getFreePlace(arr);
 				client.sendToClient(arr);
 				return;
 			}
-			
-			
-		}catch(Exception e) {
+
+		} catch (Exception e) {
 
 			e.printStackTrace();
 		}
@@ -250,15 +276,16 @@ public class EchoServer extends AbstractServer {
 		System.out.println("Server listening for connections on port " + getPort());
 		Thread tDayBefore = new Thread(new EchoServer.ThreadDayBeforeVisit());
 		Thread checkOldOrders = new Thread(new EchoServer.OldOrder());
-		//Thread orderOpenSpot = new Thread(new EchoServer.OrderOpenSpot());
+		// Thread orderOpenSpot = new Thread(new EchoServer.OrderOpenSpot());
 		tDayBefore.start();
 		checkOldOrders.start();// changing old orders status to expired
-		//orderOpenSpot.start();// checking if any of the cancelled orders in the future can fit anyone in the
-								// waiting list
+		// orderOpenSpot.start();// checking if any of the cancelled orders in the
+		// future can fit anyone in the
+		// waiting list
 	}
- 
+
 	/**
-	 * This method overrides the one in the superclass. Called when the server stops 
+	 * This method overrides the one in the superclass. Called when the server stops
 	 * listening for connections.
 	 */
 	protected void serverStopped() {

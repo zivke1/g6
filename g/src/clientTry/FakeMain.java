@@ -1,7 +1,5 @@
 package clientTry;
 
-
-
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -16,30 +14,29 @@ import javafx.stage.Stage;
 import util.Role;
 
 public class FakeMain extends Application {
-	public static ClientConsole chat; //only one instance
+	public static ClientConsole chat; // only one instance
+
 	public static void main(String[] args) {
 		launch(args);
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		chat=new ClientConsole("localhost", 5555);
+		chat = new ClientConsole("localhost", 5555);
 		BorderPane borderPane = null;
-		//EnterIDController controller;
+		// EnterIDController controller;
 		try {
-			FXMLLoader loader=new FXMLLoader();
+			FXMLLoader loader = new FXMLLoader();
 
 			loader.setLocation(getClass().getResource("/fxmlFiles/ViewOrder.fxml"));
-
 			borderPane = loader.load();
 			ViewOrderController controller = loader.getController();
-			controller.setDetails(null, null, Role.Member.toString(), null, null,11+"");
-
+			controller.setDetails(null, null, Role.Member.toString(), null, null, 11 + "");
 
 		} catch (IOException e) {
-		e.printStackTrace();
-		}	
-		Scene scene=new Scene(borderPane);
+			e.printStackTrace();
+		}
+		Scene scene = new Scene(borderPane);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Login");
 		primaryStage.show();
