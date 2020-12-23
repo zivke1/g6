@@ -60,10 +60,11 @@ public class EchoServer extends AbstractServer {
 		m_ServerControl = control;
 		mysqlConnection.SetServer(this);
 	}
-	public EchoServer instance()
-	{
+
+	public EchoServer instance() {
 		return this;
 	}
+
 	protected void clientConnected(ConnectionToClient client) {
 		String ipAndHost = client.toString();
 		String[] ipAndHostArray = ipAndHost.split(" ");
@@ -407,31 +408,29 @@ public class EchoServer extends AbstractServer {
 
 		@Override
 		public void run() {
-			
-			while (true) {
-				try {
-					Thread.sleep(10000);
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				ArrayList<OrderToChange> arr;
-				arr = mysqlConnection.checkCancelledOrder();
-				if (arr != null && arr.size() > 0) {
-					arr = mysqlConnection.checkWaitingList(arr);
-					if (arr.size() > 0) {
-						for (OrderToChange order : arr) {
-							Platform.runLater(new EchoServer.HoursCheck(order.getPhoneNum(), order.getEmail(),
-									order.getOrderID(), "Your Requested Visit Time Is Now Available"));
-							Thread t = new Thread(new EchoServer.CheckWaiting(order, null, 1000 * 60 * 60));
-							if (!mysqlConnection.checkWaiting(order.getOrderID(), "waitingToApprove")) {
-								mysqlConnection.setOrderExpired(order.getOrderID());
-							}
+
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			ArrayList<OrderToChange> arr;
+			arr = mysqlConnection.checkCancelledOrder();
+			if (arr != null && arr.size() > 0) {
+				arr = mysqlConnection.checkWaitingList(arr);
+				if (arr.size() > 0) {
+					for (OrderToChange order : arr) {
+						Platform.runLater(new EchoServer.HoursCheck(order.getPhoneNum(), order.getEmail(),
+								order.getOrderID(), "Your Requested Visit Time Is Now Available"));
+						Thread t = new Thread(new EchoServer.CheckWaiting(order, null, 1000 * 60 * 60));
+						if (!mysqlConnection.checkWaiting(order.getOrderID(), "waitingToApprove")) {
+							mysqlConnection.setOrderExpired(order.getOrderID());
 						}
 					}
 				}
-				 
 			}
+
 		}
 
 	}
