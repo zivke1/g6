@@ -37,6 +37,11 @@ public class mysqlConnection {
 	static Connection conn;
 	static HashSet<String> m_connectedID = new HashSet<String>();  
 
+	static EchoServer server;
+	public static void SetServer(EchoServer server1)
+	{
+		server=server1;
+	}
 	public static void connectDB() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
@@ -574,6 +579,8 @@ public class mysqlConnection {
 			update.setString(1, "cancelled");
 			update.setString(2, arr.get(0));
 			update.executeUpdate();
+			Thread t=new Thread( server.new OrderOpenSpot());
+			t.start();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -983,7 +990,7 @@ public class mysqlConnection {
 	 * 
 	 * @return
 	 */
-	public static ArrayList<OrderToChange> checkCancelledOrder() {
+	public static synchronized ArrayList<OrderToChange> checkCancelledOrder() {
 		Date d = new Date();
 		ArrayList<OrderToChange> arr = new ArrayList<>();
 		try {

@@ -46,11 +46,18 @@ public class SimulationController {
 
 	@FXML
 	void cancelOrder(MouseEvent event) {
-		ArrayList<String> arr = new ArrayList<>();
+		ArrayList<String> arr = new ArrayList<>(); 
 		arr.add(orderIDS);
 		errorMsg.setText(mysqlConnection.CancelOrder(arr));
 		cofirmBtn.setVisible(false);
 		backBtn.setVisible(false);
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		((Node) event.getSource()).getScene().getWindow().hide();
 	}
 
 	@FXML

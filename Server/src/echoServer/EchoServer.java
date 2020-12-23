@@ -35,7 +35,6 @@ public class EchoServer extends AbstractServer {
 	 * The default port to listen on.
 	 */
 	final public static int DEFAULT_PORT = 5555;
-
 	// Constructors ****************************************************
 
 	/**
@@ -46,14 +45,19 @@ public class EchoServer extends AbstractServer {
 	public EchoServer(int port) {
 		super(port);
 		mysqlConnection.connectDB();
+		mysqlConnection.SetServer(this);
 	}
 
 	public EchoServer(int port, ServerControl control) {
 		super(port);
 		mysqlConnection.connectDB();
 		m_ServerControl = control;
+		mysqlConnection.SetServer(this);
 	}
-
+	public EchoServer instance()
+	{
+		return this;
+	}
 	protected void clientConnected(ConnectionToClient client) {
 		String ipAndHost = client.toString();
 		String[] ipAndHostArray = ipAndHost.split(" ");
@@ -376,7 +380,14 @@ public class EchoServer extends AbstractServer {
 
 		@Override
 		public void run() {
+			
 			while (true) {
+				try {
+					Thread.sleep(10000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				ArrayList<OrderToChange> arr;
 				arr = mysqlConnection.checkCancelledOrder();
 				if (arr != null && arr.size() > 0) {
