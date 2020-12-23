@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.OrderConfirmedController">
    <top>
       <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" stylesheets="@../clientTry/application.css" BorderPane.alignment="CENTER">
          <children>
@@ -35,10 +35,7 @@
       </AnchorPane>
    </top>
    <left>
-      <AnchorPane prefHeight="464.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" stylesheets="@../clientTry/application.css" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="backBtn" layoutX="42.0" layoutY="9.0" mnemonicParsing="false" onMouseClicked="#backClicked" prefHeight="43.0" prefWidth="68.0" rotate="180.0" styleClass="mybutton1" stylesheets="@../clientTry/application.css" text="Back" />
-         </children></AnchorPane>
+      <AnchorPane prefHeight="464.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" stylesheets="@../clientTry/application.css" BorderPane.alignment="CENTER" />
    </left>
    <right>
       <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
@@ -50,7 +47,7 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text layoutX="25.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="We send for you an SMS and email you have two hours to confirm your order or it will be cancelled">
+            <Text layoutX="25.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="One day before the due date you will receive a notification please which your order within two hours otherwise it will be canceled" wrappingWidth="451.7431640625">
                <font>
                   <Font size="18.0" />
                </font></Text>

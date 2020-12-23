@@ -2,36 +2,26 @@ package util;
 import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
-
+/**
+ * class to hold information about order for the table view existing orders
+ * @author shani
+ *
+ */
 
 public class OrderToView implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private String orderID;
 	private String status;
 	private Date date;
-//	private String orderType;
-	//private String parkName;
-//	private Time enterTime;
-//	private int visitorsAmount;
-//	private String email;
-//	private boolean occasional;
-	//private float totalCost;
+
 	
 	public OrderToView(String orderID, String status, Date date) 
 	{
 		this.orderID = orderID;
 		this.status = status;
 		this.date = date;
-//		this.orderType = orderType;
-	//	this.parkName = parkName;
-	//	this.enterTime = enterTime;
-	//	this.visitorsAmount = visitorsAmount;
-	//	this.email = email;
-	//	this.occasional = occasional;
-	//	this.totalCost = totalCost;
+
 	}
 
 	public String getOrderID() {

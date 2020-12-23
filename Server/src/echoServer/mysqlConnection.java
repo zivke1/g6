@@ -1,6 +1,9 @@
 package echoServer;
 
+import util.OrderToChange;
 import util.OrderToView;
+
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -9,17 +12,29 @@ import java.sql.SQLException;
 import java.sql.SQLSyntaxErrorException;
 import java.sql.Statement;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.TreeSet;
 
 import com.mysql.cj.jdbc.SuspendableXAConnection;
+import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
 
 import util.HourAmount;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 import util.Role;
 import util.TypeOfOrder;
+import util.SimulationDetails;
 
 public class mysqlConnection {
 	static Connection conn;
@@ -35,7 +50,7 @@ public class mysqlConnection {
 		}
 
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://localhost/visitorschema?serverTimezone=IST", "root",
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/visitorschema?serverTimezone=CAT", "root",
 					"Aa123456");
 		} catch (SQLException ex) {/* handle any errors */
 			System.out.println("SQLException: " + ex.getMessage());
@@ -114,7 +129,6 @@ public class mysqlConnection {
 		return null;
 	}
 
-	
 	public static String CheckUserIDInTable(Object arr) {
 		if (arr instanceof ArrayList) {
 			ArrayList<String> array = (ArrayList<String>) arr;
@@ -141,8 +155,8 @@ public class mysqlConnection {
 			String UserID = null, OrderID = null, OrderStatus = null;
 			Date OrderDate = null;
 
-			Statement stmt = conn.createStatement();	
-			String tmpId = (String)id;
+			Statement stmt = conn.createStatement();
+			String tmpId = (String) id;
 			ResultSet rs = stmt.executeQuery("select * from orders Where UserID=" + tmpId);
 			while (rs.next()) {
 				UserID = rs.getString("UserID");
@@ -620,17 +634,17 @@ public class mysqlConnection {
 			price = (float) (price * (100 - regularDiscount.get(0)) / 100.0);
 			price = (float) (price * (100 - regularDiscount.get(1)) / 100.0);
 			price = (float) (price * (100 - extraDiscount) / 100.0);
-			if(arr.contains("payBefore")) {
+			if (arr.contains("payBefore")) {
 				price = (float) (price * (100 - 12) / 100.0);
 			}
 			toReturn.add(String.valueOf(price));// confirmed or theParkIsFull then price
-			if (toReturn.contains("InviteConfirm")) {
-				String orderNumber = getOrderNumber();
-				addToOrdersTable(arr, price, orderNumber, "waitingToApprove");
-			}
+//			if (toReturn.contains("InviteConfirm")) {
+//				String orderNumber = getOrderNumber();
+//				addToOrdersTable(arr, price, orderNumber, "waitingToApprove");
+//			}
 			// TODO need to add the message to confirm
 			//// end of not occasional visit
-		} else {
+		} else {// occasional visit only
 			// parkDetils=Capacity,GapVisitors,TimeOfAvergeVisit
 			int visitosAmount = checkNumberOfVisitorsNow(arr.get(1));
 			if (visitosAmount + numberOfVisitorsInInvite > Capacity) {
@@ -648,11 +662,11 @@ public class mysqlConnection {
 				price = (float) (price * (100 - extraDiscount) / 100.0);
 				toReturn.add("InviteConfirm");
 				toReturn.add(String.valueOf(price));// confirmed or theParkIsFull then price
-				String orderNumber = getOrderNumber();
-
-				addToOrdersTable(arr, price, orderNumber, "active");
+//				String orderNumber = getOrderNumber();
+//
+//				addToOrdersTable(arr, price, orderNumber, "active");
 			}
-		}
+		} // occasional visit only end
 		return toReturn;
 
 	}
@@ -720,7 +734,7 @@ public class mysqlConnection {
 		return String.valueOf(orderID);
 	}
 
-	private static void addToOrdersTable(ArrayList<String> arr, float price, String orderNumber, String orderStatus)
+	private static void addToOrdersTable(ArrayList<String> arr, String orderNumber, String orderStatus)
 			throws SQLException {
 		PreparedStatement update = conn.prepareStatement(
 				"INSERT INTO orders (UserID, OrderID, ParkName, ExpectedEnterTime, VisitDate, VisitorsAmount,TypeOfOrder,OrderStatus,EnterTime,ExitTime,Occasional,VisitorsAmountActual,Payment,Email) VALUES (?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?)");
@@ -744,7 +758,7 @@ public class mysqlConnection {
 		update.setString(10, null);
 		update.setBoolean(11, arr.get(6).equals("occasional"));
 		update.setString(12, null);
-		update.setFloat(13, price);
+		update.setFloat(13, Float.parseFloat(arr.get(8)));
 		update.setString(14, arr.get(5));
 		update.executeUpdate();
 
@@ -862,26 +876,305 @@ public class mysqlConnection {
 		Time t1, t2;
 		t1 = new Time(8, 0, 0);
 		t2 = new Time(9, 0, 0);
-		int[]  sum= new int [9];// sum for each hour 
+		int[] sum = new int[9];// sum for each hour
 		try {
-			for (int i=0;i<9;i++,t1.setHours(t1.getHours()+1),t2.setHours(t2.getHours()+1)) {
-			Statement stmt = conn.createStatement();
-			rs = stmt.executeQuery("select * from orders Where EnterTime BETWEEN '" + t1 + "' AND '" + t2
-					+ "' AND OrderStatus=1 AND TypeOfOrder='" + type + "'");
-			while (rs.next())
-				sum[i] += rs.getInt("VisitorsAmountActual");
-			
-				Integer temp=t1.getHours();
-				dataFromDB.add(new HourAmount(temp.toString() , sum[i]));
+			for (int i = 0; i < 9; i++, t1.setHours(t1.getHours() + 1), t2.setHours(t2.getHours() + 1)) {
+				Statement stmt = conn.createStatement();
+				rs = stmt.executeQuery("select * from orders Where EnterTime BETWEEN '" + t1 + "' AND '" + t2
+						+ "' AND OrderStatus=1 AND TypeOfOrder='" + type + "'");
+				while (rs.next())
+					sum[i] += rs.getInt("VisitorsAmountActual");
+
+				Integer temp = t1.getHours();
+				dataFromDB.add(new HourAmount(temp.toString(), sum[i]));
 			}
-			
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(dataFromDB.get(0).getAmount() + " "+ dataFromDB.get(0).getHour());
+		System.out.println(dataFromDB.get(0).getAmount() + " " + dataFromDB.get(0).getHour());
 		return dataFromDB;
+	}
+
+	/**
+	 * getting phone number, email, order ID for an order to the day after
+	 * 
+	 * @return
+	 */
+	public static ArrayList<SimulationDetails> dayBeforeVisit() {
+		ArrayList<SimulationDetails> arr = new ArrayList<>();
+		Date d = new Date();
+		java.sql.Date d1 = new java.sql.Date(d.getYear(), d.getMonth(), d.getDate() + 1), dDb;
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from orders Where OrderStatus='waitingToApprove'");
+			while (rs.next()) {
+				dDb = rs.getDate("VisitDate");
+
+				if (d1.getYear() == dDb.getYear() && d1.getMonth() == dDb.getMonth() && d1.getDate() == dDb.getDate()) {
+					if (rs.getString("TypeOfOrder").equals("'user'"))
+						arr.add(new SimulationDetails(rs.getString("Email"), null, rs.getString("OrderID")));
+					else {
+						String id = rs.getString("UserID");
+						Statement stmt2 = conn.createStatement();
+						ResultSet rsMember = stmt2.executeQuery("select * from members Where ID=" + id);
+						if (rsMember.next())
+							arr.add(new SimulationDetails(rs.getString("Email"), rsMember.getString("PhoneNumber"),
+									rs.getString("OrderID")));
+					}
+				}
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return arr;
+	}
+
+	/**
+	 * checking if the status of the order is "waitingFor"
+	 * 
+	 * @param orderID
+	 * @param waitingFor
+	 * @return
+	 */
+	public static boolean checkWaiting(String orderID, String waitingFor) {
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from orders Where OrderID='" + orderID + "'");
+			if (rs.next())
+				if (!rs.getString("OrderStatus").equals(waitingFor))
+					return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+
+	/**
+	 * changing the order's status to expired
+	 * 
+	 * @param orderID
+	 */
+	public static void setOrderExpired(String orderID) {
+		try {
+			PreparedStatement update = conn.prepareStatement("UPDATE orders SET OrderStatus=? WHERE OrderID=?");
+			update.setString(1, "expired");
+			update.setString(2, orderID);
+			update.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * checking if any of the existing orders' status should be changed to expire
+	 * and changes it if needed
+	 * 
+	 */
+	public static void checkOrdersStatus() {
+		try {
+			String status = "";
+			Date d = new Date();
+			java.sql.Date dateDb, dateToday = new java.sql.Date(d.getYear(), d.getMonth(), d.getDate());
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from orders");
+			while (rs.next()) {
+				dateDb = rs.getDate("VisitDate");
+				if (dateDb.getYear() < dateToday.getYear()
+						|| (dateDb.getYear() == dateToday.getYear() && dateDb.getMonth() < dateToday.getMonth())
+						|| ((dateDb.getYear() == dateToday.getYear() && dateDb.getMonth() == dateDb.getMonth()
+								&& dateDb.getDate() < dateToday.getDate()))) {
+					if (!rs.getString("OrderStatus").equals("finished")
+							&& !rs.getString("OrderStatus").equals("expired")
+							&& !rs.getString("OrderStatus").equals("cancelled")
+							&& !rs.getString("OrderStatus").equals("active")) {
+						PreparedStatement update = conn
+								.prepareStatement("UPDATE orders SET OrderStatus=? WHERE OrderID=?");
+						update.setString(2, rs.getString("OrderID"));
+						update.setString(1, "expired");
+						update.executeUpdate();
+					}
+
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * adding all the cancelled orders in the future to array list and returning it
+	 * 
+	 * @return
+	 */
+	public static ArrayList<OrderToChange> checkCancelledOrder() {
+		Date d = new Date();
+		ArrayList<OrderToChange> arr = new ArrayList<>();
+		try {
+			java.sql.Date dateDb, dateToday = new java.sql.Date(d.getYear(), d.getMonth(), d.getDate());
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from orders where OrderStatus='cancelled'");
+			while (rs.next()) {
+				dateDb = rs.getDate("VisitDate");
+				if (dateDb.getYear() > dateToday.getYear()
+						|| (dateDb.getYear() == dateToday.getYear() && dateDb.getMonth() > dateToday.getMonth())
+						|| ((dateDb.getYear() == dateToday.getYear() && dateDb.getMonth() == dateDb.getMonth()
+								&& dateDb.getDate() > dateToday.getDate()))) {
+					String userID = rs.getString("userID"), orderID = rs.getString("orderID"),
+							pName = rs.getString("ParkName"), type = rs.getString("TypeOfOrder"),
+							status = rs.getString("OrderStatus"), email = rs.getString("Email");
+					Time expectedEnterTime = rs.getTime("ExpectedEnterTime");
+					java.sql.Date VisitDate = rs.getDate("VisitDate");
+					int amount = rs.getInt("VisitorsAmount");
+					boolean Occasional = false;
+					float payment = rs.getFloat("Payment");
+					arr.add(new OrderToChange(userID, orderID, pName, type, status, email, expectedEnterTime, VisitDate,
+							amount, Occasional, payment, null, null, null));// no waiting list enter time, phone number
+																			// and message
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return arr;
+	}
+
+	/**
+	 * updating an order's status to 'waitingToVisit'
+	 * 
+	 * @param arr
+	 * @return
+	 */
+	public static String WaitingForVisitOrder(ArrayList<String> arr) {
+		try {
+			PreparedStatement update = conn.prepareStatement("UPDATE orders SET OrderStatus=? WHERE OrderID=?");
+			update.setString(1, "waitingToVisit");
+			update.setString(2, arr.get(0));
+			update.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "Thank You For Your Confrimation";
+	}
+
+	/**
+	 * checking if any of the waiting list orders can fit these time slots
+	 * 
+	 * @param arr
+	 * @return
+	 */
+	public static ArrayList<OrderToChange> checkWaitingList(ArrayList<OrderToChange> arr) {
+		ArrayList<OrderToChange> arrWaitingL = new ArrayList<>();
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(
+					"select * from orders where EnterWaitingListDate is not null and OrderStatus='waitingList'");
+			while (rs.next()) {
+				String userID = rs.getString("userID"), orderID = rs.getString("orderID"),
+						pName = rs.getString("ParkName"), type = rs.getString("TypeOfOrder"),
+						status = rs.getString("OrderStatus"), email = rs.getString("Email");
+				Time expectedEnterTime = rs.getTime("ExpectedEnterTime");
+				java.sql.Date VisitDate = rs.getDate("VisitDate");
+				int amount = rs.getInt("VisitorsAmount");
+				boolean Occasional = false;
+				float payment = rs.getFloat("Payment");
+				Timestamp enteredWaiting = rs.getTimestamp("EnterWaitingListDate");
+				arrWaitingL.add(new OrderToChange(userID, orderID, pName, type, status, email, expectedEnterTime,
+						VisitDate, amount, Occasional, payment, enteredWaiting, null, null));// no phone number and
+																								// message
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		ArrayList<OrderToChange> alertWaiting = mysqlConnection.waitingFitsCancelledOrder(arr, arrWaitingL);
+		alertWaiting = outOfWaitingList(alertWaiting);
+		return addPhoneToOrder(alertWaiting);
+	}
+
+	/**
+	 * checking if any of the orders in the waiting list can fit the cancelled
+	 * orders time slot and if there are any conflicts (2 or more orders fit the
+	 * same time slot) we take the order that waited the longest time
+	 * 
+	 * @param arr
+	 * @param arrWaitingL
+	 * @return
+	 */
+	private static ArrayList<OrderToChange> waitingFitsCancelledOrder(ArrayList<OrderToChange> arr,
+			ArrayList<OrderToChange> arrWaitingL) {
+		ArrayList<OrderToChange> alertWaiting = new ArrayList<>();
+		for (OrderToChange cancelledOrder : arr) {
+			TreeSet<OrderToChange> conflicts = new TreeSet<>();
+			for (OrderToChange waiting : arrWaitingL) {
+				if (cancelledOrder.getAmount() >= waiting.getAmount()
+						&& cancelledOrder.getVisitDate().equals(waiting.getVisitDate())
+						&& cancelledOrder.getExpectedEnterTime().equals(waiting.getExpectedEnterTime()))
+					conflicts.add(waiting);
+
+			}
+			switch (conflicts.size()) {
+			case 0:
+				break;
+			default:
+				alertWaiting.add(conflicts.first());// taking the order with the longest waiting time for this time slot
+				break;
+
+			}
+		}
+		return alertWaiting;
+	}
+
+	/**
+	 * changing order's status from waiting list to waiting to approve
+	 * 
+	 * @param arr
+	 * @return
+	 */
+	private static ArrayList<OrderToChange> outOfWaitingList(ArrayList<OrderToChange> arr) {
+		for (OrderToChange order : arr) {
+			try {
+				PreparedStatement update = conn.prepareStatement("UPDATE orders SET OrderStatus=? WHERE OrderID=?");
+				update.setString(1, "waitingToApprove");
+				update.setString(2, order.getOrderID());
+				update.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return arr;
+	}
+
+	/**
+	 * adding the phone number of the owner of each order
+	 * 
+	 * @param arr
+	 * @return
+	 */
+	private static ArrayList<OrderToChange> addPhoneToOrder(ArrayList<OrderToChange> arr) {
+		for (OrderToChange order : arr) {
+			try {
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery("select * from members where ID='" + order.getUserID() + "'");
+				while (rs.next())
+					order.setPhoneNum(rs.getString("PhoneNumber"));
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return arr;
+	}
+
+	public static ArrayList<String> setInvite(ArrayList<String> arr) throws SQLException {
+		ArrayList<String> toReturn = new ArrayList<String>();
+		String orderNumber = getOrderNumber();
+		addToOrdersTable(arr, orderNumber, "active");
+		toReturn.add(orderNumber);
+		return toReturn;
 
 	}
 }

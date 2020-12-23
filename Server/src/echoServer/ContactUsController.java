@@ -1,4 +1,4 @@
-package clientTry;
+package echoServer;
 
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -21,4 +21,5 @@ public class ContactUsController {
     void ExitPopUp(MouseEvent event) {
     	((Node) event.getSource()).getScene().getWindow().hide();
     }
+
 }

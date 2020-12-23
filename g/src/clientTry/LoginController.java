@@ -20,6 +20,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import util.NextStages;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.image.ImageView;
@@ -59,29 +60,29 @@ public class LoginController {
 	@FXML
 	private TextField enterUserName;
 
-    @FXML
-    private PasswordField EnterPsw;
+	@FXML
+	private PasswordField EnterPsw;
 
 	@FXML
 	private Label txtErrAllFieldsReq;
-	
-    @FXML
-    private Label logInBeforeLabel;
+
+	@FXML
+	private Label logInBeforeLabel;
 
 	@FXML
 	private Label txtErrUserName;
 
-    @FXML
-    private Label dontFindMemberShipIDLabel;
+	@FXML
+	private Label dontFindMemberShipIDLabel;
 
 	@FXML
 	private Label txtErrPassword;
-	
-	 @FXML
-	 private Label memberNotNumbers;
-    
+
 	@FXML
-    private Label IDError;
+	private Label memberNotNumbers;
+
+	@FXML
+	private Label IDError;
 
 	String fName = null;
 	String lName = null;
@@ -96,6 +97,9 @@ public class LoginController {
 
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order");
+		FXMLLoader loader = nextStages.openPopUp();
+		loader.getController();
 
 	}
 
@@ -112,25 +116,27 @@ public class LoginController {
 		loginSetVisibility(true);
 
 	}
-/**
- * when we the next btn click
- * @param event
- * @throws Exception
- */
+
+	/**
+	 * when we the next btn click
+	 * 
+	 * @param event
+	 * @throws Exception
+	 */
 	@FXML
 	void finishOrderClicked(MouseEvent event) throws Exception {
-		m_event= event;
+		m_event = event;
 		ArrayList<String> toSend = new ArrayList<String>();
 		clearAllErrorMessage();
-		if (enterAsEmployee.isSelected()) {//check if employee
-			
+		if (enterAsEmployee.isSelected()) {// check if employee
+
 			String empNumber = enterUserName.getText();
 			String password = EnterPsw.getText();
 			if (empNumber.equals("") || password.equals("")) {
 				txtErrAllFieldsReq.setVisible(true);
 				return;
 			} else {
-				
+
 				toSend.add("checkIfEmployee");
 				toSend.add(empNumber);
 				toSend.add(password);
@@ -144,8 +150,7 @@ public class LoginController {
 				} else if (ChatClient.dataInArrayList.contains("employeeNotFound")) {
 					txtErrUserName.setVisible(true);
 					return;
-				} 
-				else {
+				} else {
 					openHomePage(UserType.employee);
 				}
 
@@ -154,18 +159,19 @@ public class LoginController {
 			String idNumber = enterIDnumber.getText();
 			String memberNumber = enterMemberID.getText();
 
-			if (((idNumber.equals("")) && (memberNumber.equals(""))) || (((!idNumber.equals("")) && (!memberNumber.equals(""))))) {
+			if (((idNumber.equals("")) && (memberNumber.equals("")))
+					|| (((!idNumber.equals("")) && (!memberNumber.equals(""))))) {
 				txtErrAllFieldsReq1.setVisible(true);
 				return;
 			} else {
-				if (!idNumber.equals("")) {//if the user enter id number
+				if (!idNumber.equals("")) {// if the user enter id number
 					char[] chars = idNumber.toCharArray();
 					for (char c : chars) {
 						if (!Character.isDigit(c)) {
 							IDError.setVisible(true);
 							return;
-							}
 						}
+					}
 
 					toSend.add("checkIfIdConnectedWithId");
 					toSend.add(idNumber);
@@ -176,15 +182,15 @@ public class LoginController {
 					statusToOpen();
 
 				}
-				if (!memberNumber.equals("")) {//if the user enter membership number
+				if (!memberNumber.equals("")) {// if the user enter membership number
 					char[] chars = memberNumber.toCharArray();
 					for (char c : chars) {
 						if (!Character.isDigit(c)) {
 							memberNotNumbers.setVisible(true);
 							return;
-							}  
 						}
-					
+					}
+
 					toSend.add("checkIfIdConnectedWithMemberId");
 					toSend.add(memberNumber);
 					ClientMain.chat.accept(toSend);
@@ -197,9 +203,10 @@ public class LoginController {
 			}
 		}
 	}
-/**
- * this function for clear all warrninig 
- */
+
+	/**
+	 * this function for clear all warrninig
+	 */
 	private void clearAllErrorMessage() {
 		dontFindMemberShipIDLabel.setVisible(false);
 		txtErrUserName.setVisible(false);
@@ -210,24 +217,27 @@ public class LoginController {
 		IDError.setVisible(false);
 		memberNotNumbers.setVisible(false);
 	}
-/**
- * check witch status we need to open
- * @throws Exception
- */
+
+	/**
+	 * check witch status we need to open
+	 * 
+	 * @throws Exception
+	 */
 	private void statusToOpen() throws Exception {
 		if (ChatClient.dataInArrayList.contains("connectedBefore")) {
 			logInBeforeLabel.setVisible(true);
 			return;
-		} else if (ChatClient.dataInArrayList.contains("member")||ChatClient.dataInArrayList.contains("guide")) {
+		} else if (ChatClient.dataInArrayList.contains("member") || ChatClient.dataInArrayList.contains("guide")) {
 			openHomePage(UserType.member);
-		} else if (ChatClient.dataInArrayList.contains("user")){
+		} else if (ChatClient.dataInArrayList.contains("user")) {
 			openHomePage(UserType.user);
 		}
 	}
 
-	
 	/**
-	 * this function open the next page it get which type of user the next page will get
+	 * this function open the next page it get which type of user the next page will
+	 * get
+	 * 
 	 * @param userType
 	 * @throws Exception
 	 */
@@ -236,19 +246,19 @@ public class LoginController {
 		BorderPane borderPane = null;
 		FXMLLoader loader = new FXMLLoader();
 		Stage primaryStage = new Stage();
-		//Pane root = loader.load(getClass().getResource("../fxmlFiles/HomePageForEmployee.fxml").openStream());
-		
+		// Pane root =
+		// loader.load(getClass().getResource("../fxmlFiles/HomePageForEmployee.fxml").openStream());
+
 		loader.setLocation(getClass().getResource("../fxmlFiles/HomePageForEmployee.fxml"));
 		borderPane = loader.load();
 		HomePageForEmployeeController homePageForEmployeeController = loader.getController();
-		
-		
+
 		switch (userType) {
 		case member: {
 			fName = ChatClient.dataInArrayList.get(1);
 			lName = ChatClient.dataInArrayList.get(2);
 			userID = ChatClient.dataInArrayList.get(0);
-			role=ChatClient.dataInArrayList.get(3);
+			role = ChatClient.dataInArrayList.get(3);
 			break;
 		}
 		case employee: {
@@ -261,25 +271,25 @@ public class LoginController {
 		}
 		case user: {
 			userID = ChatClient.dataInArrayList.get(0);
-			role = "user" ;
+			role = "user";
 			break;
 		}
 		default:
 			break;
 		}
-		homePageForEmployeeController.setDetails(fName, lName, role, userID , park);
-		//Scene scene = new Scene(root);
+		homePageForEmployeeController.setDetails(fName, lName, role, userID, park);
+		// Scene scene = new Scene(root);
 		Scene scene = new Scene(borderPane);
 		primaryStage.setTitle("Home Page");
 		primaryStage.setScene(scene);
-		primaryStage.setOnCloseRequest(evt->{
+		primaryStage.setOnCloseRequest(evt -> {
 			if (ClientMain.chat.checkConnection()) {
-	    	ArrayList<String> arr = new ArrayList<String>();
-			arr.add("closeAndSetIdNull");
-			arr.add("disconnect");
-			arr.add(userID);
-			ClientMain.chat.accept(arr);
-	    	ClientMain.chat.stopConnection();
+				ArrayList<String> arr = new ArrayList<String>();
+				arr.add("closeAndSetIdNull");
+				arr.add("disconnect");
+				arr.add(userID);
+				ClientMain.chat.accept(arr);
+				ClientMain.chat.stopConnection();
 			}
 		});
 		((Node) m_event.getSource()).getScene().getWindow().hide();

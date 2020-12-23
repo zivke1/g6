@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="569.0" prefWidth="588.0" stylesheets="@/clientTry/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.ContactUsController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="569.0" prefWidth="588.0" stylesheets="application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="echoServer.ContactUsController">
    <top>
       <AnchorPane prefHeight="46.0" prefWidth="721.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
          <children>
@@ -27,12 +27,12 @@
       </AnchorPane>
    </top>
    <left>
-      <AnchorPane prefHeight="464.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" stylesheets="@/clientTry/application.css" BorderPane.alignment="CENTER" />
+      <AnchorPane prefHeight="464.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" BorderPane.alignment="CENTER" />
    </left>
    <center>
       <AnchorPane prefHeight="434.0" prefWidth="455.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnExitPopUp" layoutX="319.0" layoutY="376.0" mnemonicParsing="false" onMouseClicked="#ExitPopUp" prefHeight="44.0" prefWidth="122.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Exit" />
+            <Button fx:id="btnExitPopUp" layoutX="319.0" layoutY="376.0" mnemonicParsing="false" onMouseClicked="#ExitPopUp" prefHeight="44.0" prefWidth="122.0" styleClass="mybutton1" text="Exit" />
             <Text layoutX="19.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You are welcome to contact us via:">
                <font>
                   <Font size="20.0" />
