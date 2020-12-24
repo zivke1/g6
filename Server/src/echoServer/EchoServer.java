@@ -79,23 +79,30 @@ public class EchoServer extends AbstractServer {
 			
 			ArrayList<String> dataFromDb;
 			ArrayList<String> arr = (ArrayList<String>) msg;
+			
+			if(arr.contains("UsageReports"))
+			{
+				dataFromDb=mysqlConnection.UsageReports(arr);
+				client.sendToClient(dataFromDb);
+				return;
+			}
 			if(arr.contains("incomeReport"))
 			{
 				dataFromDb=mysqlConnection.incomeReport(arr);
-				this.sendToAllClients(dataFromDb);
+				client.sendToClient(dataFromDb);
 				return;
 			}
 			if(arr.contains("VisitorAmountReport"))
 			{
 				dataFromDb=mysqlConnection.visitorAmountReport(arr);
-				this.sendToAllClients(dataFromDb);
+				client.sendToClient(dataFromDb);
 				return;
 			}
 			if(arr.contains("FetchParkDetails"))
 			{
 				arr.remove("FetchParkDetails");
 				dataFromDb = mysqlConnection.FetchParkDetails(arr);
-				this.sendToAllClients(dataFromDb);
+				client.sendToClient(dataFromDb);
 				return;
 			}
 			if (arr.contains("updateTable")) {

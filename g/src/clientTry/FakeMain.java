@@ -28,11 +28,11 @@ public class FakeMain extends Application {
 		//EnterIDController controller;
 		try {
 			FXMLLoader loader=new FXMLLoader();
-			loader.setLocation(getClass().getResource("/fxmlFiles/incomeReport.fxml"));
-			borderPane = loader.load();
+			loader.setLocation(getClass().getResource("/fxmlFiles/UsageReports.fxml"));
 
-			ViewOrderController controller = loader.getController();
-			controller.setDetails(null, null, Role.Member.toString(), null, null,11+"");
+			UsageReportsController controller = loader.getController();
+			borderPane = loader.load();
+		
 
 		} catch (IOException e) {
 		e.printStackTrace();

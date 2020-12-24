@@ -52,6 +52,8 @@ public class incomeReportController {
 	private String role;
 	private String userID;
 	private String parkNameS;
+
+	private MouseEvent m_event;
     
 	
     public void setDetails(String year, String month,String parkName,String fName, String lName, String role, String userID) {
@@ -84,21 +86,7 @@ public class incomeReportController {
     @FXML
     void backClicked(MouseEvent event) {
     	((Node) event.getSource()).getScene().getWindow().hide();
-		Stage stage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Parent root;
-		try {
-			root = loader.load(getClass().getResource("/fxmlFiles/ReportParkManager.fxml").openStream());
-			ReportParkManagerController v=loader.getController();
-			v.setDetails(fName,lName,role,userID,parkNameS);
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-			stage.setTitle("Home Page For Employee");
-			stage.setScene(scene);
-			stage.show();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+    	((Stage)((Node) m_event.getSource()).getScene().getWindow()).show();
     }
 
     @FXML
@@ -124,6 +112,11 @@ public class incomeReportController {
     void helpBtnPressed(MouseEvent event) {
     	
     }
+
+	public void setPreviousPage(MouseEvent event) {
+		m_event=event;
+		
+	}
 
 }
 

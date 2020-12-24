@@ -112,7 +112,6 @@ public class mysqlConnection {
 		return null;
 	}
 
-	
 	public static String CheckUserIDInTable(Object arr) {
 		if (arr instanceof ArrayList) {
 			ArrayList<String> array = (ArrayList<String>) arr;
@@ -139,8 +138,8 @@ public class mysqlConnection {
 			String UserID = null, OrderID = null, OrderStatus = null;
 			Date OrderDate = null;
 
-			Statement stmt = conn.createStatement();	
-			String tmpId = (String)id;
+			Statement stmt = conn.createStatement();
+			String tmpId = (String) id;
 			ResultSet rs = stmt.executeQuery("select * from orders Where UserID=" + tmpId);
 			while (rs.next()) {
 				UserID = rs.getString("UserID");
@@ -511,17 +510,17 @@ public class mysqlConnection {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		dataFromDB.add(amountOfVisitors);
-		if(amountOfPersonal==null)
+		if (amountOfPersonal == null)
 			dataFromDB.add("0");
 		else
 			dataFromDB.add(amountOfPersonal);
-		if(amountOfGroup==null)
+		if (amountOfGroup == null)
 			dataFromDB.add("0");
 		else
 			dataFromDB.add(amountOfGroup);
-		if(amountOfMember==null)
+		if (amountOfMember == null)
 			dataFromDB.add("0");
 		else
 			dataFromDB.add(amountOfMember);
@@ -628,7 +627,7 @@ public class mysqlConnection {
 			price = (float) (price * (100 - regularDiscount.get(0)) / 100.0);
 			price = (float) (price * (100 - regularDiscount.get(1)) / 100.0);
 			price = (float) (price * (100 - extraDiscount) / 100.0);
-			if(arr.contains("payBefore")) {
+			if (arr.contains("payBefore")) {
 				price = (float) (price * (100 - 12) / 100.0);
 			}
 			toReturn.add(String.valueOf(price));// confirmed or theParkIsFull then price
@@ -638,7 +637,7 @@ public class mysqlConnection {
 //			}
 			// TODO need to add the message to confirm
 			//// end of not occasional visit
-		} else {//occasional visit only
+		} else {// occasional visit only
 			// parkDetils=Capacity,GapVisitors,TimeOfAvergeVisit
 			int visitosAmount = checkNumberOfVisitorsNow(arr.get(1));
 			if (visitosAmount + numberOfVisitorsInInvite > Capacity) {
@@ -660,7 +659,7 @@ public class mysqlConnection {
 //
 //				addToOrdersTable(arr, price, orderNumber, "active");
 			}
-		}//occasional visit only end
+		} // occasional visit only end
 		return toReturn;
 
 	}
@@ -844,12 +843,12 @@ public class mysqlConnection {
 		Integer cancelNum = 0, expiredNum = 0;
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("select * from orders Where OrderStatus=6");//6=cancelled
+			ResultSet rs = stmt.executeQuery("select * from orders Where OrderStatus=6");// 6=cancelled
 			while (rs.next()) {
 				cancelNum++;
-				System.out.println(cancelNum.toString()+"cancel");
+				System.out.println(cancelNum.toString() + "cancel");
 			}
-			ResultSet rs2 = stmt.executeQuery("select * from orders Where OrderStatus=2");//2= expired
+			ResultSet rs2 = stmt.executeQuery("select * from orders Where OrderStatus=2");// 2= expired
 			while (rs2.next()) {
 				expiredNum++;
 				System.out.println(expiredNum.toString());
@@ -865,7 +864,7 @@ public class mysqlConnection {
 	}
 
 	public static ArrayList<String> setInvite(ArrayList<String> arr) throws SQLException {
-		ArrayList<String> toReturn= new ArrayList<String>();
+		ArrayList<String> toReturn = new ArrayList<String>();
 		String orderNumber = getOrderNumber();
 		addToOrdersTable(arr, orderNumber, "active");
 		toReturn.add(orderNumber);
@@ -874,26 +873,26 @@ public class mysqlConnection {
 
 	public static ArrayList<String> incomeReport(ArrayList<String> arr) {
 		ArrayList<String> dataFromDB = new ArrayList<>();
-		String year = arr.get(1), month = arr.get(2),income=null;
+		String year = arr.get(1), month = arr.get(2), income = null;
 		String parkName = "'" + arr.get(3) + "'";
 		try {
 			ResultSet rs = null;
 			Statement stmt = conn.createStatement();
 			if (month.equals("02")) {
-				rs = stmt.executeQuery("select SUM(Payment) from orders" + " Where VisitDate BETWEEN '"
-						+ year + "-" + month + "-01' AND '" + year + "-" + month
-						+ "-28' AND OrderStatus='finished' AND ParkName=" + parkName);
+				rs = stmt.executeQuery("select SUM(Payment) from orders" + " Where VisitDate BETWEEN '" + year + "-"
+						+ month + "-01' AND '" + year + "-" + month + "-28' AND OrderStatus='finished' AND ParkName="
+						+ parkName);
 			}
 			if (month.equals("01") || month.equals("03") || month.equals("05") || month.equals("07")
 					|| month.equals("08") || month.equals("10") || month.equals("12")) {
-				rs = stmt.executeQuery("select SUM(Payment) from orders" + " Where VisitDate BETWEEN '"
-						+ year + "-" + month + "-01' AND '" + year + "-" + month
-						+ "-31' AND OrderStatus='finished' AND ParkName=" + parkName);
+				rs = stmt.executeQuery("select SUM(Payment) from orders" + " Where VisitDate BETWEEN '" + year + "-"
+						+ month + "-01' AND '" + year + "-" + month + "-31' AND OrderStatus='finished' AND ParkName="
+						+ parkName);
 			}
 			if (month.equals("04") || month.equals("06") || month.equals("09") || month.equals("11")) {
-				rs = stmt.executeQuery("select SUM(Payment) from orders" + " Where (VisitDate BETWEEN '"
-						+ year + "-" + month + "-01' AND '" + year + "-" + month
-						+ "-30') AND OrderStatus='finished' AND ParkName=" + parkName);
+				rs = stmt.executeQuery("select SUM(Payment) from orders" + " Where (VisitDate BETWEEN '" + year + "-"
+						+ month + "-01' AND '" + year + "-" + month + "-30') AND OrderStatus='finished' AND ParkName="
+						+ parkName);
 			}
 			while (rs.next()) {
 				income = rs.getString(1);
@@ -903,10 +902,90 @@ public class mysqlConnection {
 			e.printStackTrace();
 		}
 		dataFromDB.add("incomeReport");
-		if(income==null)
+		if (income == null)
 			dataFromDB.add("0");
 		else
 			dataFromDB.add(income);
 		return dataFromDB;
+	}
+
+	public static ArrayList<String> UsageReports(ArrayList<String> arr) {
+		ArrayList<String> dataFromDB = new ArrayList<>();
+		ArrayList<String> tmpDataFromDB = new ArrayList<>();
+		String year = arr.get(1), month = arr.get(2);
+		String parkName = "'" + arr.get(3) + "'";
+		int capacity = 0, TimeOfAverageVisit = 0, parkOpenINHours = 8, usageNumber = 0;// usageNumber number of excellent
+																					// usage day(above 100%)
+
+		try {//first query fetch the capacity and the TimeOfAverageVisit from DB
+			ResultSet rs = null;
+			Statement stmt = conn.createStatement();
+			rs = stmt.executeQuery("select Capacity,TimeOfAverageVisit from park where ParkName=" + parkName);
+			while (rs.next()) {
+				capacity = rs.getInt(1);
+				TimeOfAverageVisit = rs.getInt(2);
+			}
+			usageNumber = capacity * (parkOpenINHours / TimeOfAverageVisit);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {//second query fetch the number of visitors in all days at specific month and year
+			if (month.equals("02")) {
+				for (int i = 1; i <= 28; i++) {
+					ResultSet rs = null;
+					Statement stmt = conn.createStatement();
+					rs = stmt.executeQuery("select sum(VisitorsAmountActual) from orders where VisitDate='"+year+"-02-"
+					+i+ "' and OrderStatus='finished' AND ParkName=" + parkName);
+				    while(rs.next())
+				    {
+				    	tmpDataFromDB.add(rs.getString(1));
+				    }
+				}
+			}
+			if (month.equals("01") || month.equals("03") || month.equals("05") || month.equals("07")
+					|| month.equals("08") || month.equals("10") || month.equals("12")) {
+				for (int i = 1; i <= 31; i++) {
+					ResultSet rs = null;
+					Statement stmt = conn.createStatement();
+					rs = stmt.executeQuery("select sum(VisitorsAmountActual) from orders where VisitDate='"+year+"-"+month+"-"
+					+i+ "' and OrderStatus='finished' AND ParkName=" + parkName);
+				    while(rs.next())
+				    {
+				    	tmpDataFromDB.add(rs.getString(1));
+				    }
+				}
+
+			}
+			if (month.equals("04") || month.equals("06") || month.equals("09") || month.equals("11")) {
+				for (int i = 1; i <= 30; i++) {
+					ResultSet rs = null;
+					Statement stmt = conn.createStatement();
+					rs = stmt.executeQuery("select sum(VisitorsAmountActual) from orders where VisitDate='"+year+"-"+month+"-"
+					+i+ "' and OrderStatus='finished' AND ParkName=" + parkName);
+				    while(rs.next())
+				    {
+				    	tmpDataFromDB.add(rs.getString(1));
+				    }
+				}
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		dataFromDB.add(usageNumber+"");
+		for(int i=0;i<tmpDataFromDB.size();i++)
+		{
+			if(tmpDataFromDB.get(i)!=null)
+				dataFromDB.add(tmpDataFromDB.get(i));
+			else
+				dataFromDB.add("0");   
+		}
+		return dataFromDB;
+		/**
+		 * i need to think how i transfer the data from her to the client i have picture of how the
+		 * arrays look like
+		 */
+
 	}
 }

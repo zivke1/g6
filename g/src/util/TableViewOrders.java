@@ -9,7 +9,7 @@ public class TableViewOrders {
 	public ObservableList<OrderToView> getOrders(ArrayList<OrderToView> temp){
 		ObservableList<OrderToView> orders = FXCollections.observableArrayList();
 		
-		for( int i = 0; i < temp.size(); i++) {
+		for(int i = 0; i < temp.size(); i++) {
 			if(temp.get(i) != null)
 				orders.add(temp.get(i));
 		}

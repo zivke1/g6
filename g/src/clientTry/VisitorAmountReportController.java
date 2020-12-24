@@ -71,24 +71,13 @@ public class VisitorAmountReportController implements Initializable {
 
 	private float x = 33, y = 33, z = 34;
 
+	private MouseEvent m_event;
+
 	@FXML
 	void backClicked(MouseEvent event) {
 		((Node) event.getSource()).getScene().getWindow().hide();
-		Stage stage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Parent root;
-		try {
-			root = loader.load(getClass().getResource("/fxmlFiles/ReportParkManager.fxml").openStream());
-			ReportParkManagerController v=loader.getController();
-			v.setDetails(fName,lName,role,userID,parkNameS);
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-			stage.setTitle("Home Page For Employee");
-			stage.setScene(scene);
-			stage.show();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+    	((Stage)((Node) m_event.getSource()).getScene().getWindow()).show();
+		
 	}
 
 	public void setDetails(String year, String month, String parkName, String fName, String lName, String role, String userID) {// the other page call to this method
@@ -169,6 +158,10 @@ public class VisitorAmountReportController implements Initializable {
 		ObservableList<PieChart.Data> pieChartDatas = FXCollections.observableArrayList(new PieChart.Data("Users", x),
 				new PieChart.Data("Members", y), new PieChart.Data("Group", z));
 		pieChart.setData(pieChartDatas);
+	}
+
+	public void setPreviousPage(MouseEvent event) {
+		 m_event = event;	
 	}
 
 }
