@@ -68,10 +68,13 @@ public class ChatClient extends AbstractClient {
 	{
 		String st;
 		awaitResponse = false;
-
 		try {
-			dataInArrayListHour = (ArrayList<HourAmount>) msg;
-			return;
+			ArrayList<HourAmount> dataFromDbCheck = (ArrayList<HourAmount>) msg;
+			if (dataFromDbCheck != null)
+				if (dataFromDbCheck.get(0) instanceof HourAmount) {
+					dataInArrayListHour = dataFromDbCheck;
+			        return;
+				}
 		} catch (ClassCastException e) {
 		}
 
@@ -85,7 +88,6 @@ public class ChatClient extends AbstractClient {
 				}
 		} catch (ClassCastException e) {
 		}
-
 		ArrayList<String> dataFromDb = (ArrayList<String>) msg;
 
 		if (dataFromDb.contains("showTable")) {
@@ -112,6 +114,7 @@ public class ChatClient extends AbstractClient {
 		}
 		if (dataFromDb.contains("sendToDeparmentManager"))
 			dataFromDb.remove("sendToDeparmentManager");
+		System.out.println(dataFromDb);
 		dataInArrayList = dataFromDb;
 
 	}

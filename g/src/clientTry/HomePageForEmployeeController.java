@@ -294,14 +294,9 @@ public class HomePageForEmployeeController implements Initializable {
 		NextStages nextStages = new NextStages("/fxmlFiles/ParkDetails.fxml", "Park Details");
 		FXMLLoader loader = nextStages.goToNextStage(event);
 		ParkDetailsController parkDetailsControl = loader.getController();
-<<<<<<< HEAD
-	    parkDetailsControl.setDetails(fName, lName, role, userID, parkName);
-=======
 		parkDetailsControl.setDetails(fName, lName, role, userID, parkName);
 		//parkDetailsControl.setPreviousPage(event);
 		//parkDetailsControl.setMainPage(event);
-
->>>>>>> branch 'main' of https://github.com/zivke1/g6.git
 	}
 
 	// prepare form - preset all as invisible
