@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import util.NextStages;
 import util.Role;
 
 public class ViewOrderController {
@@ -81,25 +82,13 @@ public class ViewOrderController {
 	private String orderIDH;
 
 	private String orderStatusH;
+	
+	MouseEvent m_event;
 
 	@FXML
 	void backClicked(MouseEvent event) {
-		((Node) event.getSource()).getScene().getWindow().hide();
-		Stage stage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Parent root;
-		try {
-			root = loader.load(getClass().getResource("/fxmlFiles/HomePageForEmployee.fxml").openStream());
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-			HomePageForEmployeeController controller = loader.getController();
-			controller.setDetails(fNameH, lNameH, roleH, userIDH, parkNameH);
-			stage.setTitle("HomePage");
-			stage.setScene(scene);
-			stage.show();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+    	((Node) event.getSource()).getScene().getWindow().hide();
+    	((Stage)((Node) m_event.getSource()).getScene().getWindow()).show();
 	}
 
 	@FXML
@@ -118,20 +107,9 @@ public class ViewOrderController {
 
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
-		Stage stage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Parent root;
-		try {
-			root = loader
-					.load(getClass().getResource("/fxmlFiles/ContactUsPopUp.fxml").openStream());
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-			stage.setTitle("Contact Us");
-			stage.setScene(scene);
-			stage.show();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order");
+		FXMLLoader loader = nextStages.openPopUp();
+		loader.getController();
 	}
 
 	@FXML
@@ -172,5 +150,9 @@ public class ViewOrderController {
 		totalCost.setText(arr.get(7) + "¤");
 		email.setText(arr.get(8));
 	}
+	public void setPreviousPage(MouseEvent event) {
+		m_event = event;
+	}
+
 }
 

@@ -30,7 +30,7 @@ public class NextStages {
 	/**
 	 * open next stage with hiding current page
 	 */
-	public void goToNextStage(MouseEvent event) {
+	public FXMLLoader goToNextStage(MouseEvent event) {
 		Stage stage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Parent root;
@@ -45,25 +45,27 @@ public class NextStages {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+		return loader;
 	}
 
 	/**
 	 * open next stage without hiding current page - for popUps
 	 */
-	public void openPopUp() {
+	public FXMLLoader openPopUp() {
 		Stage stage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Parent root;
 		try {
 			root = loader.load(getClass().getResource(this.getPath()).openStream());
 			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("/echoServer/application.css").toExternalForm());
 			stage.setTitle(this.getStageTitle());
 			stage.setScene(scene);
 			stage.show();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+		return loader;
 	}
 	
 	public String getPath() {

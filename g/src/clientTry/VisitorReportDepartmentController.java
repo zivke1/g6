@@ -1,10 +1,15 @@
 package clientTry;
 
+import java.io.IOException;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Arrays;
-
+import javafx.scene.Node;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.StackedBarChart;
@@ -12,114 +17,115 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-
+import javafx.stage.Stage;
+import util.HourAmount;
+import util.TypeOfOrder;
+/**
+ * 
+ * @author Idan
+ *controller for visitor report of department manager with bar - chart 
+ */
 public class VisitorReportDepartmentController {
 
-	private String fNameH, lNameH, roleH, userIDH, parkNameH;
+	private String fNameH,lNameH,roleH,userIDH,parkNameH;
+	private MouseEvent m_event;
+	
+    @FXML
+    private ImageView imgContactUs;
 
-	@FXML
-	private ImageView imgContactUs;
+    @FXML
+    private Button backBtn;
 
-	@FXML
-	private Button backBtn;
+    @FXML
+    private Button helpBtn;
+    
+    @FXML
+    private StackedBarChart<String,Number> chart;
 
-	@FXML
-	private Button helpBtn;
+    @FXML
+    private CategoryAxis xaxis;
 
-	@FXML
-	private StackedBarChart<String, Number> chart;
-
-	@FXML
-	void backClicked(MouseEvent event) {
-
-	}
-
-	@FXML
-	void goToContactUsPopUp(MouseEvent event) {
-
-	}
-
-	@FXML
-	void helpBtnPressed(MouseEvent event) {
-
-	}
-
-	public void setDetails(String fName, String lName, String role, String userID, String parkName) {
-		this.fNameH = fName;
-		this.lNameH = lName;
-		this.roleH = role;
-		this.userIDH = userID;
-		this.parkNameH = parkName;
+    @FXML
+    private NumberAxis yaxis;
 
 	
+    @FXML
+    void backClicked(MouseEvent event) {
+    	((Node) event.getSource()).getScene().getWindow().hide();
+    	((Stage)((Node) m_event.getSource()).getScene().getWindow()).show();
+    }
 
-		// Configuring StackedBarChart
-		//chart = new StackedBarChart<String, Number>(xaxis, yaxis);
-		chart.setTitle("Popularity of Programming languages");
-		// Configuring series for java
-		XYChart.Series<String, Number> java = new XYChart.Series<>();
-		java.setName("java");
-		java.getData().add(new XYChart.Data<>("Jan", 10000));
-		java.getData().add(new XYChart.Data<>("Jan", 130000));
-		java.getData().add(new XYChart.Data<>("Feb", 50000));
-		java.getData().add(new XYChart.Data<>("Mar", 60300));
-		java.getData().add(new XYChart.Data<>("Apr", 105600));
-		java.getData().add(new XYChart.Data<>("May", 50600));
-		java.getData().add(new XYChart.Data<>("Jun", 103000));
-		java.getData().add(new XYChart.Data<>("Jul", 104500));
-		java.getData().add(new XYChart.Data<>("Aug", 203000));
-		java.getData().add(new XYChart.Data<>("Sep", 103400));
-		java.getData().add(new XYChart.Data<>("Oct", 105600));
-		java.getData().add(new XYChart.Data<>("Nov", 102400));
-		java.getData().add(new XYChart.Data<>("Dec", 200000));
 
-		// Adding series java to the stackedbarchart
-		chart.getData().add(java);
+    @FXML
+    void goToContactUsPopUp(MouseEvent event) {
 
-		// Configuring series python
-		XYChart.Series<String, Number> python = new XYChart.Series<>();
-		python.setName("python");
-		python.getData().add(new XYChart.Data<>("Jan", 50000));
-		python.getData().add(new XYChart.Data<>("Jan", 14300));
-		python.getData().add(new XYChart.Data<>("Feb", 50400));
-		python.getData().add(new XYChart.Data<>("Mar", 100500));
-		python.getData().add(new XYChart.Data<>("Apr", 104000));
-		python.getData().add(new XYChart.Data<>("May", 134000));
-		python.getData().add(new XYChart.Data<>("Jun", 60000));
-		python.getData().add(new XYChart.Data<>("Jul", 78000));
-		python.getData().add(new XYChart.Data<>("Aug", 89000));
-		python.getData().add(new XYChart.Data<>("Sep", 150000));
-		python.getData().add(new XYChart.Data<>("Oct", 120000));
-		python.getData().add(new XYChart.Data<>("Nov", 109450));
-		python.getData().add(new XYChart.Data<>("Dec", 50450));
+    }
 
-		// adding python series to the stackedbarchart
-		chart.getData().add(python);
+    @FXML
+    void helpBtnPressed(MouseEvent event) {
+
+    }
+	public void setDetails(String fName, String lName, String role, String userID, String parkName)
+	{
+		this.fNameH=fName;
+		this.lNameH=lName;
+		this.roleH=role;
+		this.userIDH=userID;
+		this.parkNameH=parkName;
+		setChart();
+		
+		
 
 	}
-
 	@FXML
 	private void setChart() {
-		/*
-		 * try{ CategoryAxis xAxis = new CategoryAxis();
-		 * 
-		 * 
-		 * xAxis.setCategories(FXCollections.<String>observableArrayList(Arrays.asList
-		 * ("8:00", "9:00", "10:00", "11:00",
-		 * "12:00","13:00","14:00","15:00","16:00"))); xAxis.setLabel("Enterance Time");
-		 * 
-		 * //Defining the y axis NumberAxis yAxis = new NumberAxis(10,20,30);
-		 * yAxis.setLabel("Amount Of Visitors"); chart= new StackedBarChart<>(xAxis,
-		 * yAxis); chart.setTitle("Halid Chart");
-		 * 
-		 * XYChart.Series<String,Number> dataSeries1 = new XYChart.Series();
-		 * dataSeries1.getData().add( new XYChart.Data("2014", 567));
-		 * chart.getData().add(dataSeries1); }catch (Exception e) {e.printStackTrace();}
-		 * 
-		 * 
-		 * }
-		 */
+		
+		try{
+		chart.setTitle("Visitor Report Chart");
+		XYChart.Series<String,Number> personal = new XYChart.Series();
+		XYChart.Series<String,Number> member = new XYChart.Series();
+		XYChart.Series<String,Number> group = new XYChart.Series();
+		personal.setName("Personal");
+		group.setName("Group");
+		member.setName("membership");
+		
+		ArrayList<String> arr =new ArrayList<>();
+		arr.add("depManVisitRep");
+		arr.add(TypeOfOrder.user.toString());
+		ClientMain.chat.accept(arr);
+		ArrayList<HourAmount> answer= ChatClient.dataInArrayListHour;
+	//	System.out.println(answer.get(0).getAmount()); 
+		for (HourAmount a: answer)
+			personal.getData().add(new XYChart.Data(a.getHour(),a.getAmount()));	
+		
+		arr.remove(1);
+		arr.add(TypeOfOrder.member.toString());
+		ClientMain.chat.accept(arr);
+		answer= ChatClient.dataInArrayListHour;
+		for (HourAmount a: answer)
+			member.getData().add(new XYChart.Data(a.getHour(),a.getAmount()));
+		
+		arr.remove(1);
+		arr.add(TypeOfOrder.group.toString());
+		ClientMain.chat.accept(arr);
+		answer= ChatClient.dataInArrayListHour;
+		for (HourAmount a: answer)
+			group.getData().add(new XYChart.Data(a.getHour(),a.getAmount()));
+		
+		chart.getData().add(personal);
+		chart.getData().add(member);
+		chart.getData().add(group);
+		}catch (Exception e)
+		{e.printStackTrace();}
+	
+	} 
+	public void setPreviousPage(MouseEvent event) {
+		m_event=event;
+		}
+	public void setMainPage(MouseEvent event) {
+		m_event=event;
+		}
 
-	}
+	
 
 }

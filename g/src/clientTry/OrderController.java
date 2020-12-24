@@ -30,6 +30,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import util.NextStages;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -278,13 +279,15 @@ public class OrderController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		setDetails("", "", "", "", "Carmel Park");
-		setDetailsOfOwner("315766014", "member", false, "amount of memvers", "backTo");
+		setDetailsOfOwner("315766014", "member", false, "amount of members", "backTo");
 
 	}
 
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
-
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order");
+		FXMLLoader loader = nextStages.openPopUp();
+		loader.getController();
 	}
 
 	public void setDetails(String fName, String lName, String role, String userID, String parkName) {
@@ -308,10 +311,9 @@ public class OrderController implements Initializable {
 			tempArrayList.add(m_parkName);
 			setParkCombo(tempArrayList);
 			setHourCombo(null, null);
-//			setNumberOfVistors("free place");
+		//setNumberOfVistors("free place");
 		} else {
 			setHourCombo(new Time(8, 0, 0), new Time(16, 29, 0));
-			;
 			tempArrayList.add("Carmel Park");
 			tempArrayList.add("Tal Park");
 			tempArrayList.add("Jorden Park");
