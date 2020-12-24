@@ -137,7 +137,7 @@ public class mysqlConnection {
 		ArrayList<OrderToView> dataFromDB = new ArrayList<>();
 		try {// inserting new row to the table
 			String UserID = null, OrderID = null, OrderStatus = null;
-			Date OrderDate = null;
+			java.sql.Date OrderDate = null;
 
 			Statement stmt = conn.createStatement();	
 			String tmpId = (String)id;
@@ -147,18 +147,8 @@ public class mysqlConnection {
 				OrderID = rs.getString("OrderID");
 				OrderStatus = rs.getString("OrderStatus");
 				OrderDate = rs.getDate("VisitDate");
-				// cost = rs.getFloat("Payment");
-				// orderType = rs.getString("TypeOfOrder");
-				// orderEnterTime = rs.getTime("EnterTime");
-				// email = rs.getString("Email");
-
 				dataFromDB.add(new OrderToView(UserID, OrderID, OrderStatus, OrderDate));
-				/*
-				 * dataFromDB.add(email); dataFromDB.add(orderEnterTime.toString());
-				 * dataFromDB.add(orderType); dataFromDB.add(cost + ""); dataFromDB.add(UserID);
-				 * dataFromDB.add(OrderID); dataFromDB.add(OrderStatus);
-				 * dataFromDB.add(OrderDate.toString());
-				 */
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -228,9 +218,11 @@ public class mysqlConnection {
 				String firstName = rs.getString("FirstName");
 				String lastName = rs.getString("LastName");
 				String memberOrGuide = rs.getString("MemberOrGuide");
-				toReturn.add(firstName);
+				int numberOfPeople = rs.getInt("numberOfPepole");
+				toReturn.add(firstName);   
 				toReturn.add(lastName);
 				toReturn.add(memberOrGuide);
+				toReturn.add(numberOfPeople + "");
 			} else {
 				toReturn.add("user");
 			}
@@ -327,10 +319,12 @@ public class mysqlConnection {
 			String firstName = rs.getString("FirstName");
 			String lastName = rs.getString("LastName");
 			String memberOrGuide = rs.getString("MemberOrGuide");
+			int numberOfPeople = rs.getInt("numberOfPepole");
 			toReturn.add(id);
 			toReturn.add(firstName);
 			toReturn.add(lastName);
 			toReturn.add(memberOrGuide);
+			toReturn.add(numberOfPeople + "");
 		} else {
 			toReturn.add("notMember");
 			return toReturn;
@@ -860,5 +854,23 @@ public class mysqlConnection {
 		addToOrdersTable(arr, orderNumber, "active");
 		toReturn.add(orderNumber);
 		return toReturn;
+	}
+	
+	public static int countActiveOrders() {
+		int countOrders = 0;
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from orders Where OrderStatus=5");  // 5 = active
+			while (rs.next()) {
+				
+			}
+		
+		
+		
+		return countOrders;
+	}catch(SQLException e) {
+		
+	}
+		return countOrders;
 	}
 }

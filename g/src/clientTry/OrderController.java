@@ -31,6 +31,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import util.NextStages;
+import util.Role;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -84,6 +85,7 @@ public class OrderController implements Initializable {
 
 	String m_fName, m_lName, m_role, m_userID, m_parkName;
 	String m_ownerUserID, m_status;
+	int m_amountOfPeople;
 	boolean m_occasional;
 	ArrayList<String> invite;
 	MouseEvent m_event,m_eventMain,m_previousPage;
@@ -104,7 +106,7 @@ public class OrderController implements Initializable {
 			invite.add(m_ownerUserID);
 			invite.add(parkNameCombo.getValue().toString());
 			invite.add(hourCombo.getValue().toString());
-			invite.add(pickDatePicker.getValue().toString());// check if the date is vaild TODO
+			invite.add(pickDatePicker.getValue().toString());// check if the date is valid TODO 
 			invite.add(numberOfVistorsCombo.getValue().toString());
 			if (checkEmail(emailTextFiled.getText()) == false) {
 				return;
@@ -277,15 +279,15 @@ public class OrderController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-
+/*
 		setDetails("", "", "", "", "Carmel Park");
 		setDetailsOfOwner("315766014", "member", false, "amount of members", "backTo");
-
+*/
 	}
 
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
-		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order");
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order", m_userID);
 		FXMLLoader loader = nextStages.openPopUp();
 		loader.getController();
 	}
@@ -296,18 +298,16 @@ public class OrderController implements Initializable {
 		m_role = role;
 		m_userID = userID;
 		m_parkName = parkName;
-
 	}
 
-	public void setDetailsOfOwner(String ownerUserID, String status, boolean occasional, String membersAmount,
-			String backTo) {// in status i want to know if
+	public void setDetailsOfOwner(String ownerUserID, String status, boolean occasional, int membersAmount) {// in status i want to know if
 		ArrayList<String> tempArrayList = new ArrayList<String>(); // the user owner is a
 		// member user or guide
 		m_ownerUserID = ownerUserID;
 		m_status = status;
 		m_occasional = occasional;
+		m_amountOfPeople = membersAmount;
 		if (m_occasional) {
-
 			tempArrayList.add(m_parkName);
 			setParkCombo(tempArrayList);
 			setHourCombo(null, null);
@@ -326,8 +326,11 @@ public class OrderController implements Initializable {
 				payTimeCheckBox.setVisible(true);
 			}
 		}
-
+		if(m_status.equals(Role.Member.toString().toLowerCase())) {
+			setNumberOfVistors(m_amountOfPeople);
+		}
 	}
+	
 	public void setMainPage(MouseEvent event) {
 		m_eventMain=event;
 	}

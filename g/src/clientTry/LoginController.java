@@ -21,6 +21,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import util.NextStages;
+import util.Role;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.image.ImageView;
@@ -84,6 +85,7 @@ public class LoginController {
 	@FXML
 	private Label IDError;
 
+	int amountOfPeople = 0;
 	String fName = null;
 	String lName = null;
 	String role = null;
@@ -97,7 +99,7 @@ public class LoginController {
 
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
-		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order");
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "Contact Us", userID);
 		FXMLLoader loader = nextStages.openPopUp();
 		loader.getController();
 
@@ -205,7 +207,7 @@ public class LoginController {
 	}
 
 	/**
-	 * this function for clear all warrninig
+	 * this function for clear all warning
 	 */
 	private void clearAllErrorMessage() {
 		dontFindMemberShipIDLabel.setVisible(false);
@@ -219,8 +221,7 @@ public class LoginController {
 	}
 
 	/**
-	 * check witch status we need to open
-	 * 
+	 * check which status we need to open
 	 * @throws Exception
 	 */
 	private void statusToOpen() throws Exception {
@@ -259,6 +260,8 @@ public class LoginController {
 			lName = ChatClient.dataInArrayList.get(2);
 			userID = ChatClient.dataInArrayList.get(0);
 			role = ChatClient.dataInArrayList.get(3);
+			if(role.equals(Role.Member.toString().toLowerCase()))
+				amountOfPeople = Integer.parseInt(ChatClient.dataInArrayList.get(4));
 			break;
 		}
 		case employee: {
@@ -277,7 +280,9 @@ public class LoginController {
 		default:
 			break;
 		}
+		
 		homePageForEmployeeController.setDetails(fName, lName, role, userID, park);
+		homePageForEmployeeController.setAmountForMember(amountOfPeople);
 		// Scene scene = new Scene(root);
 		Scene scene = new Scene(borderPane);
 		primaryStage.setTitle("Home Page");

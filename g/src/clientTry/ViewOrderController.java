@@ -107,7 +107,7 @@ public class ViewOrderController {
 
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
-		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order");
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order", userIDH);
 		FXMLLoader loader = nextStages.openPopUp();
 		loader.getController();
 	}
