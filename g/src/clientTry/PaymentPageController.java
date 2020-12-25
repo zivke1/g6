@@ -117,8 +117,10 @@ public class PaymentPageController {
 		m_inviteDetails = inviteDetails;
 		m_price = price;
 		if (m_price.equals("") == false) {
+
 			totalP.setText(m_price);
 		} else {
+
 			totalP.setText(m_inviteDetails.get(8));
 		}
 		String temp = m_inviteDetails.get(3);
