@@ -16,64 +16,63 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class PaymentPageController {
-String	m_fName,m_lName,m_role,m_userID,m_parkName,m_price,m_orderNumber;
-ArrayList<String> m_inviteDetails;
-MouseEvent m_event,m_eventMain;	
+	String m_fName, m_lName, m_role, m_userID, m_parkName, m_price, m_orderNumber;
+	ArrayList<String> m_inviteDetails;
+	MouseEvent m_event, m_eventMain;
 
-    @FXML
-    private ImageView imgContactUs;
+	@FXML
+	private ImageView imgContactUs;
 
-    @FXML
-    private Label txtCrumViaHomePageLabel;
+	@FXML
+	private Label txtCrumViaHomePageLabel;
 
-    @FXML
-    private Label txtCrumLabel;
+	@FXML
+	private Label txtCrumLabel;
 
-    @FXML
-    private Button backBtn;
+	@FXML
+	private Button backBtn;
 
-    @FXML
-    private Button finishOrderBtn;
+	@FXML
+	private Button finishOrderBtn;
 
-    @FXML
-    private Button helpBtn;
+	@FXML
+	private Button helpBtn;
 
-    @FXML
-    private Text totalP;
+	@FXML
+	private Text totalP;
 
-    @FXML
-    private Text dateLabel;
+	@FXML
+	private Text dateLabel;
 
-    @FXML
-    private Text parkNameLabel;
+	@FXML
+	private Text parkNameLabel;
 
-    @FXML
-    private Text numberOfvisitorsLabel;
+	@FXML
+	private Text numberOfvisitorsLabel;
 
-    @FXML
-    private Text emailLabel;
+	@FXML
+	private Text emailLabel;
 
-    @FXML
-    void backClicked(MouseEvent event) {
-    	((Node) event.getSource()).getScene().getWindow().hide();
-    	((Stage)((Node) m_event.getSource()).getScene().getWindow()).show();
-    }
+	@FXML
+	void backClicked(MouseEvent event) {
+		((Node) event.getSource()).getScene().getWindow().hide();
+		((Stage) ((Node) m_event.getSource()).getScene().getWindow()).show();
+	}
 
-    
-    @FXML
-    void finishOrderClicked(MouseEvent event) throws IOException {
-    	m_inviteDetails.add(m_price);
-    	m_inviteDetails.add(0,"setInvite");
-    	ClientMain.chat.accept(m_inviteDetails);
-    	m_orderNumber=ChatClient.dataInArrayList.get(0);
-    	//TODO open the next page
-    	
-    	
-    	//open the next page
-    	BorderPane borderPane = null;
+	@FXML
+	void finishOrderClicked(MouseEvent event) throws IOException {
+		if (m_price.equals("") == false) {
+			m_inviteDetails.add(m_price);
+		}
+		m_inviteDetails.add(0, "setInvite");
+		ClientMain.chat.accept(m_inviteDetails);
+		m_orderNumber = ChatClient.dataInArrayList.get(0);
+		// TODO open the next page
+
+		// open the next page
+		BorderPane borderPane = null;
 		FXMLLoader loader = new FXMLLoader();
 		Stage primaryStage = new Stage();
-	
 
 		loader.setLocation(getClass().getResource("../fxmlFiles/OrderConfirmed.fxml"));
 		borderPane = loader.load();
@@ -93,19 +92,19 @@ MouseEvent m_event,m_eventMain;
 		});
 		((Node) event.getSource()).getScene().getWindow().hide();
 		primaryStage.show();
-    }
+	}
 
-    @FXML
-    void goToContactUsPopUp(MouseEvent event) {
+	@FXML
+	void goToContactUsPopUp(MouseEvent event) {
 
-    }
+	}
 
-    @FXML
-    void helpBtnPressed(MouseEvent event) {
+	@FXML
+	void helpBtnPressed(MouseEvent event) {
 
-    }
-    
-    public void setDetails(String fName, String lName, String role, String userID, String parkName) {
+	}
+
+	public void setDetails(String fName, String lName, String role, String userID, String parkName) {
 		m_fName = fName;
 		m_lName = lName;
 		m_role = role;
@@ -113,31 +112,32 @@ MouseEvent m_event,m_eventMain;
 		m_parkName = parkName;
 
 	}
-    public void setOrderDetails(ArrayList<String> inviteDetails , String price) {
-    	m_inviteDetails = inviteDetails;
-    	m_price = price;
-    	totalP.setText(m_price);
-    	String temp=m_inviteDetails.get(3);
-    	String date=temp.substring(8, 10)+temp.substring(4, 8)+temp.substring(0, 4);
-    	
-    	dateLabel.setText(date+" At "+m_inviteDetails.get(2));
-    	parkNameLabel.setText(m_inviteDetails.get(1));
-    	numberOfvisitorsLabel.setText(m_inviteDetails.get(4)+" people");
-    	emailLabel.setText(m_inviteDetails.get(5));
-    }
 
+	public void setOrderDetails(ArrayList<String> inviteDetails, String price) {
+		m_inviteDetails = inviteDetails;
+		m_price = price;
+		if (m_price.equals("") == false) {
+			totalP.setText(m_price);
+		} else {
+			totalP.setText(m_inviteDetails.get(8));
+		}
+		String temp = m_inviteDetails.get(3);
+		String date = temp.substring(8, 10) + temp.substring(4, 8) + temp.substring(0, 4);
+
+		dateLabel.setText(date + " At " + m_inviteDetails.get(2));
+		parkNameLabel.setText(m_inviteDetails.get(1));
+		numberOfvisitorsLabel.setText(m_inviteDetails.get(4) + " people");
+		emailLabel.setText(m_inviteDetails.get(5));
+	}
 
 	public void setPreviousPage(MouseEvent event) {
 		// TODO Auto-generated method stub
-		m_event=event;
+		m_event = event;
 	}
-
 
 	public void setMainPage(MouseEvent eventMain) {
 		// TODO Auto-generated method stub
-		m_eventMain=eventMain;
+		m_eventMain = eventMain;
 	}
-    
-    
 
 }
