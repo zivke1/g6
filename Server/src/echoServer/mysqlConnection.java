@@ -1,6 +1,10 @@
 package echoServer;
 
+
 import util.OrderToChange;
+
+import util.FreePlaceInPark;
+
 import util.OrderToView;
 
 import java.io.IOException;
@@ -12,15 +16,27 @@ import java.sql.SQLException;
 import java.sql.SQLSyntaxErrorException;
 import java.sql.Statement;
 import java.sql.Time;
+
 import java.sql.Timestamp;
+
+import java.time.temporal.WeekFields;
+
 import java.util.ArrayList;
+
 import java.util.Collections;
+
+import java.util.Calendar;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+
 import java.util.TreeSet;
+
+import java.util.TreeMap;
+
 
 import com.mysql.cj.jdbc.SuspendableXAConnection;
 import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
@@ -32,19 +48,35 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import jdk.nashorn.internal.runtime.linker.JavaAdapterFactory;
 import util.Role;
+
 import util.TypeOfOrder;
 import util.SimulationDetails;
+
+import util.VisitorsInDate;
+
 
 public class mysqlConnection {
 	static Connection conn;
 	static HashSet<String> m_connectedID = new HashSet<String>();
+
 
 	static EchoServer server;
 	public static void SetServer(EchoServer server1)
 	{
 		server=server1;
 	}
+
+	final static int DAYS_IN_WEEK = 7;
+	final static int HOURS_IN_DAY = 24;
+	final static Time OPEN_TIME = new Time(8, 0, 0);
+	final static Time CLOSE_TIME = new Time(16, 0, 0);
+	final static int OPEN_TIME_INT = 8;
+	final static int CLOSE_TIME_INT = 16;
+	
+	
+
 	public static void connectDB() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
@@ -803,7 +835,7 @@ public class mysqlConnection {
 
 	// need to unit back and next
 	private static int checkNumberOfVistorsInParkNext(ArrayList<String> sendTocheckNumberOfVistorsInPark)
-			throws SQLException {
+			throws SQLException {// this not include the hour
 		Statement stmt = conn.createStatement();
 		String visitTime = sendTocheckNumberOfVistorsInPark.get(2);
 		String hour = visitTime.substring(0, 2);
@@ -814,8 +846,8 @@ public class mysqlConnection {
 		ResultSet rs = stmt.executeQuery("select SUM(VisitorsAmount) from orders "
 				+ "Where OrderStatus= 'waitingToVisit' OR OrderStatus='waitingToApprove' " + "AND VisitDate = '"
 				+ sendTocheckNumberOfVistorsInPark.get(1) + "' AND ParkName = '"
-				+ sendTocheckNumberOfVistorsInPark.get(1) + "' AND  EnterTime>='"
-				+ sendTocheckNumberOfVistorsInPark.get(2) + "'AND EnterTime<'" + fromThisTime + "'");
+				+ sendTocheckNumberOfVistorsInPark.get(0) + "' AND  ExpectedEnterTime>'"
+				+ sendTocheckNumberOfVistorsInPark.get(2) + "'AND ExpectedEnterTime<'" + fromThisTime + "'");
 		while (rs.next()) {
 			numberOfVisitors = rs.getInt("SUM(VisitorsAmount)");
 		}
@@ -835,8 +867,8 @@ public class mysqlConnection {
 		ResultSet rs = stmt.executeQuery("select SUM(VisitorsAmount) from orders "
 				+ "Where OrderStatus= 'waitingToVisit' OR OrderStatus='waitingToApprove' " + "AND VisitDate = '"
 				+ sendTocheckNumberOfVistorsInParkBack.get(1) + "' AND ParkName = '"
-				+ sendTocheckNumberOfVistorsInParkBack.get(1) + "' AND  EnterTime<='"
-				+ sendTocheckNumberOfVistorsInParkBack.get(2) + "'AND EnterTime>'" + fromThisTime + "'");
+				+ sendTocheckNumberOfVistorsInParkBack.get(0) + "' AND  ExpectedEnterTime<='"
+				+ sendTocheckNumberOfVistorsInParkBack.get(2) + "'AND ExpectedEnterTime>'" + fromThisTime + "'");
 		while (rs.next()) {
 			numberOfVisitors = rs.getInt("SUM(VisitorsAmount)");
 		}
@@ -1189,7 +1221,11 @@ public class mysqlConnection {
 	public static ArrayList<String> setInvite(ArrayList<String> arr) throws SQLException {
 		ArrayList<String> toReturn = new ArrayList<String>();
 		String orderNumber = getOrderNumber();
-		addToOrdersTable(arr, orderNumber, "active");
+		if (arr.contains("Occasional")) {
+			addToOrdersTable(arr, orderNumber, "active");
+		} else {
+			addToOrdersTable(arr, orderNumber, "waitingToApprove");
+		}
 		toReturn.add(orderNumber);
 		return toReturn;
 
@@ -1311,5 +1347,108 @@ public class mysqlConnection {
 		 * arrays look like
 		 */
 
+	}
+
+	public static ArrayList<FreePlaceInPark> getFreePlace(ArrayList<String> arr) throws SQLException {
+		ArrayList<FreePlaceInPark> toReturn = new ArrayList<FreePlaceInPark>();
+		String parkName = arr.get(1);
+		ArrayList<Integer> temp = checkCapacityAndAvarageVisitTime(parkName);
+		int maxVisitors = temp.get(0);
+		int gap = temp.get(1);
+		int timeOfAvarageVisit = temp.get(2);
+		String numberOfPepole = arr.get(4);
+		int numberOfPepoleInInvite = Integer.valueOf(arr.get(4));
+		ArrayList<String> sendToCheck = new ArrayList<String>();
+		sendToCheck.add(parkName);
+		sendToCheck.add(arr.get(3));
+		sendToCheck.add(arr.get(2));
+		sendToCheck.add(String.valueOf(timeOfAvarageVisit));
+
+		int dalta = 0;
+		int year = Integer.valueOf(arr.get(3).substring(0, 4));
+		int month = Integer.valueOf(arr.get(3).substring(5, 7));
+		int day = Integer.valueOf(arr.get(3).substring(8, 10));
+		month--;
+		java.sql.Date toDate, visitDate = new java.sql.Date(year - 1900, month, day - 3);
+//		Date visitDate = new Date(2020,month,day-3);
+//		year = visitDate.getYear();
+		java.sql.Date today = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+
+		while (visitDate.compareTo(today) < 0) {
+			dalta++;
+			visitDate = new java.sql.Date(year - 1900, month, day - 3 + dalta);
+
+		}
+
+//		String fromThisDate = String.valueOf(year)+visitDate.toString().substring(4);
+		String fromThisDate = visitDate.toString();
+		toDate = new java.sql.Date(year - 1900, month, day + 3 + dalta);
+		String toThisDate = toDate.toString();
+
+//		year = visitDate.getYear();
+//		String toThisDate = String.valueOf(year)+visitDate.toString().substring(4);
+//		@SuppressWarnings("deprecation")
+//		Time openTime = new Time(OPEN_TIME.getHours(),OPEN_TIME.getMinutes(),OPEN_TIME.getSeconds());
+
+//		String tString = OPEN_TIME.toString();
+
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT VisitDate,ExpectedEnterTime, SUM(VisitorsAmount) FROM orders "
+				+ "WHERE (OrderStatus = 'waitingToApprove' OR OrderStatus='waitingToVisit') AND ExpectedEnterTime>='"
+				+ OPEN_TIME.toString() + "' AND ExpectedEnterTime<='" + CLOSE_TIME.toString() + "' AND ParkName = '"
+				+ parkName + "' AND VisitDate>='" + fromThisDate + "' AND VisitDate<='" + toThisDate
+				+ "'GROUP BY ExpectedEnterTime ,VisitDate " + "Order BY VisitDate,ExpectedEnterTime ;");
+		java.sql.Date date;
+		Time time;
+		int amount;
+		// java.sql.Date week[] = new java.sql.Date[7];
+		VisitorsInDate allWeek[] = new VisitorsInDate[7];
+		int i;
+		for (i = 0; i < 7; i++) {
+			allWeek[i] = new VisitorsInDate(visitDate);
+			visitDate = new java.sql.Date(year - 1900, month, day - 3 + dalta + i+1);
+		}
+		i = 0;
+		int[] visitorsPerDay = new int[24];
+
+		while (rs.next()) {
+			date = rs.getDate("VisitDate");
+
+			while (date.equals(allWeek[i].getDay()) == false) {
+				i++;
+				visitorsPerDay = new int[24];
+			}
+			time = rs.getTime("ExpectedEnterTime");
+			amount = rs.getInt("SUM(VisitorsAmount)");
+			visitorsPerDay[Integer.valueOf(time.toString().substring(0, 2))] = amount;
+
+			allWeek[i].setVisitors(visitorsPerDay);
+		}
+
+		for (i = 0; i < DAYS_IN_WEEK; i++) {
+			int sum = 0;
+			visitorsPerDay = allWeek[i].getVisitors();
+			for (int j = OPEN_TIME_INT ; j < CLOSE_TIME_INT+timeOfAvarageVisit ; j++) {//set the loop according to the open hours
+				sum += visitorsPerDay[j];
+				if (j >= timeOfAvarageVisit * 2 - 1) {
+					sum -= visitorsPerDay[j - timeOfAvarageVisit * 2 + 1];
+				}
+
+				if ((j >= (timeOfAvarageVisit - 1)+OPEN_TIME_INT)&&(j <= (timeOfAvarageVisit - 1)+CLOSE_TIME_INT)) {
+					int checkNow = j - timeOfAvarageVisit + 1;
+					if(sum+numberOfPepoleInInvite<maxVisitors-gap) {
+						//TODO vaild time
+						toReturn.add(new FreePlaceInPark(new Time(checkNow,0,0).toString(), allWeek[i].getDay().toString()));
+					
+					}
+
+				}
+			}
+
+		}
+		return toReturn;
+
+
+	
 	}
 }

@@ -200,6 +200,7 @@ public class OrderController implements Initializable {
 		waitingListController.setDetails(m_fName, m_lName, m_role, m_userID , m_parkName);
 		waitingListController.setMainPage(m_eventMain);
 		waitingListController.setPreviousPage(m_event);
+		invite.remove(0);
 		waitingListController.setOrderDetails(invite,ChatClient.dataInArrayList.get(0));
 		Scene scene = new Scene(borderPane);
 		primaryStage.setTitle("Waiting List");

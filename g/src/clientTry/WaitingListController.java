@@ -9,14 +9,20 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import util.FreePlaceInPark;
+import util.NextStages;
+import util.OrderToView;
 
 public class WaitingListController implements Initializable {
 	String m_fName,m_lName,m_role,m_userID,m_parkName;
@@ -36,47 +42,28 @@ public class WaitingListController implements Initializable {
     private Button helpBtn;
 
     @FXML
-    private TableView<freeOrder> freePlaceTable;
+    private TableView<FreePlaceInPark> freePlaceTable;
 
     @FXML
-    private TableColumn<freeOrder, String> dateCol;
+    private TableColumn<FreePlaceInPark, String> dateCol;
 
     @FXML
-    private TableColumn<freeOrder, String> timeCol;
+    private TableColumn<FreePlaceInPark, String> timeCol;
 
-    private ObservableList<freeOrder> list1 = FXCollections.observableArrayList();
+//    private ObservableList<freeOrder> list1 = FXCollections.observableArrayList();
    
-    class freeOrder{
-    	private SimpleStringProperty date;
-    	private SimpleStringProperty  time;
-    	
-    	public freeOrder(String date, String time) {
-    		this.date = new SimpleStringProperty(date);
-    		this.time = new SimpleStringProperty(time);
-    	}
-    	
-    	public SimpleStringProperty getDateProperty() {
-    		return date;
-    	}
-    	
-     	public SimpleStringProperty getTimeProperty() {
-    		return time;
-    	}
-    	public String getDate() {
-    		return date.getValue();
-    	}
-    	
-     	public String getTime() {
-    		return time.getValue();
-     	}
-    }
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		Platform.runLater(()->{
-			freeOrder x = new freeOrder("hello", "world");
-		list1.add(x);
-		freePlaceTable.setItems(list1);
-		});
+		TableColumn<FreePlaceInPark, String> orderTimecolumn = new TableColumn<>("Time");
+		orderTimecolumn.setMinWidth(100);
+		orderTimecolumn.setCellValueFactory(new PropertyValueFactory<>("time"));
+		
+		TableColumn<FreePlaceInPark, String> orderDatecolumn = new TableColumn<>("Date");
+		orderDatecolumn.setMinWidth(100);
+		orderDatecolumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+		freePlaceTable.getColumns().addAll(orderTimecolumn, orderDatecolumn);
+		
 	}
     
     @FXML
@@ -115,13 +102,46 @@ public class WaitingListController implements Initializable {
 
     	m_invite.add(0,"getFreePlace");
     	ClientMain.chat.accept(m_invite);
-    	
-    	
+    	m_invite.remove(0);
+    	ArrayList<FreePlaceInPark>timeToTableArrayList =  ChatClient.dataInArrayListFreePlaceInParks;
     	//TODO check set the values in the chart
+    	setTableOfFreePlace(timeToTableArrayList);
+    	
     	
     }
     
 
+
+	private void setTableOfFreePlace(ArrayList<FreePlaceInPark> timeToTableArrayList) {
+		// TODO Auto-generated method stub
+		ObservableList<FreePlaceInPark> timeToTable  = FXCollections.observableArrayList();
+		for( int i = 0; i < timeToTableArrayList.size(); i++) {
+			if(timeToTableArrayList.get(i) != null)
+				timeToTable.add(timeToTableArrayList.get(i));
+		}
+		freePlaceTable.setItems(timeToTable);
+		freePlaceTable.setRowFactory(tv -> {
+			TableRow<FreePlaceInPark> row = new TableRow<>();
+			row.setOnMouseClicked(evento -> {
+				if (evento.getClickCount() == 2 && (!row.isEmpty())) {
+					FreePlaceInPark rowData = row.getItem();
+					NextStages nextStages = new NextStages("/fxmlFiles/PaymentPage.fxml", "Payment Page");
+					FXMLLoader loader = nextStages.goToNextStage(evento);
+					PaymentPageController paymentPageController = loader.getController();
+					paymentPageController.setDetails(m_fName, m_lName, m_role, m_userID , m_parkName);
+					paymentPageController.setPreviousPage(evento) ;
+					paymentPageController.setMainPage(m_eventMain);
+					m_invite.set(2, rowData.getTime());
+					m_invite.set(3, rowData.getDate());
+					
+					paymentPageController.setOrderDetails(m_invite,"");
+				}
+			});
+			return row;
+		});
+		
+//		freePlaceTable.getColumns().addAll(orderTimecolumn, orderDatecolumn);
+	}
 
 	public void setPreviousPage(MouseEvent event) {
 		// TODO Auto-generated method stub

@@ -6,6 +6,8 @@ package clientTry;
 
 import ocsf.client.*;
 import util.HourAmount;
+import util.FreePlaceInPark;
+
 import util.OrderToView;
 import clientTry.UserInformationController;
 
@@ -38,6 +40,9 @@ public class ChatClient extends AbstractClient {
 
 	public static ArrayList<OrderToView> dataInArrayListObject = new ArrayList<OrderToView>();
 
+	public static ArrayList<FreePlaceInPark> dataInArrayListFreePlaceInParks;
+
+
 	public static boolean awaitResponse = false;
 	// Constructors ****************************************************
 
@@ -68,7 +73,9 @@ public class ChatClient extends AbstractClient {
 	{
 		String st;
 		awaitResponse = false;
+
 		try {
+
 			ArrayList<HourAmount> dataFromDbCheck = (ArrayList<HourAmount>) msg;
 			if (dataFromDbCheck != null)
 				if (dataFromDbCheck.get(0) instanceof HourAmount) {
@@ -88,6 +95,21 @@ public class ChatClient extends AbstractClient {
 				}
 		} catch (ClassCastException e) {
 		}
+
+
+		try {
+			ArrayList<FreePlaceInPark> dataFromDbCheck = (ArrayList<FreePlaceInPark>) msg;
+			if (dataFromDbCheck != null) {
+				if (dataFromDbCheck.get(0) instanceof FreePlaceInPark) {
+					dataInArrayListFreePlaceInParks = (ArrayList<FreePlaceInPark>) msg;
+				}
+			}
+		} catch (ClassCastException e) {
+		}
+
+
+
+
 		ArrayList<String> dataFromDb = (ArrayList<String>) msg;
 
 		if (dataFromDb.contains("showTable")) {
@@ -114,7 +136,9 @@ public class ChatClient extends AbstractClient {
 		}
 		if (dataFromDb.contains("sendToDeparmentManager"))
 			dataFromDb.remove("sendToDeparmentManager");
+
 		System.out.println(dataFromDb);
+
 		dataInArrayList = dataFromDb;
 
 	}
