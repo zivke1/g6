@@ -31,6 +31,7 @@ public class ChatClient extends AbstractClient {
 	 * method in the client.
 	 */
 	ChatIF clientUI;
+	public static ArrayList<Integer> dataInArrayListInteger = new ArrayList<>();
 	public static ArrayList<String> dataInArrayList = new ArrayList<String>();
 	public static ArrayList<OrderToView> dataInArrayListObject = new ArrayList<OrderToView>();
 	public static boolean awaitResponse = false;
@@ -44,13 +45,11 @@ public class ChatClient extends AbstractClient {
 	 * @param clientUI The interface type variable.
 	 */
 
-
 	public ChatClient(String host, int port, ChatIF clientUI) throws IOException {
 		super(host, port); // Call the superclass constructor
 		this.clientUI = clientUI;
 		openConnection();
 	}
-
 
 	// Instance methods ************************************************
 
@@ -65,19 +64,30 @@ public class ChatClient extends AbstractClient {
 	{
 		String st;
 		awaitResponse = false;
-		
+
 		try {
-		ArrayList<OrderToView> dataFromDbCheck = (ArrayList<OrderToView>) msg;
-		
-		if (dataFromDbCheck != null)	
-			if(dataFromDbCheck.get(0) instanceof OrderToView) {
-				dataInArrayListObject = dataFromDbCheck;
-				return;
-			}
-		}catch(ClassCastException e) {}
-		
+			ArrayList<OrderToView> dataFromDbCheck = (ArrayList<OrderToView>) msg;
+
+			if (dataFromDbCheck != null)
+				if (dataFromDbCheck.get(0) instanceof OrderToView) {
+					dataInArrayListObject = dataFromDbCheck;
+					return;
+				}
+		} catch (ClassCastException e) {
+		}
+
+		try {
+			ArrayList<Integer> dataFromDbCheck = (ArrayList<Integer>) msg;
+
+			if (dataFromDbCheck != null)
+				dataInArrayListInteger = dataFromDbCheck;
+			return;
+
+		} catch (ClassCastException e) {
+		}
+
 		ArrayList<String> dataFromDb = (ArrayList<String>) msg;
-		
+
 		if (dataFromDb.contains("showTable")) {
 			dataFromDb.remove("showTable");
 			dataInArrayList = dataFromDb;
@@ -92,23 +102,18 @@ public class ChatClient extends AbstractClient {
 			dataFromDb.remove("CheckUserIDInTable");
 			dataInArrayList = dataFromDb;
 		}
-		
-	    if(dataFromDb.contains("FetchParkDetails"))
-	    {
-	    	dataFromDb.remove("FetchParkDetails");
-	    	dataInArrayList=dataFromDb;
-	    }
-	    if(dataFromDb.contains("RegisterMember"))
-	    {
-	    	dataFromDb.remove("RegisterMember");
-	    }
-	    if(dataFromDb.contains("sendToDeparmentManager"))
-	    	dataFromDb.remove("sendToDeparmentManager");
-	    dataInArrayList=dataFromDb;
-	    
-	  }
 
-		
+		if (dataFromDb.contains("FetchParkDetails")) {
+			dataFromDb.remove("FetchParkDetails");
+			dataInArrayList = dataFromDb;
+		}
+		if (dataFromDb.contains("RegisterMember")) {
+			dataFromDb.remove("RegisterMember");
+		}
+		if (dataFromDb.contains("sendToDeparmentManager"))
+			dataFromDb.remove("sendToDeparmentManager");
+		dataInArrayList = dataFromDb;
+	}
 
 	/**
 	 * This method handles all data coming from the UI

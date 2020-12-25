@@ -228,7 +228,30 @@ public class EchoServer extends AbstractServer {
 				client.sendToClient(arr);
 				return;
 			}
-			
+			if(arr.contains("countActiveOrders")){
+				arr.remove("countActiveOrders");
+				arr = mysqlConnection.countActiveOrders();
+				client.sendToClient(arr);
+				return;
+			}
+			if(arr.contains("checkCapacityAndAvarageVisitTime")){
+				arr.remove("checkCapacityAndAvarageVisitTime");
+				ArrayList<Integer> ar = mysqlConnection.checkCapacityAndAvarageVisitTime(arr.get(0));
+				client.sendToClient(ar);
+				return;
+			}
+			if(arr.contains("checkMemberIDInMembers")){
+				arr.remove("checkMemberIDInMembers");
+				ArrayList<String> ar = mysqlConnection.checkMemberIDInMembers(arr);
+				client.sendToClient(ar);
+				return;
+			}
+			if(arr.contains("checkIdInMember")){
+				arr.remove("checkIdInMember");
+				ArrayList<String> ar = mysqlConnection.checkIdInMember(arr);
+				client.sendToClient(ar);
+				return;
+			}
 			
 		}catch(Exception e) {
 			e.printStackTrace();

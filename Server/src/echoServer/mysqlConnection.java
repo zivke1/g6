@@ -54,28 +54,6 @@ public class mysqlConnection {
 		}
 	}
 
-//	public static ArrayList<String> showTable(Object id) { ArrayList<String>
-//	  dataFromDB = new ArrayList<>(); try {// inserting new row to the table String
-//	  firstName = null, lastName = null, ID = null, email = null, phoneNum = null;
-//	  Statement stmt = conn.createStatement(); String tmpId = ((ArrayList<String>)
-//	  id).get(0); ResultSet rs =
-//	  stmt.executeQuery("select * from visitor Where ID=" + tmpId); while
-//	  (rs.next()) { firstName = rs.getString("FirstName"); lastName =
-//	  rs.getString("LastName"); ID = rs.getString("ID"); email =
-//	  rs.getString("Email"); phoneNum = rs.getString("PhoneNumber"); }
-//	  dataFromDB.add(firstName); dataFromDB.add(lastName); dataFromDB.add(ID);
-//	  dataFromDB.add(email); dataFromDB.add(phoneNum); } catch (SQLException e) {
-//	  e.printStackTrace(); } return dataFromDB; }
-//
-//	public static String CheckID(Object id) {
-//		if (id != null) {
-//			ArrayList<String> arr = showTable(id);
-//			if (((ArrayList<String>) id).get(0).equals(arr.get(2)))
-//				return "True";
-//		}
-//		return "False";
-//	}
-
 	public static void updateTable(Object arr)// arr={the new value u want,its ID,the column we want to change}
 	{
 		try {
@@ -112,7 +90,6 @@ public class mysqlConnection {
 		return null;
 	}
 
-	
 	public static String CheckUserIDInTable(Object arr) {
 		if (arr instanceof ArrayList) {
 			ArrayList<String> array = (ArrayList<String>) arr;
@@ -139,8 +116,8 @@ public class mysqlConnection {
 			String UserID = null, OrderID = null, OrderStatus = null;
 			java.sql.Date OrderDate = null;
 
-			Statement stmt = conn.createStatement();	
-			String tmpId = (String)id;
+			Statement stmt = conn.createStatement();
+			String tmpId = (String) id;
 			ResultSet rs = stmt.executeQuery("select * from orders Where UserID=" + tmpId);
 			while (rs.next()) {
 				UserID = rs.getString("UserID");
@@ -201,34 +178,40 @@ public class mysqlConnection {
 		}
 	}
 
+	
+	// check if member ID is in member table
 	public static ArrayList<String> checkIfIdConnectedWithId(ArrayList<String> arr) throws SQLException {
 		ArrayList<String> toReturn = new ArrayList<String>();
-		Statement stmt = conn.createStatement();
-		stmt = conn.createStatement();
-		ResultSet rs = null;
-
-		toReturn.add(arr.get(0));
+	//	toReturn.add(arr.get(0));
 		if (m_connectedID.contains(arr.get(0))) {
 			toReturn.add("connectedBefore");
 			return toReturn;
 		} else {
 			m_connectedID.add(arr.get(0));
-			rs = stmt.executeQuery("select * from members Where ID=" + arr.get(0));
-			if (rs.next()) {
-				String firstName = rs.getString("FirstName");
-				String lastName = rs.getString("LastName");
-				String memberOrGuide = rs.getString("MemberOrGuide");
-				int numberOfPeople = rs.getInt("numberOfPepole");
-				toReturn.add(firstName);   
-				toReturn.add(lastName);
-				toReturn.add(memberOrGuide);
-				toReturn.add(numberOfPeople + "");
-			} else {
-				toReturn.add("user");
-			}
+			toReturn = checkIdInMember(arr);
 			return toReturn;
 		}
+	}
 
+	public static ArrayList<String> checkIdInMember(ArrayList<String> arr) throws SQLException {
+		ArrayList<String> toReturn = new ArrayList<String>();
+		toReturn.add(arr.get(0));
+		Statement stmt = conn.createStatement();
+		ResultSet rs = null;
+		rs = stmt.executeQuery("select * from members Where ID=" + arr.get(0));
+		if (rs.next()) {
+			String firstName = rs.getString("FirstName");
+			String lastName = rs.getString("LastName");
+			String memberOrGuide = rs.getString("MemberOrGuide");
+			int numberOfPeople = rs.getInt("numberOfPepole");
+			toReturn.add(firstName);
+			toReturn.add(lastName);
+			toReturn.add(memberOrGuide);
+			toReturn.add(numberOfPeople + "");
+		} else {
+			toReturn.add("user");
+		}
+		return toReturn;
 	}
 
 	public static String RegisterMember(ArrayList<String> arr) {
@@ -299,12 +282,25 @@ public class mysqlConnection {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	// check if member ID is in member table
+	public static ArrayList<String> checkIfIdConnectedWithMemberId(ArrayList<String> arr) throws SQLException {
+		ArrayList<String> toReturn = new ArrayList<String>();
+
+		// check if the member already connected
+		if (m_connectedID.contains(arr.get(0))) {
+			toReturn.add("connectedBefore");
+			return toReturn;
+		} else {
+			m_connectedID.add(arr.get(0));
+			toReturn = checkMemberIDInMembers(arr);
+		}
+		return toReturn;
 
 	}
 
-	public static ArrayList<String> checkIfIdConnectedWithMemberId(ArrayList<String> arr) throws SQLException {
+	public static ArrayList<String> checkMemberIDInMembers(ArrayList<String> arr) throws SQLException {
 		ArrayList<String> toReturn = new ArrayList<String>();
-		String id;
 		ResultSet rs;
 		Statement stmt = conn.createStatement();
 		stmt = conn.createStatement();
@@ -315,7 +311,7 @@ public class mysqlConnection {
 			return toReturn;
 		}
 		if (rs.next()) {
-			id = rs.getString("ID");
+			String id = rs.getString("ID");
 			String firstName = rs.getString("FirstName");
 			String lastName = rs.getString("LastName");
 			String memberOrGuide = rs.getString("MemberOrGuide");
@@ -329,15 +325,7 @@ public class mysqlConnection {
 			toReturn.add("notMember");
 			return toReturn;
 		}
-		// check if the member already connected
-		if (m_connectedID.contains(arr.get(0))) {
-			toReturn.add("connectedBefore");
-			return toReturn;
-		} else {
-			m_connectedID.add(arr.get(0));
-		}
 		return toReturn;
-
 	}
 
 	public static boolean insertParaUpdate(Object arr) {
@@ -612,7 +600,7 @@ public class mysqlConnection {
 			price = (float) (price * (100 - regularDiscount.get(0)) / 100.0);
 			price = (float) (price * (100 - regularDiscount.get(1)) / 100.0);
 			price = (float) (price * (100 - extraDiscount) / 100.0);
-			if(arr.contains("payBefore")) {
+			if (arr.contains("payBefore")) {
 				price = (float) (price * (100 - 12) / 100.0);
 			}
 			toReturn.add(String.valueOf(price));// confirmed or theParkIsFull then price
@@ -622,7 +610,7 @@ public class mysqlConnection {
 //			}
 			// TODO need to add the message to confirm
 			//// end of not occasional visit
-		} else {//occasional visit only
+		} else {// occasional visit only
 			// parkDetils=Capacity,GapVisitors,TimeOfAvergeVisit
 			int visitosAmount = checkNumberOfVisitorsNow(arr.get(1));
 			if (visitosAmount + numberOfVisitorsInInvite > Capacity) {
@@ -644,7 +632,7 @@ public class mysqlConnection {
 //
 //				addToOrdersTable(arr, price, orderNumber, "active");
 			}
-		}//occasional visit only end
+		} // occasional visit only end
 		return toReturn;
 
 	}
@@ -804,7 +792,7 @@ public class mysqlConnection {
 		return numberOfVisitors;
 	}
 
-	private static ArrayList<Integer> checkCapacityAndAvarageVisitTime(String parkName) throws SQLException {
+	public static ArrayList<Integer> checkCapacityAndAvarageVisitTime(String parkName) throws SQLException {
 		ArrayList<Integer> parkDetilsNumbers = new ArrayList<Integer>();
 
 		int TimeOfAvergeVisit = 0, GapVisitors = 0, Capacity = 0;
@@ -828,12 +816,12 @@ public class mysqlConnection {
 		Integer cancelNum = 0, expiredNum = 0;
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("select * from orders Where OrderStatus=6");//6=cancelled
+			ResultSet rs = stmt.executeQuery("select * from orders Where OrderStatus=6");// 6=cancelled
 			while (rs.next()) {
 				cancelNum++;
-				System.out.println(cancelNum.toString()+"cancel");
+				System.out.println(cancelNum.toString() + "cancel");
 			}
-			ResultSet rs2 = stmt.executeQuery("select * from orders Where OrderStatus=2");//2= expired
+			ResultSet rs2 = stmt.executeQuery("select * from orders Where OrderStatus=2");// 2= expired
 			while (rs2.next()) {
 				expiredNum++;
 				System.out.println(expiredNum.toString());
@@ -849,28 +837,26 @@ public class mysqlConnection {
 	}
 
 	public static ArrayList<String> setInvite(ArrayList<String> arr) throws SQLException {
-		ArrayList<String> toReturn= new ArrayList<String>();
+		ArrayList<String> toReturn = new ArrayList<String>();
 		String orderNumber = getOrderNumber();
 		addToOrdersTable(arr, orderNumber, "active");
 		toReturn.add(orderNumber);
 		return toReturn;
 	}
-	
-	public static int countActiveOrders() {
-		int countOrders = 0;
+
+	public static ArrayList<String> countActiveOrders() {
+		String countOrders = null;
+		ArrayList<String> toReturn = new ArrayList<String>();
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("select * from orders Where OrderStatus=5");  // 5 = active
+			ResultSet rs = stmt.executeQuery("Select COUNT(OrderID)\r\n From orders O\r\n Where O.OrderStatus = 'active';"); 																									
 			while (rs.next()) {
-				
+				countOrders = rs.getString(1);
 			}
-		
-		
-		
-		return countOrders;
-	}catch(SQLException e) {
-		
-	}
-		return countOrders;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		toReturn.add(countOrders);
+		return toReturn;
 	}
 }
