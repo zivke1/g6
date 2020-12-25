@@ -465,7 +465,7 @@ public class EchoServer extends AbstractServer {
 				mysqlConnection.checkOrdersStatus();
 
 				try {
-					Thread.sleep(1000 * 60 * 60 * 24);// sleep 1 day
+					Thread.sleep(1000 * 60 * 60 );// sleep 1 hour
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

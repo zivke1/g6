@@ -1032,11 +1032,13 @@ public class mysqlConnection {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("select * from orders");
 			while (rs.next()) {
+				Time t=new Time(d.getHours()+1, d.getMinutes(), d.getSeconds());
 				dateDb = rs.getDate("VisitDate");
 				if (dateDb.getYear() < dateToday.getYear()
 						|| (dateDb.getYear() == dateToday.getYear() && dateDb.getMonth() < dateToday.getMonth())
-						|| ((dateDb.getYear() == dateToday.getYear() && dateDb.getMonth() == dateDb.getMonth()
-								&& dateDb.getDate() < dateToday.getDate()))) {
+						|| (dateDb.getYear() == dateToday.getYear() && dateDb.getMonth() == dateDb.getMonth()
+								&& dateDb.getDate() < dateToday.getDate())||(dateDb.getYear() == dateToday.getYear() && dateDb.getMonth() == dateDb.getMonth()
+								&& dateDb.getDate() == dateToday.getDate()&&rs.getTime("ExpectedEnterTime").compareTo(t)<0)) {
 					if (!rs.getString("OrderStatus").equals("finished")
 							&& !rs.getString("OrderStatus").equals("expired")
 							&& !rs.getString("OrderStatus").equals("cancelled")
