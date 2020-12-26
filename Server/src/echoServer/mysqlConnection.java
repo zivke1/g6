@@ -785,8 +785,9 @@ public class mysqlConnection {
 
 	private static void addToOrdersTable(ArrayList<String> arr, String orderNumber, String orderStatus)
 			throws SQLException {
+		Date date = new Date();
 		PreparedStatement update = conn.prepareStatement(
-				"INSERT INTO orders (UserID, OrderID, ParkName, ExpectedEnterTime, VisitDate, VisitorsAmount,TypeOfOrder,OrderStatus,EnterTime,ExitTime,Occasional,VisitorsAmountActual,Payment,Email) VALUES (?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?)");
+				"INSERT INTO orders (UserID, OrderID, ParkName, ExpectedEnterTime, VisitDate, VisitorsAmount,TypeOfOrder,OrderStatus,EnterTime,ExitTime,Occasional,VisitorsAmountActual,Payment,Email,EnterWaitingListDate) VALUES (?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?,?)");
 		update.setString(1, arr.get(0));// INSERT INTO `visitorschema`.`orders` (`UserID`, `OrderID`, `ParkName`,
 										// `ExpectedEnterTime`, `VisitDate`, `VisitorsAmount`, `TypeOfOrder`,
 										// `OrderStatus`, `EnterTime`, `ExitTime`, `Occasional`, `VisitorsAmountActual`,
@@ -809,6 +810,12 @@ public class mysqlConnection {
 		update.setString(12, null);
 		update.setFloat(13, Float.parseFloat(arr.get(8)));
 		update.setString(14, arr.get(5));
+		if(orderStatus.equals("waitingList")) {
+			update.setTimestamp(15, new Timestamp(date.getTime()));
+		}else {
+			update.setTimestamp(15, null);
+		}
+		
 		update.executeUpdate();
 
 	}
@@ -1452,5 +1459,13 @@ public class mysqlConnection {
 
 
 	
+	}
+
+	public static ArrayList<String> setInWaitingList(ArrayList<String> arr) throws SQLException {
+		ArrayList<String> toReturn = new ArrayList<String>(); 
+		String orderNumber = getOrderNumber();
+		addToOrdersTable(arr, orderNumber, "waitingList");
+		
+		return toReturn;
 	}
 }
