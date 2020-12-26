@@ -279,6 +279,13 @@ public class EchoServer extends AbstractServer {
 				client.sendToClient(ar);
 				return;
 			}
+			if (arr.contains("setInWaitingList")) {
+				arr.remove("setInWaitingList");
+				arr = mysqlConnection.setInWaitingList(arr);
+				client.sendToClient(arr);
+				return;
+			}
+			
 
 		} catch (Exception e) {
 

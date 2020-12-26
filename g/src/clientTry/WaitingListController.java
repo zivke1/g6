@@ -36,7 +36,7 @@ public class WaitingListController implements Initializable {
     private Button backBtn;
 
     @FXML
-    private Button finishOrderBtn;
+    private Button enterWaitingListBtn;
 
     @FXML
     private Button helpBtn;
@@ -44,11 +44,11 @@ public class WaitingListController implements Initializable {
     @FXML
     private TableView<FreePlaceInPark> freePlaceTable;
 
-    @FXML
-    private TableColumn<FreePlaceInPark, String> dateCol;
+//    @FXML
+//    private TableColumn<FreePlaceInPark, String> dateCol;
 
-    @FXML
-    private TableColumn<FreePlaceInPark, String> timeCol;
+//    @FXML
+//    private TableColumn<FreePlaceInPark, String> timeCol;
 
 //    private ObservableList<freeOrder> list1 = FXCollections.observableArrayList();
    
@@ -73,8 +73,14 @@ public class WaitingListController implements Initializable {
     }
 
     @FXML
-    void finishOrderClicked(MouseEvent event) {
-
+    void enterWaitingListClicked(MouseEvent event) {
+     	m_invite.add(0,"setInWaitingList");
+    	ClientMain.chat.accept(m_invite);
+     	NextStages nextStages = new NextStages("/fxmlFiles/EnterWaitingListPageSuccessPage.fxml", "Waiting List");
+    	FXMLLoader loader = nextStages.goToNextStage(event);
+    	
+    	EnterWaitingListPageSuccessController enterWaitingListPageSuccessController = loader.getController();
+    	enterWaitingListPageSuccessController.setMainPage(m_eventMain);
     }
 
     @FXML
@@ -106,6 +112,7 @@ public class WaitingListController implements Initializable {
     	ArrayList<FreePlaceInPark>timeToTableArrayList =  ChatClient.dataInArrayListFreePlaceInParks;
     	//TODO check set the values in the chart
     	setTableOfFreePlace(timeToTableArrayList);
+   
     	
     	
     }
