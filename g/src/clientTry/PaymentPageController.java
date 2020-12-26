@@ -14,7 +14,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+/**
+ * this page show the user the order details 
+ * and the price of the order and the user need to confirm and pay
+ * @author zivke
+ *
+ */
 public class PaymentPageController {
 	String m_fName, m_lName, m_role, m_userID, m_parkName, m_price, m_orderNumber;
 	ArrayList<String> m_inviteDetails;
@@ -74,6 +79,7 @@ public class PaymentPageController {
 		FXMLLoader loader = new FXMLLoader();
 		Stage primaryStage = new Stage();
 
+		
 		loader.setLocation(getClass().getResource("../fxmlFiles/OrderConfirmed.fxml"));
 		borderPane = loader.load();
 		OrderConfirmedController orderConfirmedController = loader.getController();
@@ -133,12 +139,12 @@ public class PaymentPageController {
 	}
 
 	public void setPreviousPage(MouseEvent event) {
-		// TODO Auto-generated method stub
+		
 		m_event = event;
 	}
 
 	public void setMainPage(MouseEvent eventMain) {
-		// TODO Auto-generated method stub
+	
 		m_eventMain = eventMain;
 	}
 

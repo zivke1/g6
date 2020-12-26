@@ -74,6 +74,7 @@ public class mysqlConnection {
 	final static Time CLOSE_TIME = new Time(16, 0, 0);
 	final static int OPEN_TIME_INT = 8;
 	final static int CLOSE_TIME_INT = 16;
+	final static int ENTER_PRICE = 100;
 	
 	
 
@@ -631,7 +632,13 @@ public class mysqlConnection {
 		}
 		return "The Order Cancelled Successfully";
 	}
-
+/**
+ * check if the order is valid it get array that tell 
+ * if the order is occasional or not the number of the visitors
+ * @param arr
+ * @return
+ * @throws SQLException
+ */
 	public static ArrayList<String> checkInvite(ArrayList<String> arr) throws SQLException {// arr=ID,parkName,time,date,numberOfVisitors,email,occasional,status=(user,member,guide)
 		ArrayList<Integer> parkDetils = checkCapacityAndAvarageVisitTime(arr.get(1));
 		ArrayList<String> toReturn = new ArrayList<String>();
@@ -679,7 +686,7 @@ public class mysqlConnection {
 				numberOfVisitorsInInvite--;
 			} // him
 			int extraDiscount = getExtraDiscount(arr.get(1));
-			float price = 100 * numberOfVisitorsInInvite;// TODO check about the price
+			float price = ENTER_PRICE * numberOfVisitorsInInvite;// TODO check about the price
 			price = (float) (price * (100 - regularDiscount.get(0)) / 100.0);
 			price = (float) (price * (100 - regularDiscount.get(1)) / 100.0);
 			price = (float) (price * (100 - extraDiscount) / 100.0);
@@ -705,7 +712,7 @@ public class mysqlConnection {
 				toDiscount.add(arr.get(6));
 				ArrayList<Integer> regularDiscount = getDiscount(toDiscount);
 				int extraDiscount = getExtraDiscount(arr.get(1));
-				float price = 100 * numberOfVisitorsInInvite;// TODO check about the price
+				float price = ENTER_PRICE * numberOfVisitorsInInvite;// TODO check about the price
 				price = (float) (price * (100 - regularDiscount.get(0)) / 100.0);
 				price = (float) (price * (100 - regularDiscount.get(1)) / 100.0);
 				price = (float) (price * (100 - extraDiscount) / 100.0);
@@ -737,7 +744,12 @@ public class mysqlConnection {
 		}
 		return visitorsNow;
 	}
-
+/**
+ * take from the extraDiscount table if there is an extra discount
+ * @param parkName
+ * @return
+ * @throws SQLException
+ */
 	private static int getExtraDiscount(String parkName) throws SQLException {
 		Statement stmt = conn.createStatement();
 
@@ -755,7 +767,10 @@ public class mysqlConnection {
 		}
 		return discaount;
 	}
-
+/**
+ * give you valid order number random
+ * @return
+ */
 	private static String getOrderNumber() {
 		boolean flagExists = true;
 		Random rand = new Random();
@@ -783,6 +798,13 @@ public class mysqlConnection {
 		return String.valueOf(orderID);
 	}
 
+	/**
+	 * add to order table
+	 * @param arr
+	 * @param orderNumber
+	 * @param orderStatus
+	 * @throws SQLException
+	 */
 	private static void addToOrdersTable(ArrayList<String> arr, String orderNumber, String orderStatus)
 			throws SQLException {
 		Date date = new Date();
@@ -820,6 +842,13 @@ public class mysqlConnection {
 
 	}
 
+	
+	/**
+	 * get the discount that the invite can get
+	 * @param toDiscount
+	 * @return
+	 * @throws SQLException
+	 */
 	private static ArrayList<Integer> getDiscount(ArrayList<String> toDiscount) throws SQLException {// status=(user,member,guide),ocasional
 		String TypeOfOrder = toDiscount.get(0);
 		ArrayList<Integer> toReturn = new ArrayList<Integer>();
@@ -841,6 +870,16 @@ public class mysqlConnection {
 	}
 
 	// need to unit back and next
+	
+	
+	/**
+	 * check the number of the visitors in the park in the 
+	 * next few hours according to the average visit
+	 * 
+	 * @param sendTocheckNumberOfVistorsInPark
+	 * @return
+	 * @throws SQLException
+	 */
 	private static int checkNumberOfVistorsInParkNext(ArrayList<String> sendTocheckNumberOfVistorsInPark)
 			throws SQLException {// this not include the hour
 		Statement stmt = conn.createStatement();
@@ -862,6 +901,13 @@ public class mysqlConnection {
 	}
 
 // i check waitingToAprove and Approve
+	/**
+	 *  check the number of the visitors in the park before 
+	 *  take care about what in the previous hours
+	 * @param sendTocheckNumberOfVistorsInParkBack
+	 * @return
+	 * @throws SQLException
+	 */
 	private static int checkNumberOfVistorsInParkBack(ArrayList<String> sendTocheckNumberOfVistorsInParkBack)
 			throws SQLException {
 		Statement stmt = conn.createStatement();
@@ -881,7 +927,13 @@ public class mysqlConnection {
 		}
 		return numberOfVisitors;
 	}
-
+/**
+ * get from the park table the 
+ * details of one park
+ * @param parkName
+ * @return
+ * @throws SQLException
+ */
 	private static ArrayList<Integer> checkCapacityAndAvarageVisitTime(String parkName) throws SQLException {
 		ArrayList<Integer> parkDetilsNumbers = new ArrayList<Integer>();
 
@@ -1357,7 +1409,13 @@ public class mysqlConnection {
 		 */
 
 	}
-
+/**
+ * get an invite and return arrayList of times and
+ *  dates that the park can get more visitors
+ * @param arr
+ * @return
+ * @throws SQLException
+ */
 	public static ArrayList<FreePlaceInPark> getFreePlace(ArrayList<String> arr) throws SQLException {
 		ArrayList<FreePlaceInPark> toReturn = new ArrayList<FreePlaceInPark>();
 		String parkName = arr.get(1);
@@ -1460,7 +1518,12 @@ public class mysqlConnection {
 
 	
 	}
-
+/**
+ * add to orders table in waiting list status
+ * @param arr
+ * @return
+ * @throws SQLException
+ */
 	public static ArrayList<String> setInWaitingList(ArrayList<String> arr) throws SQLException {
 		ArrayList<String> toReturn = new ArrayList<String>(); 
 		String orderNumber = getOrderNumber();
