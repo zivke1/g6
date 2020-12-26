@@ -80,8 +80,10 @@ public class ChatClient extends AbstractClient {
 			ArrayList<Integer> dataFromDbCheck = (ArrayList<Integer>) msg;
 
 			if (dataFromDbCheck != null)
-				dataInArrayListInteger = dataFromDbCheck;
-			return;
+				if (dataFromDbCheck.get(0) instanceof Integer) {
+					dataInArrayListInteger = dataFromDbCheck;
+					return;
+				}
 
 		} catch (ClassCastException e) {
 		}

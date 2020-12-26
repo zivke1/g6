@@ -102,21 +102,18 @@ public class LoginController {
 		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "Contact Us", userID);
 		FXMLLoader loader = nextStages.openPopUp();
 		loader.getController();
-
 	}
 
 	@FXML
 	void changeIdentificationVisible(ActionEvent event) {
 		loginSetVisibility(false);
 		identificationSetVisibility(true);
-
 	}
 
 	@FXML
 	void changeLoginVisible(ActionEvent event) {
 		identificationSetVisibility(false);
 		loginSetVisibility(true);
-
 	}
 
 	/**
@@ -182,8 +179,8 @@ public class LoginController {
 //						IDError.setVisible(true);
 //					}
 					statusToOpen();
-
 				}
+				
 				if (!memberNumber.equals("")) {// if the user enter membership number
 					char[] chars = memberNumber.toCharArray();
 					for (char c : chars) {

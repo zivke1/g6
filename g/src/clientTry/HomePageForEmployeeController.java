@@ -135,8 +135,6 @@ public class HomePageForEmployeeController implements Initializable {
 		FXMLLoader loader = nextStages.goToNextStage(event);
 		CheckAvailabilityController check = loader.getController();
 		check.setDetails(fName, lName, role, userID, parkName);
-		tblExistingOrder.setVisible(false);
-		NoExistOrderMsg.setVisible(false);
 		check.setPreviousPage(event);
 		check.setMainPage(event);
 	}

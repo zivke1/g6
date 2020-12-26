@@ -844,12 +844,12 @@ public class mysqlConnection {
 		return toReturn;
 	}
 
-	public static ArrayList<String> countActiveOrders() {
+	public static ArrayList<String> countActiveOrders(String parkName) {
 		String countOrders = null;
 		ArrayList<String> toReturn = new ArrayList<String>();
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("Select COUNT(OrderID)\r\n From orders O\r\n Where O.OrderStatus = 'active';"); 																									
+			ResultSet rs = stmt.executeQuery("Select COUNT(OrderID) From orders O Where O.OrderStatus = 'active' AND O.ParkName =" + "'"+parkName+"'"); 																									
 			while (rs.next()) {
 				countOrders = rs.getString(1);
 			}

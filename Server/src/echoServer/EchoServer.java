@@ -230,7 +230,7 @@ public class EchoServer extends AbstractServer {
 			}
 			if(arr.contains("countActiveOrders")){
 				arr.remove("countActiveOrders");
-				arr = mysqlConnection.countActiveOrders();
+				arr = mysqlConnection.countActiveOrders(arr.get(0));
 				client.sendToClient(arr);
 				return;
 			}

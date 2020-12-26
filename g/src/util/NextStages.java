@@ -44,7 +44,7 @@ public class NextStages {
 			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
 			stage.setTitle(this.getStageTitle());
 			stage.setScene(scene);
-			stage.setOnCloseRequest(evt -> {
+			stage.setOnCloseRequest(evt -> {	// disconnect client if exit window
 				if (ClientMain.chat.checkConnection()) {
 					ArrayList<String> arr = new ArrayList<String>();
 					arr.add("closeAndSetIdNull");
