@@ -49,7 +49,7 @@ public class NextStages {
 					ArrayList<String> arr = new ArrayList<String>();
 					arr.add("closeAndSetIdNull");
 					arr.add(userID);
-					//add disconnect?? ziv
+					arr.add("disconnect");
 					ClientMain.chat.accept(arr);
 					ClientMain.chat.stopConnection();
 				}
