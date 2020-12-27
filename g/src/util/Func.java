@@ -23,12 +23,12 @@ public class Func {
 		String day=date.substring(0, 2),month=date.substring(3, 5),year=date.substring(6, 10),res=year+"-"+month+"-"+day;
 		return res;
 	}
-	
+
 	public static void main(String[] args) {
 		Date d=new Date();
-		Calendar c=Calendar.getInstance();
-		SimpleDateFormat dateOnly = new SimpleDateFormat("dd/MM/yyyy");
-		System.out.println(dateOnly.format(c.getTime()));
-		//System.out.println(fixDate(d));
+//		Calendar c=Calendar.getInstance();
+//		SimpleDateFormat dateOnly = new SimpleDateFormat("dd/MM/yyyy");
+//		System.out.println(dateOnly.format(c.getTime()));
+		System.out.println(fixDateString(unFixDate(fixDate(d))));
 	}
 }
