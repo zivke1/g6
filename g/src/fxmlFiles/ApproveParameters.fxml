@@ -44,22 +44,15 @@
    <center>
       <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="closeBtn" layoutX="757.0" layoutY="443.0" mnemonicParsing="false" onMouseClicked="#closeClicked" prefHeight="44.0" prefWidth="122.0" styleClass="mybutton1" stylesheets="@../clientTry/application.css" text="close" />
             <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@../clientTry/application.css" text="?" />
             <Label fx:id="errorMsg" layoutX="49.0" layoutY="46.0" textFill="RED">
                <font>
                   <Font name="System Bold Italic" size="18.0" />
                </font>
             </Label>
-            <TableView fx:id="table" layoutX="32.0" layoutY="110.0" prefHeight="279.0" prefWidth="698.0">
+            <TableView fx:id="table" layoutX="32.0" layoutY="110.0" prefHeight="279.0" prefWidth="841.0">
               <columns>
-                <TableColumn fx:id="parkName" prefWidth="105.0" text="Park name" />
-                <TableColumn fx:id="parameter" prefWidth="109.0" text="Parameter" />
-                  <TableColumn fx:id="newValue" prefWidth="103.0" text="New Value" />
-                  <TableColumn fx:id="fromDate" prefWidth="129.0" text="From" />
-                  <TableColumn fx:id="toDate" prefWidth="123.0" text="To" />
-                  <TableColumn fx:id="reject" prefWidth="57.0" text="Reject" />
-                  <TableColumn fx:id="approve" prefWidth="72.0" text="Approve" />
+                  <TableColumn fx:id="approve" minWidth="0.0" prefWidth="0.0" text="Approve" />
               </columns>
             </TableView>
          </children>

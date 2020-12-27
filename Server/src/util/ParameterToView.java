@@ -5,7 +5,6 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import clientTry.FakeMain;
 import javafx.scene.control.Button;
 
 /**
@@ -113,15 +112,11 @@ public class ParameterToView implements Serializable {
 			ArrayList<String> arr= new ArrayList<>();
 			arr.add("SetPara");
 			arr.add("y");
-			arr.add(parkName);
-			arr.add(parameter);
-			arr.add(newValue.toString());
-			arr.add(request.toString());
 			if(parameter.equals("discount")) {
 				arr.add(from.toString());
 				arr.add(to.toString());
 			}
-			FakeMain.chat.accept(arr);
+			//FakeMain.chat.accept(arr);
 			approveButton.setVisible(false);
 			rejectButton.setVisible(false);
 		});
@@ -137,7 +132,7 @@ public class ParameterToView implements Serializable {
 			arr.add(newValue.toString());
 			arr.add(request.toString());
 			
-			FakeMain.chat.accept(arr);
+			//FakeMain.chat.accept(arr);
 	
 			approveButton.setVisible(false);
 			rejectButton.setVisible(false);

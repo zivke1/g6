@@ -2,6 +2,7 @@ package echoServer;
 
 import util.OrderToChange;
 import util.OrderToView;
+import util.ParameterToView;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -30,6 +31,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import util.Role;
@@ -897,6 +899,33 @@ public class mysqlConnection {
 		return dataFromDB;
 	}
 
+	public static ArrayList<ParameterToView> paraToUpdateTable() {
+		ArrayList<ParameterToView> dataFromDB = new ArrayList<>();
+		ResultSet rs;
+		try {
+			Statement stmt = conn.createStatement();
+			rs = stmt.executeQuery("Select * From paraupdate ");
+			ParameterToView temp = new ParameterToView();
+			System.out.println(rs + "idan");
+			while (rs.next()) {
+				temp.setParkName(rs.getString("parkName"));
+				temp.setParameter(rs.getString("paraType"));
+				temp.setNewValue(rs.getInt("ParaVal"));
+				temp.setRequest(rs.getTimestamp("dateOfRequest"));
+				temp.setFrom(rs.getDate("FromDate"));
+				temp.setTo(rs.getDate("UntilDate"));
+				// temp.setApproveButton(new Button("Accept"));
+				// temp.setRejectButton(new Button("Deny"));
+				dataFromDB.add(temp);
+			}
+			System.out.println(temp);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dataFromDB;
+
+	}
+
 	/**
 	 * getting phone number, email, order ID for an order to the day after
 	 * 
@@ -1176,5 +1205,52 @@ public class mysqlConnection {
 		toReturn.add(orderNumber);
 		return toReturn;
 
+	}
+
+	public static void setPara(ArrayList<String> arr) {
+		try {
+			PreparedStatement update = conn
+					.prepareStatement("DELETE FROM paraupdate WHERE parkName = ?  and paraType = ? "
+							+ "and ParaVal = ? and dateOfRequest = ?");
+			update.setString(1, arr.get(1));
+			update.setString(2, arr.get(2));
+			update.setString(3, arr.get(3));
+			update.setString(4,arr.get(4) );
+			System.out.println(update.toString());
+			update.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		if (arr.contains("y")) {
+			if (arr.contains("discount")) {
+				try {
+					System.out.println("2");
+					PreparedStatement update = conn.prepareStatement(
+							"UPDATE extradiscount SET percentage=? AND startDate=?"
+							+ " AND endDate=? WHERE parkName=?");
+					update.setString(1, arr.get(3));
+					update.setString(2, arr.get(5));
+					update.setString(3,arr.get(6) );
+					update.setString(4, arr.get(1));
+					update.executeUpdate();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
+			} else {
+				try {
+					System.out.println(arr);
+					PreparedStatement update = conn.prepareStatement(
+							"UPDATE park SET "+arr.get(2)+"=? WHERE parkName=?");
+					update.setInt(1, Integer.parseInt(arr.get(3)));
+					update.setString(2, arr.get(1));
+					update.executeUpdate();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
+			}
+		}
 	}
 }

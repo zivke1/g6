@@ -26,6 +26,7 @@ import util.TypeOfOrder;
 import util.OrderToChange;
 
 import util.OrderToView;
+import util.ParameterToView;
 import util.SimulationDetails;
 
 /**
@@ -135,6 +136,14 @@ public class EchoServer extends AbstractServer {
 				client.sendToClient(arr);
 				return;
 			}
+			if(arr.contains("approveParaTable")) {
+				arr.remove("approveParaTable");
+				ArrayList<ParameterToView> answer;
+				answer = mysqlConnection.paraToUpdateTable();
+				client.sendToClient(answer);
+
+				return;
+			}
 
 			if (arr.contains("sendToDeparmentManager")) {
 				arr.remove("sendToDeparmentManager");
@@ -181,6 +190,7 @@ public class EchoServer extends AbstractServer {
 				client.sendToClient(returnArr);
 				return;
 			}
+			
 
 			if (arr.contains("checkIfIdConnectedWithId")) {
 				arr.remove("checkIfIdConnectedWithId");
@@ -254,6 +264,13 @@ public class EchoServer extends AbstractServer {
 			if (arr.contains("getFreePlace")) {
 				arr.remove("getFreePlace");
 //				arr = mysqlConnection.getFreePlace(arr);
+				client.sendToClient(arr);
+				return;
+			}
+			if(arr.contains("SetPara"))
+			{
+				arr.remove("SetPara");
+				mysqlConnection.setPara(arr);
 				client.sendToClient(arr);
 				return;
 			}

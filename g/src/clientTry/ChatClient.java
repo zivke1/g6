@@ -7,6 +7,7 @@ package clientTry;
 import ocsf.client.*;
 import util.HourAmount;
 import util.OrderToView;
+import util.ParameterToView;
 import clientTry.UserInformationController;
 
 import java.io.*;
@@ -37,6 +38,8 @@ public class ChatClient extends AbstractClient {
 	public static ArrayList<HourAmount> dataInArrayListHour = new ArrayList<HourAmount>();
 
 	public static ArrayList<OrderToView> dataInArrayListObject = new ArrayList<OrderToView>();
+	
+	public static ArrayList<ParameterToView> dataInArrayListParameter = new ArrayList<ParameterToView>();
 
 	public static boolean awaitResponse = false;
 	// Constructors ****************************************************
@@ -68,16 +71,29 @@ public class ChatClient extends AbstractClient {
 	{
 		String st;
 		awaitResponse = false;
-
+		try {
+			ArrayList<ParameterToView> dataFromDbCheck2 = (ArrayList<ParameterToView>) msg;
+			if (dataFromDbCheck2 != null)
+				if (dataFromDbCheck2.get(0) instanceof ParameterToView) {
+					dataInArrayListParameter = dataFromDbCheck2;
+					return;
+				}
+//			dataInArrayListParameter = (ArrayList<ParameterToView>) msg;
+//			
+//			dataInArrayListParameter.get(0).getParameter();
+//			return;
+		} catch (ClassCastException e) {
+		}
 		try {
 			dataInArrayListHour = (ArrayList<HourAmount>) msg;
+			dataInArrayListHour.get(0).getAmount();
 			return;
 		} catch (ClassCastException e) {
 		}
 
 		try {
 			ArrayList<OrderToView> dataFromDbCheck = (ArrayList<OrderToView>) msg;
-
+			dataFromDbCheck.get(0).getOrderID();
 			if (dataFromDbCheck != null)
 				if (dataFromDbCheck.get(0) instanceof OrderToView) {
 					dataInArrayListObject = dataFromDbCheck;
