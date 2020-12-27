@@ -1528,7 +1528,7 @@ public class mysqlConnection {
 		ArrayList<String> toReturn = new ArrayList<String>(); 
 		String orderNumber = getOrderNumber();
 		addToOrdersTable(arr, orderNumber, "waitingList");
-		
+		toReturn.add(orderNumber);
 		return toReturn;
 	}
 }

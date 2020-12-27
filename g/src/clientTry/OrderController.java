@@ -351,7 +351,8 @@ public class OrderController implements Initializable {
 			tempArrayList.add("Jorden Park");
 			setParkCombo(tempArrayList);
 			if (status.equals("member")) {
-				setNumberOfVistors(Integer.valueOf("membersAmount"));
+//				setNumberOfVistors(Integer.valueOf("membersAmount"));
+				setNumberOfVistors(15);
 			} else {
 				setNumberOfVistors(15);
 			}

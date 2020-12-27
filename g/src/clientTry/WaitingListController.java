@@ -76,11 +76,13 @@ public class WaitingListController implements Initializable {
     void enterWaitingListClicked(MouseEvent event) {
      	m_invite.add(0,"setInWaitingList");
     	ClientMain.chat.accept(m_invite);
+    	String orderNumber = ChatClient.dataInArrayList.get(0);
      	NextStages nextStages = new NextStages("/fxmlFiles/EnterWaitingListPageSuccessPage.fxml", "Waiting List");
     	FXMLLoader loader = nextStages.goToNextStage(event);
     	
     	EnterWaitingListPageSuccessController enterWaitingListPageSuccessController = loader.getController();
     	enterWaitingListPageSuccessController.setMainPage(m_eventMain);
+    	enterWaitingListPageSuccessController.setOrderNumber(orderNumber);
     }
 
     @FXML

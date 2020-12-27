@@ -46,6 +46,8 @@
                   <Font size="18.0" />
                </font>
             </Label>
+            <Label layoutX="14.0" layoutY="80.0" text="Your order number is:" />
+            <Label fx:id="orderNumberLabel" layoutX="167.0" layoutY="80.0" />
          </children>
       </AnchorPane>
    </right>
