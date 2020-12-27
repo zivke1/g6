@@ -51,7 +51,7 @@
                   <ToggleGroup fx:id="radio" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="enterAsEmployee" layoutX="524.0" layoutY="71.0" mnemonicParsing="false" onAction="#changeLoginVisible" text="Enter as employee" toggleGroup="$radio" />
+            <RadioButton fx:id="enterAsEmployee" layoutX="357.0" layoutY="71.0" mnemonicParsing="false" onAction="#changeLoginVisible" text="Enter as employee" toggleGroup="$radio" />
             <Label layoutX="108.0" layoutY="26.0" text="What Whould You Like To Do?">
                <font>
                   <Font name="System Bold" size="19.0" />
