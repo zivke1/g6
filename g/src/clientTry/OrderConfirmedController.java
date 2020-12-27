@@ -9,7 +9,11 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
+/**
+ * 
+ * @author zivke
+ *
+ */
 public class OrderConfirmedController {
 	MouseEvent m_eventMain;
 	

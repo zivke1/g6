@@ -6,6 +6,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.management.openmbean.OpenDataException;
 
@@ -35,6 +36,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 
+/**
+ * this controller manage invitation it get if the invite is occasional or not
+ * and open waiting list page if this date and time full if not it will send you
+ * to payment page
+ * 
+ *
+ */
 public class OrderController implements Initializable {
 
 	@FXML
@@ -86,13 +94,13 @@ public class OrderController implements Initializable {
 	String m_ownerUserID, m_status;
 	boolean m_occasional;
 	ArrayList<String> invite;
-	MouseEvent m_event,m_eventMain,m_previousPage;
+	MouseEvent m_event, m_eventMain, m_previousPage;
 	String m_backTo;
 
 	@FXML
 	void backClicked(MouseEvent event) {
-    	((Node) event.getSource()).getScene().getWindow().hide();
-    	((Stage)((Node) m_previousPage.getSource()).getScene().getWindow()).show();
+		((Node) event.getSource()).getScene().getWindow().hide();
+		((Stage) ((Node) m_previousPage.getSource()).getScene().getWindow()).show();
 	}
 
 	@FXML
@@ -162,11 +170,11 @@ public class OrderController implements Initializable {
 		loader.setLocation(getClass().getResource("../fxmlFiles/PaymentPage.fxml"));
 		borderPane = loader.load();
 		PaymentPageController paymentPageController = loader.getController();
-		paymentPageController.setDetails(m_fName, m_lName, m_role, m_userID , m_parkName);
+		paymentPageController.setDetails(m_fName, m_lName, m_role, m_userID, m_parkName);
 		invite.remove(0);
-	
-		paymentPageController.setOrderDetails(invite,ChatClient.dataInArrayList.get(0));
-		paymentPageController.setPreviousPage(m_event) ;
+
+		paymentPageController.setOrderDetails(invite, ChatClient.dataInArrayList.get(0));
+		paymentPageController.setPreviousPage(m_event);
 		paymentPageController.setMainPage(m_eventMain);
 		Scene scene = new Scene(borderPane);
 		primaryStage.setTitle("Home Page");
@@ -195,12 +203,13 @@ public class OrderController implements Initializable {
 
 		loader.setLocation(getClass().getResource("../fxmlFiles/WaitingList.fxml"));
 		borderPane = loader.load();
-		
+
 		WaitingListController waitingListController = loader.getController();
-		waitingListController.setDetails(m_fName, m_lName, m_role, m_userID , m_parkName);
+		waitingListController.setDetails(m_fName, m_lName, m_role, m_userID, m_parkName);
 		waitingListController.setMainPage(m_eventMain);
 		waitingListController.setPreviousPage(m_event);
-		waitingListController.setOrderDetails(invite,ChatClient.dataInArrayList.get(0));
+		invite.remove(0);
+		waitingListController.setOrderDetails(invite, ChatClient.dataInArrayList.get(0));
 		Scene scene = new Scene(borderPane);
 		primaryStage.setTitle("Waiting List");
 		primaryStage.setScene(scene);
@@ -236,6 +245,11 @@ public class OrderController implements Initializable {
 	ObservableList<String> list;
 
 	// creating list of number of visitors
+	/**
+	 * set in the combo box the number of people the user can invite for them
+	 * 
+	 * @param num
+	 */
 	private void setNumberOfVistors(int num) {
 		ArrayList<String> al = new ArrayList<String>();
 		for (int i = 1; i <= num; i++) {
@@ -247,6 +261,13 @@ public class OrderController implements Initializable {
 	}
 
 	// we need to call this function when we know the park the costumer chose
+	/**
+	 * set the time the user can invite if the invite is occasional the employee can
+	 * set only now
+	 * 
+	 * @param fromTime
+	 * @param toTime
+	 */
 	private void setHourCombo(Time fromTime, Time toTime) {
 		ArrayList<String> al = new ArrayList<String>();
 		if (fromTime != null) {
@@ -299,6 +320,17 @@ public class OrderController implements Initializable {
 
 	}
 
+	/**
+	 * this controller need to know witch privious page open it and if it is
+	 * occasional visit i will give the employee to enter number of visitors that is
+	 * valid
+	 * 
+	 * @param ownerUserID
+	 * @param status
+	 * @param occasional
+	 * @param membersAmount
+	 * @param backTo
+	 */
 	public void setDetailsOfOwner(String ownerUserID, String status, boolean occasional, String membersAmount,
 			String backTo) {// in status i want to know if
 		ArrayList<String> tempArrayList = new ArrayList<String>(); // the user owner is a
@@ -311,14 +343,19 @@ public class OrderController implements Initializable {
 			tempArrayList.add(m_parkName);
 			setParkCombo(tempArrayList);
 			setHourCombo(null, null);
-		//setNumberOfVistors("free place");
+//			 setNumberOfVistors("free place");//for occasional visit i need to set the number of visitors to the one i get from the previous page
 		} else {
 			setHourCombo(new Time(8, 0, 0), new Time(16, 29, 0));
 			tempArrayList.add("Carmel Park");
 			tempArrayList.add("Tal Park");
 			tempArrayList.add("Jorden Park");
 			setParkCombo(tempArrayList);
-			setNumberOfVistors(15);
+			if (status.equals("member")) {
+//				setNumberOfVistors(Integer.valueOf("membersAmount"));
+				setNumberOfVistors(15);
+			} else {
+				setNumberOfVistors(15);
+			}
 		}
 		if (m_status.equals("guide")) {
 			guideWelcomeText.setVisible(true);
@@ -328,14 +365,14 @@ public class OrderController implements Initializable {
 		}
 
 	}
+
 	public void setMainPage(MouseEvent event) {
-		m_eventMain=event;
+		m_eventMain = event;
 	}
-	
+
 	public void setPreviousPage(MouseEvent event) {
 		// TODO Auto-generated method stub
 		m_previousPage = event;
 	}
-    
 
 }

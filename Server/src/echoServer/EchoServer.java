@@ -20,10 +20,14 @@ import javafx.stage.Stage;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
+
 import util.HourAmount;
 import util.TypeOfOrder;
 
 import util.OrderToChange;
+
+
+import util.FreePlaceInPark;
 
 import util.OrderToView;
 import util.ParameterToView;
@@ -42,7 +46,6 @@ public class EchoServer extends AbstractServer {
 	 * The default port to listen on.
 	 */
 	final public static int DEFAULT_PORT = 5555;
-
 	// Constructors ****************************************************
 
 	/**
@@ -53,12 +56,18 @@ public class EchoServer extends AbstractServer {
 	public EchoServer(int port) {
 		super(port);
 		mysqlConnection.connectDB();
+		mysqlConnection.SetServer(this);
 	}
 
 	public EchoServer(int port, ServerControl control) {
 		super(port);
 		mysqlConnection.connectDB();
 		m_ServerControl = control;
+		mysqlConnection.SetServer(this);
+	}
+
+	public EchoServer instance() {
+		return this;
 	}
 
 	protected void clientConnected(ConnectionToClient client) {
@@ -94,16 +103,29 @@ public class EchoServer extends AbstractServer {
 
 			ArrayList<String> dataFromDb;
 			ArrayList<String> arr = (ArrayList<String>) msg;
-
-			if (arr.contains("VisitorAmountReport")) {
-				dataFromDb = mysqlConnection.visitorAmountReport(arr);
-				this.sendToAllClients(dataFromDb);
+			
+			if(arr.contains("UsageReports"))
+			{
+				dataFromDb=mysqlConnection.UsageReports(arr);
+				client.sendToClient(dataFromDb);
+				return;
+			}
+			if(arr.contains("incomeReport"))
+			{
+				dataFromDb=mysqlConnection.incomeReport(arr);
+				client.sendToClient(dataFromDb);
+				return;
+			}
+			if(arr.contains("VisitorAmountReport"))
+			{
+				dataFromDb=mysqlConnection.visitorAmountReport(arr);
+				client.sendToClient(dataFromDb);
 				return;
 			}
 			if (arr.contains("FetchParkDetails")) {
 				arr.remove("FetchParkDetails");
 				dataFromDb = mysqlConnection.FetchParkDetails(arr);
-				this.sendToAllClients(dataFromDb);
+				client.sendToClient(dataFromDb);
 				return;
 			}
 			if (arr.contains("updateTable")) {
@@ -263,10 +285,17 @@ public class EchoServer extends AbstractServer {
 			}
 			if (arr.contains("getFreePlace")) {
 				arr.remove("getFreePlace");
-//				arr = mysqlConnection.getFreePlace(arr);
+				ArrayList<FreePlaceInPark> ar = mysqlConnection.getFreePlace(arr);
+				client.sendToClient(ar);
+				return;
+			}
+			if (arr.contains("setInWaitingList")) {
+				arr.remove("setInWaitingList");
+				arr = mysqlConnection.setInWaitingList(arr);
 				client.sendToClient(arr);
 				return;
 			}
+
 			if(arr.contains("SetPara"))
 			{
 				arr.remove("SetPara");
@@ -274,6 +303,8 @@ public class EchoServer extends AbstractServer {
 				client.sendToClient(arr);
 				return;
 			}
+			
+
 
 		} catch (Exception e) {
 
@@ -420,28 +451,29 @@ public class EchoServer extends AbstractServer {
 
 		@Override
 		public void run() {
-			while (true) {
-				ArrayList<OrderToChange> arr;
-				arr = mysqlConnection.checkCancelledOrder();
-				if (arr != null && arr.size() > 0) {
-					arr = mysqlConnection.checkWaitingList(arr);
-					if (arr.size() > 0) {
-						for (OrderToChange order : arr) {
-							Platform.runLater(new EchoServer.HoursCheck(order.getPhoneNum(), order.getEmail(),
-									order.getOrderID(), "Your Requested Visit Time Is Now Available"));
-							Thread t = new Thread(new EchoServer.CheckWaiting(order, null, 1000 * 60 * 60));
-							if (!mysqlConnection.checkWaiting(order.getOrderID(), "waitingToApprove")) {
-								mysqlConnection.setOrderExpired(order.getOrderID());
-							}
+
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			ArrayList<OrderToChange> arr;
+			arr = mysqlConnection.checkCancelledOrder();
+			if (arr != null && arr.size() > 0) {
+				arr = mysqlConnection.checkWaitingList(arr);
+				if (arr.size() > 0) {
+					for (OrderToChange order : arr) {
+						Platform.runLater(new EchoServer.HoursCheck(order.getPhoneNum(), order.getEmail(),
+								order.getOrderID(), "Your Requested Visit Time Is Now Available"));
+						Thread t = new Thread(new EchoServer.CheckWaiting(order, null, 1000 * 60 * 60));
+						if (!mysqlConnection.checkWaiting(order.getOrderID(), "waitingToApprove")) {
+							mysqlConnection.setOrderExpired(order.getOrderID());
 						}
 					}
 				}
-				try {
-					Thread.sleep(1000 * 60 * 60);// sleep 1 hour
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
 			}
+
 		}
 
 	}
@@ -459,7 +491,7 @@ public class EchoServer extends AbstractServer {
 				mysqlConnection.checkOrdersStatus();
 
 				try {
-					Thread.sleep(1000 * 60 * 60 * 24);// sleep 1 day
+					Thread.sleep(1000 * 60 * 60 );// sleep 1 hour
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

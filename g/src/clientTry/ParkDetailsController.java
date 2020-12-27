@@ -98,7 +98,7 @@ public class ParkDetailsController {
 		this.userID = userID;
 		this.role = role;
 		parkNameS=parkNameToFetch;
-		if (!role.equals("Department Manager")) {
+		if (!(role.equals("Department Manager") || role.equals("Park Manager"))) {//if the asker isn't manager enter
 			parkName.setText(parkNameToFetch);
 			ArrayList<String> arr = new ArrayList<String>();
 			arr.add("FetchParkDetails");
@@ -166,10 +166,7 @@ public class ParkDetailsController {
 
 	@FXML
 	void helpBtnPressed(MouseEvent event) {
-		if(i==true)
-			setDetails("","", "", "", "Tal Park");
-		else
-			setDetails("","Tal Park", "Department Manager", "", "");
+	
 	}
 
 	@FXML
@@ -185,7 +182,7 @@ public class ParkDetailsController {
 
 	@FXML
 	public void initialize() {// initializing the combo box
-		comboPark.setValue("Choose");
+		comboPark.setValue("Tal Park");
 		comboPark.setItems(ParksName);
 	}
 
