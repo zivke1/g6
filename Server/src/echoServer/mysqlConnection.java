@@ -1283,7 +1283,7 @@ public class mysqlConnection {
 		ArrayList<String> toReturn = new ArrayList<String>();
 		String orderNumber = getOrderNumber();
 		if (arr.contains("Occasional")) {
-			addToOrdersTable(arr, orderNumber, "active");
+			addToOrdersTable(arr, orderNumber, "waitingToVisit");
 		} else {
 			addToOrdersTable(arr, orderNumber, "waitingToApprove");
 		}
