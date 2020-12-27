@@ -1,12 +1,11 @@
 package clientTry;
 
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
-
+import javafx.scene.control.ComboBox;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,118 +17,149 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import util.NextStages;
 import util.Role;
-
+import util.ParksNames;
+/**
+ * Check free space in parks
+ * Allows park Employee to make a new order if there is free space 
+ * @author shani
+ *
+ */
 public class CheckAvailabilityController {
 
-    @FXML
-    private ImageView imgContactUs;
+	@FXML
+	private Button checkBtn;
 
-    @FXML
-    private Button backBtn;
+	@FXML
+	private ImageView imgContactUs;
 
-    @FXML
-    private Button helpBtn;
+	@FXML
+	private Button backBtn;
 
-    @FXML
-    private Text parkNameText;
+	@FXML
+	private Button helpBtn;
 
-    @FXML
-    private Text FreeSpaceLeft;
+	@FXML
+	private Text parkNameText;
 
-    @FXML
-    private Button btnNewOrderFotCustomer;
+	@FXML
+	private Text FreeSpaceLeft;
 
-    @FXML
-    private AnchorPane anchorMakeOrder;
+	@FXML
+	private Button btnNewOrderFotCustomer;
 
-    @FXML
-    private TextField IDtxt;
+	@FXML
+	private AnchorPane anchorMakeOrder;
 
-    @FXML
-    private Button btnMakeOrder;
+	@FXML
+	private TextField IDtxt;
 
-    @FXML
-    private Label IDErrMsg;
-    
+	@FXML
+	private ComboBox<String> parksNamesCombo;
+
+	@FXML
+	private Button btnMakeOrder;
+
+	@FXML
+	private Label IDErrMsg;
+
 	private String fName, lName, role, userID, parkName;
 	private int amountOfPeople;
 	MouseEvent m_event, m_eventMain, m_previousPage;
 	private String ownerUserID = null, ownerRole = null;
-	private boolean occasional = true;	// order made by park employee is for occasional visitor
+	private boolean occasional = true; // order made by park employee is for occasional visitor
 	private int openSpace = 0;
-	
-    @FXML // i only check if order active - not the time and date
-    void MoveToNewOrder(MouseEvent event) {
-    	String enteredID = IDtxt.getText();  // if id wasn't entered - present error message
-    	if(enteredID.equals("")) {
-    		IDErrMsg.setVisible(true);
-    	}
-    	//search id in DB - return and his role and amount of people if member
-    	ArrayList<String> arr = new ArrayList<>();
-    	arr.add("checkMemberIDInMembers");  // check if ID is member ID
-    	arr.add(enteredID);		//can be memberID or regular ID
+	private int amountInoccasional = 0;
+
+	@FXML // i only check if order active - not the time and date
+	void MoveToNewOrder(MouseEvent event) {
+		IDErrMsg.setVisible(false);
+		String enteredID = IDtxt.getText(); // if id wasn't entered - present error message
+
+		if (enteredID.equals("")) {
+			IDErrMsg.setVisible(true);
+			return;
+		}
+		// if the user enter incorrect id number
+		char[] chars = enteredID.toCharArray();
+		for (char c : chars) {
+			if (!Character.isDigit(c)) {
+				IDErrMsg.setVisible(true);
+				return;
+			}
+		}
+
+		// search id in DB - return and his role and amount of people if member
+		ArrayList<String> arr = new ArrayList<>();
+		arr.add("checkMemberIDInMembers"); // check if ID is member ID
+		arr.add(enteredID); // can be memberID or regular ID
 		ClientMain.chat.accept(arr);
 		ArrayList<String> temp = ChatClient.dataInArrayList;
-		if(temp.contains("notMember")) {	// ID is not memberID
+		if (temp.contains("notMember")) { // ID is not memberID
 			arr.clear();
-			arr.add("checkIdInMember");   // check if userID in member
+			arr.add("checkIdInMember"); // check if userID in member
 			arr.add(enteredID);
 			ClientMain.chat.accept(arr);
 			ArrayList<String> temp2 = ChatClient.dataInArrayList;
-			if(temp2.contains("user")) {     // not a member
+			if (temp2.contains("user")) { // not a member
 				// user
 				ownerUserID = enteredID;
 				ownerRole = Role.User.toString();
-				amountOfPeople = 0 ; /////??? amount people for user
-			}
-			else {
+				amountOfPeople = 15; ///// ??? amount people for user
+			} else {
 				// is member and ID is regular ID
 				ownerUserID = enteredID;
-				ownerRole = temp2.get(3); 
+				ownerRole = temp2.get(3);
 				amountOfPeople = Integer.parseInt(temp2.get(4));
 			}
-		}
-		else {
+		} else {
 			ownerUserID = temp.get(0);
 			ownerRole = temp.get(3);
 			amountOfPeople = Integer.parseInt(temp.get(4));
 		}
 
-    	// open new order page
-    	NextStages nextStages = new NextStages("/fxmlFiles/OrderNew.fxml", "New Order By Employee", userID);
+		amountInoccasional = Math.min(amountOfPeople, openSpace);
+		// open new order page
+		NextStages nextStages = new NextStages("/fxmlFiles/OrderNew.fxml", "New Order By Employee", userID);
 		FXMLLoader loader = nextStages.goToNextStage(event);
 		OrderController orderControl = loader.getController();
 		orderControl.setDetails(fName, lName, role, userID, parkName);
-		orderControl.setDetailsOfOwner(ownerUserID, ownerRole, occasional, amountOfPeople);	//order owner
-		IDErrMsg.setVisible(false);
-    	anchorMakeOrder.setVisible(false);
+		orderControl.setDetailsOfOwner(ownerUserID, ownerRole, occasional, amountOfPeople, amountInoccasional); // order
+																												// owner
+		anchorMakeOrder.setVisible(false);
 		orderControl.setPreviousPage(m_previousPage);
 		orderControl.setMainPage(m_eventMain);
-    }
 
-    @FXML
-    void backClicked(MouseEvent event) {
-    	((Node) event.getSource()).getScene().getWindow().hide();
-    	((Stage)((Node) m_previousPage.getSource()).getScene().getWindow()).show();
-    }
+	}
 
-    @FXML
-    void goToContactUsPopUp(MouseEvent event) {
+	@FXML
+	void backClicked(MouseEvent event) {
+		((Node) event.getSource()).getScene().getWindow().hide();
+		((Stage) ((Node) m_previousPage.getSource()).getScene().getWindow()).show();
+	}
+
+	@FXML
+	void goToContactUsPopUp(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "Contact Us", userID);
 		FXMLLoader loader = nextStages.openPopUp();
 		loader.getController();
-    }
+	}
 
-    @FXML
-    void helpBtnPressed(MouseEvent event) {
+	@FXML
+	void checkFreeSpaceDepManager(MouseEvent event) {
+		this.parkName = parksNamesCombo.getValue().toString();
+		FreeSpaceLeft.setText(checkAvailability());
+	}
 
-    }
-    
-    // return capacity - amount of orders form DB where status is active
-    public String checkAvailability() {
-    	ArrayList<String> arr = new ArrayList<>();
-    	arr.add("countActiveOrders");
-    	arr.add(parkName);
+	@FXML
+	void helpBtnPressed(MouseEvent event) {
+
+	}
+
+	// return capacity - amount of orders form DB where status is active
+	public String checkAvailability() {
+		ArrayList<String> arr = new ArrayList<>();
+		arr.add("countActiveOrders");
+		arr.add(parkName);
 		ClientMain.chat.accept(arr);
 		String ordersAmount = ChatClient.dataInArrayList.get(0);
 		arr.clear();
@@ -139,31 +169,50 @@ public class CheckAvailabilityController {
 		Integer capacity = ChatClient.dataInArrayListInteger.get(0);
 		int ordAmount = Integer.parseInt(ordersAmount);
 		openSpace = capacity - ordAmount;
-    	// if current capacity greater than 0 allow employee to make new order for customer
-		if(openSpace > 0)
+		// if current capacity greater than 0 allow employee to make new order for
+		// customer
+		if (openSpace > 0 && role.equals(Role.ParkEmployee.toString()))
 			anchorMakeOrder.setVisible(true);
 
-    	return openSpace + "";
-    }
-    
-    //logged in user
-    public void setDetails(String fName, String lName, String role, String userID, String parkName){
+		return openSpace + "";
+	}
+
+	// logged in user
+	public void setDetails(String fName, String lName, String role, String userID, String parkName) {
 		this.fName = fName;
 		this.lName = lName;
 		this.userID = userID;
 		this.role = role;
 		this.parkName = parkName;
-		parkNameText.setText(parkName);
-		FreeSpaceLeft.setText(checkAvailability());
-    }
+
+		if (role.equals(Role.DepartmentManager.toString())) {
+			parksNamesCombo.setVisible(true);
+			setComboParkName();
+			checkBtn.setVisible(true);
+		} else {
+			parkNameText.setText(parkName);
+			parkNameText.setVisible(true);
+			FreeSpaceLeft.setVisible(true);
+			FreeSpaceLeft.setText(checkAvailability());
+		}
+	}
 
 	public void setMainPage(MouseEvent event) {
-		m_eventMain=event;
+		m_eventMain = event;
 	}
-	
+
 	public void setPreviousPage(MouseEvent event) {
 		m_previousPage = event;
 	}
 
-
+	private void setComboParkName() {
+		ArrayList<String> al = new ArrayList<String>();
+		for (ParksNames name : ParksNames.values()) {
+			al.add(name.toString());
+		}
+		ObservableList<String> list;
+		list = FXCollections.observableArrayList(al);
+		parksNamesCombo.setItems(list);
+		parksNamesCombo.setValue(ParksNames.Tal_Park.toString());
+	}
 }

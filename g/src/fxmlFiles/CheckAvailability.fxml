@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -43,13 +44,15 @@
    <right>
       <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
          <children>
+            <Button fx:id="checkBtn" layoutX="455.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#checkFreeSpaceDepManager" prefHeight="34.0" prefWidth="80.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Check" visible="false" />
+            <ComboBox fx:id="parksNamesCombo" layoutX="198.0" layoutY="21.0" prefHeight="31.0" prefWidth="175.0" visible="false" />
             <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
             <Text layoutX="58.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Park name:">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fx:id="parkNameText" layoutX="162.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="333.0">
+            <Text fx:id="parkNameText" layoutX="162.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" wrappingWidth="333.0">
                <font>
                   <Font size="18.0" />
                </font>
@@ -73,14 +76,14 @@
                   </Label>
                   <TextField fx:id="IDtxt" layoutX="137.0" layoutY="109.0" />
                   <Button fx:id="btnMakeOrder" layoutX="408.0" layoutY="177.0" mnemonicParsing="false" onMouseClicked="#MoveToNewOrder" prefHeight="44.0" prefWidth="122.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Let's Order" />
-                  <Label fx:id="IDErrMsg" layoutX="30.0" layoutY="186.0" text="You must enter ID to make a new order!" textFill="#ee0a0a" visible="false">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Label>
                   <Label layoutX="30.0" layoutY="23.0" text="There is free space in the park!  you can make a new order">
                      <font>
                         <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="IDErrMsg" layoutX="71.0" layoutY="186.0" text="Incorrect ID !" textFill="#ee0a0a" visible="false">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
                </children>

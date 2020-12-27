@@ -195,7 +195,7 @@ public class HomePageForEmployeeController implements Initializable {
 		FXMLLoader loader = nextStages.goToNextStage(event);
 		OrderController orderControl = loader.getController();
 		orderControl.setDetails(fName, lName, role, userID, parkName);
-		orderControl.setDetailsOfOwner(userID, role, false, amountOfPeople);
+		orderControl.setDetailsOfOwner(userID, role, false, amountOfPeople, 0);
 		tblExistingOrder.setVisible(false);
 		NoExistOrderMsg.setVisible(false);
 		orderControl.setPreviousPage(event);

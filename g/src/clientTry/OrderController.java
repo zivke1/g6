@@ -3,6 +3,7 @@ package clientTry;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -22,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
@@ -30,6 +32,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import util.NextStages;
 import util.Role;
 import javafx.scene.input.MouseEvent;
@@ -267,6 +270,7 @@ public class OrderController implements Initializable {
 			al.add(String.valueOf(time));
 			list = FXCollections.observableArrayList(al);
 			hourCombo.setItems(list);
+			hourCombo.setValue(time);
 		}
 	}
 
@@ -299,8 +303,8 @@ public class OrderController implements Initializable {
 		m_userID = userID;
 		m_parkName = parkName;
 	}
-
-	public void setDetailsOfOwner(String ownerUserID, String status, boolean occasional, int membersAmount) {// in status i want to know if
+// amountInoccasional - free space in park in case of occasional visit
+	public void setDetailsOfOwner(String ownerUserID, String status, boolean occasional, int membersAmount, int amountInoccasional) {// in status i want to know if
 		ArrayList<String> tempArrayList = new ArrayList<String>(); // the user owner is a
 		// member user or guide
 		m_ownerUserID = ownerUserID;
@@ -310,8 +314,24 @@ public class OrderController implements Initializable {
 		if (m_occasional) {
 			tempArrayList.add(m_parkName);
 			setParkCombo(tempArrayList);
+			pickDatePicker.setValue(LocalDate.now());
 			setHourCombo(null, null);
-		//setNumberOfVistors("free place");
+			setNumberOfVistors(amountInoccasional);
+			pickDatePicker.setValue(LocalDate.now());
+			pickDatePicker.setDayCellFactory(new Callback<DatePicker, DateCell>() {
+
+				@Override
+				public DateCell call(DatePicker param) {
+					return new DateCell() {
+						@Override
+						public void updateItem(LocalDate item, boolean empty) {
+							super.updateItem(item, empty);
+							LocalDate today = LocalDate.now();
+							setDisable(item.compareTo(today) != 0);
+						}
+					};
+				}
+			});
 		} else {
 			setHourCombo(new Time(8, 0, 0), new Time(16, 29, 0));
 			tempArrayList.add("Carmel Park");
@@ -319,6 +339,21 @@ public class OrderController implements Initializable {
 			tempArrayList.add("Jorden Park");
 			setParkCombo(tempArrayList);
 			setNumberOfVistors(15);
+			pickDatePicker.setDayCellFactory(new Callback<DatePicker, DateCell>() {
+
+				@Override
+				public DateCell call(DatePicker param) {
+					return new DateCell() {
+						@Override
+						public void updateItem(LocalDate item, boolean empty) {
+							super.updateItem(item, empty);
+							LocalDate today = LocalDate.now();
+							LocalDate tommorow = today.minusDays(-1);
+							setDisable(item.compareTo(tommorow) < 0);
+						}
+					};
+				}
+			});
 		}
 		if (m_status.equals("guide")) {
 			guideWelcomeText.setVisible(true);
