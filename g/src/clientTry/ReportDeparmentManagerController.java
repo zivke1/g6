@@ -116,7 +116,22 @@ public class ReportDeparmentManagerController {
     	}
     	if(visitBTN.isSelected()) {
     		((Node) event.getSource()).getScene().getWindow().hide();
-    		//show cancel report
+    		Stage stage = new Stage();
+    		FXMLLoader loader = new FXMLLoader();
+    		Parent root;
+    		try {
+    			root = loader.load(getClass().getResource("/fxmlFiles/VisitorReportDeparmentManager.fxml").openStream());
+    			CancelReportController controller=loader.getController();
+    			controller.setDetails(fNameH, lNameH, roleH, userIDH, parkNameH);
+    			Scene scene = new Scene(root);
+    			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
+    			stage.setTitle("Visitor Report"); 
+    			stage.setScene(scene);
+    			stage.show();
+    		} catch (IOException e1) {
+    			e1.printStackTrace();
+    		}
+    		
     	}
     	if(!visitBTN.isSelected()&& !cancelBTN.isSelected())
     		errorMsg.setText("you must chose report first \n");

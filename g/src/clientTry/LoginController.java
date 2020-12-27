@@ -25,7 +25,11 @@ import util.Role;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.image.ImageView;
-
+/**
+ * this controller is for log in you can enter to the system via id
+ *  member number or if you an employee you can enter by employee number and password
+ *
+ */
 public class LoginController {
 
 	@FXML

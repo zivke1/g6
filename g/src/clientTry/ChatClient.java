@@ -5,7 +5,11 @@
 package clientTry;
 
 import ocsf.client.*;
+import util.HourAmount;
+import util.FreePlaceInPark;
+
 import util.OrderToView;
+import util.ParameterToView;
 import clientTry.UserInformationController;
 
 import java.io.*;
@@ -32,8 +36,18 @@ public class ChatClient extends AbstractClient {
 	 */
 	ChatIF clientUI;
 	public static ArrayList<Integer> dataInArrayListInteger = new ArrayList<>();
+	
 	public static ArrayList<String> dataInArrayList = new ArrayList<String>();
+
+	public static ArrayList<HourAmount> dataInArrayListHour = new ArrayList<HourAmount>();
+
 	public static ArrayList<OrderToView> dataInArrayListObject = new ArrayList<OrderToView>();
+	
+	public static ArrayList<ParameterToView> dataInArrayListParameter = new ArrayList<ParameterToView>();
+
+	public static ArrayList<FreePlaceInPark> dataInArrayListFreePlaceInParks;
+
+
 	public static boolean awaitResponse = false;
 	// Constructors ****************************************************
 
@@ -87,6 +101,40 @@ public class ChatClient extends AbstractClient {
 
 		} catch (ClassCastException e) {
 		}
+		try {
+			ArrayList<ParameterToView> dataFromDbCheck2 = (ArrayList<ParameterToView>) msg;
+			if (dataFromDbCheck2 != null)
+				if (dataFromDbCheck2.get(0) instanceof ParameterToView) {
+					dataInArrayListParameter = dataFromDbCheck2;
+					return;
+				}
+//			dataInArrayListParameter = (ArrayList<ParameterToView>) msg;
+//			
+//			dataInArrayListParameter.get(0).getParameter();
+//			return;
+		} catch (ClassCastException e) {}
+		
+		try {
+			ArrayList<HourAmount> dataFromDbCheck = (ArrayList<HourAmount>) msg;
+			if (dataFromDbCheck != null)
+				if (dataFromDbCheck.get(0) instanceof HourAmount) {
+					dataInArrayListHour = dataFromDbCheck;
+			        return;
+				}
+		} catch (ClassCastException e) {
+		}
+
+
+		try {
+			ArrayList<FreePlaceInPark> dataFromDbCheck = (ArrayList<FreePlaceInPark>) msg;
+			if (dataFromDbCheck != null) {
+				if (dataFromDbCheck.get(0) instanceof FreePlaceInPark) {
+					dataInArrayListFreePlaceInParks = (ArrayList<FreePlaceInPark>) msg;
+				}
+			}
+		} catch (ClassCastException e) {
+		}
+
 
 		ArrayList<String> dataFromDb = (ArrayList<String>) msg;
 
@@ -114,6 +162,7 @@ public class ChatClient extends AbstractClient {
 		}
 		if (dataFromDb.contains("sendToDeparmentManager"))
 			dataFromDb.remove("sendToDeparmentManager");
+		
 		dataInArrayList = dataFromDb;
 	}
 

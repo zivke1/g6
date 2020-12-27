@@ -160,9 +160,9 @@ public class HomePageForEmployeeController implements Initializable {
 	void goToGenerateReportParkManager(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ReportParkManager.fxml", "Generate Reports", userID);
 		FXMLLoader loader = nextStages.goToNextStage(event);
-		ReportParkManagerController repControl = loader.getController();
-		repControl.setDetails(fName, lName, role, userID, parkName);
-		//repControl.setPreviousPage(event);
+		 ReportParkManagerController repControl = loader.getController();
+		 repControl.setDetails(fName, lName, role, userID, parkName);
+		 repControl.setPreviousPage(event);
 		//repControl.setMainPage(event);
 	}
 
@@ -299,7 +299,6 @@ public class HomePageForEmployeeController implements Initializable {
 		parkDetailsControl.setDetails(fName, lName, role, userID, parkName);
 		//parkDetailsControl.setPreviousPage(event);
 		//parkDetailsControl.setMainPage(event);
-
 	}
 
 	// prepare form - preset all as invisible
