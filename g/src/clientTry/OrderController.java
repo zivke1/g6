@@ -328,7 +328,7 @@ public class OrderController implements Initializable {
 	}
 
 	/**
-	 * this controller need to know witch privious page open it and if it is
+	 * this controller need to know witch previous page open it and if it is
 	 * occasional visit i will give the employee to enter number of visitors that is
 	 * valid
 	 * 
@@ -373,7 +373,7 @@ public class OrderController implements Initializable {
 //			 setNumberOfVistors("free place");//for occasional visit i need to set the number of visitors to the one i get from the previous page
 
 		} else {
-			setHourCombo(new Time(8, 0, 0), new Time(16, 29, 0));
+			setHourCombo(new Time(8, 0, 0), new Time(16, 29, 0));//the time costumer can enter to the park
 			tempArrayList.add("Carmel Park");
 			tempArrayList.add("Tal Park");
 			tempArrayList.add("Jordan Park");
