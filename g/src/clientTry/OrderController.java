@@ -349,6 +349,7 @@ public class OrderController implements Initializable {
 		if (m_occasional) {
 			tempArrayList.add(m_parkName);
 			setParkCombo(tempArrayList);
+			parkNameCombo.setValue(m_parkName);
 			pickDatePicker.setValue(LocalDate.now());
 			setHourCombo(null, null);
 
