@@ -137,7 +137,9 @@ public class OrderController implements Initializable {
 		} catch (Exception e) {
 			Platform.runLater(() -> {
 				notAllfieldFilledLabel.setVisible(true);
+				
 			});
+			return;
 		}
 
 		if (invite.contains("")) {

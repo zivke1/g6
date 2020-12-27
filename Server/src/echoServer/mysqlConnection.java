@@ -1298,7 +1298,7 @@ public class mysqlConnection {
 	public static ArrayList<String> setInvite(ArrayList<String> arr) throws SQLException {
 		ArrayList<String> toReturn = new ArrayList<String>();
 		String orderNumber = getOrderNumber();
-		if (arr.contains("Occasional")) {
+		if (arr.contains("occasional")) {
 			addToOrdersTable(arr, orderNumber, "waitingToVisit");
 		} else {
 			addToOrdersTable(arr, orderNumber, "waitingToApprove");
