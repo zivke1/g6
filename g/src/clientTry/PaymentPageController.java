@@ -84,6 +84,7 @@ public class PaymentPageController {
 		borderPane = loader.load();
 		OrderConfirmedController orderConfirmedController = loader.getController();
 		orderConfirmedController.setMainPage(m_eventMain);
+		orderConfirmedController.setOrderNumber(m_orderNumber);
 		Scene scene = new Scene(borderPane);
 		primaryStage.setTitle("Order Confirmed");
 		primaryStage.setScene(scene);

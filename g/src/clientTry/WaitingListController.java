@@ -21,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import util.FreePlaceInPark;
+import util.Func;
 import util.NextStages;
 import util.OrderToView;
 
@@ -124,9 +125,15 @@ public class WaitingListController implements Initializable {
 	private void setTableOfFreePlace(ArrayList<FreePlaceInPark> timeToTableArrayList) {
 		// TODO Auto-generated method stub
 		ObservableList<FreePlaceInPark> timeToTable  = FXCollections.observableArrayList();
-		for( int i = 0; i < timeToTableArrayList.size(); i++) {
-			if(timeToTableArrayList.get(i) != null)
-				timeToTable.add(timeToTableArrayList.get(i));
+	
+		ArrayList<FreePlaceInPark> toTable= new ArrayList<FreePlaceInPark>();
+		for(FreePlaceInPark temp: timeToTableArrayList) {
+			toTable.add(new FreePlaceInPark(temp.getTime(), Func.fixDateString(temp.getDate())));
+		}
+	
+		for( int i = 0; i < toTable.size(); i++) {
+			if(toTable.get(i) != null)
+				timeToTable.add(toTable.get(i));
 		}
 		freePlaceTable.setItems(timeToTable);
 		freePlaceTable.setRowFactory(tv -> {
@@ -141,7 +148,7 @@ public class WaitingListController implements Initializable {
 					paymentPageController.setPreviousPage(evento) ;
 					paymentPageController.setMainPage(m_eventMain);
 					m_invite.set(2, rowData.getTime());
-					m_invite.set(3, rowData.getDate());
+					m_invite.set(3, Func.unFixDate(rowData.getDate()));
 					
 					paymentPageController.setOrderDetails(m_invite,"");
 				}

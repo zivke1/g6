@@ -892,7 +892,7 @@ public class mysqlConnection {
 		Time fromThisTime = new Time(hourAfterGap, 0, 0);
 		int numberOfVisitors = 0;
 		ResultSet rs = stmt.executeQuery("select SUM(VisitorsAmount) from orders "
-				+ "Where OrderStatus= 'waitingToVisit' OR OrderStatus='waitingToApprove' " + "AND VisitDate = '"
+				+ "Where (OrderStatus= 'waitingToVisit' OR OrderStatus='waitingToApprove') " + "AND VisitDate = '"
 				+ sendTocheckNumberOfVistorsInPark.get(1) + "' AND ParkName = '"
 				+ sendTocheckNumberOfVistorsInPark.get(0) + "' AND  ExpectedEnterTime>'"
 				+ sendTocheckNumberOfVistorsInPark.get(2) + "'AND ExpectedEnterTime<'" + fromThisTime + "'");
@@ -921,7 +921,7 @@ public class mysqlConnection {
 		Time fromThisTime = new Time(hourAfterGap, 0, 0);
 		int numberOfVisitors = 0;
 		ResultSet rs = stmt.executeQuery("select SUM(VisitorsAmount) from orders "
-				+ "Where OrderStatus= 'waitingToVisit' OR OrderStatus='waitingToApprove' " + "AND VisitDate = '"
+				+ " Where (OrderStatus= 'waitingToVisit' OR OrderStatus='waitingToApprove' ) AND VisitDate = '"
 				+ sendTocheckNumberOfVistorsInParkBack.get(1) + "' AND ParkName = '"
 				+ sendTocheckNumberOfVistorsInParkBack.get(0) + "' AND  ExpectedEnterTime<='"
 				+ sendTocheckNumberOfVistorsInParkBack.get(2) + "'AND ExpectedEnterTime>'" + fromThisTime + "'");
