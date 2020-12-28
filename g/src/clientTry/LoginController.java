@@ -213,10 +213,10 @@ public class LoginController {
 	private void clearAllErrorMessage() {
 		dontFindMemberShipIDLabel.setVisible(false);
 		txtErrUserName.setVisible(false);
-		txtErrAllFieldsReq.setVisible(false);
+		txtErrAllFieldsReq1.setVisible(false);
 		logInBeforeLabel.setVisible(false);
 		txtErrPassword.setVisible(false);
-		txtErrAllFieldsReq1.setVisible(false);
+		txtErrAllFieldsReq.setVisible(false);
 		IDError.setVisible(false);
 		memberNotNumbers.setVisible(false);
 		
