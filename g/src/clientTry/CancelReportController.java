@@ -42,7 +42,7 @@ public class CancelReportController {
 		Parent root;
 		try {
 			root = loader.load(getClass().getResource("/fxmlFiles/ReportDepartmentManagerPage.fxml").openStream());
-			ReportDeparmentManagerController controller = loader.getController();
+			ReportDepartmentManagerController controller = loader.getController();
 			controller.setDetails(fNameH, lNameH, roleH, userIDH, parkNameH);
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());

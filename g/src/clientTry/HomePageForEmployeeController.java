@@ -123,10 +123,10 @@ public class HomePageForEmployeeController implements Initializable {
 	void goToApproveP(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ApproveParameters.fxml", "Approve Parameters", userID);
 		FXMLLoader loader = nextStages.goToNextStage(event);
-		//ApproveParametersController approvePcontrol = loader.getController();
-		//approvePcontrol.setDetails(fName, lName, role, userID, parkName);
-		//approvePcontrol.setPreviousPage(event);
-		//approvePcontrol.setMainPage(event);
+		ApproveParametersController approvePcontrol = loader.getController();
+		approvePcontrol.setDetails(fName, lName, role, userID, parkName);
+		approvePcontrol.setPreviousPage(event);
+		approvePcontrol.setMainPage(event);
 	}
 
 	@FXML
@@ -150,8 +150,8 @@ public class HomePageForEmployeeController implements Initializable {
 	void goToGenerateReportDepManager(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ReportDepartmentManager.fxml", "Generate Reports", userID);
 		FXMLLoader loader = nextStages.goToNextStage(event);
-		//ReportDepartmentManagerController repControl = loader.getController();
-		// repControl.setDetails(fName, lName, role, userID, parkName);
+		ReportDepartmentManagerController repControl = loader.getController();
+		repControl.setDetails(fName, lName, role, userID, parkName);
 		//repControl.setPreviousPage(event);
 		//repControl.setMainPage(event);
 	}
@@ -315,8 +315,15 @@ public class HomePageForEmployeeController implements Initializable {
 	public void setAmountForMember(int amountOfPeople){
 		this.amountOfPeople = amountOfPeople;
 	}
-	
-	// receive from login form all user info and set visibility
+	/**
+	 * 
+	 * @param fName
+	 * @param lName
+	 * @param role
+	 * @param userID
+	 * @param parkName
+	 * receive from login controller user details and set home page according this details
+	 */
 	public void setDetails(String fName, String lName, String role, String userID, String parkName) {
 		this.fName = fName;
 		this.lName = lName;

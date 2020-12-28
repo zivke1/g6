@@ -384,7 +384,6 @@ public class mysqlConnection {
 			ArrayList<String> a = (ArrayList<String>) arr;
 			PreparedStatement update = conn.prepareStatement(
 					"INSERT INTO paraUpdate (ParkName, paraType, ParaVal, dateOfRequest, FromDate, UntilDate) VALUES (?, ?, ?, ?,?,?)");
-			System.out.println("arr size " + a.size() + " arr val " + arr);
 			for (int i = 0; i < ((ArrayList<String>) arr).size(); i++)
 				update.setString(i + 1, ((ArrayList<String>) arr).get(i));
 			update.executeUpdate();
@@ -416,7 +415,6 @@ public class mysqlConnection {
 			dataFromDB.add(MaxAmountOfOrders);
 			dataFromDB.add(ManagerName);
 			dataFromDB.add(GapVisitors);
-			System.out.println(dataFromDB);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -948,12 +946,10 @@ public class mysqlConnection {
 			ResultSet rs = stmt.executeQuery("select * from orders Where OrderStatus=6");// 6=cancelled
 			while (rs.next()) {
 				cancelNum++;
-				System.out.println(cancelNum.toString() + "cancel");
 			}
 			ResultSet rs2 = stmt.executeQuery("select * from orders Where OrderStatus=2");// 2= expired
 			while (rs2.next()) {
 				expiredNum++;
-				System.out.println(expiredNum.toString());
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -988,7 +984,6 @@ public class mysqlConnection {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(dataFromDB.get(0).getAmount() + " " + dataFromDB.get(0).getHour());
 		return dataFromDB;
 	}
 
@@ -999,7 +994,6 @@ public class mysqlConnection {
 			Statement stmt = conn.createStatement();
 			rs = stmt.executeQuery("Select * From paraupdate ");
 			ParameterToView temp = new ParameterToView();
-			System.out.println(rs + "idan");
 			while (rs.next()) {
 				temp.setParkName(rs.getString("parkName"));
 				temp.setParameter(rs.getString("paraType"));
@@ -1011,7 +1005,7 @@ public class mysqlConnection {
 				// temp.setRejectButton(new Button("Deny"));
 				dataFromDB.add(temp);
 			}
-			System.out.println(temp);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1317,7 +1311,6 @@ public class mysqlConnection {
 			update.setString(2, arr.get(2));
 			update.setString(3, arr.get(3));
 			update.setString(4, arr.get(4));
-			System.out.println(update.toString());
 			update.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1326,7 +1319,6 @@ public class mysqlConnection {
 		if (arr.contains("y")) {
 			if (arr.contains("discount")) {
 				try {
-					System.out.println("2");
 					PreparedStatement update = conn
 							.prepareStatement("UPDATE extradiscount SET percentage=? AND startDate=?"
 									+ " AND endDate=? WHERE parkName=?");
@@ -1341,7 +1333,6 @@ public class mysqlConnection {
 
 			} else {
 				try {
-					System.out.println(arr);
 					PreparedStatement update = conn
 							.prepareStatement("UPDATE park SET " + arr.get(2) + "=? WHERE parkName=?");
 					update.setInt(1, Integer.parseInt(arr.get(3)));

@@ -31,7 +31,7 @@ import javafx.scene.layout.AnchorPane;
  * @author Idan
  *  Controller  for Report Department Manager GUI 
  */
-public class ReportDeparmentManagerController {
+public class ReportDepartmentManagerController {
 	
 	private String fNameH,lNameH,roleH,userIDH,parkNameH;
 
