@@ -152,13 +152,13 @@
                      </font>
                   </Label>
                   <Button fx:id="cancelBtn" layoutX="765.0" layoutY="441.0" mnemonicParsing="false" onMouseClicked="#cancelOrder" prefHeight="43.0" prefWidth="114.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Cancel Order" visible="false" />
+                  <Label fx:id="errorMsg" layoutX="58.0" layoutY="372.0" prefHeight="45.0" prefWidth="806.0">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
-            <Label fx:id="errorMsg" layoutX="21.0" layoutY="176.0" prefHeight="45.0" prefWidth="806.0">
-               <font>
-                  <Font size="30.0" />
-               </font>
-            </Label>
          </children>
       </AnchorPane>
    </right>
