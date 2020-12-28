@@ -741,7 +741,7 @@ public class mysqlConnection {
 		int discaount = 0;
 		try {
 			ResultSet rs = stmt.executeQuery("select * from extradiscount Where startDate<=" + dateToMySql
-					+ " AND endDate >=" + dateToMySql + " parkName= " + parkName);
+					+ " AND endDate >=" + dateToMySql + " AND parkName= " + parkName);
 			while (rs.next()) {
 				discaount = rs.getInt("percentage");
 			}
