@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.ReportDeparmentManagerController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.ReportDepartmentManagerController">
    <top>
       <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
          <children>
@@ -22,12 +22,12 @@
             </Text>
             <ImageView fitHeight="135.0" fitWidth="176.0" layoutX="-9.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../img5.png" />
+                  <Image url="@/img/img5.png" />
                </image>
             </ImageView>
             <ImageView fx:id="imgContactUs" fitHeight="62.0" fitWidth="62.0" layoutX="951.0" layoutY="-1.0" onMouseClicked="#goToContactUsPopUp" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../contactus.png" />
+                  <Image url="@/img/contactus.png" />
                </image>
             </ImageView>
             <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
@@ -36,31 +36,31 @@
       </AnchorPane>
    </top>
    <left>
-      <AnchorPane prefHeight="464.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" stylesheets="@../clientTry/application.css" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="464.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" stylesheets="@/clientTry/application.css" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="backBtn" layoutX="42.0" layoutY="9.0" mnemonicParsing="false" onMouseClicked="#backClicked" prefHeight="43.0" prefWidth="68.0" rotate="180.0" styleClass="mybutton1" stylesheets="@../clientTry/application.css" text="Back" />
+            <Button fx:id="backBtn" layoutX="42.0" layoutY="9.0" mnemonicParsing="false" onMouseClicked="#backClicked" prefHeight="43.0" prefWidth="68.0" rotate="180.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Back" />
          </children></AnchorPane>
    </left>
    <right>
       <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="showReportBtn" layoutX="260.0" layoutY="419.0" mnemonicParsing="false" onMouseClicked="#finishOrderClicked" prefHeight="44.0" prefWidth="122.0" stylesheets="@../clientTry/application.css" text="Show report">
+            <Button fx:id="showReportBtn" layoutX="260.0" layoutY="419.0" mnemonicParsing="false" onMouseClicked="#finishOrderClicked" prefHeight="44.0" prefWidth="122.0" stylesheets="@/clientTry/application.css" text="Show report">
                <styleClass>
                   <String fx:value="mybutton1" />
                   <String fx:value="approvalBtn" />
                </styleClass></Button>
-            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@../clientTry/application.css" text="?" />
-            <Label layoutX="38.0" layoutY="26.0" text="Hi, which report would you like to generate:">
+            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
+            <Label layoutX="38.0" layoutY="26.0" text="Hello, which report would you like to generate:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <RadioButton fx:id="visitBTN" layoutX="14.0" layoutY="101.0" mnemonicParsing="false" onMouseClicked="#visitReportClick" text="Visit Report">
+            <RadioButton fx:id="visitBTN" layoutX="45.0" layoutY="93.0" mnemonicParsing="false" onMouseClicked="#visitReportClick" text="Visit Report">
                <font>
                   <Font size="14.0" />
                </font>
             </RadioButton>
-            <RadioButton fx:id="cancelBTN" layoutX="14.0" layoutY="147.0" mnemonicParsing="false" onMouseClicked="#cancelReportClick" text="Cancel Report">
+            <RadioButton fx:id="cancelBTN" layoutX="45.0" layoutY="140.0" mnemonicParsing="false" onMouseClicked="#cancelReportClick" text="Cancel Report">
                <font>
                   <Font size="14.0" />
                </font>

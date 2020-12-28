@@ -148,7 +148,7 @@ public class HomePageForEmployeeController implements Initializable {
 
 	@FXML
 	void goToGenerateReportDepManager(MouseEvent event) {
-		NextStages nextStages = new NextStages("/fxmlFiles/ReportDepartmentManager.fxml", "Generate Reports", userID);
+		NextStages nextStages = new NextStages("/fxmlFiles/ReportDepartmentManagerPage.fxml", "Generate Reports", userID);
 		FXMLLoader loader = nextStages.goToNextStage(event);
 		ReportDepartmentManagerController repControl = loader.getController();
 		repControl.setDetails(fName, lName, role, userID, parkName);
