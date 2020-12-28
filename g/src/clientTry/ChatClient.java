@@ -45,7 +45,7 @@ public class ChatClient extends AbstractClient {
 	
 	public static ArrayList<ParameterToView> dataInArrayListParameter = new ArrayList<ParameterToView>();
 
-	public static ArrayList<FreePlaceInPark> dataInArrayListFreePlaceInParks;
+	public static ArrayList<FreePlaceInPark> dataInArrayListFreePlaceInParks = new ArrayList<>();
 
 
 	public static boolean awaitResponse = false;
@@ -81,20 +81,20 @@ public class ChatClient extends AbstractClient {
 
 		try {
 			ArrayList<OrderToView> dataFromDbCheck = (ArrayList<OrderToView>) msg;
-
+			dataInArrayListObject.clear();
 			if (dataFromDbCheck != null)
-				if (dataFromDbCheck.get(0) instanceof OrderToView) {
+				if (!dataFromDbCheck.isEmpty() && dataFromDbCheck.get(0) instanceof OrderToView) {
 					dataInArrayListObject = dataFromDbCheck;
 					return;
 				}
 		} catch (ClassCastException e) {
 		}
-
+// maybe not use
 		try {
 			ArrayList<Integer> dataFromDbCheck = (ArrayList<Integer>) msg;
-
+			dataInArrayListInteger.clear();
 			if (dataFromDbCheck != null)
-				if (dataFromDbCheck.get(0) instanceof Integer) {
+				if (!dataFromDbCheck.isEmpty() && dataFromDbCheck.get(0) instanceof Integer) {
 					dataInArrayListInteger = dataFromDbCheck;
 					return;
 				}
@@ -103,8 +103,9 @@ public class ChatClient extends AbstractClient {
 		}
 		try {
 			ArrayList<ParameterToView> dataFromDbCheck2 = (ArrayList<ParameterToView>) msg;
+			dataInArrayListParameter.clear();
 			if (dataFromDbCheck2 != null)
-				if (dataFromDbCheck2.get(0) instanceof ParameterToView) {
+				if (!dataFromDbCheck2.isEmpty() && dataFromDbCheck2.get(0) instanceof ParameterToView) {
 					dataInArrayListParameter = dataFromDbCheck2;
 					return;
 				}
@@ -116,8 +117,9 @@ public class ChatClient extends AbstractClient {
 		
 		try {
 			ArrayList<HourAmount> dataFromDbCheck = (ArrayList<HourAmount>) msg;
+			dataInArrayListHour.clear();
 			if (dataFromDbCheck != null)
-				if (dataFromDbCheck.get(0) instanceof HourAmount) {
+				if (!dataFromDbCheck.isEmpty() && dataFromDbCheck.get(0) instanceof HourAmount) {
 					dataInArrayListHour = dataFromDbCheck;
 			        return;
 				}
@@ -127,8 +129,9 @@ public class ChatClient extends AbstractClient {
 
 		try {
 			ArrayList<FreePlaceInPark> dataFromDbCheck = (ArrayList<FreePlaceInPark>) msg;
+			dataInArrayListFreePlaceInParks.clear();
 			if (dataFromDbCheck != null) {
-				if (dataFromDbCheck.get(0) instanceof FreePlaceInPark) {
+				if (!dataFromDbCheck.isEmpty() && dataFromDbCheck.get(0) instanceof FreePlaceInPark) {
 					dataInArrayListFreePlaceInParks = (ArrayList<FreePlaceInPark>) msg;
 				}
 			}

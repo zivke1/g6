@@ -152,7 +152,7 @@ public class HomePageForEmployeeController implements Initializable {
 		FXMLLoader loader = nextStages.goToNextStage(event);
 		ReportDepartmentManagerController repControl = loader.getController();
 		repControl.setDetails(fName, lName, role, userID, parkName);
-		//repControl.setPreviousPage(event);
+		repControl.setPreviousPage(event);
 		//repControl.setMainPage(event);
 	}
 
@@ -270,7 +270,6 @@ public class HomePageForEmployeeController implements Initializable {
 
 			tblExistingOrder.getColumns().addAll(orderIDcolumn, statusColumn, dateColumn);
 			tblExistingOrder.setVisible(true);
-
 		} else {
 			NoExistOrderMsg.setVisible(true);
 		}

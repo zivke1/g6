@@ -19,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import util.HourAmount;
+import util.NextStages;
 import util.TypeOfOrder;
 /**
  * 
@@ -58,7 +59,9 @@ public class VisitorReportDepartmentController {
 
     @FXML
     void goToContactUsPopUp(MouseEvent event) {
-
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "Contact Us", userIDH);
+		FXMLLoader loader = nextStages.openPopUp();
+		loader.getController();
     }
 
     @FXML
@@ -122,9 +125,7 @@ public class VisitorReportDepartmentController {
 	public void setPreviousPage(MouseEvent event) {
 		m_event=event;
 		}
-	public void setMainPage(MouseEvent event) {
-		m_event=event;
-		}
+
 
 	
 

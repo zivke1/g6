@@ -1594,7 +1594,7 @@ public class mysqlConnection {
 		ArrayList<String> toReturn = new ArrayList<String>();
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("Select COUNT(OrderID) From orders O Where O.OrderStatus = 'active' AND O.ParkName =" + "'"+parkName+"'"); 																									
+			ResultSet rs = stmt.executeQuery("Select SUM(VisitorsAmount) From orders O Where O.OrderStatus = 'active' AND O.ParkName =" + "'"+parkName+"'"); 																									
 			while (rs.next()) {
 				countOrders = rs.getString(1);
 			}

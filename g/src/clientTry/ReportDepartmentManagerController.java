@@ -12,6 +12,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import util.NextStages;
+
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -56,6 +58,9 @@ public class ReportDepartmentManagerController {
 
     @FXML
     private Button helpBtn;
+
+
+	private MouseEvent m_event;
     
 	/**
 	 * @author Idan
@@ -64,22 +69,9 @@ public class ReportDepartmentManagerController {
 
     @FXML
     void backClicked(MouseEvent event) {
-    	((Node) event.getSource()).getScene().getWindow().hide();
-    	Stage stage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Parent root;
-		try {
-			root = loader.load(getClass().getResource("/fxmlFiles/HomePageForEmployee.fxml").openStream());
-			HomePageForEmployeeController controller=loader.getController();
-			controller.setDetails(fNameH, lNameH, roleH, userIDH, parkNameH);
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-			stage.setTitle("HomePage");
-			stage.setScene(scene);
-			stage.show();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		((Node) event.getSource()).getScene().getWindow().hide();
+		((Stage) ((Node) m_event.getSource()).getScene().getWindow()).show();
+
 
     }
     @FXML
@@ -97,44 +89,21 @@ public class ReportDepartmentManagerController {
     @FXML
     void finishOrderClicked(MouseEvent event) {
     	if (cancelBTN.isSelected()){
-    		((Node) event.getSource()).getScene().getWindow().hide();
-    		Stage stage = new Stage();
-    		FXMLLoader loader = new FXMLLoader();
-    		Parent root;
-    		try {
-    			root = loader.load(getClass().getResource("/fxmlFiles/CancelReport.fxml").openStream());
-    			CancelReportController controller=loader.getController();
-    			controller.setDetails(fNameH, lNameH, roleH, userIDH, parkNameH);
-    			Scene scene = new Scene(root);
-    			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-    			stage.setTitle("Cancellation Report"); 
-    			stage.setScene(scene);
-    			stage.show();
-    		} catch (IOException e1) {
-    			e1.printStackTrace();
-    		}
+    		NextStages nextStages = new NextStages("/fxmlFiles/CancelReport.fxml", "Cancellation Report", userIDH);
+    		FXMLLoader loader = nextStages.goToNextStage(event);
+    		CancelReportController Control = loader.getController();
+    		Control.setDetails(fNameH, lNameH, roleH, userIDH, parkNameH);
+    		Control.setPreviousPage(event);
     	}
     	if(visitBTN.isSelected()) {
-    		((Node) event.getSource()).getScene().getWindow().hide();
-    		Stage stage = new Stage();
-    		FXMLLoader loader = new FXMLLoader();
-    		Parent root;
-    		try {
-    			root = loader.load(getClass().getResource("/fxmlFiles/VisitorReportDeparmentManager.fxml").openStream());
-    			CancelReportController controller=loader.getController();
-    			controller.setDetails(fNameH, lNameH, roleH, userIDH, parkNameH);
-    			Scene scene = new Scene(root);
-    			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-    			stage.setTitle("Visitor Report"); 
-    			stage.setScene(scene);
-    			stage.show();
-    		} catch (IOException e1) {
-    			e1.printStackTrace();
-    		}
-    		
+    		NextStages nextStages = new NextStages("/fxmlFiles/VisitorReportDeparmentManager.fxml", "Visitor Report", userIDH);
+    		FXMLLoader loader = nextStages.goToNextStage(event);
+    		VisitorReportDepartmentController Control = loader.getController();
+    		Control.setDetails(fNameH, lNameH, roleH, userIDH, parkNameH);
+    		Control.setPreviousPage(event);		
     	}
     	if(!visitBTN.isSelected()&& !cancelBTN.isSelected())
-    		errorMsg.setText("you must chose report first \n");
+    		errorMsg.setText("you must choose report first \n");
 
     }
 
@@ -145,20 +114,9 @@ public class ReportDepartmentManagerController {
 
     @FXML
     void goToContactUsPopUp(MouseEvent event) {
-    	((Node) event.getSource()).getScene().getWindow().hide();
-		Stage stage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Parent root;
-		try {
-			root = loader.load(getClass().getResource("/fxmlFiles/ContactUsPopUp.fxml").openStream());
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-			stage.setTitle("Contact Us");
-			stage.setScene(scene);
-			stage.show();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "Contact Us", userIDH);
+		FXMLLoader loader = nextStages.openPopUp();
+		loader.getController();
 
     }
 
@@ -176,5 +134,8 @@ public class ReportDepartmentManagerController {
 		this.parkNameH=parkName;
 
 	}
-
+ 
+	public void setPreviousPage(MouseEvent event) {
+		m_event=event;
+	}
 }

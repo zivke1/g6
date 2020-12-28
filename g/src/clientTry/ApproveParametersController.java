@@ -130,7 +130,7 @@ public class ApproveParametersController {
 		ArrayList<String> arr = new ArrayList<>();
 		try {
 			arr.add("approveParaTable");
-			FakeMain.chat.accept(arr);
+			ClientMain.chat.accept(arr);
 			ArrayList<ParameterToView> answer = ChatClient.dataInArrayListParameter;
 			if (!answer.isEmpty()) {
 				errorMsg.setText("");

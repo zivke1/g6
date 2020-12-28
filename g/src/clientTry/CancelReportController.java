@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -12,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import util.NextStages;
 /**
  * 
  * @author Idan
@@ -35,28 +37,19 @@ public class CancelReportController {
 	@FXML
 	private ImageView imgContactUs;
 
+	private MouseEvent previousPageEvent;
+
 	@FXML
 	void backClicked(MouseEvent event) {
-		Stage stage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Parent root;
-		try {
-			root = loader.load(getClass().getResource("/fxmlFiles/ReportDepartmentManagerPage.fxml").openStream());
-			ReportDepartmentManagerController controller = loader.getController();
-			controller.setDetails(fNameH, lNameH, roleH, userIDH, parkNameH);
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-			stage.setTitle("Report Deparment Manager");
-			stage.setScene(scene);
-			stage.show();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		((Node) event.getSource()).getScene().getWindow().hide();
+		((Stage) ((Node) previousPageEvent.getSource()).getScene().getWindow()).show();
 	}
 
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
-
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "Contact Us", userIDH);
+		FXMLLoader loader = nextStages.openPopUp();
+		loader.getController();
 	}
 
 	@FXML
@@ -77,5 +70,10 @@ public class CancelReportController {
 		ClientMain.chat.accept(arr);
 		numCancelOrders.setText(ChatClient.dataInArrayList.get(0));
 		numExpiredOrders.setText(ChatClient.dataInArrayList.get(1));
+	}
+
+	public void setPreviousPage(MouseEvent event) {
+		previousPageEvent = event;
+		
 	}
 }
