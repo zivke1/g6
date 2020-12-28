@@ -147,7 +147,7 @@ public class ViewOrderController {
 		typeOfOrder.setText(arr.get(5) + "'s order");
 		orderStatus.setText(arr.get(6));
 		this.orderStatusH=orderStatus.getText();
-		totalCost.setText(arr.get(7) + "¤");
+		totalCost.setText(arr.get(7) + "$");
 		email.setText(arr.get(8));
 	}
 	public void setPreviousPage(MouseEvent event) {
