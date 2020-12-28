@@ -115,7 +115,7 @@ public class WaitingListController implements Initializable {
     	ArrayList<FreePlaceInPark>timeToTableArrayList =  ChatClient.dataInArrayListFreePlaceInParks;
     	//TODO check set the values in the chart
     	setTableOfFreePlace(timeToTableArrayList);
-   
+    	timeToTableArrayList.clear();
     	
     	
     }

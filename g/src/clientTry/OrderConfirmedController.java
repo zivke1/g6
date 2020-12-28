@@ -11,7 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 /**
  * 
- * @author zivke
+ * 
  *
  */
 public class OrderConfirmedController {

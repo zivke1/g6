@@ -14,6 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import util.NextStages;
 /**
  * this page show the user the order details 
  * and the price of the order and the user need to confirm and pay
@@ -75,30 +76,32 @@ public class PaymentPageController {
 		// TODO open the next page
 
 		// open the next page
-		BorderPane borderPane = null;
-		FXMLLoader loader = new FXMLLoader();
-		Stage primaryStage = new Stage();
-
+//		BorderPane borderPane = null;
+//		FXMLLoader loader = new FXMLLoader();
+//		Stage primaryStage = new Stage();
+		FXMLLoader loader;
 		
-		loader.setLocation(getClass().getResource("../fxmlFiles/OrderConfirmed.fxml"));
-		borderPane = loader.load();
+//		loader.setLocation(getClass().getResource("../fxmlFiles/OrderConfirmed.fxml"));
+//		borderPane = loader.load();
+     	NextStages nextStages = new NextStages("/fxmlFiles/OrderConfirmed.fxml", "Order Confirmed", m_userID);
+    	loader = nextStages.goToNextStage(event);
 		OrderConfirmedController orderConfirmedController = loader.getController();
 		orderConfirmedController.setMainPage(m_eventMain);
 		orderConfirmedController.setOrderNumber(m_orderNumber);
-		Scene scene = new Scene(borderPane);
-		primaryStage.setTitle("Order Confirmed");
-		primaryStage.setScene(scene);
-		primaryStage.setOnCloseRequest(evt -> {
-			if (ClientMain.chat.checkConnection()) {
-				ArrayList<String> arr = new ArrayList<String>();
-				arr.add("closeAndSetIdNull");
-				arr.add(m_userID);
-				ClientMain.chat.accept(arr);
-				ClientMain.chat.stopConnection();
-			}
-		});
-		((Node) event.getSource()).getScene().getWindow().hide();
-		primaryStage.show();
+//		Scene scene = new Scene(borderPane);
+//		primaryStage.setTitle("Order Confirmed");
+//		primaryStage.setScene(scene);
+//		primaryStage.setOnCloseRequest(evt -> {
+//			if (ClientMain.chat.checkConnection()) {
+//				ArrayList<String> arr = new ArrayList<String>();
+//				arr.add("closeAndSetIdNull");
+//				arr.add(m_userID);
+//				ClientMain.chat.accept(arr);
+//				ClientMain.chat.stopConnection();
+//			}
+//		});
+//		((Node) event.getSource()).getScene().getWindow().hide();
+//		primaryStage.show();
 	}
 
 	@FXML

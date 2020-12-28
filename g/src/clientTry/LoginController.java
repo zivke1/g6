@@ -246,16 +246,7 @@ public class LoginController {
 	 */
 	private void openHomePage(UserType userType) throws Exception {
 		// TODO
-		BorderPane borderPane = null;
-		FXMLLoader loader = new FXMLLoader();
-		Stage primaryStage = new Stage();
-		// Pane root =
-		// loader.load(getClass().getResource("../fxmlFiles/HomePageForEmployee.fxml").openStream());
-
-		loader.setLocation(getClass().getResource("../fxmlFiles/HomePageForEmployee.fxml"));
-		borderPane = loader.load();
-		HomePageForEmployeeController homePageForEmployeeController = loader.getController();
-
+		
 		switch (userType) {
 		case member: {
 			fName = ChatClient.dataInArrayList.get(1);
@@ -282,25 +273,40 @@ public class LoginController {
 		default:
 			break;
 		}
+//		BorderPane borderPane = null;
+//		FXMLLoader loader = new FXMLLoader();
+		FXMLLoader loader;		
+//		Stage primaryStage = new Stage();
+		// Pane root =
+		// loader.load(getClass().getResource("../fxmlFiles/HomePageForEmployee.fxml").openStream());
+
+		
+		NextStages nextStages = new NextStages("/fxmlFiles/HomePageForEmployee.fxml", "Home Page", userID);
+    	loader = nextStages.goToNextStage(m_event);
+//		loader.setLocation(getClass().getResource("../fxmlFiles/HomePageForEmployee.fxml"));
+//		borderPane = loader.load();
+		HomePageForEmployeeController homePageForEmployeeController = loader.getController();
+
+		
 		
 		homePageForEmployeeController.setDetails(fName, lName, role, userID, park);
 		homePageForEmployeeController.setAmountForMember(amountOfPeople);
 		// Scene scene = new Scene(root);
-		Scene scene = new Scene(borderPane);
-		primaryStage.setTitle("Home Page");
-		primaryStage.setScene(scene);
-		primaryStage.setOnCloseRequest(evt -> {
-			if (ClientMain.chat.checkConnection()) {
-				ArrayList<String> arr = new ArrayList<String>();
-				arr.add("closeAndSetIdNull");
-				arr.add(userID);
-				arr.add("disconnect");
-				ClientMain.chat.accept(arr);
-				ClientMain.chat.stopConnection();
-			}
-		});
-		((Node) m_event.getSource()).getScene().getWindow().hide();
-		primaryStage.show();
+//		Scene scene = new Scene(borderPane);
+//		primaryStage.setTitle("Home Page");
+//		primaryStage.setScene(scene);
+//		primaryStage.setOnCloseRequest(evt -> {
+//			if (ClientMain.chat.checkConnection()) {
+//				ArrayList<String> arr = new ArrayList<String>();
+//				arr.add("closeAndSetIdNull");
+//				arr.add(userID);
+//				arr.add("disconnect");
+//				ClientMain.chat.accept(arr);
+//				ClientMain.chat.stopConnection();
+//			}
+//		});
+//		((Node) m_event.getSource()).getScene().getWindow().hide();
+//		primaryStage.show();
 	}
 
 	public void identificationSetVisibility(boolean cond) {
