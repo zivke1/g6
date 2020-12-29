@@ -221,7 +221,7 @@ public class AddInstructorController {
 		    	FXMLLoader loader = nextStages.goToNextStage(event);
 		    	MembershipRegistrationSucccesCon controller = loader.getController();
 		    	controller.setMainPage(m_MainPage);
-				
+		    	controller.updateMemberNum(ChatClient.dataInArrayList.get(0));
 				//ziv change
 				//	((Node) event.getSource()).getScene().getWindow().hide();
 //				Stage stage = new Stage();
