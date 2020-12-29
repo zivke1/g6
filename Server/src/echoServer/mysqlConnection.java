@@ -946,9 +946,9 @@ public class mysqlConnection {
 
 	/**
 	 * get from the park table the details of one park
-	 * 
-	 * @param parkName
-	 * @return
+	 * return
+	 * get parkName
+	 * return arrayList<int> Capacity,TimeOfAverageVisit,GapVisitors
 	 * @throws SQLException
 	 */
 	public static ArrayList<Integer> checkCapacityAndAvarageVisitTime(String parkName) throws SQLException {
