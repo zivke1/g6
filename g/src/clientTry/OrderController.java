@@ -329,7 +329,7 @@ public class OrderController implements Initializable {
 	void goToContactUsPopUp(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order", m_userID);
 		FXMLLoader loader = nextStages.openPopUp();
-		loader.getController();
+//		loader.getController();
 	}
 
 	public void setDetails(String fName, String lName, String role, String userID, String parkName) {
