@@ -152,7 +152,7 @@
                      </font>
                   </Label>
                   <Button fx:id="cancelBtn" layoutX="765.0" layoutY="457.0" mnemonicParsing="false" onMouseClicked="#cancelOrder" prefHeight="43.0" prefWidth="114.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Cancel Order" visible="false" />
-                  <Label fx:id="errorMsg" layoutX="28.0" layoutY="370.0" prefHeight="45.0" prefWidth="806.0">
+                  <Label fx:id="errorMsg" layoutX="51.0" layoutY="370.0" prefHeight="44.0" prefWidth="783.0">
                      <font>
                         <Font size="30.0" />
                      </font>

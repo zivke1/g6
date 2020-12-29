@@ -60,8 +60,10 @@ public class ParkDetailsController {
 
 	@FXML
 	private Button QuestionBtn;
+	
 	@FXML
 	private Label explanation;
+	
 	private boolean i = true;
 	private String fName;
 	private String lName;
@@ -99,14 +101,15 @@ public class ParkDetailsController {
 		this.role = role;
 		parkNameS = parkNameToFetch;
 		if (!(role.equals("Department Manager") || role.equals("Park Manager"))) {// if the asker isn't manager enter
-			parkName.setText(parkNameToFetch);
 			ArrayList<String> arr = new ArrayList<String>();
 			arr.add("FetchParkDetails");
 			// ziv
 			if (parkNameToFetch.equals("DepManager") == false) {
 				arr.add(parkNameToFetch);
+				parkName.setText(parkNameToFetch);
 			}else {
 				arr.add("Tal Park");
+				parkName.setText("Tal Park"); //shani
 			}
 			//ziv end
 			try {
@@ -146,12 +149,12 @@ public class ParkDetailsController {
 			e1.printStackTrace();
 		}
 	}
-
+/*
 	@FXML
 	void finishOrderClicked(MouseEvent event) {
 
 	}
-
+*/
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
 		((Node) event.getSource()).getScene().getWindow().hide();
@@ -190,6 +193,7 @@ public class ParkDetailsController {
 	public void initialize() {// initializing the combo box
 		comboPark.setValue("Tal Park");
 		comboPark.setItems(ParksName);
+		explanation.setVisible(false);
 	}
 
 }
