@@ -167,7 +167,7 @@ public class OrderController implements Initializable {
 				OpenInviteConfirmPage();
 
 			}
-			System.out.println(invite);
+		//	System.out.println(invite);
 		}
 
 	}
