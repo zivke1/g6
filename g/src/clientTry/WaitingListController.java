@@ -29,6 +29,7 @@ public class WaitingListController implements Initializable {
 	String m_fName,m_lName,m_role,m_userID,m_parkName;
     MouseEvent m_previousPage,m_eventMain;
     ArrayList<String> m_invite;
+    String m_orderDetails="";
 
     @FXML
     private ImageView imgContactUs;
@@ -88,7 +89,9 @@ public class WaitingListController implements Initializable {
 
     @FXML
     void goToContactUsPopUp(MouseEvent event) {
-
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order", m_userID);
+		FXMLLoader loader = nextStages.openPopUp();
+		loader.getController();
     }
 
     @FXML
@@ -147,6 +150,7 @@ public class WaitingListController implements Initializable {
 					paymentPageController.setDetails(m_fName, m_lName, m_role, m_userID , m_parkName);
 					paymentPageController.setPreviousPage(evento) ;
 					paymentPageController.setMainPage(m_eventMain);
+					paymentPageController.setOrderDetails(m_orderDetails);
 					m_invite.set(2, rowData.getTime());
 					m_invite.set(3, Func.unFixDate(rowData.getDate()));
 					
@@ -166,6 +170,10 @@ public class WaitingListController implements Initializable {
 	
 	public void setMainPage(MouseEvent event) {
 		m_eventMain=event;
+	}
+	
+	public void setOrderDetails(String orderDetails) {
+		m_orderDetails=orderDetails;
 	}
     
 }

@@ -95,11 +95,15 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text layoutX="33.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order's Details">
+            <Text layoutX="36.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order's Details">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Text>
+            <Label fx:id="informationLabel" alignment="TOP_LEFT" layoutX="417.0" layoutY="51.0" prefHeight="287.0" prefWidth="336.0">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Label>
          </children>
       </AnchorPane>
    </right>

@@ -3,12 +3,14 @@
 package clientTry;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import util.NextStages;
 /**
  * 
  * 
@@ -44,7 +46,9 @@ public class OrderConfirmedController {
 
     @FXML
     void goToContactUsPopUp(MouseEvent event) {
-
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order", "aa");
+		FXMLLoader loader = nextStages.openPopUp();
+		loader.getController();
     }
 
     @FXML

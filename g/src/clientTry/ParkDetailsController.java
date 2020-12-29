@@ -23,8 +23,8 @@ import javafx.stage.Stage;
 
 public class ParkDetailsController {
 
-	ObservableList<String> ParksName = FXCollections.observableArrayList("Tal Park","Carmel Park","Jordan Park");
-	 @FXML
+	ObservableList<String> ParksName = FXCollections.observableArrayList("Tal Park", "Carmel Park", "Jordan Park");
+	@FXML
 	private AnchorPane optOfManager;
 	@FXML
 	private ComboBox comboPark;
@@ -68,7 +68,7 @@ public class ParkDetailsController {
 	private String role;
 	private String userID;
 	private String parkNameS;
-	
+
 	@FXML
 	void comboAction(ActionEvent event) {
 		parkName.setText(comboPark.getValue().toString());
@@ -77,46 +77,54 @@ public class ParkDetailsController {
 		arr.add(parkName.getText());
 		try {
 			ClientMain.chat.accept(arr);
-			activityHours.setText("8:00-16:00 Sunday to Thursday");
+			// activityHours.setText("8:00-16:00 Sunday to Thursday");//ziv change
+			activityHours.setText("8:00-16:00 Seven days a week");
 			ManagerName.setText(ChatClient.dataInArrayList.get(3));// the number is according to the order of the
 																	// insert
 																	// in the mysqlconnection
 			MaxCapacity.setText(ChatClient.dataInArrayList.get(0));
 			AvgVisitTime.setText(ChatClient.dataInArrayList.get(1));
-			//MaxOrders.setText(ChatClient.dataInArrayList.get(2));
+			// MaxOrders.setText(ChatClient.dataInArrayList.get(2));
 			gapVisitors.setText(ChatClient.dataInArrayList.get(4));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
+
 	public void setDetails(String fName, String lName, String role, String userID, String parkNameToFetch) {
 		this.fName = fName;
 		this.lName = lName;
 		this.userID = userID;
 		this.role = role;
-		parkNameS=parkNameToFetch;
-		if (!(role.equals("Department Manager") || role.equals("Park Manager"))) {//if the asker isn't manager enter
+		parkNameS = parkNameToFetch;
+		if (!(role.equals("Department Manager") || role.equals("Park Manager"))) {// if the asker isn't manager enter
 			parkName.setText(parkNameToFetch);
 			ArrayList<String> arr = new ArrayList<String>();
 			arr.add("FetchParkDetails");
-			arr.add(parkNameToFetch);
+			// ziv
+			if (parkNameToFetch.equals("DepManager") == false) {
+				arr.add(parkNameToFetch);
+			}else {
+				arr.add("Tal Park");
+			}
+			//ziv end
 			try {
 				ClientMain.chat.accept(arr);
-				activityHours.setText("8:00-16:00 Sunday to Thursday");
+//				activityHours.setText("8:00-16:00 Sunday to Thursday");//ziv change
+				activityHours.setText("8:00-16:00 Seven days a week");
 				ManagerName.setText(ChatClient.dataInArrayList.get(3));// the number is according to the order of the
 																		// insert
 																		// in the mysqlconnection
 				MaxCapacity.setText(ChatClient.dataInArrayList.get(0));
 				AvgVisitTime.setText(ChatClient.dataInArrayList.get(1) + " hours");
-			//	MaxOrders.setText(ChatClient.dataInArrayList.get(2));
+				// MaxOrders.setText(ChatClient.dataInArrayList.get(2));
 				gapVisitors.setText(ChatClient.dataInArrayList.get(4));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-		else
-			optOfManager.setVisible(true);	
+		} else
+			optOfManager.setVisible(true);
 	}
 
 	@FXML
@@ -127,8 +135,8 @@ public class ParkDetailsController {
 		Parent root;
 		try {
 			root = loader.load(getClass().getResource("/fxmlFiles/HomePageForEmployee.fxml").openStream());
-			HomePageForEmployeeController v=loader.getController();
-			v.setDetails(fName,lName,role,userID,parkNameS);
+			HomePageForEmployeeController v = loader.getController();
+			v.setDetails(fName, lName, role, userID, parkNameS);
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
 			stage.setTitle("Home Page For Employee");
@@ -164,7 +172,7 @@ public class ParkDetailsController {
 
 	@FXML
 	void helpBtnPressed(MouseEvent event) {
-	
+
 	}
 
 	@FXML
@@ -185,4 +193,3 @@ public class ParkDetailsController {
 	}
 
 }
-
