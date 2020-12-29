@@ -1,10 +1,12 @@
 package clientTry;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 public class EnterWaitingListPageSuccessController {
 	MouseEvent m_eventMain;
@@ -30,7 +32,8 @@ public class EnterWaitingListPageSuccessController {
 
     @FXML
     void goToMainPageBtnClicked(MouseEvent event) {
-
+    	((Node) event.getSource()).getScene().getWindow().hide();
+    	((Stage)((Node) m_eventMain.getSource()).getScene().getWindow()).show();
     }
 
     @FXML
