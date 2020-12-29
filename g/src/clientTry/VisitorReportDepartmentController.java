@@ -84,7 +84,7 @@ public class VisitorReportDepartmentController {
 	private void setChart() {
 		
 		try{
-		chart.setTitle("Visitor Report Chart");
+		chart.setTitle("Visitors Report Chart");
 		XYChart.Series<String,Number> personal = new XYChart.Series();
 		XYChart.Series<String,Number> member = new XYChart.Series();
 		XYChart.Series<String,Number> group = new XYChart.Series();

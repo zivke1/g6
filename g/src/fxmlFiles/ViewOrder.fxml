@@ -146,12 +146,12 @@
                         </VBox>
                      </children>
                   </AnchorPane>
-                  <Label layoutX="58.0" layoutY="22.0" text="Full Order Details:">
+                  <Label layoutX="58.0" layoutY="44.0" text="Full Order Details:">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
-                  <Button fx:id="cancelBtn" layoutX="765.0" layoutY="441.0" mnemonicParsing="false" onMouseClicked="#cancelOrder" prefHeight="43.0" prefWidth="114.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Cancel Order" visible="false" />
+                  <Button fx:id="cancelBtn" layoutX="765.0" layoutY="457.0" mnemonicParsing="false" onMouseClicked="#cancelOrder" prefHeight="43.0" prefWidth="114.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Cancel Order" visible="false" />
                </children>
             </AnchorPane>
             <Label fx:id="errorMsg" layoutX="21.0" layoutY="176.0" prefHeight="45.0" prefWidth="806.0">
