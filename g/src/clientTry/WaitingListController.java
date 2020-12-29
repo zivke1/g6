@@ -89,7 +89,9 @@ public class WaitingListController implements Initializable {
 
     @FXML
     void goToContactUsPopUp(MouseEvent event) {
-
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order", m_userID);
+		FXMLLoader loader = nextStages.openPopUp();
+		loader.getController();
     }
 
     @FXML

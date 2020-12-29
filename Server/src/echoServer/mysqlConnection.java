@@ -907,7 +907,7 @@ public class mysqlConnection {
 		ResultSet rs = stmt.executeQuery("select SUM(VisitorsAmount) from orders "
 				+ "Where (OrderStatus= 'waitingToVisit' OR OrderStatus='waitingToApprove') " + "AND VisitDate = '"
 				+ sendTocheckNumberOfVistorsInPark.get(1) + "' AND ParkName = '"
-				+ sendTocheckNumberOfVistorsInPark.get(0) + "' AND  ExpectedEnterTime>'"
+				+ sendTocheckNumberOfVistorsInPark.get(0) + "' AND  ExpectedEnterTime>='"
 				+ sendTocheckNumberOfVistorsInPark.get(2) + "'AND ExpectedEnterTime<'" + fromThisTime + "'");
 		while (rs.next()) {
 			numberOfVisitors = rs.getInt("SUM(VisitorsAmount)");
