@@ -30,7 +30,7 @@
                </image>
             </ImageView>
             <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
-            <Label layoutX="178.0" layoutY="95.0" text="Make New Order &gt; Fully Booked" />
+            <Label layoutX="178.0" layoutY="95.0" text="Home Page &gt; Make New Order &gt; Fully Booked" />
          </children>
       </AnchorPane>
    </top>
@@ -56,7 +56,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label layoutX="319.0" layoutY="126.0" prefHeight="17.0" prefWidth="358.0" text="If you want another date please press twice">
+            <Label layoutX="319.0" layoutY="126.0" prefHeight="17.0" prefWidth="358.0" text="If you want another date please click twice">
                <font>
                   <Font size="18.0" />
                </font>

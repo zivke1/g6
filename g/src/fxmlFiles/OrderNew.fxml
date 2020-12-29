@@ -27,8 +27,8 @@
                   <Image url="@/img/img5.png" />
                </image>
             </ImageView>
-            <Label fx:id="txtCrumViaHomePage" layoutX="178.0" layoutY="95.0" text="Login &gt; Home Page For Employee &gt; Make New Order Employee &gt; Make New Order" visible="false" />
-            <Label fx:id="txtCrum" layoutX="178.0" layoutY="95.0" text="Login &gt; Home Page For Customer &gt; Make Order" visible="false" />
+            <Label fx:id="txtCrumViaHomePage" layoutX="178.0" layoutY="95.0" text="Home Page &gt; Availability Check &gt; Make New Order" visible="false" />
+            <Label fx:id="txtCrum" layoutX="178.0" layoutY="95.0" prefHeight="23.0" prefWidth="216.0" text="Home Page &gt; Make New Order" visible="false" />
             <ImageView fx:id="imgContactUs" fitHeight="62.0" fitWidth="62.0" layoutX="951.0" layoutY="-1.0" onMouseClicked="#goToContactUsPopUp" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@/img/contactus.png" />

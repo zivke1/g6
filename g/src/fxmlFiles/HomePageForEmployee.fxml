@@ -31,8 +31,8 @@
                </image>
             </ImageView>
             <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
-            <Label fx:id="employeeCrums" layoutX="178.0" layoutY="95.0" text="Home Page For Employees" visible="false" />
-            <Label fx:id="customerCrums" layoutX="178.0" layoutY="95.0" text="Home Page For Customers" visible="false" />
+            <Label fx:id="employeeCrums" layoutX="178.0" layoutY="95.0" text="Home Page" visible="false" />
+            <Label fx:id="customerCrums" layoutX="178.0" layoutY="95.0" text="Home Page" visible="false" />
          </children>
       </AnchorPane>
    </top>

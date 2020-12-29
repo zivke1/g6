@@ -29,7 +29,7 @@
                </image>
             </ImageView>
             <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
-            <Label layoutX="178.0" layoutY="95.0" text="Crums &gt; HomePage" />
+            <Label fx:id="crumsCustomers" layoutX="178.0" layoutY="95.0" text="Home Page &gt; Make New Order &gt; Fully Booked " />
          </children>
       </AnchorPane>
    </top>
@@ -41,7 +41,7 @@
          <children>
             <Button fx:id="goToMainPageBtn" layoutX="735.0" layoutY="437.0" mnemonicParsing="false" onMouseClicked="#goToMainPageBtnClicked" prefHeight="50.0" prefWidth="144.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Go to main Page" />
             <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
-            <Label layoutX="14.0" layoutY="26.0" prefHeight="30.0" prefWidth="288.0" text="We enter your invite to waiting list. ">
+            <Label layoutX="14.0" layoutY="26.0" prefHeight="36.0" prefWidth="349.0" text="We've entered your order to waiting list. ">
                <font>
                   <Font size="18.0" />
                </font>

@@ -284,7 +284,7 @@ public class mysqlConnection {
 				memberID = rand.nextInt(899999);
 				memberID += 100000;
 			} while (!checkMemberIDExistsInMembership("" + memberID));
-
+			update.setString(8, String.valueOf(memberID));
 			update.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

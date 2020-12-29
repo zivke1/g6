@@ -104,7 +104,6 @@ public class ReportDepartmentManagerController {
     	}
     	if(!visitBTN.isSelected()&& !cancelBTN.isSelected())
     		errorMsg.setText("you must choose report first \n");
-
     }
 
     /**
