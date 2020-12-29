@@ -172,8 +172,8 @@ public class HomePageForEmployeeController implements Initializable {
 		FXMLLoader loader = nextStages.goToNextStage(event);
 		AddInstructorController addInstructor = loader.getController();
 		addInstructor.setDetails(fName, lName, role, userID, parkName);
-		//orderControl.setPreviousPage(event);
-		//orderControl.setMainPage(event);
+		addInstructor.setPreviousPage(event);
+		addInstructor.setMainPage(event);
 	}
 
 	// user sign out
