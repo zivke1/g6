@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.Calendar;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -73,6 +74,7 @@ public class mysqlConnection {
 	final static int OPEN_TIME_INT = 8;
 	final static int CLOSE_TIME_INT = 16;
 	final static int ENTER_PRICE = 100;
+	static String calculatePrice;
 
 	public static void connectDB() {
 		try {
@@ -229,11 +231,10 @@ public class mysqlConnection {
 		}
 	}
 
-	
 	// check if member ID is in member table
 	public static ArrayList<String> checkIfIdConnectedWithId(ArrayList<String> arr) throws SQLException {
 		ArrayList<String> toReturn = new ArrayList<String>();
-	//	toReturn.add(arr.get(0));
+		// toReturn.add(arr.get(0));
 		if (m_connectedID.contains(arr.get(0))) {
 			toReturn.add("connectedBefore");
 			return toReturn;
@@ -334,6 +335,7 @@ public class mysqlConnection {
 		}
 		return false;
 	}
+
 	// check if member ID is in member table
 	public static ArrayList<String> checkIfIdConnectedWithMemberId(ArrayList<String> arr) throws SQLException {
 		ArrayList<String> toReturn = new ArrayList<String>();
@@ -619,14 +621,17 @@ public class mysqlConnection {
 	 * @throws SQLException
 	 */
 	public static ArrayList<String> checkInvite(ArrayList<String> arr) throws SQLException {// arr=ID,parkName,time,date,numberOfVisitors,email,occasional,status=(user,member,guide)
+
 		ArrayList<Integer> parkDetils = checkCapacityAndAvarageVisitTime(arr.get(1));
 		ArrayList<String> toReturn = new ArrayList<String>();
 		// parkDetils=Capacity,GapVisitors,TimeOfAvergeVisit
 		int gap = parkDetils.get(1);
 		int Capacity = parkDetils.get(0);
 		int numberOfVisitorsInInvite = Integer.parseInt(arr.get(4));
+		calculatePrice = "Full tickect price: 100$\n";
 
 		if (arr.get(6).equals("notOccasional")) {
+
 			ArrayList<String> sendTocheckNumberOfVistorsInPark = new ArrayList<String>();
 			sendTocheckNumberOfVistorsInPark.add(arr.get(1));
 			sendTocheckNumberOfVistorsInPark.add(arr.get(3));
@@ -635,7 +640,7 @@ public class mysqlConnection {
 																				// parkName,date,time,TimeOfAvrageVisit
 
 			// this only for not occasional visit
-
+///TODO check 
 			int numberOfVisitorsInTimeBefore = checkNumberOfVistorsInParkBack(sendTocheckNumberOfVistorsInPark);// this
 																												// check
 																												// for
@@ -648,7 +653,7 @@ public class mysqlConnection {
 																												// for
 																												// not
 																												// occasinal
-																												// visit
+			// TODO check // visit
 			int numberOfVisitorsInTimeAfter = checkNumberOfVistorsInParkNext(sendTocheckNumberOfVistorsInPark);
 			if ((Capacity - gap < numberOfVisitorsInTimeBefore + numberOfVisitorsInInvite)
 					|| (Capacity - gap < numberOfVisitorsInTimeAfter + numberOfVisitorsInInvite)) {
@@ -662,15 +667,30 @@ public class mysqlConnection {
 			toDiscount.add(arr.get(6));
 			ArrayList<Integer> regularDiscount = getDiscount(toDiscount);
 			if (arr.get(7).equals("guide")) {
+				calculatePrice = calculatePrice + "Group visit, guide doesn't pay.\n";
+
 				numberOfVisitorsInInvite--;
 			} // him
 			int extraDiscount = getExtraDiscount(arr.get(1));
 			float price = ENTER_PRICE * numberOfVisitorsInInvite;// TODO check about the price
+
 			price = (float) (price * (100 - regularDiscount.get(0)) / 100.0);
-			price = (float) (price * (100 - regularDiscount.get(1)) / 100.0);
+			if (regularDiscount.get(0) != 0) {
+				calculatePrice = calculatePrice + "Regular discount " + regularDiscount.get(0) + "%\n";
+			}
+			if (arr.get(7).equals("member")) {
+				price = (float) (price * (100 - regularDiscount.get(1)) / 100.0);
+				if (regularDiscount.get(1) != 0) {
+					calculatePrice = calculatePrice + "Member discount " + regularDiscount.get(1) + "%\n";
+				}
+			}
 			price = (float) (price * (100 - extraDiscount) / 100.0);
+			if (extraDiscount != 0) {
+				calculatePrice = calculatePrice + "Extra discount " + extraDiscount + "%\n";
+			}
 			if (arr.contains("payBefore")) {
 				price = (float) (price * (100 - 12) / 100.0);
+				calculatePrice = calculatePrice + "Prepayment discount 12%\n";
 			}
 			toReturn.add(String.valueOf(price));// confirmed or theParkIsFull then price
 //			if (toReturn.contains("InviteConfirm")) {
@@ -693,8 +713,19 @@ public class mysqlConnection {
 				int extraDiscount = getExtraDiscount(arr.get(1));
 				float price = ENTER_PRICE * numberOfVisitorsInInvite;// TODO check about the price
 				price = (float) (price * (100 - regularDiscount.get(0)) / 100.0);
-				price = (float) (price * (100 - regularDiscount.get(1)) / 100.0);
+				if (regularDiscount.get(0) != 0) {
+					calculatePrice = calculatePrice + "Regular discount " + regularDiscount.get(0) + "%\n";
+				}
+				if (arr.get(7).equals("member")) {
+					price = (float) (price * (100 - regularDiscount.get(1)) / 100.0);
+					if (regularDiscount.get(1) != 0) {
+						calculatePrice = calculatePrice + "Member discount " + regularDiscount.get(1) + "%\n";
+					}
+				}
 				price = (float) (price * (100 - extraDiscount) / 100.0);
+				if (extraDiscount != 0) {
+					calculatePrice = calculatePrice + "Extra discount " + extraDiscount + "%\n";
+				}
 				toReturn.add("InviteConfirm");
 				toReturn.add(String.valueOf(price));// confirmed or theParkIsFull then price
 //				String orderNumber = getOrderNumber();
@@ -702,6 +733,7 @@ public class mysqlConnection {
 //				addToOrdersTable(arr, price, orderNumber, "active");
 			}
 		} // occasional visit only end
+		toReturn.add(calculatePrice);
 		return toReturn;
 
 	}
@@ -1594,7 +1626,9 @@ public class mysqlConnection {
 		ArrayList<String> toReturn = new ArrayList<String>();
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("Select SUM(VisitorsAmount) From orders O Where O.OrderStatus = 'active' AND O.ParkName =" + "'"+parkName+"'"); 																									
+			ResultSet rs = stmt.executeQuery(
+					"Select SUM(VisitorsAmount) From orders O Where O.OrderStatus = 'active' AND O.ParkName =" + "'"
+							+ parkName + "'");
 			while (rs.next()) {
 				countOrders = rs.getString(1);
 			}

@@ -100,7 +100,7 @@ public class OrderController implements Initializable {
 	boolean m_occasional;
 	ArrayList<String> invite;
 	MouseEvent m_event, m_eventMain, m_previousPage;
-	String m_backTo;
+	String m_backTo, m_orderDetails="";
 
 	@FXML
 	void backClicked(MouseEvent event) {
@@ -151,12 +151,18 @@ public class OrderController implements Initializable {
 			ClientMain.chat.accept(invite);
 
 			if (ChatClient.dataInArrayList.contains("TheParkIsFull")) {
+				int size = ChatClient.dataInArrayList.size();
+				m_orderDetails = ChatClient.dataInArrayList.get(size-1);
+				ChatClient.dataInArrayList.remove(size-1);
 				ChatClient.dataInArrayList.remove("TheParkIsFull");
 				// TODO show the waiting list page
 				openWaitingListPage();
 
 			} else if (ChatClient.dataInArrayList.contains("InviteConfirm")) {
 				ChatClient.dataInArrayList.remove("InviteConfirm");
+				int size = ChatClient.dataInArrayList.size();
+				m_orderDetails = ChatClient.dataInArrayList.get(size-1);
+				ChatClient.dataInArrayList.remove(size-1);
 				// show successful page and message to confirm the message
 				OpenInviteConfirmPage();
 
@@ -185,6 +191,7 @@ public class OrderController implements Initializable {
 		paymentPageController.setOrderDetails(invite, ChatClient.dataInArrayList.get(0));
 		paymentPageController.setPreviousPage(m_event);
 		paymentPageController.setMainPage(m_eventMain);
+		paymentPageController.setOrderDetails(m_orderDetails);
 //		Scene scene = new Scene(borderPane);
 //		primaryStage.setTitle("Home Page");
 //		primaryStage.setScene(scene);
@@ -221,6 +228,7 @@ public class OrderController implements Initializable {
 		waitingListController.setMainPage(m_eventMain);
 		waitingListController.setPreviousPage(m_event);
 		invite.remove(0);
+		waitingListController.setOrderDetails(m_orderDetails);
 		waitingListController.setOrderDetails(invite, ChatClient.dataInArrayList.get(0));
 //		Scene scene = new Scene(borderPane);
 //		primaryStage.setTitle("Waiting List");
