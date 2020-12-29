@@ -19,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import util.NextStages;
 /**
  * @author eliran
  * this class is controller for the FXML VisitorAmountReport
@@ -131,21 +132,9 @@ public class VisitorAmountReportController implements Initializable {
 
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
-		((Node) event.getSource()).getScene().getWindow().hide();
-		Stage stage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Parent root;
-		try {
-			root = loader.load(getClass().getResource("/fxmlFiles/ContactUsPopUp.fxml").openStream());
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-			stage.setTitle("Contact Us");
-			stage.setScene(scene);
-			stage.show();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "Contact Us", userID);
+		FXMLLoader loader = nextStages.openPopUp();
+		loader.getController();
 	}
 
 	@FXML

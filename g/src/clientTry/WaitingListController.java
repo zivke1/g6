@@ -115,15 +115,11 @@ public class WaitingListController implements Initializable {
     	m_invite.add(0,"getFreePlace");
     	ClientMain.chat.accept(m_invite);
     	m_invite.remove(0);
-    	ArrayList<FreePlaceInPark>timeToTableArrayList =  ChatClient.dataInArrayListFreePlaceInParks;
+    	ArrayList<FreePlaceInPark>timeToTableArrayList = ChatClient.dataInArrayListFreePlaceInParks;
     	//TODO check set the values in the chart
     	setTableOfFreePlace(timeToTableArrayList);
-    	timeToTableArrayList.clear();
-    	
-    	
+    	timeToTableArrayList.clear();	
     }
-    
-
 
 	private void setTableOfFreePlace(ArrayList<FreePlaceInPark> timeToTableArrayList) {
 		// TODO Auto-generated method stub
