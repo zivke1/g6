@@ -94,8 +94,8 @@ public class VisitorAmountReportController implements Initializable {
 		arr.add("VisitorAmountReport");
 		arr.add(year);
 		arr.add(month);
-		//arr.add(parkName);<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-		arr.add("Tal Park");
+		arr.add(parkName);
+
 		try {
 			ClientMain.chat.accept(arr);
 			if(ChatClient.dataInArrayList.contains("VisitorAmountReport"))

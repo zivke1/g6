@@ -21,6 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import util.NextStages;
 
 /**
  * @author eliran this class is controller for the FXML ReportParkManager the
@@ -89,20 +90,9 @@ public class ReportParkManagerController {
 
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
-		((Node) event.getSource()).getScene().getWindow().hide();
-		Stage stage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Parent root;
-		try {
-			root = loader.load(getClass().getResource("/fxmlFiles/ContactUsPopUp.fxml").openStream());
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-			stage.setTitle("Contact Us");
-			stage.setScene(scene);
-			stage.show();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "Contact Us", userID);
+		FXMLLoader loader = nextStages.openPopUp();
+		loader.getController();
 	}
 
 	@FXML
@@ -121,88 +111,46 @@ public class ReportParkManagerController {
 
 	@FXML
 	void showTheReport(MouseEvent event) {
-		if (visitCountRep.isSelected()) {
+		flag = false;
+		if (visitCountRep.isSelected()) {		
 			flag = true;
-			((Node) event.getSource()).getScene().getWindow().hide();
-			Stage stage = new Stage();
-			FXMLLoader loader = new FXMLLoader();
-			Parent root;
-			try {
-				root = loader.load(getClass().getResource("/fxmlFiles/VisitorAmountReport.fxml").openStream());
-				VisitorAmountReportController v = loader.getController();
-				v.setDetails(repYear.getValue().toString(), repMonth.getValue().toString(), parkNameS, fName, lName,
-						role, userID);
-				Scene scene = new Scene(root);
-				v.setPreviousPage(event);
-				repMonth.setValue("01");
-				repYear.setValue("2020");
-				visitCountRep.setSelected(false);
-				errSelectReport.setVisible(false);
-				flag=false;
-				scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-				stage.setTitle("Visitor Amount Report");
-				stage.setScene(scene);
-				stage.show();
-				return;
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-
+			NextStages nextStages = new NextStages("/fxmlFiles/VisitorAmountReport.fxml", "Visitor Amount Report", userID);
+			FXMLLoader loader = nextStages.goToNextStage(event);
+			VisitorAmountReportController visitRepControl = loader.getController();
+			visitRepControl.setDetails(repYear.getValue().toString(), repMonth.getValue().toString(), parkNameS, fName, lName,
+					role, userID);
+			visitRepControl.setPreviousPage(event);
+			repMonth.setValue("01");
+			repYear.setValue("2020");
+			visitCountRep.setSelected(false);
+			errSelectReport.setVisible(false);
 		}
 		if (usageRep.isSelected()) {
 			flag = true;
-			((Node) event.getSource()).getScene().getWindow().hide();
-			Stage stage = new Stage();
-			FXMLLoader loader = new FXMLLoader();
-			Parent root;
-			try {
-				root = loader.load(getClass().getResource("/fxmlFiles/UsageReports.fxml").openStream());
-				UsageReportsController v = loader.getController();
-				v.setDetails(repYear.getValue().toString(), repMonth.getValue().toString(), parkNameS, fName, lName,
-						role, userID);
-				v.setPreviousPage(event);
-				repMonth.setValue("01");
-				repYear.setValue("2020");
-				usageRep.setSelected(false);
-				errSelectReport.setVisible(false);
-				flag=false;
-				Scene scene = new Scene(root);
-				scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-				stage.setTitle("Usage Reports");
-				stage.setScene(scene);
-				stage.show();
-				return;
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			NextStages nextStages = new NextStages("/fxmlFiles/UsageReports.fxml", "Usage Reports", userID);
+			FXMLLoader loader = nextStages.goToNextStage(event);
+			UsageReportsController useRepControl = loader.getController();
+			useRepControl.setDetails(repYear.getValue().toString(), repMonth.getValue().toString(), parkNameS, fName, lName,
+					role, userID);
+			useRepControl.setPreviousPage(event);	
+			repMonth.setValue("01");
+			repYear.setValue("2020");
+			usageRep.setSelected(false);
+			errSelectReport.setVisible(false);
 
 		}
 		if (incomeRep.isSelected()) {
 			flag = true;
-			((Node) event.getSource()).getScene().getWindow().hide();
-			Stage stage = new Stage();
-			FXMLLoader loader = new FXMLLoader();
-			Parent root;
-			try {
-				root = loader.load(getClass().getResource("/fxmlFiles/IncomeReport.fxml").openStream());
-				incomeReportController v = loader.getController();
-				v.setDetails(repYear.getValue().toString(), repMonth.getValue().toString(), parkNameS, fName, lName,
-						role, userID);
-				v.setPreviousPage(event);
-				repMonth.setValue("01");
-				repYear.setValue("2020");
-				errSelectReport.setVisible(false);
-				incomeRep.setSelected(false);
-				flag=false;
-				Scene scene = new Scene(root);
-				scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-				stage.setTitle("Income Report");
-				stage.setScene(scene);
-				stage.show();
-				return;
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			errSelectReport.setVisible(false);
+			repMonth.setValue("01");
+			repYear.setValue("2020");
+			incomeRep.setSelected(false);
+			NextStages nextStages = new NextStages("/fxmlFiles/IncomeReport.fxml", "Income Report", userID);
+			FXMLLoader loader = nextStages.goToNextStage(event);
+			incomeReportController incomeControl = loader.getController();
+			incomeControl.setDetails(repYear.getValue().toString(), repMonth.getValue().toString(), parkNameS, fName, lName,
+					role, userID);
+			incomeControl.setPreviousPage(event);			
 		}
 		if (!flag) {
 			// if no one selected err

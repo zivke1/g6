@@ -208,7 +208,7 @@ public class HomePageForEmployeeController implements Initializable {
 		FXMLLoader loader = nextStages.goToNextStage(event);
 		UpdateParametersController updatePcontrol = loader.getController();
 		updatePcontrol.setDetails(fName, lName, role, userID, parkName);
-		//updatePcontrol.setPreviousPage(event);
+		updatePcontrol.setPreviousPage(event);
 		//updatePcontrol.setMainPage(event);
 	}
 
