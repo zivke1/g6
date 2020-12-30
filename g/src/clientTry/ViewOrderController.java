@@ -99,7 +99,6 @@ public class ViewOrderController {
 		arr.add("CancelOrder");
 		arr.add(orderIDH);
 		ClientMain.chat.accept(arr);
-		anchorAll.setVisible(false);
 		errorMsg.setText(ChatClient.dataInArrayList.get(0));
 		}
 		else errorMsg.setText("Can not cancel active/finished/exipred order");

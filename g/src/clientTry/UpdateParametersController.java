@@ -35,7 +35,7 @@ import javafx.stage.Stage;
  */
 
 public class UpdateParametersController {
-	private String parkName, discount, duration, gap, maxCapacity,fNameH,lNameH,roleH,userIDH,parkNameH;
+	private String  discount, duration, gap, maxCapacity,fNameH,lNameH,roleH,userIDH,parkNameH;
 	private LocalDate from, until;
 	private boolean chosenDuration = false, chosenDiscount = false, chosenGap = false, chosenCapacity = false;
 
@@ -180,7 +180,7 @@ public class UpdateParametersController {
 		LocalDateTime d;
 		if (chosenCapacity) {
 			arr.add("sendToDeparmentManager");
-			arr.add(parkName);
+			arr.add(parkNameH);
 			arr.add("capacity");
 			arr.add(maxCapacity);
 			d = LocalDateTime.now();
@@ -196,7 +196,7 @@ public class UpdateParametersController {
 		}
 		if (chosenDiscount) {
 			arr.add("sendToDeparmentManager");
-			arr.add(parkName);
+			arr.add(parkNameH);
 			arr.add("Discount");
 			arr.add(discount);
 			d = LocalDateTime.now();
@@ -213,7 +213,7 @@ public class UpdateParametersController {
 		}
 		if (chosenDuration) {
 			arr.add("sendToDeparmentManager");
-			 arr.add(parkName);
+			 arr.add(parkNameH);
 			arr.add("Duration");
 			arr.add(duration);
 			d = LocalDateTime.now();
@@ -230,7 +230,7 @@ public class UpdateParametersController {
 		}
 		if (chosenGap) {
 			arr.add("sendToDeparmentManager");
-			arr.add(parkName);
+			arr.add(parkNameH);
 			arr.add("Gap");
 			arr.add(gap);
 			d = LocalDateTime.now();
@@ -430,11 +430,11 @@ public class UpdateParametersController {
 	 * @param parkName the park name of the manager the method get the park name of
 	 *                 the manager park
 	 */
-	public void sendToParaController(String parkName) {
-		this.parkName = parkName;
-		parks_name.setText(parkName);
-
-	}
+//	public void sendToParaController(String parkName) {
+//		this.parkName = parkName;
+//		parks_name.setText(parkName);
+//
+//	}
 	public void setDetails(String fName, String lName, String role, String userID, String parkName)
 	{
 		this.fNameH=fName;
@@ -442,7 +442,7 @@ public class UpdateParametersController {
 		this.roleH=role;
 		this.userIDH=userID;
 		this.parkNameH=parkName;
-
+		
 	}
 
 }
