@@ -20,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import util.NextStages;
 
 public class ParkDetailsController {
 
@@ -64,6 +65,7 @@ public class ParkDetailsController {
 	@FXML
 	private Label explanation;
 	
+	MouseEvent m_previousPage;
 	private boolean i = true;
 	private String fName;
 	private String lName;
@@ -133,21 +135,22 @@ public class ParkDetailsController {
 	@FXML
 	void backClicked(MouseEvent event) {
 		((Node) event.getSource()).getScene().getWindow().hide();
-		Stage stage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Parent root;
-		try {
-			root = loader.load(getClass().getResource("/fxmlFiles/HomePageForEmployee.fxml").openStream());
-			HomePageForEmployeeController v = loader.getController();
-			v.setDetails(fName, lName, role, userID, parkNameS);
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-			stage.setTitle("Home Page For Employee");
-			stage.setScene(scene);
-			stage.show();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		((Stage) ((Node) m_previousPage.getSource()).getScene().getWindow()).show();
+//		Stage stage = new Stage();
+//		FXMLLoader loader = new FXMLLoader();
+//		Parent root;
+//		try {
+//			root = loader.load(getClass().getResource("/fxmlFiles/HomePageForEmployee.fxml").openStream());
+//			HomePageForEmployeeController v = loader.getController();
+//			v.setDetails(fName, lName, role, userID, parkNameS);
+//			Scene scene = new Scene(root);
+//			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
+//			stage.setTitle("Home Page For Employee");
+//			stage.setScene(scene);
+//			stage.show();
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
+//		}
 	}
 /*
 	@FXML
@@ -157,20 +160,23 @@ public class ParkDetailsController {
 */
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
-		((Node) event.getSource()).getScene().getWindow().hide();
-		Stage stage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Parent root;
-		try {
-			root = loader.load(getClass().getResource("/fxmlFiles/ContactUsPopUp.fxml").openStream());
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-			stage.setTitle("Contact Us");
-			stage.setScene(scene);
-			stage.show();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+//		((Node) event.getSource()).getScene().getWindow().hide();
+//		Stage stage = new Stage();
+//		FXMLLoader loader = new FXMLLoader();
+//		Parent root;
+//		try {
+//			root = loader.load(getClass().getResource("/fxmlFiles/ContactUsPopUp.fxml").openStream());
+//			Scene scene = new Scene(root);
+//			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
+//			stage.setTitle("Contact Us");
+//			stage.setScene(scene);
+//			stage.show();
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
+//		}
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order", userID);
+		FXMLLoader loader = nextStages.openPopUp();
+		loader.getController();
 	}
 
 	@FXML
@@ -194,6 +200,11 @@ public class ParkDetailsController {
 		comboPark.setValue("Tal Park");
 		comboPark.setItems(ParksName);
 		explanation.setVisible(false);
+	}
+
+	public void setPreviousPage(MouseEvent event) {
+		m_previousPage= event;
+		
 	}
 
 }

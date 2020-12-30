@@ -296,7 +296,7 @@ public class HomePageForEmployeeController implements Initializable {
 		FXMLLoader loader = nextStages.goToNextStage(event);
 		ParkDetailsController parkDetailsControl = loader.getController();
 		parkDetailsControl.setDetails(fName, lName, role, userID, parkName);
-		//parkDetailsControl.setPreviousPage(event);
+		parkDetailsControl.setPreviousPage(event);
 		//parkDetailsControl.setMainPage(event);
 	}
 
