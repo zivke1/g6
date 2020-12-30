@@ -126,7 +126,7 @@ public class CheckAvailabilityController {
 		orderControl.setDetailsOfOwner(ownerUserID, ownerRole, occasional, amountOfPeople, amountInoccasional); // order
 																												// owner
 		anchorMakeOrder.setVisible(false);
-		orderControl.setPreviousPage(m_previousPage);
+		orderControl.setPreviousPage(event);
 		orderControl.setMainPage(m_eventMain);
 
 	}
