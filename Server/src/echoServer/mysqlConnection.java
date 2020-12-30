@@ -1715,6 +1715,11 @@ public class mysqlConnection {
 			while (rs.next()) {
 				countOrders = rs.getString(1);
 			}
+			//ziv add
+			if(countOrders==null) {
+				countOrders="0";
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

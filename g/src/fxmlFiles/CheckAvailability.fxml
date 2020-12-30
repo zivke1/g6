@@ -57,7 +57,7 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text layoutX="58.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Free space left in the park:">
+            <Text fx:id="freeSpacetxt" layoutX="58.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Free space left in the park:">
                <font>
                   <Font size="18.0" />
                </font>
@@ -67,6 +67,11 @@
                   <Font size="18.0" />
                </font>
             </Text>
+            <Label fx:id="NoFreeSpaceLable" layoutX="58.0" layoutY="123.0" prefHeight="27.0" prefWidth="330.0" text="There Is No Free Space Left In This Park" textFill="#e84a4a">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
             <AnchorPane fx:id="anchorMakeOrder" layoutX="31.0" layoutY="199.0" prefHeight="269.0" prefWidth="573.0" visible="false">
                <children>
                   <Label layoutX="43.0" layoutY="111.0" text="Enter ID:">
