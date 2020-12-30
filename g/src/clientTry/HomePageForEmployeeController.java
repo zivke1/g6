@@ -286,8 +286,8 @@ public class HomePageForEmployeeController implements Initializable {
 		FXMLLoader loader = nextStages.goToNextStage(event);
 		MembershipRegistrationController memberRegControl = loader.getController();
 		memberRegControl.setDetails(fName, lName, role, userID, parkName);
-		//memberRegControl.setPreviousPage(event);
-		//memberRegControl.setMainPage(event);
+		memberRegControl.setPreviousPage(event);
+		memberRegControl.setMainPage(event);
 	}
 
 	@FXML
