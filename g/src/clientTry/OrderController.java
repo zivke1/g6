@@ -100,7 +100,7 @@ public class OrderController implements Initializable {
 	boolean m_occasional;
 	ArrayList<String> invite;
 	MouseEvent m_event, m_eventMain, m_previousPage;
-	String m_backTo;
+	String m_backTo, m_orderDetails="";
 
 	@FXML
 	void backClicked(MouseEvent event) {
@@ -151,17 +151,23 @@ public class OrderController implements Initializable {
 			ClientMain.chat.accept(invite);
 
 			if (ChatClient.dataInArrayList.contains("TheParkIsFull")) {
+				int size = ChatClient.dataInArrayList.size();
+				m_orderDetails = ChatClient.dataInArrayList.get(size-1);
+				ChatClient.dataInArrayList.remove(size-1);
 				ChatClient.dataInArrayList.remove("TheParkIsFull");
 				// TODO show the waiting list page
 				openWaitingListPage();
 
 			} else if (ChatClient.dataInArrayList.contains("InviteConfirm")) {
 				ChatClient.dataInArrayList.remove("InviteConfirm");
+				int size = ChatClient.dataInArrayList.size();
+				m_orderDetails = ChatClient.dataInArrayList.get(size-1);
+				ChatClient.dataInArrayList.remove(size-1);
 				// show successful page and message to confirm the message
 				OpenInviteConfirmPage();
 
 			}
-			System.out.println(invite);
+		//	System.out.println(invite);
 		}
 
 	}
@@ -185,6 +191,7 @@ public class OrderController implements Initializable {
 		paymentPageController.setOrderDetails(invite, ChatClient.dataInArrayList.get(0));
 		paymentPageController.setPreviousPage(m_event);
 		paymentPageController.setMainPage(m_eventMain);
+		paymentPageController.setOrderDetails(m_orderDetails);
 //		Scene scene = new Scene(borderPane);
 //		primaryStage.setTitle("Home Page");
 //		primaryStage.setScene(scene);
@@ -221,6 +228,7 @@ public class OrderController implements Initializable {
 		waitingListController.setMainPage(m_eventMain);
 		waitingListController.setPreviousPage(m_event);
 		invite.remove(0);
+		waitingListController.setOrderDetails(m_orderDetails);
 		waitingListController.setOrderDetails(invite, ChatClient.dataInArrayList.get(0));
 //		Scene scene = new Scene(borderPane);
 //		primaryStage.setTitle("Waiting List");
@@ -321,7 +329,7 @@ public class OrderController implements Initializable {
 	void goToContactUsPopUp(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order", m_userID);
 		FXMLLoader loader = nextStages.openPopUp();
-		loader.getController();
+//		loader.getController();
 	}
 
 	public void setDetails(String fName, String lName, String role, String userID, String parkName) {
@@ -352,6 +360,7 @@ public class OrderController implements Initializable {
 		m_occasional = occasional;
 		m_amountOfPeople = membersAmount;
 		if (m_occasional) {
+			txtCrumViaHomePage.setVisible(true);
 			tempArrayList.add(m_parkName);
 			setParkCombo(tempArrayList);
 			parkNameCombo.setValue(m_parkName);
@@ -378,6 +387,7 @@ public class OrderController implements Initializable {
 //			 setNumberOfVistors("free place");//for occasional visit i need to set the number of visitors to the one i get from the previous page
 
 		} else {
+			txtCrum.setVisible(true);
 			setHourCombo(new Time(8, 0, 0), new Time(16, 29, 0));//the time coustumer can enter to the patk
 			tempArrayList.add("Carmel Park");
 			tempArrayList.add("Tal Park");

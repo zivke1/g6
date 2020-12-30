@@ -19,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import util.NextStages;
 
 public class MembershipRegistrationController {
 	//private String pName="";
@@ -71,25 +72,31 @@ public class MembershipRegistrationController {
 	private String roleH;
 	private String userIDH;
 	private String parkNameH;
-
+	MouseEvent m_mainPage,m_previousPage;
+	
+	
 	@FXML
 	void backClicked(MouseEvent event) {
 		((Node) event.getSource()).getScene().getWindow().hide();
-		Stage stage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Parent root;
-		try {
-			root = loader.load(getClass().getResource("/fxmlFiles/HomePageForEmployee.fxml").openStream());
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-			HomePageForEmployeeController controller=loader.getController();
-			controller.setDetails(fNameH, lNameH, roleH, userIDH, parkNameH);
-			stage.setTitle("HomePage");
-			stage.setScene(scene);
-			stage.show();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		((Stage) ((Node) m_previousPage.getSource()).getScene().getWindow()).show();
+		
+		
+//		((Node) event.getSource()).getScene().getWindow().hide();
+//		Stage stage = new Stage();
+//		FXMLLoader loader = new FXMLLoader();
+//		Parent root;
+//		try {
+//			root = loader.load(getClass().getResource("/fxmlFiles/HomePageForEmployee.fxml").openStream());
+//			Scene scene = new Scene(root);
+//			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
+//			HomePageForEmployeeController controller=loader.getController();
+//			controller.setDetails(fNameH, lNameH, roleH, userIDH, parkNameH);
+//			stage.setTitle("HomePage");
+//			stage.setScene(scene);
+//			stage.show();
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
+//		}
 	}
 
 	@FXML
@@ -202,23 +209,32 @@ public class MembershipRegistrationController {
 			}
 			if (ChatClient.dataInArrayList.contains("Success")) {
 				ChatClient.dataInArrayList.remove("Success");
-				((Node) event.getSource()).getScene().getWindow().hide();
-				Stage stage = new Stage();
-				FXMLLoader loader = new FXMLLoader();
-				BorderPane root;
-				try {
-					root = loader.load(getClass().getResource("/fxmlFiles/MembershipRegistrationSuccess.fxml").openStream());
-					MembershipRegistrationSucccesCon controller=loader.getController();
-					controller.updateMemberNum(ChatClient.dataInArrayList.get(0));
-					controller.setDetails(fNameH, lNameH, roleH, userIDH, parkNameH);;
-					Scene scene = new Scene(root);
-					scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-					stage.setTitle("Membership Registration Success");
-					stage.setScene(scene);
-					stage.show();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+				
+				
+				NextStages nextStages = new NextStages("/fxmlFiles/MembershipRegistrationSuccess.fxml", "Membership Registration Success", userIDH);
+		    	FXMLLoader loader = nextStages.goToNextStage(event);
+		    	MembershipRegistrationSucccesCon controller=loader.getController();
+		    	controller.updateMemberNum(ChatClient.dataInArrayList.get(0));
+		    	controller.setDetails(fNameH, lNameH, roleH, userIDH, parkNameH);
+		    
+				controller.setMainPage(m_mainPage);
+//				((Node) event.getSource()).getScene().getWindow().hide();
+//				Stage stage = new Stage();
+//				FXMLLoader loader = new FXMLLoader();
+//				BorderPane root;
+//				try {
+//					root = loader.load(getClass().getResource("/fxmlFiles/MembershipRegistrationSuccess.fxml").openStream());
+//					MembershipRegistrationSucccesCon controller=loader.getController();
+//					controller.updateMemberNum(ChatClient.dataInArrayList.get(0));
+//					controller.setDetails(fNameH, lNameH, roleH, userIDH, parkNameH);
+//					Scene scene = new Scene(root);
+//					scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
+//					stage.setTitle("Membership Registration Success");
+//					stage.setScene(scene);
+//					stage.show();
+//				} catch (IOException e1) {
+//					e1.printStackTrace();
+//				}
 
 			}
 		}
@@ -226,19 +242,22 @@ public class MembershipRegistrationController {
 
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
-		Stage stage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Parent root;
-		try {
-			root = loader.load(getClass().getResource("/fxmlFiles/ContactUsPopUp.fxml").openStream());
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-			stage.setTitle("Contact Us");
-			stage.setScene(scene);
-			stage.show();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+//		Stage stage = new Stage();
+//		FXMLLoader loader = new FXMLLoader();
+//		Parent root;
+//		try {
+//			root = loader.load(getClass().getResource("/fxmlFiles/ContactUsPopUp.fxml").openStream());
+//			Scene scene = new Scene(root);
+//			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
+//			stage.setTitle("Contact Us");
+//			stage.setScene(scene);
+//			stage.show();
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
+//		}
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order", userIDH);
+		FXMLLoader loader = nextStages.openPopUp();
+		loader.getController();
 	}
 
 	@FXML
@@ -267,5 +286,14 @@ public class MembershipRegistrationController {
 		this.roleH=role;
 		this.userIDH=userID;
 		this.parkNameH=parkName;
+	}
+	
+	public void setMainPage(MouseEvent event) {
+		m_mainPage = event;
+	}
+	
+	public void setPreviousPage(MouseEvent event) {
+		// TODO Auto-generated method stub
+		m_previousPage = event;
 	}
 }

@@ -33,7 +33,7 @@
                </image>
             </ImageView>
             <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
-            <Label layoutX="178.0" layoutY="95.0" text="Login &gt; Home Page For Employees &gt;  Update Parameters" />
+            <Label layoutX="178.0" layoutY="95.0" text="Home Page &gt; Update Parameters" visible="false" />
          </children>
       </AnchorPane>
    </top>

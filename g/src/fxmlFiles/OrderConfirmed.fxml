@@ -29,8 +29,8 @@
                </image>
             </ImageView>
             <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
-            <Label fx:id="employeeOrderCrums" layoutX="178.0" layoutY="95.0" text="Login &gt; Home Page For Employee &gt; Make new order employee &gt; Make new order &gt; Order confirmed" visible="false" />
-            <Label fx:id="userOrderCrums" layoutX="178.0" layoutY="95.0" text="Login &gt; Home Page For Customer &gt; Make new order &gt; Order confirmed" visible="false" />
+            <Label fx:id="employeeOrderCrums" layoutX="178.0" layoutY="95.0" text="Home Page &gt; Availability Check &gt; Make new order &gt; Order confirmed" visible="false" />
+            <Label fx:id="userOrderCrums" layoutX="178.0" layoutY="95.0" text="Home Page &gt; Make new order &gt; Order confirmed" visible="false" />
          </children>
       </AnchorPane>
    </top>

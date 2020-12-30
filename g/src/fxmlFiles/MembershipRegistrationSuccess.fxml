@@ -29,7 +29,7 @@
                </image>
             </ImageView>
             <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
-            <Label layoutX="178.0" layoutY="95.0" text="Login &gt; Home Page For Employee  &gt; Membership Registration &gt; Registration Completed" />
+            <Label layoutX="172.0" layoutY="98.0" text="Home Page &gt; Membership Registration &gt; Registration Completed" />
          </children>
       </AnchorPane>
    </top>
@@ -42,7 +42,7 @@
             <Label layoutX="69.0" layoutY="130.0" styleClass="textA" text="We would love to see you in our parks" />
             <Label layoutX="69.0" layoutY="60.0" styleClass="textA" text="Your membership number is: " />
             <Label fx:id="memberNum" layoutX="360.0" layoutY="60.0" styleClass="textA" />
-            <Button fx:id="backBtn" layoutX="720.0" layoutY="443.0" mnemonicParsing="false" onMouseClicked="#backClicked" prefHeight="43.0" prefWidth="171.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Back To HomePage" />
+            <Button fx:id="backBtn" layoutX="720.0" layoutY="443.0" mnemonicParsing="false" onMouseClicked="#backClicked" prefHeight="43.0" prefWidth="154.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Back To Home Page" />
          </children>
       </AnchorPane>
    </center>

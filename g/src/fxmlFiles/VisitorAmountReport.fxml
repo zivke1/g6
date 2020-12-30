@@ -30,7 +30,7 @@
                </image>
             </ImageView>
             <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
-            <Label layoutX="178.0" layoutY="95.0" text="Home Page For Employee &gt; Generate Report &gt; Visitors Amount Report" />
+            <Label layoutX="178.0" layoutY="95.0" text="Home Page &gt; Generate Reports &gt; Visitors Amount Report" />
          </children>
       </AnchorPane>
    </top>

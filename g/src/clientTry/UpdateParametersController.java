@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -27,6 +28,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import util.NextStages;
 
 /**
  *
@@ -131,6 +133,7 @@ public class UpdateParametersController {
 
 	@FXML
 	private Label errorMsg;
+	private MouseEvent m_previousPage;
 
 	/**
 	 * @author Idan
@@ -138,27 +141,15 @@ public class UpdateParametersController {
 	 */
 	@FXML
 	void backClicked(MouseEvent event) {
-		Stage stage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Parent root;
-		try {
-			root = loader.load(getClass().getResource("/fxmlFiles/HomePageForEmployee.fxml").openStream());
-			HomePageForEmployeeController controller=loader.getController();
-			controller.setDetails(fNameH, lNameH, roleH, userIDH, parkNameH);
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-			stage.setTitle("HomePage");
-			stage.setScene(scene);
-			stage.show();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		((Node) event.getSource()).getScene().getWindow().hide();
+		((Stage) ((Node) m_previousPage.getSource()).getScene().getWindow()).show();
 	}
 
-// need to complete
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
-
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "Contact Us", userIDH);
+		FXMLLoader loader = nextStages.openPopUp();
+		loader.getController();
 	}
 
 // need to complete
@@ -444,5 +435,7 @@ public class UpdateParametersController {
 		this.parkNameH=parkName;
 		
 	}
-
+	public void setPreviousPage(MouseEvent event) {
+		m_previousPage = event;
+	}
 }

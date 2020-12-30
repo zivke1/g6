@@ -25,6 +25,7 @@ public class PaymentPageController {
 	String m_fName, m_lName, m_role, m_userID, m_parkName, m_price, m_orderNumber;
 	ArrayList<String> m_inviteDetails;
 	MouseEvent m_event, m_eventMain;
+    String m_orderDetails="";
 
 	@FXML
 	private ImageView imgContactUs;
@@ -58,6 +59,9 @@ public class PaymentPageController {
 
 	@FXML
 	private Text emailLabel;
+	
+    @FXML
+    private Label informationLabel;
 
 	@FXML
 	void backClicked(MouseEvent event) {
@@ -106,7 +110,9 @@ public class PaymentPageController {
 
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
-
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order", m_userID);
+		FXMLLoader loader = nextStages.openPopUp();
+		loader.getController();
 	}
 
 	@FXML
@@ -150,6 +156,11 @@ public class PaymentPageController {
 	public void setMainPage(MouseEvent eventMain) {
 	
 		m_eventMain = eventMain;
+	}
+	
+	public void setOrderDetails(String orderDetails) {
+		m_orderDetails=orderDetails;
+		informationLabel.setText(m_orderDetails);
 	}
 
 }

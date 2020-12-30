@@ -3,6 +3,7 @@ package clientTry;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -99,9 +100,11 @@ public class ViewOrderController {
 		arr.add("CancelOrder");
 		arr.add(orderIDH);
 		ClientMain.chat.accept(arr);
+		cancelBtn.setVisible(false);
+		orderStatus.setText("cancelled");
 		errorMsg.setText(ChatClient.dataInArrayList.get(0));
 		}
-		else errorMsg.setText("Can not cancel active/finished/exipred order");
+		else errorMsg.setText("Cannot cancel active/finished/exipred/cancelled order");
 	}
 
 	@FXML

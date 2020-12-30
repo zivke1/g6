@@ -27,8 +27,8 @@
                   <Image url="@/img/img5.png" />
                </image>
             </ImageView>
-            <Label fx:id="txtCrumViaHomePage" layoutX="178.0" layoutY="95.0" text="Login &gt; Home Page For Employee &gt; Make New Order Employee &gt; Make New Order" visible="false" />
-            <Label fx:id="txtCrum" layoutX="178.0" layoutY="95.0" text="Login &gt; Home Page For Customer &gt; Make Order" visible="false" />
+            <Label fx:id="txtCrumViaHomePage" layoutX="178.0" layoutY="95.0" text="Home Page &gt; Availability Check &gt; Make New Order" visible="false" />
+            <Label fx:id="txtCrum" layoutX="178.0" layoutY="95.0" prefHeight="23.0" prefWidth="216.0" text="Home Page &gt; Make New Order" visible="false" />
             <ImageView fx:id="imgContactUs" fitHeight="62.0" fitWidth="62.0" layoutX="951.0" layoutY="-1.0" onMouseClicked="#goToContactUsPopUp" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@/img/contactus.png" />
@@ -69,7 +69,7 @@
                   <Font size="20.0" />
                </font>
             </Text>
-            <DatePicker fx:id="pickDatePicker" layoutX="208.0" layoutY="200.0" promptText="-enter date-" />
+            <DatePicker fx:id="pickDatePicker" layoutX="208.0" layoutY="200.0" promptText="-choose date-" />
             <Text layoutX="21.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hour:">
                <font>
                   <Font size="20.0" />
@@ -91,6 +91,31 @@
             </Text>
             <CheckBox fx:id="payTimeCheckBox" layoutX="23.0" layoutY="374.0" mnemonicParsing="false" text="would you like to pay now?" visible="false" />
             <Label fx:id="emailNotVaild" layoutX="447.0" layoutY="326.0" text="Your email dosen't vaild" textFill="RED" visible="false">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="198.0" layoutY="81.0" text="*" textFill="RED">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="198.0" layoutY="144.0" text="*" textFill="RED">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="198.0" layoutY="201.0" text="*" textFill="RED">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="198.0" layoutY="265.0" text="*" textFill="RED">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="198.0" layoutY="322.0" text="*" textFill="RED">
                <font>
                   <Font size="18.0" />
                </font>

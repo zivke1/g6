@@ -102,8 +102,33 @@ public class EchoServer extends AbstractServer {
 			ArrayList<String> dataFromDb;
 			ArrayList<String> arr = (ArrayList<String>) msg;
 
-			if (arr.contains("UsageReports")) {
-				dataFromDb = mysqlConnection.UsageReports(arr);
+			if(arr.contains("updateToActive"))
+			{
+				mysqlConnection.updateToActive(arr);
+				client.sendToClient(msg);
+				return;
+			}
+			if(arr.contains("updateToFinished"))
+			{
+				mysqlConnection.updateToFinished(arr);
+				client.sendToClient(msg);
+				return;
+			}
+			if(arr.contains("ReturnUserIDInTableOrdersForCardReader"))
+			{
+				ArrayList<OrderToView> ar = mysqlConnection.ReturnUserIDInTableOrdersForCardReader(arr);
+				client.sendToClient(ar);
+				return;
+			}
+			if(arr.contains("simulationCardReader"))
+			{
+				dataFromDb=mysqlConnection.simulationCardReader();
+				client.sendToClient(dataFromDb);
+				return;
+			}
+			if(arr.contains("UsageReports"))
+			{
+				dataFromDb=mysqlConnection.UsageReports(arr);
 				client.sendToClient(dataFromDb);
 				return;
 			}
@@ -175,7 +200,7 @@ public class EchoServer extends AbstractServer {
 			}
 			if (arr.contains("cancel report")) {
 				arr.remove("cancel report");
-				ArrayList<String> answer = mysqlConnection.cancelReport();
+				ArrayList<String> answer = mysqlConnection.cancelReport(arr);
 				client.sendToClient(answer);
 				return;
 			}

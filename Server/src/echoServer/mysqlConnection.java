@@ -6,7 +6,6 @@ import util.FreePlaceInPark;
 
 import util.OrderToView;
 import util.ParameterToView;
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,25 +15,21 @@ import java.sql.SQLException;
 import java.sql.SQLSyntaxErrorException;
 import java.sql.Statement;
 import java.sql.Time;
-
 import java.sql.Timestamp;
-
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.WeekFields;
-
 import java.util.ArrayList;
-
-import java.util.Collections;
-
 import java.util.Calendar;
-
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
-
 import java.util.TreeSet;
-
 import java.util.TreeMap;
 
 import com.mysql.cj.jdbc.SuspendableXAConnection;
@@ -53,7 +48,6 @@ import util.Role;
 
 import util.TypeOfOrder;
 import util.SimulationDetails;
-
 import util.VisitorsInDate;
 
 public class mysqlConnection {
@@ -73,6 +67,7 @@ public class mysqlConnection {
 	final static int OPEN_TIME_INT = 8;
 	final static int CLOSE_TIME_INT = 16;
 	final static int ENTER_PRICE = 100;
+	static String calculatePrice;
 
 	public static void connectDB() {
 		try {
@@ -283,7 +278,7 @@ public class mysqlConnection {
 				memberID = rand.nextInt(899999);
 				memberID += 100000;
 			} while (!checkMemberIDExistsInMembership("" + memberID));
-
+			update.setString(8, String.valueOf(memberID));
 			update.executeUpdate();
 		} catch (SQLException e) {
 			//e.printStackTrace();
@@ -619,14 +614,17 @@ public class mysqlConnection {
 	 * @throws SQLException
 	 */
 	public static ArrayList<String> checkInvite(ArrayList<String> arr) throws SQLException {// arr=ID,parkName,time,date,numberOfVisitors,email,occasional,status=(user,member,guide)
+
 		ArrayList<Integer> parkDetils = checkCapacityAndAvarageVisitTime(arr.get(1));
 		ArrayList<String> toReturn = new ArrayList<String>();
 		// parkDetils=Capacity,GapVisitors,TimeOfAvergeVisit
 		int gap = parkDetils.get(1);
 		int Capacity = parkDetils.get(0);
 		int numberOfVisitorsInInvite = Integer.parseInt(arr.get(4));
+		calculatePrice = "Full tickect price: 100$\n";
 
 		if (arr.get(6).equals("notOccasional")) {
+
 			ArrayList<String> sendTocheckNumberOfVistorsInPark = new ArrayList<String>();
 			sendTocheckNumberOfVistorsInPark.add(arr.get(1));
 			sendTocheckNumberOfVistorsInPark.add(arr.get(3));
@@ -635,7 +633,7 @@ public class mysqlConnection {
 																				// parkName,date,time,TimeOfAvrageVisit
 
 			// this only for not occasional visit
-
+///TODO check 
 			int numberOfVisitorsInTimeBefore = checkNumberOfVistorsInParkBack(sendTocheckNumberOfVistorsInPark);// this
 																												// check
 																												// for
@@ -648,7 +646,7 @@ public class mysqlConnection {
 																												// for
 																												// not
 																												// occasinal
-																												// visit
+			// TODO check // visit
 			int numberOfVisitorsInTimeAfter = checkNumberOfVistorsInParkNext(sendTocheckNumberOfVistorsInPark);
 			if ((Capacity - gap < numberOfVisitorsInTimeBefore + numberOfVisitorsInInvite)
 					|| (Capacity - gap < numberOfVisitorsInTimeAfter + numberOfVisitorsInInvite)) {
@@ -662,15 +660,30 @@ public class mysqlConnection {
 			toDiscount.add(arr.get(6));
 			ArrayList<Integer> regularDiscount = getDiscount(toDiscount);
 			if (arr.get(7).equals("guide")) {
+				calculatePrice = calculatePrice + "Group visit, guide doesn't pay.\n";
+
 				numberOfVisitorsInInvite--;
 			} // him
 			int extraDiscount = getExtraDiscount(arr.get(1));
 			float price = ENTER_PRICE * numberOfVisitorsInInvite;// TODO check about the price
+
 			price = (float) (price * (100 - regularDiscount.get(0)) / 100.0);
-			price = (float) (price * (100 - regularDiscount.get(1)) / 100.0);
+			if (regularDiscount.get(0) != 0) {
+				calculatePrice = calculatePrice + "Regular discount " + regularDiscount.get(0) + "%\n";
+			}
+			if (arr.get(7).equals("member")) {
+				price = (float) (price * (100 - regularDiscount.get(1)) / 100.0);
+				if (regularDiscount.get(1) != 0) {
+					calculatePrice = calculatePrice + "Member discount " + regularDiscount.get(1) + "%\n";
+				}
+			}
 			price = (float) (price * (100 - extraDiscount) / 100.0);
+			if (extraDiscount != 0) {
+				calculatePrice = calculatePrice + "Extra discount " + extraDiscount + "%\n";
+			}
 			if (arr.contains("payBefore")) {
 				price = (float) (price * (100 - 12) / 100.0);
+				calculatePrice = calculatePrice + "Prepayment discount 12%\n";
 			}
 			toReturn.add(String.valueOf(price));// confirmed or theParkIsFull then price
 //			if (toReturn.contains("InviteConfirm")) {
@@ -693,8 +706,19 @@ public class mysqlConnection {
 				int extraDiscount = getExtraDiscount(arr.get(1));
 				float price = ENTER_PRICE * numberOfVisitorsInInvite;// TODO check about the price
 				price = (float) (price * (100 - regularDiscount.get(0)) / 100.0);
-				price = (float) (price * (100 - regularDiscount.get(1)) / 100.0);
+				if (regularDiscount.get(0) != 0) {
+					calculatePrice = calculatePrice + "Regular discount " + regularDiscount.get(0) + "%\n";
+				}
+				if (arr.get(7).equals("member")) {
+					price = (float) (price * (100 - regularDiscount.get(1)) / 100.0);
+					if (regularDiscount.get(1) != 0) {
+						calculatePrice = calculatePrice + "Member discount " + regularDiscount.get(1) + "%\n";
+					}
+				}
 				price = (float) (price * (100 - extraDiscount) / 100.0);
+				if (extraDiscount != 0) {
+					calculatePrice = calculatePrice + "Extra discount " + extraDiscount + "%\n";
+				}
 				toReturn.add("InviteConfirm");
 				toReturn.add(String.valueOf(price));// confirmed or theParkIsFull then price
 //				String orderNumber = getOrderNumber();
@@ -702,6 +726,7 @@ public class mysqlConnection {
 //				addToOrdersTable(arr, price, orderNumber, "active");
 			}
 		} // occasional visit only end
+		toReturn.add(calculatePrice);
 		return toReturn;
 
 	}
@@ -875,7 +900,7 @@ public class mysqlConnection {
 		ResultSet rs = stmt.executeQuery("select SUM(VisitorsAmount) from orders "
 				+ "Where (OrderStatus= 'waitingToVisit' OR OrderStatus='waitingToApprove') " + "AND VisitDate = '"
 				+ sendTocheckNumberOfVistorsInPark.get(1) + "' AND ParkName = '"
-				+ sendTocheckNumberOfVistorsInPark.get(0) + "' AND  ExpectedEnterTime>'"
+				+ sendTocheckNumberOfVistorsInPark.get(0) + "' AND  ExpectedEnterTime>='"
 				+ sendTocheckNumberOfVistorsInPark.get(2) + "'AND ExpectedEnterTime<'" + fromThisTime + "'");
 		while (rs.next()) {
 			numberOfVisitors = rs.getInt("SUM(VisitorsAmount)");
@@ -913,10 +938,9 @@ public class mysqlConnection {
 	}
 
 	/**
-	 * get from the park table the details of one park
+	 * get from the park table the details of one park return get parkName return
+	 * arrayList<int> Capacity,TimeOfAverageVisit,GapVisitors
 	 * 
-	 * @param parkName
-	 * @return
 	 * @throws SQLException
 	 */
 	public static ArrayList<Integer> checkCapacityAndAvarageVisitTime(String parkName) throws SQLException {
@@ -938,16 +962,19 @@ public class mysqlConnection {
 
 	}
 
-	public static ArrayList<String> cancelReport() {
+	public static ArrayList<String> cancelReport(ArrayList<String> arr2) {
 		ArrayList<String> arr = new ArrayList<>();
 		Integer cancelNum = 0, expiredNum = 0;
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("select * from orders Where OrderStatus=6");// 6=cancelled
+			ResultSet rs = stmt.executeQuery("select * from orders Where OrderStatus=6 AND ParkName='" + arr2.get(0)
+					+ "'AND MONTH(VisitDate) ='" + arr2.get(1) + "' AND YEAR(VisitDate)='" + arr2.get(2) + "'");// 6=cancelled
 			while (rs.next()) {
 				cancelNum++;
 			}
-			ResultSet rs2 = stmt.executeQuery("select * from orders Where OrderStatus=2");// 2= expired
+			ResultSet rs2 = stmt.executeQuery("select * from orders Where OrderStatus=2 AND ParkName='" + arr2.get(0)
+					+ "'AND MONTH(VisitDate) ='" + arr2.get(1) + "' AND YEAR(VisitDate)='" + arr2.get(2) + "'");// 2=
+																												// expired
 			while (rs2.next()) {
 				expiredNum++;
 			}
@@ -1551,6 +1578,94 @@ public class mysqlConnection {
 	}
 
 	/**
+	 * @author elira simulate card reader that return random user id
+	 */
+
+	public static ArrayList<String> simulationCardReader() {
+		ArrayList<String> arr = new ArrayList<>();
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select UserID from orders");
+			while (rs.next()) {
+				arr.add(rs.getString(1));
+			}
+			Random rand = new Random();
+			String userId = arr.get(rand.nextInt(arr.size()));
+			arr.clear();
+			arr.add(userId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return arr;
+	}
+
+	public static ArrayList<OrderToView> ReturnUserIDInTableOrdersForCardReader(ArrayList<String> arr) {
+		if (arr instanceof ArrayList) {
+			ArrayList<String> array = (ArrayList<String>) arr;
+			if (array != null && array.get(0) != null) {// index 0 = userID
+				ArrayList<OrderToView> ar = showTableOrdersCardReader(array.get(0));
+				return ar;
+			}
+		}
+		return null;
+	}
+
+	public static ArrayList<OrderToView> showTableOrdersCardReader(Object id) {
+		ArrayList<OrderToView> dataFromDB = new ArrayList<>();
+		try {
+			String UserID = null, OrderID = null, OrderStatus = null;
+			Date OrderDate = null;
+			LocalDate date = LocalDate.now(); // Gets the current date
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			Statement stmt = conn.createStatement();
+			String tmpId = (String) id;
+			ResultSet rs = stmt.executeQuery("select * from orders Where UserID='" + tmpId + "' "
+					+ "AND (OrderStatus='waitingToVisit' OR OrderStatus='active') AND VisitDate='"
+					+ date.format(formatter) + "'");
+			while (rs.next()) {
+				UserID = rs.getString("UserID");
+				OrderID = rs.getString("OrderID");
+				OrderStatus = rs.getString("OrderStatus");
+				OrderDate = rs.getDate("VisitDate");
+				dataFromDB.add(new OrderToView(UserID, OrderID, OrderStatus, OrderDate));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dataFromDB;
+	}
+
+	public static void updateToFinished(ArrayList<String> arr) {
+		try {
+			Calendar cal = Calendar.getInstance();
+			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+			PreparedStatement update = conn.prepareStatement(
+					"UPDATE orders SET OrderStatus=?,ExitTime='" + sdf.format(cal.getTime()) + "' WHERE OrderID=?");
+			update.setString(1, "finished");
+			update.setString(2, arr.get(1));
+			update.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public static void updateToActive(Object arr) {
+		try {
+			ArrayList<String> aL = (ArrayList<String>) arr;
+			Calendar cal = Calendar.getInstance();
+			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+			PreparedStatement update = conn.prepareStatement("UPDATE orders SET OrderStatus=?,EnterTime='"
+					+ sdf.format(cal.getTime()) + "' ,VisitorsAmountActual='" + aL.get(2) + "' WHERE OrderID=?");
+			update.setString(1, "active");
+			update.setString(2, aL.get(1));
+			update.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
 	 * get an invite and return arrayList of times and dates that the park can get
 	 * more visitors
 	 * 
@@ -1688,6 +1803,11 @@ public class mysqlConnection {
 			while (rs.next()) {
 				countOrders = rs.getString(1);
 			}
+			//ziv add
+			if(countOrders==null) {
+				countOrders="0";
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

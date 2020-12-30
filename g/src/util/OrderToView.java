@@ -1,6 +1,11 @@
 package util;
 import java.io.Serializable;
-import java.sql.Date;
+
+import java.sql.Time;
+import java.util.Date;
+
+//import java.sql.Date;
+
 /**
  * class to hold information about order for the table view existing orders
  * @author shani
@@ -20,7 +25,6 @@ public class OrderToView implements Serializable {
 		this.orderID = orderID;
 		this.status = status;
 		this.date = date;
-
 	}
 
 	public String getOrderID() {
@@ -39,8 +43,8 @@ public class OrderToView implements Serializable {
 		this.status = status;
 	}
 
-	public Date getDate() {
-		return date;
+	public String getDate() {
+		return Func.fixDate(date);
 	}
 
 	public void setDate(Date date) {

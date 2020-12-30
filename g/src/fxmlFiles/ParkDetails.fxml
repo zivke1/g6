@@ -33,7 +33,7 @@
                   <Font name="System Bold" size="36.0" />
                </font>
             </Label>
-            <Label layoutX="178.0" layoutY="95.0" text="Home Page For Employees &gt; Park Details" />
+            <Label layoutX="178.0" layoutY="95.0" text="Home Page &gt; Park Details" />
             <ImageView fx:id="imgContactUs" fitHeight="62.0" fitWidth="62.0" layoutX="951.0" layoutY="-1.0" onMouseClicked="#goToContactUsPopUp" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@/img/contactus.png" />

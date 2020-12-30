@@ -20,6 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import util.DayToView;
+import util.NextStages;
 
 /**
  * @author Eliran
@@ -124,43 +125,14 @@ public class UsageReportsController {
 
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
-		((Node) event.getSource()).getScene().getWindow().hide();
-		Stage stage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Parent root;
-		try {
-			root = loader.load(getClass().getResource("/fxmlFiles/ContactUsPopUp.fxml").openStream());
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-			stage.setTitle("Contact Us");
-			stage.setScene(scene);
-			stage.show();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "Contact Us", userID);
+		FXMLLoader loader = nextStages.openPopUp();
+		loader.getController();
 	}
 
 	@FXML
 	void helpBtnPressed(MouseEvent event) {
-//		// day column
-//		TableColumn<DayToView, String> dayColumn = new TableColumn<>("Day");
-//		dayColumn.setMinWidth(150);
-//		dayColumn.setCellValueFactory(new PropertyValueFactory<>("day"));
-//
-//		// usage Column
-//		TableColumn<DayToView, String> usageColumn = new TableColumn<>("Usage");
-//		usageColumn.setMinWidth(150);
-//		usageColumn.setCellValueFactory(new PropertyValueFactory<>("usage"));
-//
-//		ArrayList<DayToView> temp = new ArrayList<DayToView>();
-//		temp.add(new DayToView("01", "15%"));
-//		temp.add(new DayToView("02", "2%"));
-//		temp.add(new DayToView("03", "38%"));
-//		temp.add(new DayToView("04", "56%"));
-//		temp.add(new DayToView("07", "80%"));
-//		table.setItems(getOrders(temp));
-//
-//		table.getColumns().addAll(dayColumn, usageColumn);
+
 
 	}
 
