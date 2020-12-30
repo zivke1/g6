@@ -142,25 +142,7 @@ public class UsageReportsController {
 
 	@FXML
 	void helpBtnPressed(MouseEvent event) {
-//		// day column
-//		TableColumn<DayToView, String> dayColumn = new TableColumn<>("Day");
-//		dayColumn.setMinWidth(150);
-//		dayColumn.setCellValueFactory(new PropertyValueFactory<>("day"));
-//
-//		// usage Column
-//		TableColumn<DayToView, String> usageColumn = new TableColumn<>("Usage");
-//		usageColumn.setMinWidth(150);
-//		usageColumn.setCellValueFactory(new PropertyValueFactory<>("usage"));
-//
-//		ArrayList<DayToView> temp = new ArrayList<DayToView>();
-//		temp.add(new DayToView("01", "15%"));
-//		temp.add(new DayToView("02", "2%"));
-//		temp.add(new DayToView("03", "38%"));
-//		temp.add(new DayToView("04", "56%"));
-//		temp.add(new DayToView("07", "80%"));
-//		table.setItems(getOrders(temp));
-//
-//		table.getColumns().addAll(dayColumn, usageColumn);
+
 
 	}
 

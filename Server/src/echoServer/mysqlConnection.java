@@ -13,7 +13,11 @@ import java.sql.SQLSyntaxErrorException;
 import java.sql.Statement;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -35,6 +39,7 @@ import javafx.stage.Stage;
 import util.Role;
 import util.TypeOfOrder;
 import util.SimulationDetails;
+
 
 public class mysqlConnection {
 	static Connection conn;
@@ -1311,5 +1316,89 @@ public class mysqlConnection {
 		 * arrays look like
 		 */
 
+	}
+	
+	/**
+	 * @author elira
+	 *simulate card reader that return random user id 
+	 */
+
+ public static ArrayList<String> simulationCardReader() {
+		ArrayList<String> arr=new ArrayList<>();
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select UserID from orders");
+			while(rs.next())
+			{
+				arr.add(rs.getString(1));
+			}
+			Random rand=new Random();
+			String userId=arr.get(rand.nextInt(arr.size()));
+			arr.clear();
+			arr.add(userId);	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return arr;
+	}
+	public static ArrayList<OrderToView> ReturnUserIDInTableOrdersForCardReader(ArrayList<String> arr) {
+		if (arr instanceof ArrayList) {
+			ArrayList<String> array = (ArrayList<String>) arr;
+			if (array != null && array.get(0) != null) {// index 0 = userID
+				ArrayList<OrderToView> ar = showTableOrdersCardReader(array.get(0));
+				return ar;
+			}
+		}
+		return null;
+	}
+	public static ArrayList<OrderToView> showTableOrdersCardReader(Object id) {
+		ArrayList<OrderToView> dataFromDB = new ArrayList<>();
+		try {
+			String UserID = null, OrderID = null, OrderStatus = null;
+			Date OrderDate = null;
+			LocalDate date = LocalDate.now(); // Gets the current date
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			Statement stmt = conn.createStatement();
+			String tmpId = (String) id;
+			ResultSet rs = stmt.executeQuery("select * from orders Where UserID='"+tmpId+"' "
+					+ "AND (OrderStatus='waitingToVisit' OR OrderStatus='active') AND VisitDate='"+date.format(formatter)+"'");
+			while (rs.next()) {
+				UserID = rs.getString("UserID");
+				OrderID = rs.getString("OrderID");
+				OrderStatus = rs.getString("OrderStatus");
+				OrderDate = rs.getDate("VisitDate");
+				dataFromDB.add(new OrderToView(UserID, OrderID, OrderStatus, OrderDate));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dataFromDB;
+	}
+	public static void updateToFinished(ArrayList<String> arr) {
+		try {
+			Calendar cal = Calendar.getInstance();
+	        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+			PreparedStatement update = conn.prepareStatement("UPDATE orders SET OrderStatus=?,ExitTime='"+sdf.format(cal.getTime())+"' WHERE OrderID=?");
+			update.setString(1, "finished");
+			update.setString(2, arr.get(1));
+			update.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	public static void updateToActive(Object arr)
+	{
+		try {
+			ArrayList<String> aL = (ArrayList<String>) arr;
+			Calendar cal = Calendar.getInstance();
+	        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+			PreparedStatement update = conn.prepareStatement("UPDATE orders SET OrderStatus=?,EnterTime='"+sdf.format(cal.getTime())+"' ,VisitorsAmountActual='"+aL.get(2)+"' WHERE OrderID=?");
+			update.setString(1, "active");
+			update.setString(2, aL.get(1));
+			update.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

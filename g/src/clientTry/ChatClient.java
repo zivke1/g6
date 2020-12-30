@@ -67,12 +67,12 @@ public class ChatClient extends AbstractClient {
 	public void handleMessageFromServer(Object msg) // we need to modified this code to all the query not only showtable
 	{
 		String st;
-		awaitResponse = false;
 		try {
 			ArrayList<HourAmount> dataFromDbCheck = (ArrayList<HourAmount>) msg;
 			if (dataFromDbCheck != null)
-				if (dataFromDbCheck.get(0) instanceof HourAmount) {
+				if (!dataFromDbCheck.isEmpty() && dataFromDbCheck.get(0) instanceof HourAmount) {
 					dataInArrayListHour = dataFromDbCheck;
+					awaitResponse = false;
 			        return;
 				}
 		} catch (ClassCastException e) {
@@ -82,8 +82,9 @@ public class ChatClient extends AbstractClient {
 			ArrayList<OrderToView> dataFromDbCheck = (ArrayList<OrderToView>) msg;
 
 			if (dataFromDbCheck != null)
-				if (dataFromDbCheck.get(0) instanceof OrderToView) {
+				if (!dataFromDbCheck.isEmpty() && dataFromDbCheck.get(0) instanceof OrderToView) {
 					dataInArrayListObject = dataFromDbCheck;
+					awaitResponse = false;
 					return;
 				}
 		} catch (ClassCastException e) {
@@ -112,11 +113,13 @@ public class ChatClient extends AbstractClient {
 		if (dataFromDb.contains("RegisterMember")) {
 			dataFromDb.remove("RegisterMember");
 		}
-		if (dataFromDb.contains("sendToDeparmentManager"))
+		if (dataFromDb.contains("sendToDeparmentManager")) {
 			dataFromDb.remove("sendToDeparmentManager");
+		dataInArrayList = dataFromDb;
+		}
 		System.out.println(dataFromDb);
 		dataInArrayList = dataFromDb;
-
+		awaitResponse = false;
 	}
 
 	/**
