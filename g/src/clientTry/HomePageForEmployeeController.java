@@ -82,6 +82,9 @@ public class HomePageForEmployeeController implements Initializable {
 	@FXML
 	private AnchorPane anchorParkManager;
 
+    @FXML
+    private Button btnViewReportDepManager;
+    
 	@FXML
 	private Button btnUpdateP;
 
@@ -155,7 +158,13 @@ public class HomePageForEmployeeController implements Initializable {
 		repControl.setPreviousPage(event);
 		//repControl.setMainPage(event);
 	}
+	
+	// department manager can view submitted
+    @FXML
+    void goToViewReportDepManager(MouseEvent event) {
 
+    }
+    
 	@FXML
 	void goToGenerateReportParkManager(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ReportParkManager.fxml", "Generate Reports", userID);

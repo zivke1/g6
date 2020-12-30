@@ -49,13 +49,19 @@ public class CheckAvailabilityController {
 
 	@FXML
 	private AnchorPane anchorMakeOrder;
-
+	
+    @FXML
+    private Label NoFreeSpaceLable;
+    
 	@FXML
 	private TextField IDtxt;
 
 	@FXML
 	private ComboBox<String> parksNamesCombo;
 
+	@FXML
+	private Text freeSpacetxt;
+	  
 	@FXML
 	private Button btnMakeOrder;
 
@@ -125,8 +131,8 @@ public class CheckAvailabilityController {
 		orderControl.setDetails(fName, lName, role, userID, parkName);
 		orderControl.setDetailsOfOwner(ownerUserID, ownerRole, occasional, amountOfPeople, amountInoccasional); // order
 																												// owner
-		anchorMakeOrder.setVisible(false);
-		orderControl.setPreviousPage(m_previousPage);
+	//	anchorMakeOrder.setVisible(false);
+		orderControl.setPreviousPage(event);
 		orderControl.setMainPage(m_eventMain);
 
 	}
@@ -169,11 +175,20 @@ public class CheckAvailabilityController {
 		Integer capacity = ChatClient.dataInArrayListInteger.get(0);
 		int ordAmount = Integer.parseInt(ordersAmount);
 		openSpace = capacity - ordAmount;
+		if(openSpace <= 0) {
+			NoFreeSpaceLable.setVisible(true);
+			freeSpacetxt.setVisible(false);
+			anchorMakeOrder.setVisible(false);
+			FreeSpaceLeft.setVisible(false);
+		}
 		// if current capacity greater than 0 allow employee to make new order for
 		// customer
-		if (openSpace > 0 && role.equals(Role.ParkEmployee.toString()))
+		else if (openSpace > 0 && role.equals(Role.ParkEmployee.toString())) {
+			freeSpacetxt.setVisible(true);
+			FreeSpaceLeft.setVisible(true);
 			anchorMakeOrder.setVisible(true);
-
+			NoFreeSpaceLable.setVisible(false);
+		}
 		return openSpace + "";
 	}
 
@@ -184,12 +199,16 @@ public class CheckAvailabilityController {
 		this.userID = userID;
 		this.role = role;
 		this.parkName = parkName;
-
+		
+		freeSpacetxt.setVisible(false);
+		NoFreeSpaceLable.setVisible(false);
+		
 		if (role.equals(Role.DepartmentManager.toString())) {
 			parksNamesCombo.setVisible(true);
 			setComboParkName();
 			checkBtn.setVisible(true);
 		} else {
+			parksNamesCombo.setVisible(false);
 			parkNameText.setText(parkName);
 			parkNameText.setVisible(true);
 			FreeSpaceLeft.setVisible(true);
