@@ -3,13 +3,19 @@
 package clientTry;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
+import util.NextStages;
+/**
+ * 
+ * 
+ *
+ */
 public class OrderConfirmedController {
 	MouseEvent m_eventMain;
 	
@@ -27,7 +33,11 @@ public class OrderConfirmedController {
 
     @FXML
     private Button helpBtn;
-
+    
+    @FXML
+    private Label orderNumberLabel;
+   String  m_orderNumber;
+    
     @FXML
     void finishOrderClicked(MouseEvent event) {
      	((Node) event.getSource()).getScene().getWindow().hide();
@@ -36,13 +46,22 @@ public class OrderConfirmedController {
 
     @FXML
     void goToContactUsPopUp(MouseEvent event) {
-
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order", "aa");
+		FXMLLoader loader = nextStages.openPopUp();
+		loader.getController();
     }
 
     @FXML
     void helpBtnPressed(MouseEvent event) {
 
     }
+	public void setOrderNumber(String orderNumber) {
+		// TODO Auto-generated method stub
+		m_orderNumber=orderNumber;
+		orderNumberLabel.setText(m_orderNumber);
+		
+	}    
+    
 	public void setMainPage(MouseEvent eventMain) {
 		// TODO Auto-generated method stub
 		m_eventMain=eventMain;

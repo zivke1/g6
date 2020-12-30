@@ -6,7 +6,10 @@ package clientTry;
 
 import ocsf.client.*;
 import util.HourAmount;
+import util.FreePlaceInPark;
+
 import util.OrderToView;
+import util.ParameterToView;
 import clientTry.UserInformationController;
 
 import java.io.*;
@@ -32,11 +35,18 @@ public class ChatClient extends AbstractClient {
 	 * method in the client.
 	 */
 	ChatIF clientUI;
+	public static ArrayList<Integer> dataInArrayListInteger = new ArrayList<>();
+	
 	public static ArrayList<String> dataInArrayList = new ArrayList<String>();
 
 	public static ArrayList<HourAmount> dataInArrayListHour = new ArrayList<HourAmount>();
 
 	public static ArrayList<OrderToView> dataInArrayListObject = new ArrayList<OrderToView>();
+	
+	public static ArrayList<ParameterToView> dataInArrayListParameter = new ArrayList<ParameterToView>();
+
+	public static ArrayList<FreePlaceInPark> dataInArrayListFreePlaceInParks = new ArrayList<>();
+
 
 	public static boolean awaitResponse = false;
 	// Constructors ****************************************************
@@ -67,8 +77,48 @@ public class ChatClient extends AbstractClient {
 	public void handleMessageFromServer(Object msg) // we need to modified this code to all the query not only showtable
 	{
 		String st;
+
+		//awaitResponse = false;
+
+		try {
+			ArrayList<OrderToView> dataFromDbCheck = (ArrayList<OrderToView>) msg;
+			dataInArrayListObject.clear();
+			if (dataFromDbCheck != null)
+				if (!dataFromDbCheck.isEmpty() && dataFromDbCheck.get(0) instanceof OrderToView) {
+					dataInArrayListObject = dataFromDbCheck;
+					awaitResponse = false;
+					return;
+				}
+		} catch (ClassCastException e) {
+		}
+// maybe not use
+		try {
+			ArrayList<Integer> dataFromDbCheck = (ArrayList<Integer>) msg;
+			dataInArrayListInteger.clear();
+			if (dataFromDbCheck != null)
+				if (!dataFromDbCheck.isEmpty() && dataFromDbCheck.get(0) instanceof Integer) {
+					dataInArrayListInteger = dataFromDbCheck;
+					awaitResponse = false;
+					return;
+				}
+
+		} catch (ClassCastException e) {
+		}
+		try {
+			ArrayList<ParameterToView> dataFromDbCheck2 = (ArrayList<ParameterToView>) msg;
+			dataInArrayListParameter.clear();
+			if (dataFromDbCheck2 != null)
+				if (!dataFromDbCheck2.isEmpty() && dataFromDbCheck2.get(0) instanceof ParameterToView) {
+					dataInArrayListParameter = dataFromDbCheck2;
+					awaitResponse = false;
+					return;
+				}
+		} catch (ClassCastException e) {}
+		
+
 		try {
 			ArrayList<HourAmount> dataFromDbCheck = (ArrayList<HourAmount>) msg;
+			dataInArrayListHour.clear();
 			if (dataFromDbCheck != null)
 				if (!dataFromDbCheck.isEmpty() && dataFromDbCheck.get(0) instanceof HourAmount) {
 					dataInArrayListHour = dataFromDbCheck;
@@ -79,16 +129,19 @@ public class ChatClient extends AbstractClient {
 		}
 
 		try {
-			ArrayList<OrderToView> dataFromDbCheck = (ArrayList<OrderToView>) msg;
-
-			if (dataFromDbCheck != null)
-				if (!dataFromDbCheck.isEmpty() && dataFromDbCheck.get(0) instanceof OrderToView) {
-					dataInArrayListObject = dataFromDbCheck;
+			ArrayList<FreePlaceInPark> dataFromDbCheck = (ArrayList<FreePlaceInPark>) msg;
+			dataInArrayListFreePlaceInParks.clear();
+			if (dataFromDbCheck != null) {
+				if (!dataFromDbCheck.isEmpty() && dataFromDbCheck.get(0) instanceof FreePlaceInPark) {
+					dataInArrayListFreePlaceInParks = (ArrayList<FreePlaceInPark>) msg;
 					awaitResponse = false;
-					return;
+			        return;
 				}
+			}
 		} catch (ClassCastException e) {
 		}
+
+
 		ArrayList<String> dataFromDb = (ArrayList<String>) msg;
 
 		if (dataFromDb.contains("showTable")) {
@@ -115,9 +168,7 @@ public class ChatClient extends AbstractClient {
 		}
 		if (dataFromDb.contains("sendToDeparmentManager")) {
 			dataFromDb.remove("sendToDeparmentManager");
-		dataInArrayList = dataFromDb;
 		}
-		System.out.println(dataFromDb);
 		dataInArrayList = dataFromDb;
 		awaitResponse = false;
 	}

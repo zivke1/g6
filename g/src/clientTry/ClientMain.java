@@ -35,8 +35,10 @@ public class ClientMain extends Application {
 		try {
 			FXMLLoader loader=new FXMLLoader();
 
+
+//			loader.setLocation(getClass().getResource("../fxmlFiles/LoginP.fxml"));
 			loader.setLocation(getClass().getResource("../fxmlFiles/CardReader.fxml"));
-//			loader.setLocation(getClass().getResource("../fxmlFiles/ReportParkManager.fxml"));
+
 			
 
 

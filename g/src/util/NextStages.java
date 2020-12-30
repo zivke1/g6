@@ -1,7 +1,9 @@
 package util;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import clientTry.ClientMain;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,11 +22,12 @@ import javafx.scene.Node;
 public class NextStages {
 	private String path;
 	private String stageTitle;
+	private String userID;
 	
-	public NextStages(String path, String stageTitle) {
+	public NextStages(String path, String stageTitle, String userID) {
 		this.path = path;
 		this.stageTitle = stageTitle;
-		
+		this.userID = userID;
 	}
 
 	/**
@@ -41,6 +44,16 @@ public class NextStages {
 			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
 			stage.setTitle(this.getStageTitle());
 			stage.setScene(scene);
+			stage.setOnCloseRequest(evt -> {	// disconnect client if exit window
+				if (ClientMain.chat.checkConnection()) {
+					ArrayList<String> arr = new ArrayList<String>();
+					arr.add("closeAndSetIdNull");
+					arr.add(userID);
+					arr.add("disconnect");
+					ClientMain.chat.accept(arr);
+					ClientMain.chat.stopConnection();
+				}
+			});
 			stage.show();
 		} catch (IOException e1) {
 			e1.printStackTrace();

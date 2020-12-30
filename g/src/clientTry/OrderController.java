@@ -3,9 +3,11 @@ package clientTry;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.management.openmbean.OpenDataException;
 
@@ -22,6 +24,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
@@ -30,11 +33,20 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import util.NextStages;
+import util.Role;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 
+/**
+ * this controller manage invitation it get if the invite is occasional or not
+ * and open waiting list page if this date and time full if not it will send you
+ * to payment page
+ * 
+ *
+ */
 public class OrderController implements Initializable {
 
 	@FXML
@@ -84,15 +96,16 @@ public class OrderController implements Initializable {
 
 	String m_fName, m_lName, m_role, m_userID, m_parkName;
 	String m_ownerUserID, m_status;
+	int m_amountOfPeople;
 	boolean m_occasional;
 	ArrayList<String> invite;
-	MouseEvent m_event,m_eventMain,m_previousPage;
-	String m_backTo;
+	MouseEvent m_event, m_eventMain, m_previousPage;
+	String m_backTo, m_orderDetails="";
 
 	@FXML
 	void backClicked(MouseEvent event) {
-    	((Node) event.getSource()).getScene().getWindow().hide();
-    	((Stage)((Node) m_previousPage.getSource()).getScene().getWindow()).show();
+		((Node) event.getSource()).getScene().getWindow().hide();
+		((Stage) ((Node) m_previousPage.getSource()).getScene().getWindow()).show();
 	}
 
 	@FXML
@@ -104,7 +117,7 @@ public class OrderController implements Initializable {
 			invite.add(m_ownerUserID);
 			invite.add(parkNameCombo.getValue().toString());
 			invite.add(hourCombo.getValue().toString());
-			invite.add(pickDatePicker.getValue().toString());// check if the date is vaild TODO
+			invite.add(pickDatePicker.getValue().toString());// check if the date is valid TODO 
 			invite.add(numberOfVistorsCombo.getValue().toString());
 			if (checkEmail(emailTextFiled.getText()) == false) {
 				return;
@@ -124,7 +137,9 @@ public class OrderController implements Initializable {
 		} catch (Exception e) {
 			Platform.runLater(() -> {
 				notAllfieldFilledLabel.setVisible(true);
+				
 			});
+			return;
 		}
 
 		if (invite.contains("")) {
@@ -136,85 +151,99 @@ public class OrderController implements Initializable {
 			ClientMain.chat.accept(invite);
 
 			if (ChatClient.dataInArrayList.contains("TheParkIsFull")) {
+				int size = ChatClient.dataInArrayList.size();
+				m_orderDetails = ChatClient.dataInArrayList.get(size-1);
+				ChatClient.dataInArrayList.remove(size-1);
 				ChatClient.dataInArrayList.remove("TheParkIsFull");
 				// TODO show the waiting list page
 				openWaitingListPage();
 
 			} else if (ChatClient.dataInArrayList.contains("InviteConfirm")) {
 				ChatClient.dataInArrayList.remove("InviteConfirm");
+				int size = ChatClient.dataInArrayList.size();
+				m_orderDetails = ChatClient.dataInArrayList.get(size-1);
+				ChatClient.dataInArrayList.remove(size-1);
 				// show successful page and message to confirm the message
 				OpenInviteConfirmPage();
 
 			}
-			System.out.println(invite);
+		//	System.out.println(invite);
 		}
 
 	}
 
 	private void OpenInviteConfirmPage() throws IOException {
 		// TODO Auto-generated method stub
-		BorderPane borderPane = null;
-		FXMLLoader loader = new FXMLLoader();
-		Stage primaryStage = new Stage();
+//		BorderPane borderPane = null;
+//		FXMLLoader loader = new FXMLLoader();
+//		Stage primaryStage = new Stage();
 		// Pane root =
+		FXMLLoader loader ;
 		// loader.load(getClass().getResource("../fxmlFiles/HomePageForEmployee.fxml").openStream());
-
-		loader.setLocation(getClass().getResource("../fxmlFiles/PaymentPage.fxml"));
-		borderPane = loader.load();
+     	NextStages nextStages = new NextStages("/fxmlFiles/PaymentPage.fxml", "Payment Page", m_userID);
+    	loader = nextStages.goToNextStage(m_event);
+//		loader.setLocation(getClass().getResource("../fxmlFiles/PaymentPage.fxml"));
+//		borderPane = loader.load();
 		PaymentPageController paymentPageController = loader.getController();
-		paymentPageController.setDetails(m_fName, m_lName, m_role, m_userID , m_parkName);
+		paymentPageController.setDetails(m_fName, m_lName, m_role, m_userID, m_parkName);
 		invite.remove(0);
-	
-		paymentPageController.setOrderDetails(invite,ChatClient.dataInArrayList.get(0));
-		paymentPageController.setPreviousPage(m_event) ;
+
+		paymentPageController.setOrderDetails(invite, ChatClient.dataInArrayList.get(0));
+		paymentPageController.setPreviousPage(m_event);
 		paymentPageController.setMainPage(m_eventMain);
-		Scene scene = new Scene(borderPane);
-		primaryStage.setTitle("Home Page");
-		primaryStage.setScene(scene);
-		primaryStage.setOnCloseRequest(evt -> {
-			if (ClientMain.chat.checkConnection()) {
-				ArrayList<String> arr = new ArrayList<String>();
-				arr.add("closeAndSetIdNull");
-				arr.add(m_userID);
-				ClientMain.chat.accept(arr);
-				ClientMain.chat.stopConnection();
-			}
-		});
-		((Node) m_event.getSource()).getScene().getWindow().hide();
-		primaryStage.show();
+		paymentPageController.setOrderDetails(m_orderDetails);
+//		Scene scene = new Scene(borderPane);
+//		primaryStage.setTitle("Home Page");
+//		primaryStage.setScene(scene);
+//		primaryStage.setOnCloseRequest(evt -> {
+//			if (ClientMain.chat.checkConnection()) {
+//				ArrayList<String> arr = new ArrayList<String>();
+//				arr.add("closeAndSetIdNull");
+//				arr.add(m_userID);
+//				ClientMain.chat.accept(arr);
+//				ClientMain.chat.stopConnection();
+//			}
+//		});
+//		((Node) m_event.getSource()).getScene().getWindow().hide();
+//		primaryStage.show();
 
 	}
 
 	private void openWaitingListPage() throws IOException {
 		// TODO Auto-generated method stub
-		BorderPane borderPane = null;
-		FXMLLoader loader = new FXMLLoader();
-		Stage primaryStage = new Stage();
+//		BorderPane borderPane = null;
+//		FXMLLoader loader = new FXMLLoader();
+//	
+//		Stage primaryStage = new Stage();
+		FXMLLoader loader;
 		// Pane root =
 		// loader.load(getClass().getResource("../fxmlFiles/HomePageForEmployee.fxml").openStream());
 
-		loader.setLocation(getClass().getResource("../fxmlFiles/WaitingList.fxml"));
-		borderPane = loader.load();
-		
+//		loader.setLocation(getClass().getResource("../fxmlFiles/WaitingList.fxml"));
+//		borderPane = loader.load();
+     	NextStages nextStages = new NextStages("/fxmlFiles/WaitingList.fxml", "Waiting List", m_userID);
+    	loader = nextStages.goToNextStage(m_event);
 		WaitingListController waitingListController = loader.getController();
-		waitingListController.setDetails(m_fName, m_lName, m_role, m_userID , m_parkName);
+		waitingListController.setDetails(m_fName, m_lName, m_role, m_userID, m_parkName);
 		waitingListController.setMainPage(m_eventMain);
 		waitingListController.setPreviousPage(m_event);
-		waitingListController.setOrderDetails(invite,ChatClient.dataInArrayList.get(0));
-		Scene scene = new Scene(borderPane);
-		primaryStage.setTitle("Waiting List");
-		primaryStage.setScene(scene);
-		primaryStage.setOnCloseRequest(evt -> {
-			if (ClientMain.chat.checkConnection()) {
-				ArrayList<String> arr = new ArrayList<String>();
-				arr.add("closeAndSetIdNull");
-				arr.add(m_userID);
-				ClientMain.chat.accept(arr);
-				ClientMain.chat.stopConnection();
-			}
-		});
-		((Node) m_event.getSource()).getScene().getWindow().hide();
-		primaryStage.show();
+		invite.remove(0);
+		waitingListController.setOrderDetails(m_orderDetails);
+		waitingListController.setOrderDetails(invite, ChatClient.dataInArrayList.get(0));
+//		Scene scene = new Scene(borderPane);
+//		primaryStage.setTitle("Waiting List");
+//		primaryStage.setScene(scene);
+//		primaryStage.setOnCloseRequest(evt -> {
+//			if (ClientMain.chat.checkConnection()) {
+//				ArrayList<String> arr = new ArrayList<String>();
+//				arr.add("closeAndSetIdNull");
+//				arr.add(m_userID);
+//				ClientMain.chat.accept(arr);
+//				ClientMain.chat.stopConnection();
+//			}
+//		});
+//		((Node) m_event.getSource()).getScene().getWindow().hide();
+//		primaryStage.show();
 	}
 
 	private boolean checkEmail(String emailS) {
@@ -236,6 +265,11 @@ public class OrderController implements Initializable {
 	ObservableList<String> list;
 
 	// creating list of number of visitors
+	/**
+	 * set in the combo box the number of people the user can invite for them
+	 * 
+	 * @param num
+	 */
 	private void setNumberOfVistors(int num) {
 		ArrayList<String> al = new ArrayList<String>();
 		for (int i = 1; i <= num; i++) {
@@ -247,6 +281,13 @@ public class OrderController implements Initializable {
 	}
 
 	// we need to call this function when we know the park the costumer chose
+	/**
+	 * set the time the user can invite if the invite is occasional the employee can
+	 * set only now
+	 * 
+	 * @param fromTime
+	 * @param toTime
+	 */
 	private void setHourCombo(Time fromTime, Time toTime) {
 		ArrayList<String> al = new ArrayList<String>();
 		if (fromTime != null) {
@@ -265,6 +306,7 @@ public class OrderController implements Initializable {
 			al.add(String.valueOf(time));
 			list = FXCollections.observableArrayList(al);
 			hourCombo.setItems(list);
+			hourCombo.setValue(time);
 		}
 	}
 
@@ -277,17 +319,17 @@ public class OrderController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-
+/*
 		setDetails("", "", "", "", "Carmel Park");
 		setDetailsOfOwner("315766014", "member", false, "amount of members", "backTo");
-
+*/
 	}
 
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
-		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order");
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order", m_userID);
 		FXMLLoader loader = nextStages.openPopUp();
-		loader.getController();
+//		loader.getController();
 	}
 
 	public void setDetails(String fName, String lName, String role, String userID, String parkName) {
@@ -296,29 +338,81 @@ public class OrderController implements Initializable {
 		m_role = role;
 		m_userID = userID;
 		m_parkName = parkName;
-
 	}
 
-	public void setDetailsOfOwner(String ownerUserID, String status, boolean occasional, String membersAmount,
-			String backTo) {// in status i want to know if
+	/**
+	 * this controller need to know witch previous page open it and if it is
+	 * occasional visit i will give the employee to enter number of visitors that is
+	 * valid
+	 * 
+	 * @param ownerUserID
+	 * @param status
+	 * @param occasional
+	 * @param membersAmount
+	 * @param backTo
+	 */
+//amountInoccasional - free space in park in case of occasional visit
+	public void setDetailsOfOwner(String ownerUserID, String status, boolean occasional, int membersAmount, int amountInoccasional) {// in status i want to know if
 		ArrayList<String> tempArrayList = new ArrayList<String>(); // the user owner is a
 		// member user or guide
 		m_ownerUserID = ownerUserID;
 		m_status = status;
 		m_occasional = occasional;
+		m_amountOfPeople = membersAmount;
 		if (m_occasional) {
-
+			txtCrumViaHomePage.setVisible(true);
 			tempArrayList.add(m_parkName);
 			setParkCombo(tempArrayList);
+			parkNameCombo.setValue(m_parkName);
+			pickDatePicker.setValue(LocalDate.now());
 			setHourCombo(null, null);
-		//setNumberOfVistors("free place");
+
+			setNumberOfVistors(amountInoccasional);
+			pickDatePicker.setValue(LocalDate.now());
+			pickDatePicker.setDayCellFactory(new Callback<DatePicker, DateCell>() {
+
+				@Override
+				public DateCell call(DatePicker param) {
+					return new DateCell() {
+						@Override
+						public void updateItem(LocalDate item, boolean empty) {
+							super.updateItem(item, empty);
+							LocalDate today = LocalDate.now();
+							setDisable(item.compareTo(today) != 0);
+						}
+					};
+				}
+			});
+
+//			 setNumberOfVistors("free place");//for occasional visit i need to set the number of visitors to the one i get from the previous page
+
 		} else {
-			setHourCombo(new Time(8, 0, 0), new Time(16, 29, 0));
+			txtCrum.setVisible(true);
+			setHourCombo(new Time(8, 0, 0), new Time(16, 29, 0));//the time coustumer can enter to the patk
 			tempArrayList.add("Carmel Park");
 			tempArrayList.add("Tal Park");
-			tempArrayList.add("Jorden Park");
+			tempArrayList.add("Jordan Park");
 			setParkCombo(tempArrayList);
-			setNumberOfVistors(15);
+			pickDatePicker.setDayCellFactory(new Callback<DatePicker, DateCell>() {
+
+				@Override
+				public DateCell call(DatePicker param) {
+					return new DateCell() {
+						@Override
+						public void updateItem(LocalDate item, boolean empty) {
+							super.updateItem(item, empty);
+							LocalDate today = LocalDate.now();
+							LocalDate tommorow = today.minusDays(-2);
+							setDisable(item.compareTo(tommorow) < 0);
+						}
+					};
+				}
+			});
+			if (status.equals("member")) {
+				setNumberOfVistors(membersAmount);
+			} else {
+				setNumberOfVistors(15);
+			}
 		}
 		if (m_status.equals("guide")) {
 			guideWelcomeText.setVisible(true);
@@ -326,16 +420,18 @@ public class OrderController implements Initializable {
 				payTimeCheckBox.setVisible(true);
 			}
 		}
+		if(m_status.equals(Role.Member.toString().toLowerCase())) {
+			setNumberOfVistors(m_amountOfPeople);
+		}
+	}
 
-	}
 	public void setMainPage(MouseEvent event) {
-		m_eventMain=event;
+		m_eventMain = event;
 	}
-	
+
 	public void setPreviousPage(MouseEvent event) {
 		// TODO Auto-generated method stub
 		m_previousPage = event;
 	}
-    
 
 }

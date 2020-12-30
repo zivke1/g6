@@ -31,8 +31,8 @@
                </image>
             </ImageView>
             <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
-            <Label fx:id="employeeCrums" layoutX="178.0" layoutY="95.0" text="Home Page For Employees" visible="false" />
-            <Label fx:id="customerCrums" layoutX="178.0" layoutY="95.0" text="Home Page For Customers" visible="false" />
+            <Label fx:id="employeeCrums" layoutX="178.0" layoutY="95.0" text="Home Page" visible="false" />
+            <Label fx:id="customerCrums" layoutX="178.0" layoutY="95.0" text="Home Page" visible="false" />
          </children>
       </AnchorPane>
    </top>
@@ -55,25 +55,27 @@
                   <Button fx:id="btnParkDetails" layoutX="493.0" layoutY="37.0" mnemonicParsing="false" onMouseClicked="#goToParkDetail" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Parks Details" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="anchorParkEmployee" layoutX="27.0" layoutY="82.0" prefHeight="256.0" prefWidth="781.0" visible="false">
+            <AnchorPane fx:id="anchorParkEmployee" layoutX="27.0" layoutY="82.0" prefHeight="256.0" prefWidth="781.0">
                <children>
                   <Button fx:id="btnViewOrder" layoutX="36.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#goToViewExistOrder" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="View Customer's Order" />
                   <Button fx:id="btnAvailabilityCheck" layoutX="296.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#goToAvailbilityCheck" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Availability Check" />
-                  <Button fx:id="btnParkDetails" layoutX="558.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#goToParkDetail" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Parks Details" />
+                  <Button fx:id="btnParkDetails" layoutX="551.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#goToParkDetail" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Parks Details" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="anchorParkManager" layoutX="27.0" layoutY="99.0" prefHeight="215.0" prefWidth="720.0" visible="false">
                <children>
                   <Button fx:id="btnUpdateP" layoutX="262.0" layoutY="35.0" mnemonicParsing="false" onMouseClicked="#goToUpdateP" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Update Parameters" />
-                  <Button fx:id="btnParkDetails" layoutX="506.0" layoutY="35.0" mnemonicParsing="false" onMouseClicked="#goToParkDetail" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Parks Details" />
+                  <Button fx:id="btnParkDetails" layoutX="262.0" layoutY="131.0" mnemonicParsing="false" onMouseClicked="#goToParkDetail" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Parks Details" />
                   <Button fx:id="btnGenReportParkManager" layoutX="14.0" layoutY="35.0" mnemonicParsing="false" onMouseClicked="#goToGenerateReportParkManager" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Generate Reports" />
+                  <Button fx:id="btnAvailabilityCheck2" layoutX="14.0" layoutY="131.0" mnemonicParsing="false" onMouseClicked="#goToAvailbilityCheck" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Availability Check" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="anchorDepManager" layoutX="27.0" layoutY="82.0" prefHeight="208.0" prefWidth="757.0" visible="false">
                <children>
-                  <Button fx:id="btnParkDetails" layoutX="524.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#goToParkDetail" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Parks Details" />
+                  <Button fx:id="btnParkDetails" layoutX="279.0" layoutY="122.0" mnemonicParsing="false" onMouseClicked="#goToParkDetail" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Parks Details" />
                   <Button fx:id="btnApproveP" layoutX="34.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#goToApproveP" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Approve Parameters" />
                   <Button fx:id="btnGenReportDepManager" layoutX="279.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#goToGenerateReportDepManager" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Generate Reports" />
+                  <Button fx:id="btnAvailabilityCheck3" layoutX="34.0" layoutY="122.0" mnemonicParsing="false" onMouseClicked="#goToAvailbilityCheck" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Availability Check" />
                </children>
             </AnchorPane>
             <Button fx:id="btnSignOut" layoutX="757.0" layoutY="443.0" mnemonicParsing="false" onMouseClicked="#goToLoginP" prefHeight="44.0" prefWidth="122.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Sign Out" />

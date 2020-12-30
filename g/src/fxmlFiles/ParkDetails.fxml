@@ -18,7 +18,7 @@
    <top>
       <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
          <children>
-            <Text layoutX="178.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Park Detailes:">
+            <Text layoutX="178.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Park Details:">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font>
@@ -33,7 +33,7 @@
                   <Font name="System Bold" size="36.0" />
                </font>
             </Label>
-            <Label layoutX="178.0" layoutY="95.0" text="Home Page For Employees &gt; Park Detailes" />
+            <Label layoutX="178.0" layoutY="95.0" text="Home Page &gt; Park Details" />
             <ImageView fx:id="imgContactUs" fitHeight="62.0" fitWidth="62.0" layoutX="951.0" layoutY="-1.0" onMouseClicked="#goToContactUsPopUp" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@/img/contactus.png" />
@@ -89,14 +89,6 @@
                               <Insets bottom="20.0" />
                            </VBox.margin>
                         </Label>
-                        <Label prefHeight="27.0" prefWidth="150.0" text="Maximum Orders:">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets bottom="20.0" />
-                           </VBox.margin>
-                        </Label>
                         <Label prefHeight="27.0" prefWidth="113.0" text="Gap Visitors :">
                            <font>
                               <Font size="18.0" />
@@ -144,14 +136,6 @@
                               <Font size="18.0" />
                            </font>
                         </Text>
-                        <Text fx:id="MaxOrders" strokeType="OUTSIDE" strokeWidth="0.0">
-                           <VBox.margin>
-                              <Insets bottom="28.0" />
-                           </VBox.margin>
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Text>
                         <Text fx:id="gapVisitors" strokeType="OUTSIDE" strokeWidth="0.0">
                            <VBox.margin>
                               <Insets bottom="20.0" />
@@ -164,8 +148,8 @@
                   </VBox>
                </children>
             </HBox>
-            <Label fx:id="explanation" layoutX="100.0" layoutY="333.0" prefHeight="21.0" prefWidth="296.0" text="*Gap between max capacity to max orders" visible="false" />
-            <Button fx:id="QuestionBtn" layoutX="326.0" layoutY="302.0" mnemonicParsing="false" onMouseClicked="#explainGapVisitors" text="?" />
+            <Label fx:id="explanation" layoutX="98.0" layoutY="289.0" prefHeight="21.0" prefWidth="296.0" text="*Gap between max capacity to max orders" />
+            <Button fx:id="QuestionBtn" layoutX="347.0" layoutY="249.0" mnemonicParsing="false" onMouseClicked="#explainGapVisitors" text="?" />
             <AnchorPane fx:id="optOfManager" layoutX="89.0" layoutY="13.0" prefHeight="47.0" prefWidth="402.0">
                <children>
                   <Label layoutY="10.0" text="Choose Park:">

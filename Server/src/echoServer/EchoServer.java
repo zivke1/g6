@@ -20,12 +20,17 @@ import javafx.stage.Stage;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
+
 import util.HourAmount;
 import util.TypeOfOrder;
 
 import util.OrderToChange;
 
+
+import util.FreePlaceInPark;
+
 import util.OrderToView;
+import util.ParameterToView;
 import util.SimulationDetails;
 
 /**
@@ -176,6 +181,14 @@ public class EchoServer extends AbstractServer {
 				client.sendToClient(arr);
 				return;
 			}
+			if(arr.contains("approveParaTable")) {
+				arr.remove("approveParaTable");
+				ArrayList<ParameterToView> answer;
+				answer = mysqlConnection.paraToUpdateTable();
+				client.sendToClient(answer);
+
+				return;
+			}
 
 			if (arr.contains("sendToDeparmentManager")) {
 				arr.remove("sendToDeparmentManager");
@@ -190,7 +203,7 @@ public class EchoServer extends AbstractServer {
 			}
 			if (arr.contains("cancel report")) {
 				arr.remove("cancel report");
-				ArrayList<String> answer = mysqlConnection.cancelReport();
+				ArrayList<String> answer = mysqlConnection.cancelReport(arr);
 				client.sendToClient(answer);
 				return;
 			}
@@ -222,6 +235,7 @@ public class EchoServer extends AbstractServer {
 				client.sendToClient(returnArr);
 				return;
 			}
+			
 
 			if (arr.contains("checkIfIdConnectedWithId")) {
 				arr.remove("checkIfIdConnectedWithId");
@@ -294,12 +308,50 @@ public class EchoServer extends AbstractServer {
 			}
 			if (arr.contains("getFreePlace")) {
 				arr.remove("getFreePlace");
-//				arr = mysqlConnection.getFreePlace(arr);
+				ArrayList<FreePlaceInPark> ar = mysqlConnection.getFreePlace(arr);
+				client.sendToClient(ar);
+				return;
+			}
+			if (arr.contains("setInWaitingList")) {
+				arr.remove("setInWaitingList");
+				arr = mysqlConnection.setInWaitingList(arr);
 				client.sendToClient(arr);
 				return;
 			}
 
-		} catch (Exception e) {
+			if(arr.contains("SetPara"))
+			{
+				arr.remove("SetPara");
+				mysqlConnection.setPara(arr);
+				client.sendToClient(arr);
+				return;
+			}
+			if(arr.contains("countActiveOrders")){
+				arr.remove("countActiveOrders");
+				arr = mysqlConnection.countActiveOrders(arr.get(0));
+				client.sendToClient(arr);
+				return;
+			}
+			if(arr.contains("checkCapacityAndAvarageVisitTime")){
+				arr.remove("checkCapacityAndAvarageVisitTime");
+				ArrayList<Integer> ar = mysqlConnection.checkCapacityAndAvarageVisitTime(arr.get(0));
+				client.sendToClient(ar);
+				return;
+			}
+			if(arr.contains("checkMemberIDInMembers")){
+				arr.remove("checkMemberIDInMembers");
+				ArrayList<String> ar = mysqlConnection.checkMemberIDInMembers(arr);
+				client.sendToClient(ar);
+				return;
+			}
+			if(arr.contains("checkIdInMember")){
+				arr.remove("checkIdInMember");
+				ArrayList<String> ar = mysqlConnection.checkIdInMember(arr);
+				client.sendToClient(ar);
+				return;
+			}
+			
+		}catch(Exception e) {
 
 			e.printStackTrace();
 		}
@@ -484,7 +536,7 @@ public class EchoServer extends AbstractServer {
 				mysqlConnection.checkOrdersStatus();
 
 				try {
-					Thread.sleep(1000 * 60 * 60 * 24);// sleep 1 day
+					Thread.sleep(1000 * 60 * 60 );// sleep 1 hour
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

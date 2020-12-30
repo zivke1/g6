@@ -30,7 +30,7 @@
                </image>
             </ImageView>
             <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
-            <Label layoutX="178.0" layoutY="95.0" text="Home Page For Employee &gt; Generate Report &gt; Visitors Amount Report" />
+            <Label layoutX="178.0" layoutY="95.0" text="Home Page &gt; Generate Reports &gt; Visitors Amount Report" />
          </children>
       </AnchorPane>
    </top>
@@ -69,7 +69,7 @@
             <Label fx:id="amountOfGroug" layoutX="77.0" layoutY="214.0" />
             <Label fx:id="totalAmountOfVisitors" layoutX="230.0" layoutY="428.0" />
             <Label layoutX="29.0" layoutY="14.0" text="Park Name:" />
-            <Label fx:id="noReportToPresent" layoutX="224.0" layoutY="137.0" text="IN THIS TIME LINE THERE IN NO REPORT TO PRESENT" textFill="RED" visible="false">
+            <Label fx:id="noReportToPresent" layoutX="224.0" layoutY="137.0" text="IN THIS TIME LINE THERE IS NO REPORT TO PRESENT" textFill="RED">
                <font>
                   <Font size="23.0" />
                </font>

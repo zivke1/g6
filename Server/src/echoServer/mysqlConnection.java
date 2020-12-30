@@ -1,8 +1,11 @@
 package echoServer;
 
 import util.OrderToChange;
-import util.OrderToView;
 
+import util.FreePlaceInPark;
+
+import util.OrderToView;
+import util.ParameterToView;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,15 +19,18 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.TreeSet;
+import java.util.TreeMap;
 
 import com.mysql.cj.jdbc.SuspendableXAConnection;
 import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
@@ -34,22 +40,35 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
+import jdk.nashorn.internal.runtime.linker.JavaAdapterFactory;
 import util.Role;
+
 import util.TypeOfOrder;
 import util.SimulationDetails;
-
+import util.VisitorsInDate;
 
 public class mysqlConnection {
 	static Connection conn;
 	static HashSet<String> m_connectedID = new HashSet<String>();
 
 	static EchoServer server;
-	public static void SetServer(EchoServer server1)
-	{
-		server=server1;
+
+	public static void SetServer(EchoServer server1) {
+		server = server1;
 	}
+
+	final static int DAYS_IN_WEEK = 7;
+	final static int HOURS_IN_DAY = 24;
+	final static Time OPEN_TIME = new Time(8, 0, 0);
+	final static Time CLOSE_TIME = new Time(16, 0, 0);
+	final static int OPEN_TIME_INT = 8;
+	final static int CLOSE_TIME_INT = 16;
+	final static int ENTER_PRICE = 100;
+	static String calculatePrice;
+
 	public static void connectDB() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
@@ -80,28 +99,6 @@ public class mysqlConnection {
 			e.printStackTrace();
 		}
 	}
-
-//	public static ArrayList<String> showTable(Object id) { ArrayList<String>
-//	  dataFromDB = new ArrayList<>(); try {// inserting new row to the table String
-//	  firstName = null, lastName = null, ID = null, email = null, phoneNum = null;
-//	  Statement stmt = conn.createStatement(); String tmpId = ((ArrayList<String>)
-//	  id).get(0); ResultSet rs =
-//	  stmt.executeQuery("select * from visitor Where ID=" + tmpId); while
-//	  (rs.next()) { firstName = rs.getString("FirstName"); lastName =
-//	  rs.getString("LastName"); ID = rs.getString("ID"); email =
-//	  rs.getString("Email"); phoneNum = rs.getString("PhoneNumber"); }
-//	  dataFromDB.add(firstName); dataFromDB.add(lastName); dataFromDB.add(ID);
-//	  dataFromDB.add(email); dataFromDB.add(phoneNum); } catch (SQLException e) {
-//	  e.printStackTrace(); } return dataFromDB; }
-//
-//	public static String CheckID(Object id) {
-//		if (id != null) {
-//			ArrayList<String> arr = showTable(id);
-//			if (((ArrayList<String>) id).get(0).equals(arr.get(2)))
-//				return "True";
-//		}
-//		return "False";
-//	}
 
 	public static void updateTable(Object arr)// arr={the new value u want,its ID,the column we want to change}
 	{
@@ -163,7 +160,7 @@ public class mysqlConnection {
 		ArrayList<OrderToView> dataFromDB = new ArrayList<>();
 		try {// inserting new row to the table
 			String UserID = null, OrderID = null, OrderStatus = null;
-			Date OrderDate = null;
+			java.sql.Date OrderDate = null;
 
 			Statement stmt = conn.createStatement();
 			String tmpId = (String) id;
@@ -173,18 +170,8 @@ public class mysqlConnection {
 				OrderID = rs.getString("OrderID");
 				OrderStatus = rs.getString("OrderStatus");
 				OrderDate = rs.getDate("VisitDate");
-				// cost = rs.getFloat("Payment");
-				// orderType = rs.getString("TypeOfOrder");
-				// orderEnterTime = rs.getTime("EnterTime");
-				// email = rs.getString("Email");
-
 				dataFromDB.add(new OrderToView(UserID, OrderID, OrderStatus, OrderDate));
-				/*
-				 * dataFromDB.add(email); dataFromDB.add(orderEnterTime.toString());
-				 * dataFromDB.add(orderType); dataFromDB.add(cost + ""); dataFromDB.add(UserID);
-				 * dataFromDB.add(OrderID); dataFromDB.add(OrderStatus);
-				 * dataFromDB.add(OrderDate.toString());
-				 */
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -237,32 +224,39 @@ public class mysqlConnection {
 		}
 	}
 
+	// check if member ID is in member table
 	public static ArrayList<String> checkIfIdConnectedWithId(ArrayList<String> arr) throws SQLException {
 		ArrayList<String> toReturn = new ArrayList<String>();
-		Statement stmt = conn.createStatement();
-		stmt = conn.createStatement();
-		ResultSet rs = null;
-
-		toReturn.add(arr.get(0));
+		// toReturn.add(arr.get(0));
 		if (m_connectedID.contains(arr.get(0))) {
 			toReturn.add("connectedBefore");
 			return toReturn;
 		} else {
 			m_connectedID.add(arr.get(0));
-			rs = stmt.executeQuery("select * from members Where ID=" + arr.get(0));
-			if (rs.next()) {
-				String firstName = rs.getString("FirstName");
-				String lastName = rs.getString("LastName");
-				String memberOrGuide = rs.getString("MemberOrGuide");
-				toReturn.add(firstName);
-				toReturn.add(lastName);
-				toReturn.add(memberOrGuide);
-			} else {
-				toReturn.add("user");
-			}
+			toReturn = checkIdInMember(arr);
 			return toReturn;
 		}
+	}
 
+	public static ArrayList<String> checkIdInMember(ArrayList<String> arr) throws SQLException {
+		ArrayList<String> toReturn = new ArrayList<String>();
+		toReturn.add(arr.get(0));
+		Statement stmt = conn.createStatement();
+		ResultSet rs = null;
+		rs = stmt.executeQuery("select * from members Where ID=" + arr.get(0));
+		if (rs.next()) {
+			String firstName = rs.getString("FirstName");
+			String lastName = rs.getString("LastName");
+			String memberOrGuide = rs.getString("MemberOrGuide");
+			int numberOfPeople = rs.getInt("numberOfPepole");
+			toReturn.add(firstName);
+			toReturn.add(lastName);
+			toReturn.add(memberOrGuide);
+			toReturn.add(numberOfPeople + "");
+		} else {
+			toReturn.add("user");
+		}
+		return toReturn;
 	}
 
 	public static String RegisterMember(ArrayList<String> arr) {
@@ -284,7 +278,7 @@ public class mysqlConnection {
 				memberID = rand.nextInt(899999);
 				memberID += 100000;
 			} while (!checkMemberIDExistsInMembership("" + memberID));
-
+			update.setString(8, String.valueOf(memberID));
 			update.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -333,12 +327,26 @@ public class mysqlConnection {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	// check if member ID is in member table
+	public static ArrayList<String> checkIfIdConnectedWithMemberId(ArrayList<String> arr) throws SQLException {
+		ArrayList<String> toReturn = new ArrayList<String>();
+
+		// check if the member already connected
+		if (m_connectedID.contains(arr.get(0))) {
+			toReturn.add("connectedBefore");
+			return toReturn;
+		} else {
+			m_connectedID.add(arr.get(0));
+			toReturn = checkMemberIDInMembers(arr);
+		}
+		return toReturn;
 
 	}
 
-	public static ArrayList<String> checkIfIdConnectedWithMemberId(ArrayList<String> arr) throws SQLException {
+	public static ArrayList<String> checkMemberIDInMembers(ArrayList<String> arr) throws SQLException {
 		ArrayList<String> toReturn = new ArrayList<String>();
-		String id;
 		ResultSet rs;
 		Statement stmt = conn.createStatement();
 		stmt = conn.createStatement();
@@ -349,27 +357,21 @@ public class mysqlConnection {
 			return toReturn;
 		}
 		if (rs.next()) {
-			id = rs.getString("ID");
+			String id = rs.getString("ID");
 			String firstName = rs.getString("FirstName");
 			String lastName = rs.getString("LastName");
 			String memberOrGuide = rs.getString("MemberOrGuide");
+			int numberOfPeople = rs.getInt("numberOfPepole");
 			toReturn.add(id);
 			toReturn.add(firstName);
 			toReturn.add(lastName);
 			toReturn.add(memberOrGuide);
+			toReturn.add(numberOfPeople + "");
 		} else {
 			toReturn.add("notMember");
 			return toReturn;
 		}
-		// check if the member already connected
-		if (m_connectedID.contains(arr.get(0))) {
-			toReturn.add("connectedBefore");
-			return toReturn;
-		} else {
-			m_connectedID.add(arr.get(0));
-		}
 		return toReturn;
-
 	}
 
 	public static boolean insertParaUpdate(Object arr) {
@@ -377,7 +379,6 @@ public class mysqlConnection {
 			ArrayList<String> a = (ArrayList<String>) arr;
 			PreparedStatement update = conn.prepareStatement(
 					"INSERT INTO paraUpdate (ParkName, paraType, ParaVal, dateOfRequest, FromDate, UntilDate) VALUES (?, ?, ?, ?,?,?)");
-			System.out.println("arr size " + a.size() + " arr val " + arr);
 			for (int i = 0; i < ((ArrayList<String>) arr).size(); i++)
 				update.setString(i + 1, ((ArrayList<String>) arr).get(i));
 			update.executeUpdate();
@@ -409,7 +410,6 @@ public class mysqlConnection {
 			dataFromDB.add(MaxAmountOfOrders);
 			dataFromDB.add(ManagerName);
 			dataFromDB.add(GapVisitors);
-			System.out.println(dataFromDB);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -597,7 +597,7 @@ public class mysqlConnection {
 			update.setString(1, "cancelled");
 			update.setString(2, arr.get(0));
 			update.executeUpdate();
-			Thread t=new Thread( server.new OrderOpenSpot());
+			Thread t = new Thread(server.new OrderOpenSpot());
 			t.start();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -605,15 +605,26 @@ public class mysqlConnection {
 		return "The Order Cancelled Successfully";
 	}
 
+	/**
+	 * check if the order is valid it get array that tell if the order is occasional
+	 * or not the number of the visitors
+	 * 
+	 * @param arr
+	 * @return
+	 * @throws SQLException
+	 */
 	public static ArrayList<String> checkInvite(ArrayList<String> arr) throws SQLException {// arr=ID,parkName,time,date,numberOfVisitors,email,occasional,status=(user,member,guide)
+
 		ArrayList<Integer> parkDetils = checkCapacityAndAvarageVisitTime(arr.get(1));
 		ArrayList<String> toReturn = new ArrayList<String>();
 		// parkDetils=Capacity,GapVisitors,TimeOfAvergeVisit
 		int gap = parkDetils.get(1);
 		int Capacity = parkDetils.get(0);
 		int numberOfVisitorsInInvite = Integer.parseInt(arr.get(4));
+		calculatePrice = "Full tickect price: 100$\n";
 
 		if (arr.get(6).equals("notOccasional")) {
+
 			ArrayList<String> sendTocheckNumberOfVistorsInPark = new ArrayList<String>();
 			sendTocheckNumberOfVistorsInPark.add(arr.get(1));
 			sendTocheckNumberOfVistorsInPark.add(arr.get(3));
@@ -622,7 +633,7 @@ public class mysqlConnection {
 																				// parkName,date,time,TimeOfAvrageVisit
 
 			// this only for not occasional visit
-
+///TODO check 
 			int numberOfVisitorsInTimeBefore = checkNumberOfVistorsInParkBack(sendTocheckNumberOfVistorsInPark);// this
 																												// check
 																												// for
@@ -635,7 +646,7 @@ public class mysqlConnection {
 																												// for
 																												// not
 																												// occasinal
-																												// visit
+			// TODO check // visit
 			int numberOfVisitorsInTimeAfter = checkNumberOfVistorsInParkNext(sendTocheckNumberOfVistorsInPark);
 			if ((Capacity - gap < numberOfVisitorsInTimeBefore + numberOfVisitorsInInvite)
 					|| (Capacity - gap < numberOfVisitorsInTimeAfter + numberOfVisitorsInInvite)) {
@@ -649,15 +660,30 @@ public class mysqlConnection {
 			toDiscount.add(arr.get(6));
 			ArrayList<Integer> regularDiscount = getDiscount(toDiscount);
 			if (arr.get(7).equals("guide")) {
+				calculatePrice = calculatePrice + "Group visit, guide doesn't pay.\n";
+
 				numberOfVisitorsInInvite--;
 			} // him
 			int extraDiscount = getExtraDiscount(arr.get(1));
-			float price = 100 * numberOfVisitorsInInvite;// TODO check about the price
+			float price = ENTER_PRICE * numberOfVisitorsInInvite;// TODO check about the price
+
 			price = (float) (price * (100 - regularDiscount.get(0)) / 100.0);
-			price = (float) (price * (100 - regularDiscount.get(1)) / 100.0);
+			if (regularDiscount.get(0) != 0) {
+				calculatePrice = calculatePrice + "Regular discount " + regularDiscount.get(0) + "%\n";
+			}
+			if (arr.get(7).equals("member")) {
+				price = (float) (price * (100 - regularDiscount.get(1)) / 100.0);
+				if (regularDiscount.get(1) != 0) {
+					calculatePrice = calculatePrice + "Member discount " + regularDiscount.get(1) + "%\n";
+				}
+			}
 			price = (float) (price * (100 - extraDiscount) / 100.0);
+			if (extraDiscount != 0) {
+				calculatePrice = calculatePrice + "Extra discount " + extraDiscount + "%\n";
+			}
 			if (arr.contains("payBefore")) {
 				price = (float) (price * (100 - 12) / 100.0);
+				calculatePrice = calculatePrice + "Prepayment discount 12%\n";
 			}
 			toReturn.add(String.valueOf(price));// confirmed or theParkIsFull then price
 //			if (toReturn.contains("InviteConfirm")) {
@@ -678,10 +704,21 @@ public class mysqlConnection {
 				toDiscount.add(arr.get(6));
 				ArrayList<Integer> regularDiscount = getDiscount(toDiscount);
 				int extraDiscount = getExtraDiscount(arr.get(1));
-				float price = 100 * numberOfVisitorsInInvite;// TODO check about the price
+				float price = ENTER_PRICE * numberOfVisitorsInInvite;// TODO check about the price
 				price = (float) (price * (100 - regularDiscount.get(0)) / 100.0);
-				price = (float) (price * (100 - regularDiscount.get(1)) / 100.0);
+				if (regularDiscount.get(0) != 0) {
+					calculatePrice = calculatePrice + "Regular discount " + regularDiscount.get(0) + "%\n";
+				}
+				if (arr.get(7).equals("member")) {
+					price = (float) (price * (100 - regularDiscount.get(1)) / 100.0);
+					if (regularDiscount.get(1) != 0) {
+						calculatePrice = calculatePrice + "Member discount " + regularDiscount.get(1) + "%\n";
+					}
+				}
 				price = (float) (price * (100 - extraDiscount) / 100.0);
+				if (extraDiscount != 0) {
+					calculatePrice = calculatePrice + "Extra discount " + extraDiscount + "%\n";
+				}
 				toReturn.add("InviteConfirm");
 				toReturn.add(String.valueOf(price));// confirmed or theParkIsFull then price
 //				String orderNumber = getOrderNumber();
@@ -689,6 +726,7 @@ public class mysqlConnection {
 //				addToOrdersTable(arr, price, orderNumber, "active");
 			}
 		} // occasional visit only end
+		toReturn.add(calculatePrice);
 		return toReturn;
 
 	}
@@ -711,6 +749,13 @@ public class mysqlConnection {
 		return visitorsNow;
 	}
 
+	/**
+	 * take from the extraDiscount table if there is an extra discount
+	 * 
+	 * @param parkName
+	 * @return
+	 * @throws SQLException
+	 */
 	private static int getExtraDiscount(String parkName) throws SQLException {
 		Statement stmt = conn.createStatement();
 
@@ -719,7 +764,7 @@ public class mysqlConnection {
 		int discaount = 0;
 		try {
 			ResultSet rs = stmt.executeQuery("select * from extradiscount Where startDate<=" + dateToMySql
-					+ " AND endDate >=" + dateToMySql + " parkName= " + parkName);
+					+ " AND endDate >=" + dateToMySql + " AND parkName= " + parkName);
 			while (rs.next()) {
 				discaount = rs.getInt("percentage");
 			}
@@ -729,6 +774,11 @@ public class mysqlConnection {
 		return discaount;
 	}
 
+	/**
+	 * give you valid order number random
+	 * 
+	 * @return
+	 */
 	private static String getOrderNumber() {
 		boolean flagExists = true;
 		Random rand = new Random();
@@ -756,10 +806,19 @@ public class mysqlConnection {
 		return String.valueOf(orderID);
 	}
 
+	/**
+	 * add to order table
+	 * 
+	 * @param arr
+	 * @param orderNumber
+	 * @param orderStatus
+	 * @throws SQLException
+	 */
 	private static void addToOrdersTable(ArrayList<String> arr, String orderNumber, String orderStatus)
 			throws SQLException {
+		Date date = new Date();
 		PreparedStatement update = conn.prepareStatement(
-				"INSERT INTO orders (UserID, OrderID, ParkName, ExpectedEnterTime, VisitDate, VisitorsAmount,TypeOfOrder,OrderStatus,EnterTime,ExitTime,Occasional,VisitorsAmountActual,Payment,Email) VALUES (?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?)");
+				"INSERT INTO orders (UserID, OrderID, ParkName, ExpectedEnterTime, VisitDate, VisitorsAmount,TypeOfOrder,OrderStatus,EnterTime,ExitTime,Occasional,VisitorsAmountActual,Payment,Email,EnterWaitingListDate) VALUES (?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?,?)");
 		update.setString(1, arr.get(0));// INSERT INTO `visitorschema`.`orders` (`UserID`, `OrderID`, `ParkName`,
 										// `ExpectedEnterTime`, `VisitDate`, `VisitorsAmount`, `TypeOfOrder`,
 										// `OrderStatus`, `EnterTime`, `ExitTime`, `Occasional`, `VisitorsAmountActual`,
@@ -782,10 +841,23 @@ public class mysqlConnection {
 		update.setString(12, null);
 		update.setFloat(13, Float.parseFloat(arr.get(8)));
 		update.setString(14, arr.get(5));
+		if (orderStatus.equals("waitingList")) {
+			update.setTimestamp(15, new Timestamp(date.getTime()));
+		} else {
+			update.setTimestamp(15, null);
+		}
+
 		update.executeUpdate();
 
 	}
 
+	/**
+	 * get the discount that the invite can get
+	 * 
+	 * @param toDiscount
+	 * @return
+	 * @throws SQLException
+	 */
 	private static ArrayList<Integer> getDiscount(ArrayList<String> toDiscount) throws SQLException {// status=(user,member,guide),ocasional
 		String TypeOfOrder = toDiscount.get(0);
 		ArrayList<Integer> toReturn = new ArrayList<Integer>();
@@ -807,8 +879,17 @@ public class mysqlConnection {
 	}
 
 	// need to unit back and next
+
+	/**
+	 * check the number of the visitors in the park in the next few hours according
+	 * to the average visit
+	 * 
+	 * @param sendTocheckNumberOfVistorsInPark
+	 * @return
+	 * @throws SQLException
+	 */
 	private static int checkNumberOfVistorsInParkNext(ArrayList<String> sendTocheckNumberOfVistorsInPark)
-			throws SQLException {
+			throws SQLException {// this not include the hour
 		Statement stmt = conn.createStatement();
 		String visitTime = sendTocheckNumberOfVistorsInPark.get(2);
 		String hour = visitTime.substring(0, 2);
@@ -817,10 +898,10 @@ public class mysqlConnection {
 		Time fromThisTime = new Time(hourAfterGap, 0, 0);
 		int numberOfVisitors = 0;
 		ResultSet rs = stmt.executeQuery("select SUM(VisitorsAmount) from orders "
-				+ "Where OrderStatus= 'waitingToVisit' OR OrderStatus='waitingToApprove' " + "AND VisitDate = '"
+				+ "Where (OrderStatus= 'waitingToVisit' OR OrderStatus='waitingToApprove') " + "AND VisitDate = '"
 				+ sendTocheckNumberOfVistorsInPark.get(1) + "' AND ParkName = '"
-				+ sendTocheckNumberOfVistorsInPark.get(1) + "' AND  EnterTime>='"
-				+ sendTocheckNumberOfVistorsInPark.get(2) + "'AND EnterTime<'" + fromThisTime + "'");
+				+ sendTocheckNumberOfVistorsInPark.get(0) + "' AND  ExpectedEnterTime>='"
+				+ sendTocheckNumberOfVistorsInPark.get(2) + "'AND ExpectedEnterTime<'" + fromThisTime + "'");
 		while (rs.next()) {
 			numberOfVisitors = rs.getInt("SUM(VisitorsAmount)");
 		}
@@ -828,6 +909,14 @@ public class mysqlConnection {
 	}
 
 // i check waitingToAprove and Approve
+	/**
+	 * check the number of the visitors in the park before take care about what in
+	 * the previous hours
+	 * 
+	 * @param sendTocheckNumberOfVistorsInParkBack
+	 * @return
+	 * @throws SQLException
+	 */
 	private static int checkNumberOfVistorsInParkBack(ArrayList<String> sendTocheckNumberOfVistorsInParkBack)
 			throws SQLException {
 		Statement stmt = conn.createStatement();
@@ -838,17 +927,23 @@ public class mysqlConnection {
 		Time fromThisTime = new Time(hourAfterGap, 0, 0);
 		int numberOfVisitors = 0;
 		ResultSet rs = stmt.executeQuery("select SUM(VisitorsAmount) from orders "
-				+ "Where OrderStatus= 'waitingToVisit' OR OrderStatus='waitingToApprove' " + "AND VisitDate = '"
+				+ " Where (OrderStatus= 'waitingToVisit' OR OrderStatus='waitingToApprove' ) AND VisitDate = '"
 				+ sendTocheckNumberOfVistorsInParkBack.get(1) + "' AND ParkName = '"
-				+ sendTocheckNumberOfVistorsInParkBack.get(1) + "' AND  EnterTime<='"
-				+ sendTocheckNumberOfVistorsInParkBack.get(2) + "'AND EnterTime>'" + fromThisTime + "'");
+				+ sendTocheckNumberOfVistorsInParkBack.get(0) + "' AND  ExpectedEnterTime<='"
+				+ sendTocheckNumberOfVistorsInParkBack.get(2) + "'AND ExpectedEnterTime>'" + fromThisTime + "'");
 		while (rs.next()) {
 			numberOfVisitors = rs.getInt("SUM(VisitorsAmount)");
 		}
 		return numberOfVisitors;
 	}
 
-	private static ArrayList<Integer> checkCapacityAndAvarageVisitTime(String parkName) throws SQLException {
+	/**
+	 * get from the park table the details of one park return get parkName return
+	 * arrayList<int> Capacity,TimeOfAverageVisit,GapVisitors
+	 * 
+	 * @throws SQLException
+	 */
+	public static ArrayList<Integer> checkCapacityAndAvarageVisitTime(String parkName) throws SQLException {
 		ArrayList<Integer> parkDetilsNumbers = new ArrayList<Integer>();
 
 		int TimeOfAvergeVisit = 0, GapVisitors = 0, Capacity = 0;
@@ -867,20 +962,21 @@ public class mysqlConnection {
 
 	}
 
-	public static ArrayList<String> cancelReport() {
+	public static ArrayList<String> cancelReport(ArrayList<String> arr2) {
 		ArrayList<String> arr = new ArrayList<>();
 		Integer cancelNum = 0, expiredNum = 0;
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("select * from orders Where OrderStatus=6");// 6=cancelled
+			ResultSet rs = stmt.executeQuery("select * from orders Where OrderStatus=6 AND ParkName='" + arr2.get(0)
+					+ "'AND MONTH(VisitDate) ='" + arr2.get(1) + "' AND YEAR(VisitDate)='" + arr2.get(2) + "'");// 6=cancelled
 			while (rs.next()) {
 				cancelNum++;
-				System.out.println(cancelNum.toString() + "cancel");
 			}
-			ResultSet rs2 = stmt.executeQuery("select * from orders Where OrderStatus=2");// 2= expired
+			ResultSet rs2 = stmt.executeQuery("select * from orders Where OrderStatus=2 AND ParkName='" + arr2.get(0)
+					+ "'AND MONTH(VisitDate) ='" + arr2.get(1) + "' AND YEAR(VisitDate)='" + arr2.get(2) + "'");// 2=
+																												// expired
 			while (rs2.next()) {
 				expiredNum++;
-				System.out.println(expiredNum.toString());
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -915,8 +1011,33 @@ public class mysqlConnection {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(dataFromDB.get(0).getAmount() + " " + dataFromDB.get(0).getHour());
 		return dataFromDB;
+	}
+
+	public static ArrayList<ParameterToView> paraToUpdateTable() {
+		ArrayList<ParameterToView> dataFromDB = new ArrayList<>();
+		ResultSet rs;
+		try {
+			Statement stmt = conn.createStatement();
+			rs = stmt.executeQuery("Select * From paraupdate ");
+			ParameterToView temp = new ParameterToView();
+			while (rs.next()) {
+				temp.setParkName(rs.getString("parkName"));
+				temp.setParameter(rs.getString("paraType"));
+				temp.setNewValue(rs.getInt("ParaVal"));
+				temp.setRequest(rs.getTimestamp("dateOfRequest"));
+				temp.setFrom(rs.getDate("FromDate"));
+				temp.setTo(rs.getDate("UntilDate"));
+				// temp.setApproveButton(new Button("Accept"));
+				// temp.setRejectButton(new Button("Deny"));
+				dataFromDB.add(temp);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dataFromDB;
+
 	}
 
 	/**
@@ -1005,11 +1126,15 @@ public class mysqlConnection {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("select * from orders");
 			while (rs.next()) {
+				Time t = new Time(d.getHours() + 1, d.getMinutes(), d.getSeconds());
 				dateDb = rs.getDate("VisitDate");
 				if (dateDb.getYear() < dateToday.getYear()
 						|| (dateDb.getYear() == dateToday.getYear() && dateDb.getMonth() < dateToday.getMonth())
-						|| ((dateDb.getYear() == dateToday.getYear() && dateDb.getMonth() == dateDb.getMonth()
-								&& dateDb.getDate() < dateToday.getDate()))) {
+						|| (dateDb.getYear() == dateToday.getYear() && dateDb.getMonth() == dateDb.getMonth()
+								&& dateDb.getDate() < dateToday.getDate())
+						|| (dateDb.getYear() == dateToday.getYear() && dateDb.getMonth() == dateDb.getMonth()
+								&& dateDb.getDate() == dateToday.getDate()
+								&& rs.getTime("ExpectedEnterTime").compareTo(t) < 0)) {
 					if (!rs.getString("OrderStatus").equals("finished")
 							&& !rs.getString("OrderStatus").equals("expired")
 							&& !rs.getString("OrderStatus").equals("cancelled")
@@ -1194,10 +1319,58 @@ public class mysqlConnection {
 	public static ArrayList<String> setInvite(ArrayList<String> arr) throws SQLException {
 		ArrayList<String> toReturn = new ArrayList<String>();
 		String orderNumber = getOrderNumber();
-		addToOrdersTable(arr, orderNumber, "active");
+		if (arr.contains("occasional")) {
+			addToOrdersTable(arr, orderNumber, "waitingToVisit");
+		} else {
+			addToOrdersTable(arr, orderNumber, "waitingToApprove");
+		}
 		toReturn.add(orderNumber);
 		return toReturn;
 
+	}
+
+	public static void setPara(ArrayList<String> arr) {
+		try {
+			PreparedStatement update = conn
+					.prepareStatement("DELETE FROM paraupdate WHERE parkName = ?  and paraType = ? "
+							+ "and ParaVal = ? and dateOfRequest = ?");
+			update.setString(1, arr.get(1));
+			update.setString(2, arr.get(2));
+			update.setString(3, arr.get(3));
+			update.setString(4, arr.get(4));
+			update.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		if (arr.contains("y")) {
+			if (arr.contains("discount")) {
+				try {
+					PreparedStatement update = conn
+							.prepareStatement("UPDATE extradiscount SET percentage=? AND startDate=?"
+									+ " AND endDate=? WHERE parkName=?");
+					update.setString(1, arr.get(3));
+					update.setString(2, arr.get(5));
+					update.setString(3, arr.get(6));
+					update.setString(4, arr.get(1));
+					update.executeUpdate();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
+			} else {
+				try {
+					PreparedStatement update = conn
+							.prepareStatement("UPDATE park SET " + arr.get(2) + "=? WHERE parkName=?");
+					update.setInt(1, Integer.parseInt(arr.get(3)));
+					update.setString(2, arr.get(1));
+					update.executeUpdate();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
+			}
+		}
 	}
 
 	public static ArrayList<String> incomeReport(ArrayList<String> arr) {
@@ -1243,10 +1416,11 @@ public class mysqlConnection {
 		ArrayList<String> tmpDataFromDB = new ArrayList<>();
 		String year = arr.get(1), month = arr.get(2);
 		String parkName = "'" + arr.get(3) + "'";
-		int capacity = 0, TimeOfAverageVisit = 0, parkOpenINHours = 8, usageNumber = 0;// usageNumber number of excellent
-																					// usage day(above 100%)
+		int capacity = 0, TimeOfAverageVisit = 0, parkOpenINHours = 8, usageNumber = 0;// usageNumber number of
+																						// excellent
+																						// usage day(above 100%)
 
-		try {//first query fetch the capacity and the TimeOfAverageVisit from DB
+		try {// first query fetch the capacity and the TimeOfAverageVisit from DB
 			ResultSet rs = null;
 			Statement stmt = conn.createStatement();
 			rs = stmt.executeQuery("select Capacity,TimeOfAverageVisit from park where ParkName=" + parkName);
@@ -1258,18 +1432,18 @@ public class mysqlConnection {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		try {//second query fetch the number of visitors in all days at specific month and year
+
+		try {// second query fetch the number of visitors in all days at specific month and
+				// year
 			if (month.equals("02")) {
 				for (int i = 1; i <= 28; i++) {
 					ResultSet rs = null;
 					Statement stmt = conn.createStatement();
-					rs = stmt.executeQuery("select sum(VisitorsAmountActual) from orders where VisitDate='"+year+"-02-"
-					+i+ "' and OrderStatus='finished' AND ParkName=" + parkName);
-				    while(rs.next())
-				    {
-				    	tmpDataFromDB.add(rs.getString(1));
-				    }
+					rs = stmt.executeQuery("select sum(VisitorsAmountActual) from orders where VisitDate='" + year
+							+ "-02-" + i + "' and OrderStatus='finished' AND ParkName=" + parkName);
+					while (rs.next()) {
+						tmpDataFromDB.add(rs.getString(1));
+					}
 				}
 			}
 			if (month.equals("01") || month.equals("03") || month.equals("05") || month.equals("07")
@@ -1277,12 +1451,11 @@ public class mysqlConnection {
 				for (int i = 1; i <= 31; i++) {
 					ResultSet rs = null;
 					Statement stmt = conn.createStatement();
-					rs = stmt.executeQuery("select sum(VisitorsAmountActual) from orders where VisitDate='"+year+"-"+month+"-"
-					+i+ "' and OrderStatus='finished' AND ParkName=" + parkName);
-				    while(rs.next())
-				    {
-				    	tmpDataFromDB.add(rs.getString(1));
-				    }
+					rs = stmt.executeQuery("select sum(VisitorsAmountActual) from orders where VisitDate='" + year + "-"
+							+ month + "-" + i + "' and OrderStatus='finished' AND ParkName=" + parkName);
+					while (rs.next()) {
+						tmpDataFromDB.add(rs.getString(1));
+					}
 				}
 
 			}
@@ -1290,57 +1463,54 @@ public class mysqlConnection {
 				for (int i = 1; i <= 30; i++) {
 					ResultSet rs = null;
 					Statement stmt = conn.createStatement();
-					rs = stmt.executeQuery("select sum(VisitorsAmountActual) from orders where VisitDate='"+year+"-"+month+"-"
-					+i+ "' and OrderStatus='finished' AND ParkName=" + parkName);
-				    while(rs.next())
-				    {
-				    	tmpDataFromDB.add(rs.getString(1));
-				    }
+					rs = stmt.executeQuery("select sum(VisitorsAmountActual) from orders where VisitDate='" + year + "-"
+							+ month + "-" + i + "' and OrderStatus='finished' AND ParkName=" + parkName);
+					while (rs.next()) {
+						tmpDataFromDB.add(rs.getString(1));
+					}
 				}
 
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		dataFromDB.add(usageNumber+"");
-		for(int i=0;i<tmpDataFromDB.size();i++)
-		{
-			if(tmpDataFromDB.get(i)!=null)
+		dataFromDB.add(usageNumber + "");
+		for (int i = 0; i < tmpDataFromDB.size(); i++) {
+			if (tmpDataFromDB.get(i) != null)
 				dataFromDB.add(tmpDataFromDB.get(i));
 			else
-				dataFromDB.add("0");   
+				dataFromDB.add("0");
 		}
 		return dataFromDB;
 		/**
-		 * i need to think how i transfer the data from her to the client i have picture of how the
-		 * arrays look like
+		 * i need to think how i transfer the data from her to the client i have picture
+		 * of how the arrays look like
 		 */
 
 	}
-	
+
 	/**
-	 * @author elira
-	 *simulate card reader that return random user id 
+	 * @author elira simulate card reader that return random user id
 	 */
 
- public static ArrayList<String> simulationCardReader() {
-		ArrayList<String> arr=new ArrayList<>();
+	public static ArrayList<String> simulationCardReader() {
+		ArrayList<String> arr = new ArrayList<>();
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("select UserID from orders");
-			while(rs.next())
-			{
+			while (rs.next()) {
 				arr.add(rs.getString(1));
 			}
-			Random rand=new Random();
-			String userId=arr.get(rand.nextInt(arr.size()));
+			Random rand = new Random();
+			String userId = arr.get(rand.nextInt(arr.size()));
 			arr.clear();
-			arr.add(userId);	
+			arr.add(userId);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return arr;
 	}
+
 	public static ArrayList<OrderToView> ReturnUserIDInTableOrdersForCardReader(ArrayList<String> arr) {
 		if (arr instanceof ArrayList) {
 			ArrayList<String> array = (ArrayList<String>) arr;
@@ -1351,6 +1521,7 @@ public class mysqlConnection {
 		}
 		return null;
 	}
+
 	public static ArrayList<OrderToView> showTableOrdersCardReader(Object id) {
 		ArrayList<OrderToView> dataFromDB = new ArrayList<>();
 		try {
@@ -1360,8 +1531,9 @@ public class mysqlConnection {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			Statement stmt = conn.createStatement();
 			String tmpId = (String) id;
-			ResultSet rs = stmt.executeQuery("select * from orders Where UserID='"+tmpId+"' "
-					+ "AND (OrderStatus='waitingToVisit' OR OrderStatus='active') AND VisitDate='"+date.format(formatter)+"'");
+			ResultSet rs = stmt.executeQuery("select * from orders Where UserID='" + tmpId + "' "
+					+ "AND (OrderStatus='waitingToVisit' OR OrderStatus='active') AND VisitDate='"
+					+ date.format(formatter) + "'");
 			while (rs.next()) {
 				UserID = rs.getString("UserID");
 				OrderID = rs.getString("OrderID");
@@ -1374,31 +1546,179 @@ public class mysqlConnection {
 		}
 		return dataFromDB;
 	}
+
 	public static void updateToFinished(ArrayList<String> arr) {
 		try {
 			Calendar cal = Calendar.getInstance();
-	        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-			PreparedStatement update = conn.prepareStatement("UPDATE orders SET OrderStatus=?,ExitTime='"+sdf.format(cal.getTime())+"' WHERE OrderID=?");
+			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+			PreparedStatement update = conn.prepareStatement(
+					"UPDATE orders SET OrderStatus=?,ExitTime='" + sdf.format(cal.getTime()) + "' WHERE OrderID=?");
 			update.setString(1, "finished");
 			update.setString(2, arr.get(1));
 			update.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	public static void updateToActive(Object arr)
-	{
+
+	public static void updateToActive(Object arr) {
 		try {
 			ArrayList<String> aL = (ArrayList<String>) arr;
 			Calendar cal = Calendar.getInstance();
-	        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-			PreparedStatement update = conn.prepareStatement("UPDATE orders SET OrderStatus=?,EnterTime='"+sdf.format(cal.getTime())+"' ,VisitorsAmountActual='"+aL.get(2)+"' WHERE OrderID=?");
+			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+			PreparedStatement update = conn.prepareStatement("UPDATE orders SET OrderStatus=?,EnterTime='"
+					+ sdf.format(cal.getTime()) + "' ,VisitorsAmountActual='" + aL.get(2) + "' WHERE OrderID=?");
 			update.setString(1, "active");
 			update.setString(2, aL.get(1));
 			update.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * get an invite and return arrayList of times and dates that the park can get
+	 * more visitors
+	 * 
+	 * @param arr
+	 * @return
+	 * @throws SQLException
+	 */
+	public static ArrayList<FreePlaceInPark> getFreePlace(ArrayList<String> arr) throws SQLException {
+		ArrayList<FreePlaceInPark> toReturn = new ArrayList<FreePlaceInPark>();
+		String parkName = arr.get(1);
+		ArrayList<Integer> temp = checkCapacityAndAvarageVisitTime(parkName);
+		int maxVisitors = temp.get(0);
+		int gap = temp.get(1);
+		int timeOfAvarageVisit = temp.get(2);
+		String numberOfPepole = arr.get(4);
+		int numberOfPepoleInInvite = Integer.valueOf(arr.get(4));
+		ArrayList<String> sendToCheck = new ArrayList<String>();
+		sendToCheck.add(parkName);
+		sendToCheck.add(arr.get(3));
+		sendToCheck.add(arr.get(2));
+		sendToCheck.add(String.valueOf(timeOfAvarageVisit));
+
+		int dalta = 0;
+		int year = Integer.valueOf(arr.get(3).substring(0, 4));
+		int month = Integer.valueOf(arr.get(3).substring(5, 7));
+		int day = Integer.valueOf(arr.get(3).substring(8, 10));
+		month--;
+		java.sql.Date toDate, visitDate = new java.sql.Date(year - 1900, month, day - 3);
+//		Date visitDate = new Date(2020,month,day-3);
+//		year = visitDate.getYear();
+		java.sql.Date today = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+
+		while (visitDate.compareTo(today) < 0) {
+			dalta++;
+			visitDate = new java.sql.Date(year - 1900, month, day - 3 + dalta);
+
+		}
+
+//		String fromThisDate = String.valueOf(year)+visitDate.toString().substring(4);
+		String fromThisDate = visitDate.toString();
+		toDate = new java.sql.Date(year - 1900, month, day + 3 + dalta);
+		String toThisDate = toDate.toString();
+
+//		year = visitDate.getYear();
+//		String toThisDate = String.valueOf(year)+visitDate.toString().substring(4);
+//		@SuppressWarnings("deprecation")
+//		Time openTime = new Time(OPEN_TIME.getHours(),OPEN_TIME.getMinutes(),OPEN_TIME.getSeconds());
+
+//		String tString = OPEN_TIME.toString();
+
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT VisitDate,ExpectedEnterTime, SUM(VisitorsAmount) FROM orders "
+				+ "WHERE (OrderStatus = 'waitingToApprove' OR OrderStatus='waitingToVisit') AND ExpectedEnterTime>='"
+				+ OPEN_TIME.toString() + "' AND ExpectedEnterTime<='" + CLOSE_TIME.toString() + "' AND ParkName = '"
+				+ parkName + "' AND VisitDate>='" + fromThisDate + "' AND VisitDate<='" + toThisDate
+				+ "'GROUP BY ExpectedEnterTime ,VisitDate " + "Order BY VisitDate,ExpectedEnterTime ;");
+		java.sql.Date date;
+		Time time;
+		int amount;
+		// java.sql.Date week[] = new java.sql.Date[7];
+		VisitorsInDate allWeek[] = new VisitorsInDate[7];
+		int i;
+		for (i = 0; i < 7; i++) {
+			allWeek[i] = new VisitorsInDate(visitDate);
+			visitDate = new java.sql.Date(year - 1900, month, day - 3 + dalta + i + 1);
+		}
+		i = 0;
+		int[] visitorsPerDay = new int[24];
+
+		while (rs.next()) {
+			date = rs.getDate("VisitDate");
+
+			while (date.equals(allWeek[i].getDay()) == false) {
+				i++;
+				visitorsPerDay = new int[24];
+			}
+			time = rs.getTime("ExpectedEnterTime");
+			amount = rs.getInt("SUM(VisitorsAmount)");
+			visitorsPerDay[Integer.valueOf(time.toString().substring(0, 2))] = amount;
+
+			allWeek[i].setVisitors(visitorsPerDay);
+		}
+
+		for (i = 0; i < DAYS_IN_WEEK; i++) {
+			int sum = 0;
+			visitorsPerDay = allWeek[i].getVisitors();
+			for (int j = OPEN_TIME_INT; j < CLOSE_TIME_INT + timeOfAvarageVisit; j++) {// set the loop according to the
+																						// open hours
+				sum += visitorsPerDay[j];
+				if (j >= timeOfAvarageVisit * 2 - 1) {
+					sum -= visitorsPerDay[j - timeOfAvarageVisit * 2 + 1];
+				}
+
+				if ((j >= (timeOfAvarageVisit - 1) + OPEN_TIME_INT)
+						&& (j <= (timeOfAvarageVisit - 1) + CLOSE_TIME_INT)) {
+					int checkNow = j - timeOfAvarageVisit + 1;
+					if (sum + numberOfPepoleInInvite < maxVisitors - gap) {
+						// TODO vaild time
+						toReturn.add(new FreePlaceInPark(new Time(checkNow, 0, 0).toString(),
+								allWeek[i].getDay().toString()));
+
+					}
+
+				}
+			}
+
+		}
+		return toReturn;
+
+	}
+
+	/**
+	 * add to orders table in waiting list status
+	 * 
+	 * @param arr
+	 * @return
+	 * @throws SQLException
+	 */
+	public static ArrayList<String> setInWaitingList(ArrayList<String> arr) throws SQLException {
+		ArrayList<String> toReturn = new ArrayList<String>();
+		String orderNumber = getOrderNumber();
+		addToOrdersTable(arr, orderNumber, "waitingList");
+		toReturn.add(orderNumber);
+		return toReturn;
+	}
+
+	public static ArrayList<String> countActiveOrders(String parkName) {
+		String countOrders = null;
+		ArrayList<String> toReturn = new ArrayList<String>();
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(
+					"Select SUM(VisitorsAmount) From orders O Where O.OrderStatus = 'active' AND O.ParkName =" + "'"
+							+ parkName + "'");
+			while (rs.next()) {
+				countOrders = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		toReturn.add(countOrders);
+		return toReturn;
 	}
 }

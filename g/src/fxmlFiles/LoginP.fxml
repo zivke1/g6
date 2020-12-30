@@ -51,7 +51,7 @@
                   <ToggleGroup fx:id="radio" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="enterAsEmployee" layoutX="524.0" layoutY="71.0" mnemonicParsing="false" onAction="#changeLoginVisible" text="Enter as employee" toggleGroup="$radio" />
+            <RadioButton fx:id="enterAsEmployee" layoutX="357.0" layoutY="71.0" mnemonicParsing="false" onAction="#changeLoginVisible" text="Enter as employee" toggleGroup="$radio" />
             <Label layoutX="108.0" layoutY="26.0" text="What Whould You Like To Do?">
                <font>
                   <Font name="System Bold" size="19.0" />
@@ -77,7 +77,7 @@
             </AnchorPane>
             <AnchorPane fx:id="login" layoutX="77.0" layoutY="126.0" prefHeight="146.0" prefWidth="656.0" style="-fx-background-color: LightGray;" visible="false">
                <children>
-                  <Label layoutX="20.0" layoutY="53.0" text="User Name:" />
+                  <Label layoutX="20.0" layoutY="53.0" text="User Number:" />
                   <Label layoutX="23.0" layoutY="92.0" text="Password:" />
                   <TextField fx:id="enterUserName" layoutX="140.0" layoutY="48.0" />
                   <Label layoutX="22.0" layoutY="14.0" text="Please Enter:">

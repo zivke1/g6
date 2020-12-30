@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import util.NextStages;
 
 public class MembershipRegistrationSucccesCon {
 
@@ -39,42 +40,54 @@ public class MembershipRegistrationSucccesCon {
 
 	private String parkNameH;
 
+	MouseEvent m_MainPage;
+	
     @FXML
     void backClicked(MouseEvent event) {
+     	
     	((Node) event.getSource()).getScene().getWindow().hide();
-    	Stage stage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Parent root;
-		try {
-			root = loader.load(getClass().getResource("/fxmlFiles/HomePageForEmployee.fxml").openStream());
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-			HomePageForEmployeeController controller=loader.getController();
-			controller.setDetails(fNameH, lNameH, roleH, userIDH, parkNameH);
-			stage.setTitle("HomePage");
-			stage.setScene(scene);
-			stage.show();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+    	((Stage)((Node) m_MainPage.getSource()).getScene().getWindow()).show();
+    	
+    	//ziv change
+//    	((Node) event.getSource()).getScene().getWindow().hide();
+//    	Stage stage = new Stage();
+//		FXMLLoader loader = new FXMLLoader();
+//		Parent root;
+//		try {
+//			root = loader.load(getClass().getResource("/fxmlFiles/HomePageForEmployee.fxml").openStream());
+//			Scene scene = new Scene(root);
+//			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
+//			HomePageForEmployeeController controller=loader.getController();
+//			controller.setDetails(fNameH, lNameH, roleH, userIDH, parkNameH);
+//			stage.setTitle("HomePage");
+//			stage.setScene(scene);
+//			stage.show();
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
+//		}
     }
 
     @FXML
     void goToContactUsPopUp(MouseEvent event) {
-    	Stage stage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Parent root;
-		try {
-			root = loader
-					.load(getClass().getResource("/fxmlFiles/ContactUsPopUp.fxml").openStream());
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-			stage.setTitle("Contact Us");
-			stage.setScene(scene);
-			stage.show();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+    	//ziv change
+//    	Stage stage = new Stage();
+//		FXMLLoader loader = new FXMLLoader();
+//		Parent root;
+//		try {
+//			root = loader
+//					.load(getClass().getResource("/fxmlFiles/ContactUsPopUp.fxml").openStream());
+//			Scene scene = new Scene(root);
+//			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
+//			stage.setTitle("Contact Us");
+//			stage.setScene(scene);
+//			stage.show();
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
+//		}
+    	
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order",userIDH );
+		FXMLLoader loader = nextStages.openPopUp();
+//		loader.getController();
     }
     public void updateMemberNum(String num)
     {
@@ -89,5 +102,10 @@ public class MembershipRegistrationSucccesCon {
 		this.roleH=role;
 		this.userIDH=userID;
 		this.parkNameH=parkName;
+	}
+
+	public void setMainPage(MouseEvent mainPage) {
+		// TODO Auto-generated method stub
+		m_MainPage=mainPage;
 	}
 }

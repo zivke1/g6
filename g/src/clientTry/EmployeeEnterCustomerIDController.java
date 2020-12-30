@@ -28,7 +28,7 @@ import javafx.stage.Stage;
  */
 public class EmployeeEnterCustomerIDController {
 	private String fName, lName, role, userID, parkName, customerID;
-	MouseEvent m_event;
+	private MouseEvent m_event;
 	
     @FXML
     private ImageView imgContactUs;
@@ -57,7 +57,7 @@ public class EmployeeEnterCustomerIDController {
 
     @FXML
     void goToContactUsPopUp(MouseEvent event) {
-		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order");
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order", userID);
 		FXMLLoader loader = nextStages.openPopUp();
 		loader.getController();
     }
@@ -106,7 +106,7 @@ public class EmployeeEnterCustomerIDController {
     					row.setOnMouseClicked(evento -> {
     						if (evento.getClickCount() == 2 && (!row.isEmpty())) {
     							OrderToView rowData = row.getItem();
-    							NextStages nextStages = new NextStages("/fxmlFiles/ViewOrder.fxml", "View Order");
+    							NextStages nextStages = new NextStages("/fxmlFiles/ViewOrder.fxml", "View Order", userID);
     							FXMLLoader loader = nextStages.goToNextStage(evento);
     							setAllUnvisible();
     							ViewOrderController viewOrderControl = loader.getController();

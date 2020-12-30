@@ -21,10 +21,15 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import util.NextStages;
+import util.Role;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.image.ImageView;
-
+/**
+ * this controller is for log in you can enter to the system via id
+ *  member number or if you an employee you can enter by employee number and password
+ *
+ */
 public class LoginController {
 
 	@FXML
@@ -84,6 +89,7 @@ public class LoginController {
 	@FXML
 	private Label IDError;
 
+	int amountOfPeople = 0;
 	String fName = null;
 	String lName = null;
 	String role = null;
@@ -97,24 +103,21 @@ public class LoginController {
 
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
-		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order");
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "Contact Us", userID);
 		FXMLLoader loader = nextStages.openPopUp();
 		loader.getController();
-
 	}
 
 	@FXML
 	void changeIdentificationVisible(ActionEvent event) {
 		loginSetVisibility(false);
 		identificationSetVisibility(true);
-
 	}
 
 	@FXML
 	void changeLoginVisible(ActionEvent event) {
 		identificationSetVisibility(false);
 		loginSetVisibility(true);
-
 	}
 
 	/**
@@ -180,8 +183,8 @@ public class LoginController {
 //						IDError.setVisible(true);
 //					}
 					statusToOpen();
-
 				}
+				
 				if (!memberNumber.equals("")) {// if the user enter membership number
 					char[] chars = memberNumber.toCharArray();
 					for (char c : chars) {
@@ -205,7 +208,7 @@ public class LoginController {
 	}
 
 	/**
-	 * this function for clear all warrninig
+	 * this function for clear all warning
 	 */
 	private void clearAllErrorMessage() {
 		dontFindMemberShipIDLabel.setVisible(false);
@@ -213,14 +216,14 @@ public class LoginController {
 		txtErrAllFieldsReq1.setVisible(false);
 		logInBeforeLabel.setVisible(false);
 		txtErrPassword.setVisible(false);
-		txtErrAllFieldsReq1.setVisible(false);
+		txtErrAllFieldsReq.setVisible(false);
 		IDError.setVisible(false);
 		memberNotNumbers.setVisible(false);
+		
 	}
 
 	/**
-	 * check witch status we need to open
-	 * 
+	 * check which status we need to open
 	 * @throws Exception
 	 */
 	private void statusToOpen() throws Exception {
@@ -243,22 +246,15 @@ public class LoginController {
 	 */
 	private void openHomePage(UserType userType) throws Exception {
 		// TODO
-		BorderPane borderPane = null;
-		FXMLLoader loader = new FXMLLoader();
-		Stage primaryStage = new Stage();
-		// Pane root =
-		// loader.load(getClass().getResource("../fxmlFiles/HomePageForEmployee.fxml").openStream());
-
-		loader.setLocation(getClass().getResource("../fxmlFiles/HomePageForEmployee.fxml"));
-		borderPane = loader.load();
-		HomePageForEmployeeController homePageForEmployeeController = loader.getController();
-
+		
 		switch (userType) {
 		case member: {
 			fName = ChatClient.dataInArrayList.get(1);
 			lName = ChatClient.dataInArrayList.get(2);
 			userID = ChatClient.dataInArrayList.get(0);
 			role = ChatClient.dataInArrayList.get(3);
+			if(role.equals(Role.Member.toString().toLowerCase()))
+				amountOfPeople = Integer.parseInt(ChatClient.dataInArrayList.get(4));
 			break;
 		}
 		case employee: {
@@ -277,23 +273,40 @@ public class LoginController {
 		default:
 			break;
 		}
+//		BorderPane borderPane = null;
+//		FXMLLoader loader = new FXMLLoader();
+		FXMLLoader loader;		
+//		Stage primaryStage = new Stage();
+		// Pane root =
+		// loader.load(getClass().getResource("../fxmlFiles/HomePageForEmployee.fxml").openStream());
+
+		
+		NextStages nextStages = new NextStages("/fxmlFiles/HomePageForEmployee.fxml", "Home Page", userID);
+    	loader = nextStages.goToNextStage(m_event);
+//		loader.setLocation(getClass().getResource("../fxmlFiles/HomePageForEmployee.fxml"));
+//		borderPane = loader.load();
+		HomePageForEmployeeController homePageForEmployeeController = loader.getController();
+
+		
+		
 		homePageForEmployeeController.setDetails(fName, lName, role, userID, park);
+		homePageForEmployeeController.setAmountForMember(amountOfPeople);
 		// Scene scene = new Scene(root);
-		Scene scene = new Scene(borderPane);
-		primaryStage.setTitle("Home Page");
-		primaryStage.setScene(scene);
-		primaryStage.setOnCloseRequest(evt -> {
-			if (ClientMain.chat.checkConnection()) {
-				ArrayList<String> arr = new ArrayList<String>();
-				arr.add("closeAndSetIdNull");
-				arr.add("disconnect");
-				arr.add(userID);
-				ClientMain.chat.accept(arr);
-				ClientMain.chat.stopConnection();
-			}
-		});
-		((Node) m_event.getSource()).getScene().getWindow().hide();
-		primaryStage.show();
+//		Scene scene = new Scene(borderPane);
+//		primaryStage.setTitle("Home Page");
+//		primaryStage.setScene(scene);
+//		primaryStage.setOnCloseRequest(evt -> {
+//			if (ClientMain.chat.checkConnection()) {
+//				ArrayList<String> arr = new ArrayList<String>();
+//				arr.add("closeAndSetIdNull");
+//				arr.add(userID);
+//				arr.add("disconnect");
+//				ClientMain.chat.accept(arr);
+//				ClientMain.chat.stopConnection();
+//			}
+//		});
+//		((Node) m_event.getSource()).getScene().getWindow().hide();
+//		primaryStage.show();
 	}
 
 	public void identificationSetVisibility(boolean cond) {
