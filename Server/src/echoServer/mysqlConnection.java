@@ -970,16 +970,16 @@ public class mysqlConnection {
 
 	}
 
-	public static ArrayList<String> cancelReport() {
+	public static ArrayList<String> cancelReport(ArrayList<String> arr2) {
 		ArrayList<String> arr = new ArrayList<>();
 		Integer cancelNum = 0, expiredNum = 0;
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("select * from orders Where OrderStatus=6");// 6=cancelled
+			ResultSet rs = stmt.executeQuery("select * from orders Where OrderStatus=6 AND ParkName='"+arr2.get(0)+"'AND MONTH(VisitDate) ='"+arr2.get(1) +"' AND YEAR(VisitDate)='"+arr2.get(2)+"'");// 6=cancelled
 			while (rs.next()) {
 				cancelNum++;
 			}
-			ResultSet rs2 = stmt.executeQuery("select * from orders Where OrderStatus=2");// 2= expired
+			ResultSet rs2 = stmt.executeQuery("select * from orders Where OrderStatus=2 AND ParkName='"+arr2.get(0)+"'AND MONTH(VisitDate) ='"+arr2.get(1) +"' AND YEAR(VisitDate)='"+arr2.get(2)+"'");// 2= expired
 			while (rs2.next()) {
 				expiredNum++;
 			}

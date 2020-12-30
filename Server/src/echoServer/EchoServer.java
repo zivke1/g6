@@ -180,7 +180,7 @@ public class EchoServer extends AbstractServer {
 			}
 			if (arr.contains("cancel report")) {
 				arr.remove("cancel report");
-				ArrayList<String> answer = mysqlConnection.cancelReport();
+				ArrayList<String> answer = mysqlConnection.cancelReport(arr);
 				client.sendToClient(answer);
 				return;
 			}
