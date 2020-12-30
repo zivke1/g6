@@ -30,7 +30,7 @@
             </ImageView>
             <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
             <Label fx:id="txtCrumViaHomePageLabel" layoutX="178.0" layoutY="95.0" text="Home Page &gt; Make New Order &gt; Checkout" visible="false" />
-            <Label fx:id="txtCrumLabel" layoutX="178.0" layoutY="95.0" text="Home Page &gt; Make New Order &gt; Checkout" visible="false" />
+            <Label fx:id="txtCrumLabel" layoutX="178.0" layoutY="95.0" prefHeight="21.0" prefWidth="432.0" text="Home Page &gt; Availability Check &gt; Make New Order &gt; Checkout" visible="false" />
          </children>
       </AnchorPane>
    </top>

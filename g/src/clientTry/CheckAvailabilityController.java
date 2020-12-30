@@ -129,10 +129,12 @@ public class CheckAvailabilityController {
 		FXMLLoader loader = nextStages.goToNextStage(event);
 		OrderController orderControl = loader.getController();
 		orderControl.setDetails(fName, lName, role, userID, parkName);
+
 		orderControl.setDetailsOfOwner(ownerUserID, ownerRole, occasional, amountOfPeople, amountInoccasional); // order
 																												// owner
 
 	//	anchorMakeOrder.setVisible(false);
+
 		orderControl.setPreviousPage(event);
 		orderControl.setMainPage(m_eventMain);
 

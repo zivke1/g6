@@ -147,6 +147,7 @@ public class WaitingListController implements Initializable {
 					paymentPageController.setPreviousPage(evento) ;
 					paymentPageController.setMainPage(m_eventMain);
 					paymentPageController.setOrderDetails(m_orderDetails);
+					paymentPageController.setOccasional(false);
 					m_invite.set(2, rowData.getTime());
 					m_invite.set(3, Func.unFixDate(rowData.getDate()));
 					
