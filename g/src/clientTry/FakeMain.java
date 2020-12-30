@@ -28,9 +28,9 @@ public class FakeMain extends Application {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 
-			loader.setLocation(getClass().getResource("/fxmlFiles/ApproveParameters.fxml"));
+			loader.setLocation(getClass().getResource("/fxmlFiles/VisitorReportDeparmentManager.fxml"));
 			borderPane = loader.load();
-			ApproveParametersController controller = loader.getController();
+			VisitorReportDepartmentController controller = loader.getController();
 			controller.setDetails(null, null, Role.Member.toString(), null, null);
 
 		} catch (IOException e) {

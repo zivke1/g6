@@ -99,7 +99,7 @@ public class ReportDepartmentManagerController {
     		NextStages nextStages = new NextStages("/fxmlFiles/VisitorReportDeparmentManager.fxml", "Visitor Report", userIDH);
     		FXMLLoader loader = nextStages.goToNextStage(event);
     		VisitorReportDepartmentController Control = loader.getController();
-    		Control.setDetails(fNameH, lNameH, roleH, userIDH, parkNameH);
+    		Control.setDetails(fNameH, lNameH, roleH.toString(), userIDH, parkNameH);
     		Control.setPreviousPage(event);		
     	}
     	if(!visitBTN.isSelected()&& !cancelBTN.isSelected())
