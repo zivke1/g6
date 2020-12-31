@@ -1,17 +1,30 @@
 package clientTry;
 
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import util.NextStages;
+import util.OrderToView;
+import util.TableViewOrders;
+import util.ViewReports;
 
-public class ViewReportDepartmentManagerController {
+public class ViewReportDepartmentManagerController implements Initializable {
 
     @FXML
     private ImageView imgContactUs;
@@ -23,7 +36,7 @@ public class ViewReportDepartmentManagerController {
     private Button helpBtn;
 
     @FXML
-    private TableView<?> tableViewReport;
+    private TableView<ViewReports> tableViewReport;
 
     @FXML
     private Label emptyTableMsg;
@@ -60,5 +73,61 @@ public class ViewReportDepartmentManagerController {
 		m_role = role;
 		m_userID = userID;
 		m_parkName = parkName;  //DepManager
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		ArrayList<String> arr = new ArrayList<>();
+		arr.add("ReportsToView");
+		ClientMain.chat.accept(arr);
+		ArrayList<ViewReports> temp = new ArrayList<ViewReports>();
+		//= ChatClient.dataInArrayListObject;
+		if (!temp.isEmpty()) {
+			// order ID Column
+			TableColumn<ViewReports, String> orderIDcolumn = new TableColumn<>("Order ID");
+			orderIDcolumn.setMinWidth(150);
+			orderIDcolumn.setCellValueFactory(new PropertyValueFactory<>("orderID"));
+
+			// Status Column
+			TableColumn<ViewReports, String> statusColumn = new TableColumn<>("Status");
+			statusColumn.setMinWidth(150);
+			statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+			// Date Column
+			TableColumn<ViewReports, String> dateColumn = new TableColumn<>("Date");
+			dateColumn.setMinWidth(150);
+			dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+			//TableViewOrders obsList = new TableViewOrders();
+			// tblExistingOrder = new TableView<>();
+			tableViewReport.setItems(getOrders(temp));
+			
+			tableViewReport.setRowFactory(tv -> {
+				TableRow<ViewReports> row = new TableRow<>();
+				row.setOnMouseClicked(evento -> {
+					if (evento.getClickCount() == 2 && (!row.isEmpty())) {
+						ViewReports rowData = row.getItem();
+						
+						tableViewReport.setVisible(false);
+					}
+				});
+				return row;
+			});
+
+			tableViewReport.getColumns().addAll(orderIDcolumn, statusColumn, dateColumn);
+			tableViewReport.setVisible(true);
+		} else {
+			emptyTableMsg.setVisible(true);
+		}
+	}
+	
+	public ObservableList<ViewReports> getOrders(ArrayList<ViewReports> temp){
+		ObservableList<ViewReports> orders = FXCollections.observableArrayList();
+		
+		for(int i = 0; i < temp.size(); i++) {
+			if(temp.get(i) != null)
+				orders.add(temp.get(i));
+		}
+		return orders;
 	}
 }
