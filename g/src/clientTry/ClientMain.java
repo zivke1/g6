@@ -1,6 +1,7 @@
 package clientTry;
 
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 import javafx.application.Application;
@@ -36,7 +37,7 @@ public class ClientMain extends Application {
 
 
 			loader.setLocation(getClass().getResource("../fxmlFiles/LoginP.fxml"));
-//			loader.setLocation(getClass().getResource("../fxmlFiles/OrderNew.fxml"));
+//			loader.setLocation(getClass().getResource("../fxmlFiles/CardReader.fxml"));
 
 			
 

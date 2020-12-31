@@ -945,10 +945,9 @@ public class mysqlConnection {
 	}
 
 	/**
-	 * get from the park table the details of one park
-	 * return
-	 * get parkName
-	 * return arrayList<int> Capacity,TimeOfAverageVisit,GapVisitors
+	 * get from the park table the details of one park return get parkName return
+	 * arrayList<int> Capacity,TimeOfAverageVisit,GapVisitors
+	 * 
 	 * @throws SQLException
 	 */
 	public static ArrayList<Integer> checkCapacityAndAvarageVisitTime(String parkName) throws SQLException {
@@ -975,11 +974,14 @@ public class mysqlConnection {
 		Integer cancelNum = 0, expiredNum = 0;
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("select * from orders Where OrderStatus=6 AND ParkName='"+arr2.get(0)+"'AND MONTH(VisitDate) ='"+arr2.get(1) +"' AND YEAR(VisitDate)='"+arr2.get(2)+"'");// 6=cancelled
+			ResultSet rs = stmt.executeQuery("select * from orders Where OrderStatus=6 AND ParkName='" + arr2.get(0)
+					+ "'AND MONTH(VisitDate) ='" + arr2.get(1) + "' AND YEAR(VisitDate)='" + arr2.get(2) + "'");// 6=cancelled
 			while (rs.next()) {
 				cancelNum++;
 			}
-			ResultSet rs2 = stmt.executeQuery("select * from orders Where OrderStatus=2 AND ParkName='"+arr2.get(0)+"'AND MONTH(VisitDate) ='"+arr2.get(1) +"' AND YEAR(VisitDate)='"+arr2.get(2)+"'");// 2= expired
+			ResultSet rs2 = stmt.executeQuery("select * from orders Where OrderStatus=2 AND ParkName='" + arr2.get(0)
+					+ "'AND MONTH(VisitDate) ='" + arr2.get(1) + "' AND YEAR(VisitDate)='" + arr2.get(2) + "'");// 2=
+																												// expired
 			while (rs2.next()) {
 				expiredNum++;
 			}
@@ -999,21 +1001,29 @@ public class mysqlConnection {
 		Time t1, t2;
 		t1 = OPEN_TIME;
 		t2 = OPEN_TIME;
-		t2.setHours(t2.getHours()+1);
-		int openTime=CLOSE_TIME_INT-OPEN_TIME_INT+1;
+		t2.setHours(t2.getHours() + 1);
+		int openTime = CLOSE_TIME_INT - OPEN_TIME_INT + 1;
 		int[] sum = new int[24];// sum for each hour
 		try {
-			for (int i = OPEN_TIME_INT; i <= CLOSE_TIME_INT; i++, t1.setHours(t1.getHours() + 1), t2.setHours(t2.getHours() + 1)) {
+			for (int i = OPEN_TIME_INT; i <= CLOSE_TIME_INT; i++, t1.setHours(t1.getHours() + 1), t2
+					.setHours(t2.getHours() + 1)) {
 				Statement stmt = conn.createStatement();
-				rs = stmt.executeQuery("select * from orders Where EnterTime BETWEEN '" + t1 + "' AND '" + t2
-						+ "' AND OrderStatus=1 AND TypeOfOrder='" + type + "' AND ParkName='"+arr.get(0)+"' AND VisitDate ='"+arr.get(1) +"'");
-				int x=Integer.parseInt(t1.toString().substring(0, 2));
-				while (rs.next())
-				{
-					sum[x] += rs.getInt("VisitorsAmountActual");
-					System.out.println(sum[x]);
-
-				}
+				rs=stmt.executeQuery("select sum(VisitorsAmountActual) from orders Where EnterTime BETWEEN ('"+t1.toString()+"'"
+						+ "						 AND '"+t2.toString()+"') AND OrderStatus='finished' AND TypeOfOrder='"+arr.get(2)+"' AND ParkName='"+arr.get(0)+"'"
+						+ "						 AND VisitDate ='"+arr.get(1)+"';");
+//				rs = stmt.executeQuery("select sum(VisitorsAmountActual) from orders Where (EnterTime BETWEEN '" + t1
+//						+ "' AND '" + t2 + "') AND OrderStatus='finished' AND TypeOfOrder='" + type + "' AND ParkName='"
+//						+ arr.get(0) + "' AND VisitDate ='" + arr.get(1) + "'");
+				int x = Integer.parseInt(t1.toString().substring(0, 2));
+				
+				if (rs.next())
+					sum[x] = rs.getInt("sum(VisitorsAmountActual)");
+					System.out.println(sum[x]); 
+//				while (rs.next())
+//				{
+//					sum[x] += rs.getInt("VisitorsAmountActual");
+//
+//				}
 				Integer temp = t1.getHours();
 				dataFromDB.add(new HourAmount(temp.toString(), sum[x]));
 			}

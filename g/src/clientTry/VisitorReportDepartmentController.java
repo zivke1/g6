@@ -99,6 +99,9 @@ public class VisitorReportDepartmentController {
 	@FXML
 	void showReport(MouseEvent event) {
 		chart.getData().clear();
+		chart.setAnimated(false);
+		//chart.getXAxis().setTickLabelGap(1);
+		chart.getYAxis().setTickLabelGap(1);
 		//chart.getXAxis().setAutoRanging(false);
 		//chart.getXAxis().setTickLength(1);
 	    //xAxis.setLowerBound(1);
@@ -124,6 +127,12 @@ public class VisitorReportDepartmentController {
 			arr.add(TypeOfOrder.user.toString());
 			ClientMain.chat.accept(arr);
 			ArrayList<HourAmount> answer = ChatClient.dataInArrayListHour;
+			for(int i=0;i<24;i++)
+			{
+				personal.getData().add(new XYChart.Data(i+"", 0));
+				member.getData().add(new XYChart.Data(i+"", 0));
+				group.getData().add(new XYChart.Data(i+"", 0));
+			}
 			for (HourAmount a : answer) {
 				personal.getData().add(new XYChart.Data(a.getHour(), a.getAmount()));
 			System.out.println(a.getAmount()  +  Integer.toString(a.getAmount()));
