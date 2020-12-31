@@ -6,7 +6,6 @@ import util.FreePlaceInPark;
 
 import util.OrderToView;
 import util.ParameterToView;
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,26 +15,21 @@ import java.sql.SQLException;
 import java.sql.SQLSyntaxErrorException;
 import java.sql.Statement;
 import java.sql.Time;
-
 import java.sql.Timestamp;
-
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.WeekFields;
-
 import java.util.ArrayList;
-
-import java.util.Collections;
-
 import java.util.Calendar;
-
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
-
 import java.util.TreeSet;
-
 import java.util.TreeMap;
 
 import com.mysql.cj.jdbc.SuspendableXAConnection;
@@ -54,7 +48,6 @@ import util.Role;
 
 import util.TypeOfOrder;
 import util.SimulationDetails;
-
 import util.VisitorsInDate;
 
 public class mysqlConnection {
@@ -288,7 +281,7 @@ public class mysqlConnection {
 			update.setString(8, String.valueOf(memberID));
 			update.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return "Exists";
 		}
 
@@ -604,7 +597,7 @@ public class mysqlConnection {
 			update.setString(1, "cancelled");
 			update.setString(2, arr.get(0));
 			update.executeUpdate();
-			Thread t = new Thread(server.new OrderOpenSpot());
+			Thread t = new Thread(server.new OrderOpenSpot(arr.get(0)));// orderID
 			t.start();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -968,6 +961,22 @@ public class mysqlConnection {
 		return parkDetilsNumbers;
 
 	}
+	public static ArrayList<String> cheakCapacity(ArrayList<String> arr){
+		Integer capacity=0;
+		try {
+			ResultSet rs;
+			Statement stmt = conn.createStatement();
+			rs = stmt.executeQuery("select * from park Where ParkName='" + arr.get(0) + "'");
+			capacity = rs.getInt("Capacity");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ArrayList <String> answer = new ArrayList<String>();
+		answer.add(capacity.toString());
+		return answer;
+		
+	}
 
 	public static ArrayList<String> cancelReport(ArrayList<String> arr2) {
 		ArrayList<String> arr = new ArrayList<>();
@@ -1124,10 +1133,20 @@ public class mysqlConnection {
 	 * 
 	 * @param orderID
 	 */
-	public static void setOrderExpired(String orderID) {
+	public static void setOrderExpired(String orderID, String setStatus) {
+		String orderStatus;
+		Statement stmt;
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from orders where orderID=" + orderID);
+			if (rs.next())
+				orderStatus = rs.getString("OrderStatus");
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 		try {
 			PreparedStatement update = conn.prepareStatement("UPDATE orders SET OrderStatus=? WHERE OrderID=?");
-			update.setString(1, "expired");
+			update.setString(1, setStatus);
 			update.setString(2, orderID);
 			update.executeUpdate();
 		} catch (SQLException e) {
@@ -1235,15 +1254,40 @@ public class mysqlConnection {
 	/**
 	 * checking if any of the waiting list orders can fit these time slots
 	 * 
-	 * @param arr
+	 * 
+	 * @param orderIDC
 	 * @return
 	 */
-	public static ArrayList<OrderToChange> checkWaitingList(ArrayList<OrderToChange> arr) {
+	public static ArrayList<OrderToChange> checkWaitingList(String orderIDC) {
 		ArrayList<OrderToChange> arrWaitingL = new ArrayList<>();
+		Statement stmt2;
+		OrderToChange order = null;
+		try {
+			stmt2 = conn.createStatement();
+			ResultSet rs2 = stmt2.executeQuery("select * from orders where orderID=" + orderIDC);// taking the cancelled
+																									// order
+			while (rs2.next()) {
+				String userID = rs2.getString("userID"), orderID = rs2.getString("orderID"),
+						pName = rs2.getString("ParkName"), type = rs2.getString("TypeOfOrder"),
+						status = rs2.getString("OrderStatus"), email = rs2.getString("Email");
+				Time expectedEnterTime = rs2.getTime("ExpectedEnterTime");
+				java.sql.Date VisitDate = rs2.getDate("VisitDate");
+				int amount = rs2.getInt("VisitorsAmount");
+				boolean Occasional = false;
+				float payment = rs2.getFloat("Payment");
+				Timestamp enteredWaiting = rs2.getTimestamp("EnterWaitingListDate");
+				order = new OrderToChange(userID, orderID, pName, type, status, email, expectedEnterTime, VisitDate,
+						amount, Occasional, payment, enteredWaiting, null, null);// no phone number and
+																					// message
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(
-					"select * from orders where EnterWaitingListDate is not null and OrderStatus='waitingList'");
+					"select * from orders where EnterWaitingListDate is not null and OrderStatus='waitingList' and ParkName='"
+							+ order.getpName()+"' and VisitDate='"+order.getVisitDate()+"'");
 			while (rs.next()) {
 				String userID = rs.getString("userID"), orderID = rs.getString("orderID"),
 						pName = rs.getString("ParkName"), type = rs.getString("TypeOfOrder"),
@@ -1261,8 +1305,9 @@ public class mysqlConnection {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		ArrayList<OrderToChange> alertWaiting = mysqlConnection.waitingFitsCancelledOrder(arr, arrWaitingL);
-		alertWaiting = outOfWaitingList(alertWaiting);
+
+		ArrayList<OrderToChange> alertWaiting = mysqlConnection.waitingFitsCancelledOrder(order, arrWaitingL);
+		//alertWaiting = outOfWaitingList(alertWaiting);
 		return addPhoneToOrder(alertWaiting);
 	}
 
@@ -1271,32 +1316,85 @@ public class mysqlConnection {
 	 * orders time slot and if there are any conflicts (2 or more orders fit the
 	 * same time slot) we take the order that waited the longest time
 	 * 
-	 * @param arr
+	 * @param order
 	 * @param arrWaitingL
+	 * @param amount
 	 * @return
 	 */
-	private static ArrayList<OrderToChange> waitingFitsCancelledOrder(ArrayList<OrderToChange> arr,
+	private static ArrayList<OrderToChange> waitingFitsCancelledOrder(OrderToChange order,
 			ArrayList<OrderToChange> arrWaitingL) {
 		ArrayList<OrderToChange> alertWaiting = new ArrayList<>();
-		for (OrderToChange cancelledOrder : arr) {
-			TreeSet<OrderToChange> conflicts = new TreeSet<>();
-			for (OrderToChange waiting : arrWaitingL) {
-				if (cancelledOrder.getAmount() >= waiting.getAmount()
-						&& cancelledOrder.getVisitDate().equals(waiting.getVisitDate())
-						&& cancelledOrder.getExpectedEnterTime().equals(waiting.getExpectedEnterTime()))
-					conflicts.add(waiting);
-
-			}
-			switch (conflicts.size()) {
-			case 0:
-				break;
-			default:
-				alertWaiting.add(conflicts.first());// taking the order with the longest waiting time for this time slot
-				break;
-
+		int[] amount = checkActualCap(order);
+		TreeSet<OrderToChange> conflicts = new TreeSet<>();
+		for (OrderToChange waiting : arrWaitingL) {
+			int i = Integer.parseInt(waiting.getExpectedEnterTime().toString().substring(0, 2));
+			if (amount[i] >= waiting.getAmount() && order.getVisitDate().equals(waiting.getVisitDate())
+					) {
+				conflicts.add(waiting);
 			}
 		}
+		boolean flag = true;
+		while (flag&&conflicts.size()>0) {
+			
+				int i = Integer.parseInt(conflicts.first().getExpectedEnterTime().toString().substring(0, 2));
+				if (amount[i] >= conflicts.first().getAmount()) {
+					alertWaiting.add(outOfWaitingList(conflicts.first()));// taking the order with the longest waiting time for this time slot
+					//and changing it's status to waiting to approve
+					conflicts.remove(conflicts.first());
+					amount = checkActualCap(order);
+				} else
+					flag = false;
+		}
 		return alertWaiting;
+	}
+
+	/**
+	 * getting the amount of free space in each hour in a certain day(according to the order's date)
+	 * @param order
+	 * @return
+	 */
+	public static int[] checkActualCap(OrderToChange order) {
+		int res[] = new int[24];
+		try {
+			ArrayList<Integer> arr = checkCapacityAndAvarageVisitTime(order.getpName());
+			ArrayList<String> arrS = new ArrayList<>();
+			arrS.add(order.getpName());
+			arrS.add(order.getVisitDate().toString());
+			arrS.add(order.getExpectedEnterTime().toString());
+			arrS.add(arr.get(2).toString());
+			int amount = checkNumberOfVistorsInParkBack(arrS);
+
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT VisitDate,ExpectedEnterTime, SUM(VisitorsAmount) FROM orders "
+					+ "WHERE (OrderStatus = 'waitingToApprove' OR OrderStatus='waitingToVisit') AND ExpectedEnterTime>='"
+					+ OPEN_TIME.toString() + "' AND ExpectedEnterTime<='" + CLOSE_TIME.toString() + "' AND ParkName = '"
+					+ order.getpName() + "' AND VisitDate='" + order.getVisitDate() + "' GROUP BY ExpectedEnterTime "
+					+ "Order BY ExpectedEnterTime ;");
+
+			int[] visitorsPerDay = new int[24];
+			Time time;
+			while (rs.next()) {
+				visitorsPerDay = new int[24];
+				time = rs.getTime("ExpectedEnterTime");
+				amount = rs.getInt("SUM(VisitorsAmount)");
+				visitorsPerDay[Integer.valueOf(time.toString().substring(0, 2))] = amount;
+
+			}
+
+			int sum = 0;
+			int timeOfAvarageVisit = arr.get(2);
+			for (int j = OPEN_TIME_INT; j < CLOSE_TIME_INT + timeOfAvarageVisit; j++) {// set the loop according to the																		// open hours
+				sum += visitorsPerDay[j];
+				if (j >= timeOfAvarageVisit * 2 - 1) {
+					sum -= visitorsPerDay[j - timeOfAvarageVisit * 2 + 1];
+				}
+				res[j] = (arr.get(0) - arr.get(2) - sum);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
 	}
 
 	/**
@@ -1305,8 +1403,7 @@ public class mysqlConnection {
 	 * @param arr
 	 * @return
 	 */
-	private static ArrayList<OrderToChange> outOfWaitingList(ArrayList<OrderToChange> arr) {
-		for (OrderToChange order : arr) {
+	private static OrderToChange outOfWaitingList(OrderToChange order) {
 			try {
 				PreparedStatement update = conn.prepareStatement("UPDATE orders SET OrderStatus=? WHERE OrderID=?");
 				update.setString(1, "waitingToApprove");
@@ -1315,8 +1412,8 @@ public class mysqlConnection {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
-		return arr;
+		
+		return order;
 	}
 
 	/**
@@ -1513,6 +1610,94 @@ public class mysqlConnection {
 	}
 
 	/**
+	 * @author elira simulate card reader that return random user id
+	 */
+
+	public static ArrayList<String> simulationCardReader() {
+		ArrayList<String> arr = new ArrayList<>();
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select UserID from orders");
+			while (rs.next()) {
+				arr.add(rs.getString(1));
+			}
+			Random rand = new Random();
+			String userId = arr.get(rand.nextInt(arr.size()));
+			arr.clear();
+			arr.add(userId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return arr;
+	}
+
+	public static ArrayList<OrderToView> ReturnUserIDInTableOrdersForCardReader(ArrayList<String> arr) {
+		if (arr instanceof ArrayList) {
+			ArrayList<String> array = (ArrayList<String>) arr;
+			if (array != null && array.get(0) != null) {// index 0 = userID
+				ArrayList<OrderToView> ar = showTableOrdersCardReader(array.get(0));
+				return ar;
+			}
+		}
+		return null;
+	}
+
+	public static ArrayList<OrderToView> showTableOrdersCardReader(Object id) {
+		ArrayList<OrderToView> dataFromDB = new ArrayList<>();
+		try {
+			String UserID = null, OrderID = null, OrderStatus = null;
+			Date OrderDate = null;
+			LocalDate date = LocalDate.now(); // Gets the current date
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			Statement stmt = conn.createStatement();
+			String tmpId = (String) id;
+			ResultSet rs = stmt.executeQuery("select * from orders Where UserID='" + tmpId + "' "
+					+ "AND (OrderStatus='waitingToVisit' OR OrderStatus='active') AND VisitDate='"
+					+ date.format(formatter) + "'");
+			while (rs.next()) {
+				UserID = rs.getString("UserID");
+				OrderID = rs.getString("OrderID");
+				OrderStatus = rs.getString("OrderStatus");
+				OrderDate = rs.getDate("VisitDate");
+				dataFromDB.add(new OrderToView(UserID, OrderID, OrderStatus, OrderDate));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dataFromDB;
+	}
+
+	public static void updateToFinished(ArrayList<String> arr) {
+		try {
+			Calendar cal = Calendar.getInstance();
+			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+			PreparedStatement update = conn.prepareStatement(
+					"UPDATE orders SET OrderStatus=?,ExitTime='" + sdf.format(cal.getTime()) + "' WHERE OrderID=?");
+			update.setString(1, "finished");
+			update.setString(2, arr.get(1));
+			update.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public static void updateToActive(Object arr) {
+		try {
+			ArrayList<String> aL = (ArrayList<String>) arr;
+			Calendar cal = Calendar.getInstance();
+			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+			PreparedStatement update = conn.prepareStatement("UPDATE orders SET OrderStatus=?,EnterTime='"
+					+ sdf.format(cal.getTime()) + "' ,VisitorsAmountActual='" + aL.get(2) + "' WHERE OrderID=?");
+			update.setString(1, "active");
+			update.setString(2, aL.get(1));
+			update.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
 	 * get an invite and return arrayList of times and dates that the park can get
 	 * more visitors
 	 * 
@@ -1650,6 +1835,11 @@ public class mysqlConnection {
 			while (rs.next()) {
 				countOrders = rs.getString(1);
 			}
+			//ziv add
+			if(countOrders==null) {
+				countOrders="0";
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -192,6 +192,7 @@ public class OrderController implements Initializable {
 		paymentPageController.setPreviousPage(m_event);
 		paymentPageController.setMainPage(m_eventMain);
 		paymentPageController.setOrderDetails(m_orderDetails);
+		paymentPageController.setOccasional(m_occasional);
 //		Scene scene = new Scene(borderPane);
 //		primaryStage.setTitle("Home Page");
 //		primaryStage.setScene(scene);
@@ -360,6 +361,7 @@ public class OrderController implements Initializable {
 		m_occasional = occasional;
 		m_amountOfPeople = membersAmount;
 		if (m_occasional) {
+			txtCrumViaHomePage.setVisible(true);
 			tempArrayList.add(m_parkName);
 			setParkCombo(tempArrayList);
 			parkNameCombo.setValue(m_parkName);
@@ -386,6 +388,7 @@ public class OrderController implements Initializable {
 //			 setNumberOfVistors("free place");//for occasional visit i need to set the number of visitors to the one i get from the previous page
 
 		} else {
+			txtCrum.setVisible(true);
 			setHourCombo(new Time(8, 0, 0), new Time(16, 29, 0));//the time coustumer can enter to the patk
 			tempArrayList.add("Carmel Park");
 			tempArrayList.add("Tal Park");

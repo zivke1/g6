@@ -26,7 +26,7 @@ public class PaymentPageController {
 	ArrayList<String> m_inviteDetails;
 	MouseEvent m_event, m_eventMain;
     String m_orderDetails="";
-
+    boolean m_occasional;
 	@FXML
 	private ImageView imgContactUs;
 
@@ -92,6 +92,7 @@ public class PaymentPageController {
 		OrderConfirmedController orderConfirmedController = loader.getController();
 		orderConfirmedController.setMainPage(m_eventMain);
 		orderConfirmedController.setOrderNumber(m_orderNumber);
+		orderConfirmedController.setOccasional(m_occasional);
 //		Scene scene = new Scene(borderPane);
 //		primaryStage.setTitle("Order Confirmed");
 //		primaryStage.setScene(scene);
@@ -161,6 +162,16 @@ public class PaymentPageController {
 	public void setOrderDetails(String orderDetails) {
 		m_orderDetails=orderDetails;
 		informationLabel.setText(m_orderDetails);
+	}
+
+	public void setOccasional(boolean occasional) {
+		// TODO Auto-generated method stub
+		m_occasional = occasional;
+		if(m_occasional) {
+			txtCrumLabel.setVisible(true);
+		}else {
+			txtCrumViaHomePageLabel.setVisible(true);
+		}
 	}
 
 }

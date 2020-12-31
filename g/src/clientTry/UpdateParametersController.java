@@ -28,6 +28,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import util.HourAmount;
 import util.NextStages;
 
 /**
@@ -37,7 +38,7 @@ import util.NextStages;
  */
 
 public class UpdateParametersController {
-	private String parkName, discount, duration, gap, maxCapacity,fNameH,lNameH,roleH,userIDH,parkNameH;
+	private String  discount, duration, gap, maxCapacity,fNameH,lNameH,roleH,userIDH,parkNameH;
 	private LocalDate from, until;
 	private boolean chosenDuration = false, chosenDiscount = false, chosenGap = false, chosenCapacity = false;
 
@@ -144,7 +145,7 @@ public class UpdateParametersController {
 		((Node) event.getSource()).getScene().getWindow().hide();
 		((Stage) ((Node) m_previousPage.getSource()).getScene().getWindow()).show();
 	}
-
+ 
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "Contact Us", userIDH);
@@ -171,7 +172,7 @@ public class UpdateParametersController {
 		LocalDateTime d;
 		if (chosenCapacity) {
 			arr.add("sendToDeparmentManager");
-			arr.add(parkName);
+			arr.add(parkNameH);
 			arr.add("capacity");
 			arr.add(maxCapacity);
 			d = LocalDateTime.now();
@@ -187,14 +188,13 @@ public class UpdateParametersController {
 		}
 		if (chosenDiscount) {
 			arr.add("sendToDeparmentManager");
-			arr.add(parkName);
+			arr.add(parkNameH);
 			arr.add("Discount");
 			arr.add(discount);
 			d = LocalDateTime.now();
 			arr.add(d.toString());
 			arr.add(from.toString());
 			arr.add(until.toString());
-			System.out.println(from + " haalid  " + until);
 			ClientMain.chat.accept(arr);
 			if (ChatClient.dataInArrayList.get(0).equals("True"))
 				errorMsg.setText(errorMsg.getText()
@@ -204,7 +204,7 @@ public class UpdateParametersController {
 		}
 		if (chosenDuration) {
 			arr.add("sendToDeparmentManager");
-			 arr.add(parkName);
+			 arr.add(parkNameH);
 			arr.add("Duration");
 			arr.add(duration);
 			d = LocalDateTime.now();
@@ -221,7 +221,7 @@ public class UpdateParametersController {
 		}
 		if (chosenGap) {
 			arr.add("sendToDeparmentManager");
-			arr.add(parkName);
+			arr.add(parkNameH);
 			arr.add("Gap");
 			arr.add(gap);
 			d = LocalDateTime.now();
@@ -411,7 +411,15 @@ public class UpdateParametersController {
 				break;
 			}
 		}
-
+		ArrayList<String> arr =new ArrayList<>();
+		arr.add("takeCapacity");
+		arr.add(parkNameH);
+		ClientMain.chat.accept(arr);
+		ArrayList<String> answer= ChatClient.dataInArrayList;
+		if(Integer.parseInt(answer.get(0))<gapInt) {
+			errorMsg.setText(errorMsg.getText()+" The gap is above the capacity please enter gap value below "+ answer.get(0));
+			flag=false;
+		}
 		if (flag)
 			chosenGap = true;
 	}
@@ -421,11 +429,11 @@ public class UpdateParametersController {
 	 * @param parkName the park name of the manager the method get the park name of
 	 *                 the manager park
 	 */
-	public void sendToParaController(String parkName) {
-		this.parkName = parkName;
-		parks_name.setText(parkName);
-
-	}
+//	public void sendToParaController(String parkName) {
+//		this.parkName = parkName;
+//		parks_name.setText(parkName);
+//
+//	}
 	public void setDetails(String fName, String lName, String role, String userID, String parkName)
 	{
 		this.fNameH=fName;
@@ -433,7 +441,7 @@ public class UpdateParametersController {
 		this.roleH=role;
 		this.userIDH=userID;
 		this.parkNameH=parkName;
-
+		
 	}
 	public void setPreviousPage(MouseEvent event) {
 		m_previousPage = event;

@@ -5,7 +5,8 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import clientTry.FakeMain;
+import clientTry.ClientMain;
+
 import javafx.scene.control.Button;
 
 /**
@@ -121,7 +122,7 @@ public class ParameterToView implements Serializable {
 				arr.add(from.toString());
 				arr.add(to.toString());
 			}
-			FakeMain.chat.accept(arr);
+			ClientMain.chat.accept(arr);
 			approveButton.setVisible(false);
 			rejectButton.setVisible(false);
 		});
@@ -137,7 +138,7 @@ public class ParameterToView implements Serializable {
 			arr.add(newValue.toString());
 			arr.add(request.toString());
 			
-			FakeMain.chat.accept(arr);
+			ClientMain.chat.accept(arr);
 	
 			approveButton.setVisible(false);
 			rejectButton.setVisible(false);

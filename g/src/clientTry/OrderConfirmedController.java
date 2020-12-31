@@ -18,15 +18,16 @@ import util.NextStages;
  */
 public class OrderConfirmedController {
 	MouseEvent m_eventMain;
+	boolean m_occasional;
 	
     @FXML
     private ImageView imgContactUs;
 
     @FXML
-    private Label employeeOrderCrums;
+    private Label txtCrumViaHomePageLabel;
 
     @FXML
-    private Label userOrderCrums;
+    private Label txtCrumLabel;
 
     @FXML
     private Button finishOrderBtn;
@@ -65,6 +66,16 @@ public class OrderConfirmedController {
 	public void setMainPage(MouseEvent eventMain) {
 		// TODO Auto-generated method stub
 		m_eventMain=eventMain;
+	}
+
+	public void setOccasional(boolean occasional) {
+		// TODO Auto-generated method stub
+		m_occasional = occasional;
+		if(m_occasional) {
+			txtCrumLabel.setVisible(true);
+		}else {
+			txtCrumViaHomePageLabel.setVisible(true);
+		}
 	}
 
 }

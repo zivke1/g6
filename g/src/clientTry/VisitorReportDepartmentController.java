@@ -97,6 +97,7 @@ public class VisitorReportDepartmentController {
 	}
 
 	@FXML
+
 	void showReport(MouseEvent event) {
 		chart.getData().clear();
 		chart.setAnimated(false);
@@ -165,6 +166,7 @@ public class VisitorReportDepartmentController {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+
 		}
 
 	}
