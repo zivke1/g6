@@ -999,33 +999,35 @@ public class mysqlConnection {
 		ArrayList<HourAmount> dataFromDB = new ArrayList<>();
 		ResultSet rs = null;
 		Time t1, t2;
-		t1 = OPEN_TIME;
-		t2 = OPEN_TIME;
-		t2.setHours(t2.getHours() + 1);
+		t1 = new Time(OPEN_TIME_INT,0,0);
+		t2 = new Time(t1.getHours()+1,0,0);
 		int openTime = CLOSE_TIME_INT - OPEN_TIME_INT + 1;
 		int[] sum = new int[24];// sum for each hour
 		try {
-			for (int i = OPEN_TIME_INT; i <= CLOSE_TIME_INT; i++, t1.setHours(t1.getHours() + 1), t2
-					.setHours(t2.getHours() + 1)) {
+			for (int i = OPEN_TIME_INT; i <= CLOSE_TIME_INT; i++, t1=new Time(t1.getHours(),0,0), t2=new Time(t2.getHours()+1,0,0)) {
 				Statement stmt = conn.createStatement();
-				rs=stmt.executeQuery("select sum(VisitorsAmountActual) from orders Where EnterTime BETWEEN ('"+t1.toString()+"'"
-						+ "						 AND '"+t2.toString()+"') AND OrderStatus='finished' AND TypeOfOrder='"+arr.get(2)+"' AND ParkName='"+arr.get(0)+"'"
-						+ "						 AND VisitDate ='"+arr.get(1)+"';");
+				rs = stmt.executeQuery("select sum(VisitorsAmountActual) from orders Where EnterTime BETWEEN ('"
+						+ t1.toString() + "'" + "						 AND '" + t2.toString()
+						+ "') AND OrderStatus='finished' AND TypeOfOrder='" + arr.get(2) + "' AND ParkName='"
+						+ arr.get(0) + "'" + "						 AND VisitDate ='" + arr.get(1) + "';");
 //				rs = stmt.executeQuery("select sum(VisitorsAmountActual) from orders Where (EnterTime BETWEEN '" + t1
 //						+ "' AND '" + t2 + "') AND OrderStatus='finished' AND TypeOfOrder='" + type + "' AND ParkName='"
 //						+ arr.get(0) + "' AND VisitDate ='" + arr.get(1) + "'");
 				int x = Integer.parseInt(t1.toString().substring(0, 2));
 				
-				if (rs.next())
+				if (rs.next()&&sum[x]==0)
+				{	
 					sum[x] = rs.getInt("sum(VisitorsAmountActual)");
-					System.out.println(sum[x]); 
+					Integer temp = t1.getHours();
+					dataFromDB.add(new HourAmount(temp.toString(), sum[x]));
+				}
+				//System.out.println("sum["+x+"]="+sum[x]);
 //				while (rs.next())
 //				{
 //					sum[x] += rs.getInt("VisitorsAmountActual");
 //
 //				}
-				Integer temp = t1.getHours();
-				dataFromDB.add(new HourAmount(temp.toString(), sum[x]));
+				
 			}
 
 		} catch (SQLException e) {

@@ -271,8 +271,6 @@ public class EchoServer extends AbstractServer {
 					break;
 				}
 				ArrayList<HourAmount> answer;
-				//arr.remove(0);
-				System.out.println(arr+" im echo");
 				answer = mysqlConnection.depManVisitRep(type,arr);
 				client.sendToClient(answer);
 

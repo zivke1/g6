@@ -100,16 +100,14 @@ public class VisitorReportDepartmentController {
 	void showReport(MouseEvent event) {
 		chart.getData().clear();
 		chart.setAnimated(false);
-		//chart.getXAxis().setTickLabelGap(1);
-		chart.getYAxis().setTickLabelGap(1);
-		//chart.getXAxis().setAutoRanging(false);
-		//chart.getXAxis().setTickLength(1);
-	    //xAxis.setLowerBound(1);
-	    //xAxis.setUpperBound(10);
-	    //xAxis.setTickUnit(1);
+		xaxis.lookup(".axis-label")
+	       .setStyle("-fx-label-padding: -5 0 -40 0;");
+		xaxis.categorySpacingProperty().add(5);
+	    yaxis.setLowerBound(0);
+	    yaxis.setTickUnit(1);
+	    yaxis.setAutoRanging(false);
 		try {
 			chart.setVisible(true);
-			// chart.getData().removeAll();
 			chart.setTitle("Visitors Report Chart");
 			personal = new XYChart.Series();
 			member = new XYChart.Series();
@@ -117,25 +115,25 @@ public class VisitorReportDepartmentController {
 			personal.setName("Personal");
 			group.setName("Group");
 			member.setName("membership");
-
 			ArrayList<String> arr = new ArrayList<>();
 			arr.add("depManVisitRep");
 			arr.add(selectPark.getValue());
-			//selectDate.getValue()
 			java.sql.Date date=new Date(selectDate.getValue().getYear()-1900, selectDate.getValue().getMonthValue()-1, selectDate.getValue().getDayOfMonth());
 			arr.add(date.toString());
 			arr.add(TypeOfOrder.user.toString());
 			ClientMain.chat.accept(arr);
 			ArrayList<HourAmount> answer = ChatClient.dataInArrayListHour;
+			int max[]=new int[24];
 			for(int i=0;i<24;i++)
 			{
+				max[i]=0;
 				personal.getData().add(new XYChart.Data(i+"", 0));
 				member.getData().add(new XYChart.Data(i+"", 0));
 				group.getData().add(new XYChart.Data(i+"", 0));
 			}
 			for (HourAmount a : answer) {
+				max[Integer.parseInt(a.getHour())]+=a.getAmount();
 				personal.getData().add(new XYChart.Data(a.getHour(), a.getAmount()));
-			System.out.println(a.getAmount()  +  Integer.toString(a.getAmount()));
 			}
 			chart.getData().add(personal);
 			arr.remove(TypeOfOrder.user.toString());
@@ -144,16 +142,27 @@ public class VisitorReportDepartmentController {
 			ClientMain.chat.accept(arr);
 			answer = ChatClient.dataInArrayListHour;
 			for (HourAmount a : answer)
+			{
+				max[Integer.parseInt(a.getHour())]+=a.getAmount();
 				member.getData().add(new XYChart.Data(a.getHour(), a.getAmount()));
+			}
 			chart.getData().add(member);
 			arr.remove(TypeOfOrder.member.toString());
 			arr.add(3, TypeOfOrder.group.toString());
 			ClientMain.chat.accept(arr);
 			answer = ChatClient.dataInArrayListHour;
 			for (HourAmount a : answer)
+			{
+				max[Integer.parseInt(a.getHour())]+=a.getAmount();
 				group.getData().add(new XYChart.Data(a.getHour(), a.getAmount()));
+			}
 			chart.getData().add(group);
-
+			int maxRes=max[0];
+			for(int i:max)
+				if(i>maxRes)
+					maxRes=i;
+			yaxis.setUpperBound(maxRes);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
