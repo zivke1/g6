@@ -961,6 +961,22 @@ public class mysqlConnection {
 		return parkDetilsNumbers;
 
 	}
+	public static ArrayList<String> cheakCapacity(ArrayList<String> arr){
+		Integer capacity=0;
+		try {
+			ResultSet rs;
+			Statement stmt = conn.createStatement();
+			rs = stmt.executeQuery("select * from park Where ParkName='" + arr.get(0) + "'");
+			capacity = rs.getInt("Capacity");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ArrayList <String> answer = new ArrayList<String>();
+		answer.add(capacity.toString());
+		return answer;
+		
+	}
 
 	public static ArrayList<String> cancelReport(ArrayList<String> arr2) {
 		ArrayList<String> arr = new ArrayList<>();

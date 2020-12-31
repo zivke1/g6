@@ -204,6 +204,12 @@ public class EchoServer extends AbstractServer {
 				client.sendToClient(answer);
 				return;
 			}
+			if (arr.contains("takeCapacity")) {
+				arr.remove("takeCapacity");
+				ArrayList< String> answer = mysqlConnection.cheakCapacity(arr);
+				client.sendToClient(answer);
+				return;
+			}
 
 			if (arr.contains("ViewOrder")) {
 				arr.remove("ViewOrder");

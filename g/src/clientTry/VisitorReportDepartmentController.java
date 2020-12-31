@@ -114,8 +114,8 @@ public class VisitorReportDepartmentController {
 		answer= ChatClient.dataInArrayListHour;
 		for (HourAmount a: answer)
 			group.getData().add(new XYChart.Data(a.getHour(),a.getAmount()));
-		
-		chart.getData().add(personal);
+		 
+		chart.getData().add(personal); 
 		chart.getData().add(member);
 		chart.getData().add(group);
 		}catch (Exception e)

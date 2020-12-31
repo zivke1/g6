@@ -28,6 +28,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import util.HourAmount;
 import util.NextStages;
 
 /**
@@ -144,7 +145,7 @@ public class UpdateParametersController {
 		((Node) event.getSource()).getScene().getWindow().hide();
 		((Stage) ((Node) m_previousPage.getSource()).getScene().getWindow()).show();
 	}
-
+ 
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "Contact Us", userIDH);
@@ -194,7 +195,6 @@ public class UpdateParametersController {
 			arr.add(d.toString());
 			arr.add(from.toString());
 			arr.add(until.toString());
-			System.out.println(from + " haalid  " + until);
 			ClientMain.chat.accept(arr);
 			if (ChatClient.dataInArrayList.get(0).equals("True"))
 				errorMsg.setText(errorMsg.getText()
@@ -411,7 +411,15 @@ public class UpdateParametersController {
 				break;
 			}
 		}
-
+		ArrayList<String> arr =new ArrayList<>();
+		arr.add("takeCapacity");
+		arr.add(parkNameH);
+		ClientMain.chat.accept(arr);
+		ArrayList<String> answer= ChatClient.dataInArrayList;
+		if(Integer.parseInt(answer.get(0))<gapInt) {
+			errorMsg.setText(errorMsg.getText()+" The gap is above the capacity please enter gap value below "+ answer.get(0));
+			flag=false;
+		}
 		if (flag)
 			chosenGap = true;
 	}
