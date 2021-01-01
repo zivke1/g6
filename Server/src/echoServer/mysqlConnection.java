@@ -1865,4 +1865,32 @@ public class mysqlConnection {
 		return answer;
 		
 	}
+	
+	public static void depManDuration(ArrayList<String> arr) {
+		//arr=[park name;date]
+		Integer countvisitor=0;
+		try {
+			Statement stmt= conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders Where OrderStatus ='finished' AND "
+					+ "VisitDate='"+arr.get(1) +"'AND ParkName='"+arr.get(0)+"'");
+			if (rs.next()) {
+				countvisitor= rs.getInt("SUM(VisitorsAmountActual)");
+			}
+			
+		} catch (SQLException e) {
+
+		}//////
+		try {
+			Statement stmt= conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders Where OrderStatus ='finished' AND "
+					+ "VisitDate='"+arr.get(1) +"'AND ParkName='"+arr.get(0)+"'");
+			if (rs.next()) {
+				countvisitor= rs.getInt("SUM(VisitorsAmountActual)");
+			}
+			
+		} catch (SQLException e) {
+
+		}
+		
+	}
 }
