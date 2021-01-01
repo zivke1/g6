@@ -77,15 +77,24 @@ public class ReportDepartmentManagerController {
 
 
     }
+    
+    @FXML
+    void durRepClicked(MouseEvent event) {
+    	cancelBTN.setSelected(false);
+    	visitBTN.setSelected(false);
+    }
+
     @FXML
     void visitReportClick(MouseEvent event) {
     	cancelBTN.setSelected(false);
+    	durationBTN.setSelected(false);
     	errorMsg.setText("");
     }
 
     @FXML
     void cancelReportClick(MouseEvent event) {
       	visitBTN.setSelected(false);
+      	durationBTN.setSelected(false);
     	errorMsg.setText("");
     }
 
