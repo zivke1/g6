@@ -238,6 +238,10 @@ public class UpdateParametersController {
 		}
 		if (!chosenCapacity && !chosenDiscount && !chosenDuration && !chosenGap)
 			errorMsg.setText("please fill all the required fields");
+		chosenCapacity=false;
+		chosenDiscount=false;
+		chosenDuration=false;
+		chosenGap=false;
 	}
 
 	/**
@@ -315,10 +319,22 @@ public class UpdateParametersController {
 				flag = false;
 				break;
 			}
+		}//////////////////////////////
+		ArrayList<String> arr =new ArrayList<>();
+		arr.add("takeGap");
+		arr.add(parkNameH);
+		ClientMain.chat.accept(arr);
+		ArrayList<String> answer= ChatClient.dataInArrayList;
+		if(Integer.parseInt(answer.get(0))>capaInt) {
+			errorMsg.setText(errorMsg.getText()+" The gap is above the capacity please enter gap value below "+ answer.get(0));
+			flag=false; 
 		}
+		if(chosenGap &&chosenCapacity &&Integer.parseInt(maxVisitField.getText())>= Integer.parseInt(maxOrderField.getText()))
+			flag=true;
 
 		if (flag)
 			chosenCapacity = true;
+		 maxVisitField.clear();
 	}
 
 	/**
@@ -358,6 +374,7 @@ public class UpdateParametersController {
 			chosenDiscount = true;
 		else
 			errorMsg.setText(errorMsg.getText() + "Please enter a valid discount\nfor example 10%");
+		discountField.clear();
 	}
 
 	/**
@@ -386,6 +403,7 @@ public class UpdateParametersController {
 
 		if (flag)
 			chosenDuration = true;
+		visitDurField.clear();
 	}
 
 	/**
@@ -395,9 +413,9 @@ public class UpdateParametersController {
 	 */
 	@FXML
 	void saveGap(MouseEvent event) {
-		errorMsg.setText("");
+		errorMsg.setText(""); 
 		gap = maxOrderField.getText();
-		if (gap.length() == 0)
+		if (gap.length() == 0) 
 			errorMsg.setText("\nPlease fill all filed\n");
 		int gapInt=Integer.parseInt(gap);
 		if(gapInt<=0)
@@ -420,15 +438,19 @@ public class UpdateParametersController {
 			errorMsg.setText(errorMsg.getText()+" The gap is above the capacity please enter gap value below "+ answer.get(0));
 			flag=false;
 		}
+		if(chosenCapacity && chosenGap &&Integer.parseInt(maxVisitField.getText()) >= Integer.parseInt(maxOrderField.getText()))
+			flag=true;
+		
 		if (flag)
 			chosenGap = true;
+		maxOrderField.clear();
 	}
 
 	/**
 	 * @author Idan
 	 * @param parkName the park name of the manager the method get the park name of
 	 *                 the manager park
-	 */
+	 */ 
 //	public void sendToParaController(String parkName) {
 //		this.parkName = parkName;
 //		parks_name.setText(parkName);
@@ -441,7 +463,7 @@ public class UpdateParametersController {
 		this.roleH=role;
 		this.userIDH=userID;
 		this.parkNameH=parkName;
-		
+		parks_name.setText(parkName);
 	}
 	public void setPreviousPage(MouseEvent event) {
 		m_previousPage = event;

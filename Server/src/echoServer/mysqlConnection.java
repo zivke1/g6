@@ -967,6 +967,7 @@ public class mysqlConnection {
 			ResultSet rs;
 			Statement stmt = conn.createStatement();
 			rs = stmt.executeQuery("select * from park Where ParkName='" + arr.get(0) + "'");
+			if (rs.next())
 			capacity = rs.getInt("Capacity");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -1829,5 +1830,23 @@ public class mysqlConnection {
 		}
 		toReturn.add(countOrders);
 		return toReturn;
+	}
+
+	public static ArrayList<String> cheakGap(ArrayList<String> arr) {
+		Integer gap=0;
+		try {
+			ResultSet rs;
+			Statement stmt = conn.createStatement();
+			rs = stmt.executeQuery("select * from park Where ParkName='" + arr.get(0) + "'");
+			if (rs.next())
+			gap= rs.getInt("GapVisitors");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ArrayList <String> answer = new ArrayList<String>();
+		answer.add(gap.toString());
+		return answer;
+		
 	}
 }

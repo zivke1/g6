@@ -210,6 +210,12 @@ public class EchoServer extends AbstractServer {
 				client.sendToClient(answer);
 				return;
 			}
+			if (arr.contains("takeGap")) {
+				arr.remove("takeGap");
+				ArrayList< String> answer = mysqlConnection.cheakGap(arr);
+				client.sendToClient(answer);
+				return;
+			}
 
 			if (arr.contains("ViewOrder")) {
 				arr.remove("ViewOrder");

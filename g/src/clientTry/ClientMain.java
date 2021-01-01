@@ -26,7 +26,7 @@ public class ClientMain extends Application {
 	    	ArrayList<String> arr = new ArrayList<String>();
 			arr.add("close");
 			ClientMain.chat.accept(arr);
-	    	ClientMain.chat.stopConnection();
+	    	ClientMain.chat.stopConnection(); 
 			}
 		});	
 		
@@ -36,8 +36,8 @@ public class ClientMain extends Application {
 			FXMLLoader loader=new FXMLLoader();
 
 
-//			loader.setLocation(getClass().getResource("../fxmlFiles/LoginP.fxml"));
-			loader.setLocation(getClass().getResource("../fxmlFiles/CardReader.fxml"));
+			loader.setLocation(getClass().getResource("../fxmlFiles/LoginP.fxml"));
+//			loader.setLocation(getClass().getResource("../fxmlFiles/CardReader.fxml"));
 
 			
 
