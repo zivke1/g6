@@ -10,6 +10,7 @@ import util.FreePlaceInPark;
 
 import util.OrderToView;
 import util.ParameterToView;
+import util.ViewReports;
 import clientTry.UserInformationController;
 
 import java.io.*;
@@ -42,6 +43,8 @@ public class ChatClient extends AbstractClient {
 	public static ArrayList<HourAmount> dataInArrayListHour = new ArrayList<HourAmount>();
 
 	public static ArrayList<OrderToView> dataInArrayListObject = new ArrayList<OrderToView>();
+	
+	public static ArrayList<ViewReports> dataInArrayListReport = new ArrayList<>();
 	
 	public static ArrayList<ParameterToView> dataInArrayListParameter = new ArrayList<ParameterToView>();
 
@@ -80,6 +83,17 @@ public class ChatClient extends AbstractClient {
 
 		//awaitResponse = false;
 
+		try {
+			ArrayList<ViewReports> dataFromDbCheck = (ArrayList<ViewReports>) msg;
+			dataInArrayListReport.clear();
+			if (dataFromDbCheck != null)
+				if (!dataFromDbCheck.isEmpty() && dataFromDbCheck.get(0) instanceof ViewReports) {
+					dataInArrayListReport = dataFromDbCheck;
+					awaitResponse = false;
+					return;
+				}
+		}catch(ClassCastException e) {
+		}
 		try {
 			ArrayList<OrderToView> dataFromDbCheck = (ArrayList<OrderToView>) msg;
 			dataInArrayListObject.clear();

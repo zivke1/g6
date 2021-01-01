@@ -3,7 +3,7 @@ package echoServer;
 import util.OrderToChange;
 
 import util.FreePlaceInPark;
-
+import util.ViewReports;
 import util.OrderToView;
 import util.ParameterToView;
 import java.io.IOException;
@@ -1846,4 +1846,44 @@ public class mysqlConnection {
 		toReturn.add(countOrders);
 		return toReturn;
 	}
+	
+	public static ArrayList<ViewReports> reportsToView() {
+		ArrayList<ViewReports> toReturn = new ArrayList<>();
+		try {
+			Statement stmt = conn.createStatement();
+			// first go over income report table
+			ResultSet rs = stmt.executeQuery("Select * From incomereport");
+			while (rs.next()) {
+				String year = rs.getString("year");
+				String month = rs.getString("month");
+				String parkName = rs.getString("parkName");
+				String totalIncome = rs.getString("totalIncome");
+				ViewReports tmp = new ViewReports(year, month, parkName, "Income Report"); 
+				tmp.setDataIncomeReport(totalIncome);
+				toReturn.add(tmp);
+			}
+			// second go over usage report table
+			rs = stmt.executeQuery("Select * From usagereport");
+			while (rs.next()) {
+				String year = rs.getString("year");
+				String month = rs.getString("month");
+				String parkName = rs.getString("parkName");
+				ArrayList<String> dayUsage = new ArrayList<>();
+				for (int i = 1; i <= 31; i++) {
+					dayUsage.add("day" + i); //what if day empty, short month
+				}
+				ViewReports tmp = new ViewReports(year, month, parkName, "Usage Report"); 
+				tmp.setDataUsageReport(dayUsage);
+				toReturn.add(tmp);
+			}
+			// third go over visitor amount report table
+			////
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return toReturn;
+	}
+	
 }

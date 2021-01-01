@@ -80,26 +80,28 @@ public class ViewReportDepartmentManagerController implements Initializable {
 		ArrayList<String> arr = new ArrayList<>();
 		arr.add("ReportsToView");
 		ClientMain.chat.accept(arr);
-		ArrayList<ViewReports> temp = new ArrayList<ViewReports>();
-		//= ChatClient.dataInArrayListObject;
+		ArrayList<ViewReports> temp = ChatClient.dataInArrayListReport;
 		if (!temp.isEmpty()) {
-			// order ID Column
-			TableColumn<ViewReports, String> orderIDcolumn = new TableColumn<>("Order ID");
-			orderIDcolumn.setMinWidth(150);
-			orderIDcolumn.setCellValueFactory(new PropertyValueFactory<>("orderID"));
+			// Report name Column
+			TableColumn<ViewReports, String> reportNamecolumn = new TableColumn<>("Report Name");
+			reportNamecolumn.setMinWidth(150);
+			reportNamecolumn.setCellValueFactory(new PropertyValueFactory<>("reportName"));
 
-			// Status Column
-			TableColumn<ViewReports, String> statusColumn = new TableColumn<>("Status");
-			statusColumn.setMinWidth(150);
-			statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+			// park name Column
+			TableColumn<ViewReports, String> parkNameColumn = new TableColumn<>("Park Name");
+			parkNameColumn.setMinWidth(150);
+			parkNameColumn.setCellValueFactory(new PropertyValueFactory<>("parkName"));
 
-			// Date Column
-			TableColumn<ViewReports, String> dateColumn = new TableColumn<>("Date");
-			dateColumn.setMinWidth(150);
-			dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-
-			//TableViewOrders obsList = new TableViewOrders();
-			// tblExistingOrder = new TableView<>();
+			// Month Column
+			TableColumn<ViewReports, String> monthColumn = new TableColumn<>("Month");
+			monthColumn.setMinWidth(150);
+			monthColumn.setCellValueFactory(new PropertyValueFactory<>("month"));
+			
+			// Year Column
+			TableColumn<ViewReports, String> yearColumn = new TableColumn<>("Year");
+			yearColumn.setMinWidth(150);
+			yearColumn.setCellValueFactory(new PropertyValueFactory<>("year"));
+			
 			tableViewReport.setItems(getOrders(temp));
 			
 			tableViewReport.setRowFactory(tv -> {
@@ -114,7 +116,7 @@ public class ViewReportDepartmentManagerController implements Initializable {
 				return row;
 			});
 
-			tableViewReport.getColumns().addAll(orderIDcolumn, statusColumn, dateColumn);
+			tableViewReport.getColumns().addAll(reportNamecolumn, parkNameColumn, monthColumn, yearColumn);
 			tableViewReport.setVisible(true);
 		} else {
 			emptyTableMsg.setVisible(true);

@@ -159,20 +159,23 @@ public class HomePageForEmployeeController implements Initializable {
 		//repControl.setMainPage(event);
 	}
 	
-	// department manager can view submitted
+	// department manager can view submitted reports from Park Manager
     @FXML
     void goToViewReportDepManager(MouseEvent event) {
-
+		NextStages nextStages = new NextStages("/fxmlFiles/ViewParkManagerReports.fxml.fxml", "View Reports", userID);
+		FXMLLoader loader = nextStages.goToNextStage(event);
+		ViewReportDepartmentManagerController repControl = loader.getController();
+		repControl.setDetails(fName, lName, role, userID, parkName);
+		repControl.setPreviousPage(event);
     }
     
 	@FXML
 	void goToGenerateReportParkManager(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ReportParkManager.fxml", "Generate Reports", userID);
 		FXMLLoader loader = nextStages.goToNextStage(event);
-		 ReportParkManagerController repControl = loader.getController();
-		 repControl.setDetails(fName, lName, role, userID, parkName);
-		 repControl.setPreviousPage(event);
-		//repControl.setMainPage(event);
+		ReportParkManagerController repControl = loader.getController();
+		repControl.setDetails(fName, lName, role, userID, parkName);
+		repControl.setPreviousPage(event);
 	}
 
 	@FXML

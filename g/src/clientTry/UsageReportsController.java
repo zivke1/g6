@@ -77,8 +77,7 @@ public class UsageReportsController {
 		arr.add("UsageReports");
 		arr.add(year);
 		arr.add(month);
-		// arr.add(parkName);<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-		arr.add("Tal Park");
+		arr.add(parkName);
 		try {
 			ClientMain.chat.accept(arr);
 			if(!ChatClient.dataInArrayList.get(0).equals("0"))
