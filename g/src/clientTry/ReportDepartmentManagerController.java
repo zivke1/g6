@@ -108,7 +108,7 @@ public class ReportDepartmentManagerController {
     	if(durationBTN.isSelected()) {
     		NextStages nextStages = new NextStages("/fxmlFiles/DurationReportDeparmentManager.fxml", "Duration Report", userIDH);
     		FXMLLoader loader = nextStages.goToNextStage(event);
-    		VisitorReportDepartmentController Control = loader.getController();
+    		DurReportDepartmentController Control = loader.getController();
     		Control.setDetails(fNameH, lNameH, roleH.toString(), userIDH, parkNameH);
     		Control.setPreviousPage(event);	
     		

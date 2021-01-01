@@ -24,7 +24,7 @@ import util.HourAmount;
 import util.TypeOfOrder;
 
 import util.OrderToChange;
-
+import util.DurationOrder;
 import util.FreePlaceInPark;
 
 import util.OrderToView;
@@ -102,6 +102,13 @@ public class EchoServer extends AbstractServer {
 			ArrayList<String> dataFromDb;
 			ArrayList<String> arr = (ArrayList<String>) msg;
 
+			
+			if(arr.contains("DurRep"))
+			{
+				arr.remove("DurRep");
+				ArrayList<DurationOrder> ret=mysqlConnection.depManDuration(arr);
+				client.sendToClient(ret);
+			}
 			if(arr.contains("updateToActive"))
 			{
 				mysqlConnection.updateToActive(arr);

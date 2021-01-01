@@ -1,7 +1,7 @@
 package echoServer;
 
 import util.OrderToChange;
-
+import util.DurationOrder;
 import util.FreePlaceInPark;
 
 import util.OrderToView;
@@ -281,7 +281,7 @@ public class mysqlConnection {
 			update.setString(8, String.valueOf(memberID));
 			update.executeUpdate();
 		} catch (SQLException e) {
-			//e.printStackTrace();
+			// e.printStackTrace();
 			return "Exists";
 		}
 
@@ -961,22 +961,23 @@ public class mysqlConnection {
 		return parkDetilsNumbers;
 
 	}
-	public static ArrayList<String> cheakCapacity(ArrayList<String> arr){
-		Integer capacity=0;
+
+	public static ArrayList<String> cheakCapacity(ArrayList<String> arr) {
+		Integer capacity = 0;
 		try {
 			ResultSet rs;
 			Statement stmt = conn.createStatement();
 			rs = stmt.executeQuery("select * from park Where ParkName='" + arr.get(0) + "'");
 			if (rs.next())
-			capacity = rs.getInt("Capacity");
+				capacity = rs.getInt("Capacity");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		ArrayList <String> answer = new ArrayList<String>();
+		ArrayList<String> answer = new ArrayList<String>();
 		answer.add(capacity.toString());
 		return answer;
-		
+
 	}
 
 	public static ArrayList<String> cancelReport(ArrayList<String> arr2) {
@@ -1009,12 +1010,13 @@ public class mysqlConnection {
 		ArrayList<HourAmount> dataFromDB = new ArrayList<>();
 		ResultSet rs = null;
 		Time t1, t2;
-		t1 = new Time(OPEN_TIME_INT,0,0);
-		t2 = new Time(t1.getHours()+1,0,0);
+		t1 = new Time(OPEN_TIME_INT, 0, 0);
+		t2 = new Time(t1.getHours() + 1, 0, 0);
 		int openTime = CLOSE_TIME_INT - OPEN_TIME_INT + 1;
 		int[] sum = new int[24];// sum for each hour
 		try {
-			for (int i = OPEN_TIME_INT; i <= CLOSE_TIME_INT; i++, t1=new Time(t1.getHours(),0,0), t2=new Time(t2.getHours()+1,0,0)) {
+			for (int i = OPEN_TIME_INT; i <= CLOSE_TIME_INT; i++, t1 = new Time(t1.getHours(), 0,
+					0), t2 = new Time(t2.getHours() + 1, 0, 0)) {
 				Statement stmt = conn.createStatement();
 				rs = stmt.executeQuery("select sum(VisitorsAmountActual) from orders Where EnterTime BETWEEN ('"
 						+ t1.toString() + "'" + "						 AND '" + t2.toString()
@@ -1024,20 +1026,19 @@ public class mysqlConnection {
 //						+ "' AND '" + t2 + "') AND OrderStatus='finished' AND TypeOfOrder='" + type + "' AND ParkName='"
 //						+ arr.get(0) + "' AND VisitDate ='" + arr.get(1) + "'");
 				int x = Integer.parseInt(t1.toString().substring(0, 2));
-				
-				if (rs.next()&&sum[x]==0)
-				{	
+
+				if (rs.next() && sum[x] == 0) {
 					sum[x] = rs.getInt("sum(VisitorsAmountActual)");
 					Integer temp = t1.getHours();
 					dataFromDB.add(new HourAmount(temp.toString(), sum[x]));
 				}
-				//System.out.println("sum["+x+"]="+sum[x]);
+				// System.out.println("sum["+x+"]="+sum[x]);
 //				while (rs.next())
 //				{
 //					sum[x] += rs.getInt("VisitorsAmountActual");
 //
 //				}
-				
+
 			}
 
 		} catch (SQLException e) {
@@ -1288,7 +1289,7 @@ public class mysqlConnection {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(
 					"select * from orders where EnterWaitingListDate is not null and OrderStatus='waitingList' and ParkName='"
-							+ order.getpName()+"' and VisitDate='"+order.getVisitDate()+"'");
+							+ order.getpName() + "' and VisitDate='" + order.getVisitDate() + "'");
 			while (rs.next()) {
 				String userID = rs.getString("userID"), orderID = rs.getString("orderID"),
 						pName = rs.getString("ParkName"), type = rs.getString("TypeOfOrder"),
@@ -1308,7 +1309,7 @@ public class mysqlConnection {
 		}
 
 		ArrayList<OrderToChange> alertWaiting = mysqlConnection.waitingFitsCancelledOrder(order, arrWaitingL);
-		//alertWaiting = outOfWaitingList(alertWaiting);
+		// alertWaiting = outOfWaitingList(alertWaiting);
 		return addPhoneToOrder(alertWaiting);
 	}
 
@@ -1329,28 +1330,30 @@ public class mysqlConnection {
 		TreeSet<OrderToChange> conflicts = new TreeSet<>();
 		for (OrderToChange waiting : arrWaitingL) {
 			int i = Integer.parseInt(waiting.getExpectedEnterTime().toString().substring(0, 2));
-			if (amount[i] >= waiting.getAmount() && order.getVisitDate().equals(waiting.getVisitDate())
-					) {
+			if (amount[i] >= waiting.getAmount() && order.getVisitDate().equals(waiting.getVisitDate())) {
 				conflicts.add(waiting);
 			}
 		}
 		boolean flag = true;
-		while (flag&&conflicts.size()>0) {
-			
-				int i = Integer.parseInt(conflicts.first().getExpectedEnterTime().toString().substring(0, 2));
-				if (amount[i] >= conflicts.first().getAmount()) {
-					alertWaiting.add(outOfWaitingList(conflicts.first()));// taking the order with the longest waiting time for this time slot
-					//and changing it's status to waiting to approve
-					conflicts.remove(conflicts.first());
-					amount = checkActualCap(order);
-				} else
-					flag = false;
+		while (flag && conflicts.size() > 0) {
+
+			int i = Integer.parseInt(conflicts.first().getExpectedEnterTime().toString().substring(0, 2));
+			if (amount[i] >= conflicts.first().getAmount()) {
+				alertWaiting.add(outOfWaitingList(conflicts.first()));// taking the order with the longest waiting time
+																		// for this time slot
+				// and changing it's status to waiting to approve
+				conflicts.remove(conflicts.first());
+				amount = checkActualCap(order);
+			} else
+				flag = false;
 		}
 		return alertWaiting;
 	}
 
 	/**
-	 * getting the amount of free space in each hour in a certain day(according to the order's date)
+	 * getting the amount of free space in each hour in a certain day(according to
+	 * the order's date)
+	 * 
 	 * @param order
 	 * @return
 	 */
@@ -1384,7 +1387,8 @@ public class mysqlConnection {
 
 			int sum = 0;
 			int timeOfAvarageVisit = arr.get(2);
-			for (int j = OPEN_TIME_INT; j < CLOSE_TIME_INT + timeOfAvarageVisit; j++) {// set the loop according to the																		// open hours
+			for (int j = OPEN_TIME_INT; j < CLOSE_TIME_INT + timeOfAvarageVisit; j++) {// set the loop according to the
+																						// // open hours
 				sum += visitorsPerDay[j];
 				if (j >= timeOfAvarageVisit * 2 - 1) {
 					sum -= visitorsPerDay[j - timeOfAvarageVisit * 2 + 1];
@@ -1405,15 +1409,15 @@ public class mysqlConnection {
 	 * @return
 	 */
 	private static OrderToChange outOfWaitingList(OrderToChange order) {
-			try {
-				PreparedStatement update = conn.prepareStatement("UPDATE orders SET OrderStatus=? WHERE OrderID=?");
-				update.setString(1, "waitingToApprove");
-				update.setString(2, order.getOrderID());
-				update.executeUpdate();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		
+		try {
+			PreparedStatement update = conn.prepareStatement("UPDATE orders SET OrderStatus=? WHERE OrderID=?");
+			update.setString(1, "waitingToApprove");
+			update.setString(2, order.getOrderID());
+			update.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 		return order;
 	}
 
@@ -1836,11 +1840,11 @@ public class mysqlConnection {
 			while (rs.next()) {
 				countOrders = rs.getString(1);
 			}
-			//ziv add
-			if(countOrders==null) {
-				countOrders="0";
+			// ziv add
+			if (countOrders == null) {
+				countOrders = "0";
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -1849,48 +1853,62 @@ public class mysqlConnection {
 	}
 
 	public static ArrayList<String> cheakGap(ArrayList<String> arr) {
-		Integer gap=0;
+		Integer gap = 0;
 		try {
 			ResultSet rs;
 			Statement stmt = conn.createStatement();
 			rs = stmt.executeQuery("select * from park Where ParkName='" + arr.get(0) + "'");
 			if (rs.next())
-			gap= rs.getInt("GapVisitors");
+				gap = rs.getInt("GapVisitors");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		ArrayList <String> answer = new ArrayList<String>();
+		ArrayList<String> answer = new ArrayList<String>();
 		answer.add(gap.toString());
 		return answer;
-		
+
 	}
-	
-	public static void depManDuration(ArrayList<String> arr) {
-		//arr=[park name;date]
-		Integer countvisitor=0;
-		try {
-			Statement stmt= conn.createStatement();
-			ResultSet rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders Where OrderStatus ='finished' AND "
-					+ "VisitDate='"+arr.get(1) +"'AND ParkName='"+arr.get(0)+"'");
-			if (rs.next()) {
-				countvisitor= rs.getInt("SUM(VisitorsAmountActual)");
-			}
-			
-		} catch (SQLException e) {
 
-		}//////
+	public static ArrayList<DurationOrder> depManDuration(ArrayList<String> arr) {
+//		//arr=[park name;date]
+//		Integer countvisitor=0;//need to check if we need it
+//		try {
+//			Statement stmt= conn.createStatement();
+//			ResultSet rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders Where OrderStatus ='finished' AND "
+//					+ "VisitDate='"+arr.get(1) +"'AND ParkName='"+arr.get(0)+"'");
+//			if (rs.next()) {
+//				countvisitor= rs.getInt("SUM(VisitorsAmountActual)");
+//			}
+//			
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+		ArrayList<DurationOrder> arrD = new ArrayList<DurationOrder>();
 		try {
-			Statement stmt= conn.createStatement();
-			ResultSet rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders Where OrderStatus ='finished' AND "
-					+ "VisitDate='"+arr.get(1) +"'AND ParkName='"+arr.get(0)+"'");
-			if (rs.next()) {
-				countvisitor= rs.getInt("SUM(VisitorsAmountActual)");
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from orders Where OrderStatus ='finished' AND " + "VisitDate='"
+					+ arr.get(1) + "' AND ParkName='" + arr.get(0) + "' ");
+			while (rs.next()) {
+				String type = rs.getString("TypeOfOrder");
+				int amount = rs.getInt("VisitorsAmountActual");
+				int duration = Integer.parseInt(rs.getTime("ExitTime").toString().substring(0, 2))
+						- Integer.parseInt(rs.getTime("EnterTime").toString().substring(0, 2));
+				if (duration >= Integer.parseInt(arr.get(2)) && duration <= Integer.parseInt(arr.get(3))) {
+					boolean flag = false;
+					for (DurationOrder d : arrD)
+						if (d.getType().equals(type)) {
+							d.setAmount(d.getAmount() + amount);
+							flag = true;
+						}
+					if (!flag)
+						arrD.add(new DurationOrder(type, duration, amount));
+				}
 			}
-			
-		} catch (SQLException e) {
 
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		
+		return arrD;
 	}
 }
