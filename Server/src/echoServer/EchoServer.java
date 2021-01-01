@@ -290,7 +290,7 @@ public class EchoServer extends AbstractServer {
 			if (arr.contains("depManVisitRep")) {
 				arr.remove("depManVisitRep");
 				TypeOfOrder type = null;
-				switch (arr.get(0)) {
+				switch (arr.get(2)) {
 				case "member":
 					type = TypeOfOrder.member;
 					break;
@@ -302,7 +302,7 @@ public class EchoServer extends AbstractServer {
 					break;
 				}
 				ArrayList<HourAmount> answer;
-				answer = mysqlConnection.depManVisitRep(type);
+				answer = mysqlConnection.depManVisitRep(type,arr);
 				client.sendToClient(answer);
 
 				return;

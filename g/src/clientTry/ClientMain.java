@@ -24,7 +24,7 @@ public class ClientMain extends Application {
 		primaryStage.setOnCloseRequest(evt->{
 			if (ClientMain.chat.checkConnection()) {
 	    	ArrayList<String> arr = new ArrayList<String>();
-			arr.add("close");
+			arr.add("close");  
 			ClientMain.chat.accept(arr);
 	    	ClientMain.chat.stopConnection(); 
 			}
@@ -36,8 +36,11 @@ public class ClientMain extends Application {
 			FXMLLoader loader=new FXMLLoader();
 
 
+
 			loader.setLocation(getClass().getResource("../fxmlFiles/LoginP.fxml"));
 //			loader.setLocation(getClass().getResource("../fxmlFiles/CardReader.fxml"));
+
+
 
 			
 
