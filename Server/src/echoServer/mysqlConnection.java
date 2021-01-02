@@ -1244,13 +1244,39 @@ public class mysqlConnection {
 	public static String WaitingForVisitOrder(ArrayList<String> arr) {
 		try {
 			PreparedStatement update = conn.prepareStatement("UPDATE orders SET OrderStatus=? WHERE OrderID=?");
+			if(checkDateWatingList(arr.get(0)))
 			update.setString(1, "waitingToVisit");
+			else update.setString(1, "waitingToApprove");
 			update.setString(2, arr.get(0));
 			update.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return "Thank You For Your Confrimation";
+	}
+	/**
+	 * checks if this order needs a day before visit simulation
+	 * @param orderID
+	 * @return
+	 */
+	public static boolean checkDateWatingList(String orderID)
+	{
+		
+		Statement stmt;
+		Date d=new Date();
+		java.sql.Date orderD=null,today=new java.sql.Date(d.getYear(), d.getMonth(), d.getDate()+1);
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from orders where orderID=" + orderID);
+			if(rs.next())
+				orderD=rs.getDate("VisitDate");
+			if(today.equals(orderD))
+				return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return true;
 	}
 
 	/**

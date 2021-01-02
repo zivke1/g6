@@ -452,7 +452,7 @@ public class EchoServer extends AbstractServer {
 			if (s != null)
 				if (!mysqlConnection.checkWaiting(s.getOrderID(), "waitingToVisit")) {
 					mysqlConnection.setOrderExpired(s.getOrderID(), "expired");
-				} else if (!mysqlConnection.checkWaiting(order.getOrderID(), "waitingToVisit")) {
+				} else if (!mysqlConnection.checkWaiting(order.getOrderID(), "waitingToVisit")&&mysqlConnection.checkDateWatingList(order.getOrderID())) {
 					mysqlConnection.setOrderExpired(order.getOrderID(), "cancelled");
 				}
 
