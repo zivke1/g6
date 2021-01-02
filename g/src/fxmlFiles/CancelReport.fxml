@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.CancelReportController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.CancelReportController">
    <top>
       <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
          <children>
@@ -54,12 +54,12 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="numCancelOrders" layoutX="223.0" layoutY="301.0" text="-">
+            <Label fx:id="numCancelOrders" layoutX="223.0" layoutY="301.0" prefHeight="27.0" prefWidth="354.0" text="-">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="numExpiredOrders" layoutX="223.0" layoutY="354.0" prefHeight="20.0" prefWidth="0.0" text="-">
+            <Label fx:id="numExpiredOrders" layoutX="223.0" layoutY="354.0" prefHeight="27.0" prefWidth="328.0" text="-">
                <font>
                   <Font size="18.0" />
                </font>

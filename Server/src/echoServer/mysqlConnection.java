@@ -381,7 +381,7 @@ public class mysqlConnection {
 					"INSERT INTO paraUpdate (ParkName, paraType, ParaVal, dateOfRequest, FromDate, UntilDate) VALUES (?, ?, ?, ?,?,?)");
 			for (int i = 0; i < ((ArrayList<String>) arr).size(); i++)
 				update.setString(i + 1, ((ArrayList<String>) arr).get(i));
-			update.executeUpdate();
+			update.executeUpdate();  
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
