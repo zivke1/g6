@@ -1084,7 +1084,7 @@ public class mysqlConnection {
 	 * @return
 	 */
 	public static ArrayList<SimulationDetails> dayBeforeVisit() {
-		ArrayList<SimulationDetails> arr = new ArrayList<>();
+		ArrayList<SimulationDetails> arr = new ArrayList<>();  
 		Date d = new Date();
 		java.sql.Date d1 = new java.sql.Date(d.getYear(), d.getMonth(), d.getDate() + 1), dDb;
 		try {
