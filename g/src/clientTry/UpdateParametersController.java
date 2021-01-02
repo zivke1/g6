@@ -205,7 +205,7 @@ public class UpdateParametersController {
 		if (chosenDuration) {
 			arr.add("sendToDeparmentManager");
 			 arr.add(parkNameH);
-			arr.add("Duration");
+			arr.add("TimeOfAverageVisit");
 			arr.add(duration);
 			d = LocalDateTime.now();
 			//
