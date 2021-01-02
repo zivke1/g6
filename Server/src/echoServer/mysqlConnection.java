@@ -1502,7 +1502,7 @@ public class mysqlConnection {
 			if (arr.contains("discount")) {
 				try {
 					PreparedStatement update = conn
-							.prepareStatement("INSERT INTO extradiscount  (percentage,startDate,endDate,parkName) (?,?,?,?)");
+							.prepareStatement("INSERT INTO extradiscount  (percentage,startDate,endDate,parkName) values (?,?,?,?)");
 					update.setString(1, arr.get(3));
 					update.setString(2, arr.get(5));
 					update.setString(3, arr.get(6));
