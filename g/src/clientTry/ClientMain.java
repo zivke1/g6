@@ -12,6 +12,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class ClientMain extends Application {
+	final public static int OPEN_TIME_INT=8;
+	final public static int CLOSE_TIME_INT=16;
+	final public static int AVG_DUR_TIME_INT=4;
 	public static ClientConsole chat; //only one instance
 	public static void main(String[] args) {
 		launch(args);
@@ -20,7 +23,7 @@ public class ClientMain extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		chat=new ClientConsole("localhost", 5555);
-//		this make the X btn to close the connection 
+//		this make the X btn to close the connection
 		primaryStage.setOnCloseRequest(evt->{
 			if (ClientMain.chat.checkConnection()) {
 	    	ArrayList<String> arr = new ArrayList<String>();
@@ -36,12 +39,10 @@ public class ClientMain extends Application {
 			FXMLLoader loader=new FXMLLoader();
 
 
-
 			loader.setLocation(getClass().getResource("../fxmlFiles/LoginP.fxml"));
 //			loader.setLocation(getClass().getResource("../fxmlFiles/CardReader.fxml"));
 
-
-			
+			 
 
 
 			borderPane = loader.load();

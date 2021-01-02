@@ -54,6 +54,9 @@ public class ReportDepartmentManagerController {
     private RadioButton cancelBTN;
     
     @FXML
+    private RadioButton durationBTN;
+    
+    @FXML
     private Label errorMsg;
 
     @FXML
@@ -74,15 +77,24 @@ public class ReportDepartmentManagerController {
 
 
     }
+    
+    @FXML
+    void durRepClicked(MouseEvent event) {
+    	cancelBTN.setSelected(false);
+    	visitBTN.setSelected(false);
+    }
+
     @FXML
     void visitReportClick(MouseEvent event) {
     	cancelBTN.setSelected(false);
+    	durationBTN.setSelected(false);
     	errorMsg.setText("");
     }
 
     @FXML
     void cancelReportClick(MouseEvent event) {
       	visitBTN.setSelected(false);
+      	durationBTN.setSelected(false);
     	errorMsg.setText("");
     }
 
@@ -102,7 +114,15 @@ public class ReportDepartmentManagerController {
     		Control.setDetails(fNameH, lNameH, roleH.toString(), userIDH, parkNameH);
     		Control.setPreviousPage(event);		
     	}
-    	if(!visitBTN.isSelected()&& !cancelBTN.isSelected())
+    	if(durationBTN.isSelected()) {
+    		NextStages nextStages = new NextStages("/fxmlFiles/DurationReportDeparmentManager.fxml", "Duration Report", userIDH);
+    		FXMLLoader loader = nextStages.goToNextStage(event);
+    		DurReportDepartmentController Control = loader.getController();
+    		Control.setDetails(fNameH, lNameH, roleH.toString(), userIDH, parkNameH);
+    		Control.setPreviousPage(event);	
+    		
+    	}
+    	if(!visitBTN.isSelected()&& !cancelBTN.isSelected()&&!durationBTN.isSelected())
     		errorMsg.setText("you must choose report first \n");
     }
 

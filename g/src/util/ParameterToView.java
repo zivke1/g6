@@ -80,20 +80,24 @@ public class ParameterToView implements Serializable {
 	public void setNewValue(int newValue) {
 		this.newValue = newValue;
 	}
-	public Date getFrom() {
-		return from;
+	public String getFrom() {
+		if(from!=null)
+		return Func.fixDate(from);
+		else return "                          ";
 	}
 	public void setFrom(Date from) {
 		this.from = from;
 	}
-	public Date getTo() {
-		return to;
+	public String getTo() {
+		if(to!=null)
+		return Func.fixDate(to);
+		else return "               ";
 	}
 	public void setTo(Date to) {
 		this.to = to;
 	}
-	public Timestamp getRequest() {
-		return request;
+	public String getRequest() {
+		return Func.fixDate(request);
 	}
 	public void setRequest(Timestamp request) {
 		this.request = request;

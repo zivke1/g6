@@ -24,7 +24,7 @@ import util.HourAmount;
 import util.TypeOfOrder;
 import util.ViewReports;
 import util.OrderToChange;
-
+import util.DurationOrder;
 import util.FreePlaceInPark;
 
 import util.OrderToView;
@@ -102,10 +102,17 @@ public class EchoServer extends AbstractServer {
 			ArrayList<String> dataFromDb;
 			ArrayList<String> arr = (ArrayList<String>) msg;
 
+			
+			if(arr.contains("DurRep"))
+			{
+				arr.remove("DurRep");
+				ArrayList<DurationOrder> ret=mysqlConnection.depManDuration(arr);
+				client.sendToClient(ret);
+			}
 			if(arr.contains("updateToActive"))
 			{
 				mysqlConnection.updateToActive(arr);
-				client.sendToClient(msg);
+				client.sendToClient(msg);  
 				return;
 			}
 			if(arr.contains("updateToFinished"))
@@ -207,6 +214,12 @@ public class EchoServer extends AbstractServer {
 			if (arr.contains("takeCapacity")) {
 				arr.remove("takeCapacity");
 				ArrayList< String> answer = mysqlConnection.cheakCapacity(arr);
+				client.sendToClient(answer);
+				return;
+			}
+			if (arr.contains("takeGap")) {
+				arr.remove("takeGap");
+				ArrayList< String> answer = mysqlConnection.cheakGap(arr);
 				client.sendToClient(answer);
 				return;
 			}
@@ -445,7 +458,7 @@ public class EchoServer extends AbstractServer {
 			if (s != null)
 				if (!mysqlConnection.checkWaiting(s.getOrderID(), "waitingToVisit")) {
 					mysqlConnection.setOrderExpired(s.getOrderID(), "expired");
-				} else if (!mysqlConnection.checkWaiting(order.getOrderID(), "waitingToVisit")) {
+				} else if (!mysqlConnection.checkWaiting(order.getOrderID(), "waitingToVisit")&&mysqlConnection.checkDateWatingList(order.getOrderID())) {
 					mysqlConnection.setOrderExpired(order.getOrderID(), "cancelled");
 				}
 

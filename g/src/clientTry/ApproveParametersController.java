@@ -63,7 +63,7 @@ public class ApproveParametersController {
 	private TableColumn<?, ?> parameter;
 
 	@FXML
-	private TableColumn<?, ?> newValue;
+	private TableColumn<?, ?> newValue; 
 
 	@FXML
 	private TableColumn<?, ?> dateOfRequest;
@@ -156,17 +156,17 @@ public class ApproveParametersController {
 				newValuecolumn.setCellValueFactory(new PropertyValueFactory<>("newValue"));
 
 				// request date column
-				TableColumn<ParameterToView, Date> requestcolumn = new TableColumn<>("Request");
+				TableColumn<ParameterToView, String> requestcolumn = new TableColumn<>("Request");
 				requestcolumn.setMinWidth(100);
 				requestcolumn.setCellValueFactory(new PropertyValueFactory<>("request"));
 
 				// from date column
-				TableColumn<ParameterToView, Date> fromcolumn = new TableColumn<>("From");
+				TableColumn<ParameterToView, String> fromcolumn = new TableColumn<>("From");
 				fromcolumn.setMinWidth(119);
 				fromcolumn.setCellValueFactory(new PropertyValueFactory<>("from"));
 
 				// to date column
-				TableColumn<ParameterToView, Date> tocolumn = new TableColumn<>("To");
+				TableColumn<ParameterToView, String> tocolumn = new TableColumn<>("To");
 				tocolumn.setMinWidth(120);
 				tocolumn.setCellValueFactory(new PropertyValueFactory<>("to"));
 
@@ -188,6 +188,7 @@ public class ApproveParametersController {
 
 			} else {
 				errorMsg.setText("You don't have parameters to approve.");
+				table.setVisible(false);
 			}
 
 		} catch (Exception e) {

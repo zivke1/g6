@@ -6,6 +6,7 @@ package clientTry;
 
 import ocsf.client.*;
 import util.HourAmount;
+import util.DurationOrder;
 import util.FreePlaceInPark;
 
 import util.OrderToView;
@@ -50,7 +51,8 @@ public class ChatClient extends AbstractClient {
 
 	public static ArrayList<FreePlaceInPark> dataInArrayListFreePlaceInParks = new ArrayList<>();
 
-
+	public static ArrayList<DurationOrder> dataInArrDur=new ArrayList<>();
+	
 	public static boolean awaitResponse = false;
 	// Constructors ****************************************************
 
@@ -82,7 +84,18 @@ public class ChatClient extends AbstractClient {
 		String st;
 
 		//awaitResponse = false;
-
+		try {
+			ArrayList<DurationOrder> dataFromDbCheck = (ArrayList<DurationOrder>) msg;
+			dataInArrayListObject.clear();
+			if (dataFromDbCheck != null)
+				if (!dataFromDbCheck.isEmpty() && dataFromDbCheck.get(0) instanceof DurationOrder) {
+					dataInArrDur = dataFromDbCheck;
+					awaitResponse = false;
+					return;
+				}
+		} catch (ClassCastException e) {
+		}
+		
 		try {
 			ArrayList<ViewReports> dataFromDbCheck = (ArrayList<ViewReports>) msg;
 			dataInArrayListReport.clear();

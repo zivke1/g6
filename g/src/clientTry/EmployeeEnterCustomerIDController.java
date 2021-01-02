@@ -82,6 +82,7 @@ public class EmployeeEnterCustomerIDController {
     			ClientMain.chat.accept(arr);
     			ArrayList<OrderToView> temp = ChatClient.dataInArrayListObject;
     			if (!temp.isEmpty()) {
+    				NoExistOrderMsg.setVisible(false);
     				// order ID Column
     				TableColumn<OrderToView, String> orderIDcolumn = new TableColumn<>("Order ID");
     				orderIDcolumn.setMinWidth(150);
@@ -122,6 +123,7 @@ public class EmployeeEnterCustomerIDController {
 
     			} else {
     				NoExistOrderMsg.setVisible(true);
+    				existingOrdersTable.setVisible(false);
     			}
     }
     void setDetails(String fName,String lName,String role,String userID,String parkName){

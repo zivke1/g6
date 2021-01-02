@@ -20,6 +20,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -39,6 +40,9 @@ public class VisitorReportDepartmentController {
 	ObservableList<String> parkNames = FXCollections.observableArrayList("Tal Park", "Carmel Park", "Jordan Park");
 
 	XYChart.Series<String, Number> personal, member, group;
+	@FXML
+	private Label errorMsg;
+
 	@FXML
 	private ImageView imgContactUs;
 
@@ -101,14 +105,13 @@ public class VisitorReportDepartmentController {
 	void showReport(MouseEvent event) {
 		chart.getData().clear();
 		chart.setAnimated(false);
-		xaxis.lookup(".axis-label")
-	       .setStyle("-fx-label-padding: -5 0 -40 0;");
+		xaxis.lookup(".axis-label").setStyle("-fx-label-padding: -5 0 -40 0;");
 		xaxis.categorySpacingProperty().add(5);
-	    yaxis.setLowerBound(0);
-	    yaxis.setTickUnit(1);
-	    yaxis.setAutoRanging(false);
+		yaxis.setLowerBound(0);
+		yaxis.setTickUnit(1);
+		yaxis.setAutoRanging(false);
 		try {
-			chart.setVisible(true);
+			boolean flag1 = false, flag2 = false, flag3 = false;
 			chart.setTitle("Visitors Report Chart");
 			personal = new XYChart.Series();
 			member = new XYChart.Series();
@@ -119,21 +122,24 @@ public class VisitorReportDepartmentController {
 			ArrayList<String> arr = new ArrayList<>();
 			arr.add("depManVisitRep");
 			arr.add(selectPark.getValue());
-			java.sql.Date date=new Date(selectDate.getValue().getYear()-1900, selectDate.getValue().getMonthValue()-1, selectDate.getValue().getDayOfMonth());
+			java.sql.Date date = new Date(selectDate.getValue().getYear() - 1900,
+					selectDate.getValue().getMonthValue() - 1, selectDate.getValue().getDayOfMonth());
 			arr.add(date.toString());
 			arr.add(TypeOfOrder.user.toString());
 			ClientMain.chat.accept(arr);
 			ArrayList<HourAmount> answer = ChatClient.dataInArrayListHour;
-			int max[]=new int[24];
-			for(int i=0;i<24;i++)
-			{
-				max[i]=0;
-				personal.getData().add(new XYChart.Data(i+"", 0));
-				member.getData().add(new XYChart.Data(i+"", 0));
-				group.getData().add(new XYChart.Data(i+"", 0));
+			for (HourAmount h : ChatClient.dataInArrayListHour)
+				if (h.getAmount() > 0)
+					flag1 = true;
+			int max[] = new int[24];
+			for (int i = 0; i < 24; i++) {
+				max[i] = 0;
+				personal.getData().add(new XYChart.Data(i + "", 0));
+				member.getData().add(new XYChart.Data(i + "", 0));
+				group.getData().add(new XYChart.Data(i + "", 0));
 			}
 			for (HourAmount a : answer) {
-				max[Integer.parseInt(a.getHour())]+=a.getAmount();
+				max[Integer.parseInt(a.getHour())] += a.getAmount();
 				personal.getData().add(new XYChart.Data(a.getHour(), a.getAmount()));
 			}
 			chart.getData().add(personal);
@@ -142,31 +148,46 @@ public class VisitorReportDepartmentController {
 			
 			ClientMain.chat.accept(arr);
 			answer = ChatClient.dataInArrayListHour;
-			for (HourAmount a : answer)
-			{
-				max[Integer.parseInt(a.getHour())]+=a.getAmount();
+			for (HourAmount h : ChatClient.dataInArrayListHour)
+				if (h.getAmount() > 0)
+					flag2 = true;
+			for (HourAmount a : answer) {
+				max[Integer.parseInt(a.getHour())] += a.getAmount();
 				member.getData().add(new XYChart.Data(a.getHour(), a.getAmount()));
 			}
 			chart.getData().add(member);
 			arr.remove(TypeOfOrder.member.toString());
 			arr.add(3, TypeOfOrder.group.toString());
-			ClientMain.chat.accept(arr);
+			ChatClient.dataInArrayListHour.clear();
+		
 			answer = ChatClient.dataInArrayListHour;
-			for (HourAmount a : answer)
-			{
-				max[Integer.parseInt(a.getHour())]+=a.getAmount();
+			for (HourAmount h : ChatClient.dataInArrayListHour)
+				if (h.getAmount() > 0)
+					flag3 = true;
+			for (HourAmount a : answer) {
+				max[Integer.parseInt(a.getHour())] += a.getAmount();
 				group.getData().add(new XYChart.Data(a.getHour(), a.getAmount()));
 			}
 			chart.getData().add(group);
-			int maxRes=max[0];
-			for(int i:max)
-				if(i>maxRes)
-					maxRes=i;
+			int maxRes = max[0];
+			for (int i : max)
+				if (i > maxRes)
+					maxRes = i;
 			yaxis.setUpperBound(maxRes);
-			
+
+			if (!flag1 && !flag2 && !flag3) {
+				chart.setVisible(false);
+				errorMsg.setVisible(true);
+			}
+			else
+			{
+				chart.setVisible(true);
+				errorMsg.setVisible(false);
+			}
+			ChatClient.dataInArrayListHour.clear();
 		} catch (Exception e) {
 			e.printStackTrace();
-
+			errorMsg.setVisible(true);
 		}
 
 	}
