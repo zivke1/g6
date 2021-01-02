@@ -759,17 +759,31 @@ public class mysqlConnection {
 	private static int getExtraDiscount(String parkName) throws SQLException {
 		Statement stmt = conn.createStatement();
 
+//		Date d = new Date();//old ziv change
+//		String dateToMySql = d.getYear() + "-" + d.getMonth() + "-" + d.getDay();
+//		int discaount = 0;
+//		try {
+//			ResultSet rs = stmt.executeQuery("select * from extradiscount Where startDate<=" + dateToMySql
+//					+ " AND endDate >=" + dateToMySql + " AND parkName= " + parkName);
+//			while (rs.next()) {
+//				discaount = rs.getInt("percentage");
+//			}
+//		} catch (SQLException e) {
+//
+//		}
+//		return discaount;
+
 		Date d = new Date();
-		String dateToMySql = d.getYear() + "-" + d.getMonth() + "-" + d.getDay();
+		String dateToMySql = d.getYear() + 1900 + "-" + d.getMonth() + 1 + "-" + d.getDate();
 		int discaount = 0;
 		try {
-			ResultSet rs = stmt.executeQuery("select * from extradiscount Where startDate<=" + dateToMySql
-					+ " AND endDate >=" + dateToMySql + " AND parkName= " + parkName);
+			ResultSet rs = stmt.executeQuery("select MAX(percentage) from extradiscount Where startDate<='" + dateToMySql
+					+ "' AND endDate >='" + dateToMySql + "' AND parkName= '" + parkName+ "';");
 			while (rs.next()) {
-				discaount = rs.getInt("percentage");
+				discaount = rs.getInt("MAX(percentage)");
 			}
 		} catch (SQLException e) {
-
+			e.printStackTrace();
 		}
 		return discaount;
 	}
@@ -841,7 +855,7 @@ public class mysqlConnection {
 		update.setString(12, null);
 		if (arr.get(8).equals("payBefore") == false) {
 			update.setFloat(13, Float.parseFloat(arr.get(8)));
-		}else {
+		} else {
 			update.setFloat(13, Float.parseFloat(arr.get(9)));
 		}
 		update.setString(14, arr.get(5));
@@ -1058,8 +1072,8 @@ public class mysqlConnection {
 		try {
 			Statement stmt = conn.createStatement();
 			rs = stmt.executeQuery("Select * From paraupdate ");
-			ParameterToView temp = new ParameterToView();
 			while (rs.next()) {
+				ParameterToView temp = new ParameterToView();
 				temp.setParkName(rs.getString("parkName"));
 				temp.setParameter(rs.getString("paraType"));
 				temp.setNewValue(rs.getInt("ParaVal"));
@@ -1084,7 +1098,7 @@ public class mysqlConnection {
 	 * @return
 	 */
 	public static ArrayList<SimulationDetails> dayBeforeVisit() {
-		ArrayList<SimulationDetails> arr = new ArrayList<>();  
+		ArrayList<SimulationDetails> arr = new ArrayList<>();
 		Date d = new Date();
 		java.sql.Date d1 = new java.sql.Date(d.getYear(), d.getMonth(), d.getDate() + 1), dDb;
 		try {
