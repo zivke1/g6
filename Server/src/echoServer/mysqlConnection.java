@@ -839,7 +839,11 @@ public class mysqlConnection {
 		update.setString(10, null);
 		update.setBoolean(11, arr.get(6).equals("occasional"));
 		update.setString(12, null);
-		update.setFloat(13, Float.parseFloat(arr.get(8)));
+		if (arr.get(8).equals("payBefore") == false) {
+			update.setFloat(13, Float.parseFloat(arr.get(8)));
+		}else {
+			update.setFloat(13, Float.parseFloat(arr.get(9)));
+		}
 		update.setString(14, arr.get(5));
 		if (orderStatus.equals("waitingList")) {
 			update.setTimestamp(15, new Timestamp(date.getTime()));
