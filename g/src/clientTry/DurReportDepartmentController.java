@@ -24,7 +24,7 @@ public class DurReportDepartmentController {
 	ObservableList<String> parkNames = FXCollections.observableArrayList("Tal Park", "Carmel Park", "Jordan Park");
 	ObservableList<String> dur=FXCollections.observableArrayList();
 
-	private float a = 33, b = 33, c = 34;
+	private float a = 0, b = 0, c = 0;
 
 	@FXML
 	private Label errorMsg;
@@ -102,7 +102,6 @@ public class DurReportDepartmentController {
 		arr.add(selectDate.getValue().toString());
 		arr.add(durBox.getValue().substring(0, 1));
 		arr.add(durBox.getValue().substring(2, 3));
-		System.out.println(durBox.getValue().substring(0, 1) + " " + durBox.getValue().substring(2, 3));
 		ClientMain.chat.accept(arr);
 		ArrayList<DurationOrder> arrD = ChatClient.dataInArrDur;
 		if (arrD.size() == 0) {
