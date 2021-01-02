@@ -52,6 +52,15 @@ public class DurReportDepartmentController {
 
 	@FXML
 	private PieChart chart;
+	
+	@FXML
+    private Label userP;
+
+    @FXML
+    private Label memberP;
+
+    @FXML
+    private Label groupP;
 
 	private MouseEvent m_event;
 
@@ -98,6 +107,9 @@ public class DurReportDepartmentController {
 		ArrayList<DurationOrder> arrD = ChatClient.dataInArrDur;
 		if (arrD.size() == 0) {
 			errorMsg.setText("No Data For This Time Slot\nPlease Try A Different One");
+			userP.setVisible(false);
+			memberP.setVisible(false);
+			groupP.setVisible(false);
 			chart.setVisible(false);
 		} else {
 			chart.setVisible(true);
@@ -111,11 +123,18 @@ public class DurReportDepartmentController {
 					b = 100 * ((float) d.getAmount() / total);
 				else
 					c = 100 * ((float) d.getAmount() / total);
+				userP.setText(String.format("User percentage: %.2f", a)+"%");
+				memberP.setText(String.format("Member percentage: %.2f", b)+"%");
+				groupP.setText(String.format("Group percentage: %.2f", c)+"%");
+				userP.setVisible(true);
+				memberP.setVisible(true);
+				groupP.setVisible(true);
 			}
 			ObservableList<PieChart.Data> pieChartDatas = FXCollections.observableArrayList(
 					new PieChart.Data("user", a), new PieChart.Data("member", b), new PieChart.Data("group", c));
 
 			chart.setData(pieChartDatas);
+			
 		}
 		ChatClient.dataInArrDur.clear();
 	}
@@ -130,9 +149,10 @@ public class DurReportDepartmentController {
 		selectPark.setValue("Tal Park");
 		selectDate.setValue(LocalDate.now());
 		int test=0;
-		for(int i=0;i<ClientMain.CLOSE_TIME_INT+ClientMain.AVG_DUR_TIME_INT;i+=2)
+		for(int i=ClientMain.OPEN_TIME_INT;i<ClientMain.CLOSE_TIME_INT+ClientMain.AVG_DUR_TIME_INT;i+=2)
 		{
-			dur.add(i+"-"+(i+2));
+			int time=i-ClientMain.OPEN_TIME_INT;
+			dur.add(time+"-"+(time+2));
 			test=i;
 		}
 		if((ClientMain.CLOSE_TIME_INT+ClientMain.AVG_DUR_TIME_INT)%2==1)
@@ -142,6 +162,7 @@ public class DurReportDepartmentController {
 		}
 		durBox.setItems(dur);
 		durBox.setValue("0-2");
+		
 	}
 
 	public void setPreviousPage(MouseEvent event) {

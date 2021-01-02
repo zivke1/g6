@@ -112,7 +112,7 @@ public class EchoServer extends AbstractServer {
 			if(arr.contains("updateToActive"))
 			{
 				mysqlConnection.updateToActive(arr);
-				client.sendToClient(msg);
+				client.sendToClient(msg);  
 				return;
 			}
 			if(arr.contains("updateToFinished"))

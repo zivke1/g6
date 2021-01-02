@@ -67,6 +67,9 @@
             <Label layoutX="31.0" layoutY="97.0" text="Select Duration In Hours:" />
             <ComboBox fx:id="durBox" layoutX="198.0" layoutY="92.0" prefHeight="31.0" prefWidth="96.0" />
             <Label fx:id="errorMsg" layoutX="613.0" layoutY="147.0" textFill="RED" />
+            <Label fx:id="userP" layoutX="570.0" layoutY="240.0" text="User percentage:" visible="false" />
+            <Label fx:id="memberP" layoutX="570.0" layoutY="289.0" text="Member percentage:" visible="false" />
+            <Label fx:id="groupP" layoutX="570.0" layoutY="342.0" text="group percentage:" visible="false" />
          </children>
       </AnchorPane>
    </right>
