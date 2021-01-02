@@ -353,10 +353,16 @@ public class UpdateParametersController {
 			return;
 		}
 		if (from.compareTo(until) > 0)
+		{
 			errorMsg.setText("\"from\" date must be earlier than the \"until\" date \n");
+			return;
+		}
 		int discountInt=Integer.parseInt(discount);
-		if(discountInt<=0)
-			errorMsg.setText("\nThe discount value must be possitve number\n");
+		if(discountInt<=0||discountInt>100)
+		{
+			errorMsg.setText("\nThe discount value must be possitve number \nbetween 0 and 100\n");
+			return;
+		}
 		Date d=new Date();
 		if(LocalDate.now().compareTo(fromDate.getValue())>0)
 			errorMsg.setText(errorMsg.getText() + "Please enter a valid from date\n");
