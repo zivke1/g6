@@ -222,7 +222,7 @@ public class UpdateParametersController {
 		if (chosenGap) {
 			arr.add("sendToDeparmentManager");
 			arr.add(parkNameH);
-			arr.add("Gap");
+			arr.add("GapVisitors");
 			arr.add(gap);
 			d = LocalDateTime.now();
 			arr.add(d.toString());
