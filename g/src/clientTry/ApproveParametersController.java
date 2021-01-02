@@ -63,7 +63,7 @@ public class ApproveParametersController {
 	private TableColumn<?, ?> parameter;
 
 	@FXML
-	private TableColumn<?, ?> newValue;
+	private TableColumn<?, ?> newValue; 
 
 	@FXML
 	private TableColumn<?, ?> dateOfRequest;
@@ -188,6 +188,7 @@ public class ApproveParametersController {
 
 			} else {
 				errorMsg.setText("You don't have parameters to approve.");
+				table.setVisible(false);
 			}
 
 		} catch (Exception e) {
