@@ -1,8 +1,13 @@
 package util;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ViewReports {
+public class ViewReports implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String year;
 	private String month;
 	private String parkName;

@@ -186,11 +186,12 @@ public class CheckAvailabilityController {
 		}
 		// if current capacity greater than 0 allow employee to make new order for
 		// customer
-		else if (openSpace > 0 && role.equals(Role.ParkEmployee.toString())) {
+		else if (openSpace > 0) {
 			freeSpacetxt.setVisible(true);
 			FreeSpaceLeft.setVisible(true);
-			anchorMakeOrder.setVisible(true);
 			NoFreeSpaceLable.setVisible(false);
+			if(role.equals(Role.ParkEmployee.toString()))
+				anchorMakeOrder.setVisible(true);
 		}
 		return openSpace + "";
 	}

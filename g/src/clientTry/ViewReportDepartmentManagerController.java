@@ -20,8 +20,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import util.NextStages;
-import util.OrderToView;
-import util.TableViewOrders;
 import util.ViewReports;
 
 public class ViewReportDepartmentManagerController implements Initializable {
@@ -78,7 +76,7 @@ public class ViewReportDepartmentManagerController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		ArrayList<String> arr = new ArrayList<>();
-		arr.add("ReportsToView");
+		arr.add("reportsToView");
 		ClientMain.chat.accept(arr);
 		ArrayList<ViewReports> temp = ChatClient.dataInArrayListReport;
 		if (!temp.isEmpty()) {
@@ -118,8 +116,10 @@ public class ViewReportDepartmentManagerController implements Initializable {
 
 			tableViewReport.getColumns().addAll(reportNamecolumn, parkNameColumn, monthColumn, yearColumn);
 			tableViewReport.setVisible(true);
+			emptyTableMsg.setVisible(false);
 		} else {
 			emptyTableMsg.setVisible(true);
+			tableViewReport.setVisible(false);
 		}
 	}
 	
