@@ -107,8 +107,18 @@ public class ViewReportDepartmentManagerController implements Initializable {
 				row.setOnMouseClicked(evento -> {
 					if (evento.getClickCount() == 2 && (!row.isEmpty())) {
 						ViewReports rowData = row.getItem();
-						
-						tableViewReport.setVisible(false);
+						NextStages nextStages = new NextStages("/fxmlFiles/ReportsToViewDepManager.fxml", "Show Report", m_userID);
+						FXMLLoader loader = nextStages.openPopUp();
+						ReportsToViewDepManagerController control = loader.getController();
+						if(rowData.getReportName().equals("Income Report")) {
+							control.setIncomeReport(rowData.getParkName(), rowData.getMonth(), rowData.getYear(), rowData.getIncome());
+						}
+						else if(rowData.getReportName().equals("Usage Report")) {
+							control.setUsageReport(rowData.getParkName(), rowData.getMonth(), rowData.getYear(), rowData.getUsagePerDay());
+						}
+						else if(rowData.getReportName().equals("")) {
+							
+						}
 					}
 				});
 				return row;

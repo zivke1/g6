@@ -1919,7 +1919,7 @@ public class mysqlConnection {
 				String parkName = rs.getString("parkName");
 				ArrayList<String> dayUsage = new ArrayList<>();
 				for (int i = 1; i <= 31; i++) {
-					dayUsage.add("day" + i); //what if day empty, short month
+					dayUsage.add(rs.getString("day" + i)); //what if day empty, short month
 				}
 				ViewReports tmp = new ViewReports(year, month, parkName, "Usage Report"); 
 				tmp.setDataUsageReport(dayUsage);

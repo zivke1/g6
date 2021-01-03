@@ -57,18 +57,18 @@
             </Label>
             <RadioButton fx:id="visitBTN" layoutX="45.0" layoutY="93.0" mnemonicParsing="false" onMouseClicked="#visitReportClick" text="Visit Report">
                <font>
-                  <Font size="14.0" />
+                  <Font size="18.0" />
                </font>
             </RadioButton>
             <RadioButton fx:id="cancelBTN" layoutX="45.0" layoutY="140.0" mnemonicParsing="false" onMouseClicked="#cancelReportClick" text="Cancel Report">
                <font>
-                  <Font size="14.0" />
+                  <Font size="18.0" />
                </font>
             </RadioButton>
             <Label fx:id="errorMsg" layoutX="325.0" layoutY="103.0" prefHeight="73.0" prefWidth="201.0" textFill="RED" />
             <RadioButton fx:id="durationBTN" layoutX="45.0" layoutY="187.0" mnemonicParsing="false" onMouseClicked="#durRepClicked" text="Duration Report">
                <font>
-                  <Font size="14.0" />
+                  <Font size="18.0" />
                </font>
             </RadioButton>
          </children>
