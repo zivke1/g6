@@ -1301,7 +1301,7 @@ public class mysqlConnection {
 	public static String WaitingForVisitOrder(ArrayList<String> arr) {
 		try {
 			PreparedStatement update = conn.prepareStatement("UPDATE orders SET OrderStatus=? WHERE OrderID=?");
-			if(checkDateWatingList(arr.get(0)))
+			if(!checkDateWatingList(arr.get(0)))
 			update.setString(1, "waitingToVisit");
 			else update.setString(1, "waitingToApprove");
 			update.setString(2, arr.get(0));
@@ -1327,7 +1327,7 @@ public class mysqlConnection {
 			ResultSet rs = stmt.executeQuery("select * from orders where orderID=" + orderID);
 			if(rs.next())
 				orderD=rs.getDate("VisitDate");
-			if(today.equals(orderD))
+			if(today.getYear()==orderD.getYear()&&today.getMonth()==orderD.getMonth()&&today.getDate()==today.getDate())
 				return false;
 		} catch (SQLException e) {
 			e.printStackTrace();

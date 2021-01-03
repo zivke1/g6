@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -20,7 +21,7 @@ public class OrderConfirmedController {
 	MouseEvent m_eventMain;
 	boolean m_occasional;
 	
-    @FXML
+    @FXML 
     private ImageView imgContactUs;
 
     @FXML
@@ -54,7 +55,13 @@ public class OrderConfirmedController {
 
     @FXML
     void helpBtnPressed(MouseEvent event) {
+    	Tooltip tt = new Tooltip();
+		tt.setText("Fill all the following details");  // add text to help filed 
+		tt.setStyle("-fx-font: normal bold 15 Langdon; "
+		    + "-fx-background-color: #F0F8FF; "
+		    + "-fx-text-fill: black;");
 
+		helpBtn.setTooltip(tt);
     }
 	public void setOrderNumber(String orderNumber) {
 		// TODO Auto-generated method stub
