@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import util.Func;
 import util.NextStages;
 import util.Role;
 
@@ -144,7 +145,7 @@ public class ViewOrderController {
 		this.orderID.setText(arr.get(0));
 		pName.setText(arr.get(1));
 		hour.setText(arr.get(2));
-		date.setText(arr.get(3));
+		date.setText(Func.fixDateString(arr.get(3)));
 		numVisit.setText(arr.get(4));
 		typeOfOrder.setText(arr.get(5) + "'s order");
 		orderStatus.setText(arr.get(6));
