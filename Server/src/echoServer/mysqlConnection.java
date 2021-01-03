@@ -179,7 +179,7 @@ public class mysqlConnection {
 		return dataFromDB;
 	}
 /**
- * check
+ * check if this is employee id and password valid
  * @param arr
  * @return
  * @throws SQLException
@@ -230,6 +230,13 @@ public class mysqlConnection {
 	}
 
 	// check if member ID is in member table
+	
+	/**
+	 * get id and check if this is a member or user and if he connected before
+	 * @param arr
+	 * @return
+	 * @throws SQLException
+	 */
 	public static ArrayList<String> checkIfIdConnectedWithId(ArrayList<String> arr) throws SQLException {
 		ArrayList<String> toReturn = new ArrayList<String>();
 		// toReturn.add(arr.get(0));
@@ -242,7 +249,12 @@ public class mysqlConnection {
 			return toReturn;
 		}
 	}
-
+/**
+ * check if the id this function get is a member
+ * @param arr
+ * @return
+ * @throws SQLException
+ */
 	public static ArrayList<String> checkIdInMember(ArrayList<String> arr) throws SQLException {
 		ArrayList<String> toReturn = new ArrayList<String>();
 		toReturn.add(arr.get(0));
@@ -263,7 +275,11 @@ public class mysqlConnection {
 		}
 		return toReturn;
 	}
-
+/**
+ * this function add to members table new member
+ * @param arr
+ * @return
+ */
 	public static String RegisterMember(ArrayList<String> arr) {
 		int memberID = 0;
 		if (!insertToUsers(arr.get(2)))
@@ -349,7 +365,12 @@ public class mysqlConnection {
 		return toReturn;
 
 	}
-
+/**
+ * check if this member id in the member table
+ * @param arr
+ * @return
+ * @throws SQLException
+ */
 	public static ArrayList<String> checkMemberIDInMembers(ArrayList<String> arr) throws SQLException {
 		ArrayList<String> toReturn = new ArrayList<String>();
 		ResultSet rs;
@@ -378,7 +399,11 @@ public class mysqlConnection {
 		}
 		return toReturn;
 	}
-
+/**
+ * this function add to paraUpdate table
+ * @param arr
+ * @return
+ */
 	public static boolean insertParaUpdate(Object arr) {
 		try {// inserting new row to the table
 			ArrayList<String> a = (ArrayList<String>) arr;
@@ -394,6 +419,7 @@ public class mysqlConnection {
 		return true;
 	}
 
+	
 	public static ArrayList<String> FetchParkDetails(ArrayList<String> arr) {
 		ArrayList<String> dataFromDB = new ArrayList<>();
 		try {
@@ -421,7 +447,12 @@ public class mysqlConnection {
 		return dataFromDB;
 
 	}
-
+/**
+ *  remove id from the set of the id that connected
+ * @param arr
+ * @return
+ * @throws SQLException
+ */
 	public static String closeAndSetIdNull(ArrayList<String> arr) throws SQLException {
 		String id = arr.get(0);
 		m_connectedID.remove(id);
@@ -595,7 +626,11 @@ public class mysqlConnection {
 		}
 		return dataFromDB;
 	}
-
+/**
+ * set
+ * @param arr
+ * @return
+ */
 	public static String CancelOrder(ArrayList<String> arr) {
 		try {
 			PreparedStatement update = conn.prepareStatement("UPDATE orders SET OrderStatus=? WHERE OrderID=?");

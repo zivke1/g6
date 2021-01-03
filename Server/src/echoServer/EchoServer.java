@@ -172,7 +172,10 @@ public class EchoServer extends AbstractServer {
 
 			if (arr.contains("close")) {
 				arr.remove("close");
+				ArrayList<String> tmp = new ArrayList<>();
+				client.sendToClient(tmp);
 				clientDisconnected(null);
+				return;
 			}
 			/*
 			 * // check if id exist in visitor table if (arr.contains("CheckID")) {
