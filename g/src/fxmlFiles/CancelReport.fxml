@@ -43,7 +43,7 @@
    <right>
       <AnchorPane prefHeight="527.0" prefWidth="893.0" stylesheets="@../clientTry/application.css" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
+            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseEntered="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
             <Label layoutX="76.0" layoutY="299.0" text="Cancelled orders:">
                <font>
                   <Font size="18.0" />

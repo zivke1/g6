@@ -44,7 +44,7 @@
       <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
          <children>
             <Button layoutX="757.0" layoutY="443.0" mnemonicParsing="false" onMouseClicked="#MoveToOrder" prefHeight="44.0" prefWidth="122.0" styleClass="mybutton1" stylesheets="@../clientTry/application.css" text="Let's Order" />
-            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@../clientTry/application.css" text="?" />
+            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseEntered="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@../clientTry/application.css" text="?" />
             <Label layoutX="92.0" layoutY="67.0" text="Enter ID:" />
             <TextField fx:id="ID" layoutX="219.0" layoutY="62.0" />
             <Label fx:id="errorMsg" layoutX="92.0" layoutY="155.0" />

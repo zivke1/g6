@@ -39,7 +39,7 @@
       <AnchorPane prefHeight="434.0" prefWidth="455.0" BorderPane.alignment="CENTER">
          <children>
             <Button layoutX="319.0" layoutY="376.0" mnemonicParsing="false" onMouseClicked="#confirmOrder" prefHeight="44.0" prefWidth="122.0" styleClass="approvalBtn" stylesheets="@../clientTry/application.css" text="confirm order" />
-            <Button fx:id="helpBtn" layoutX="396.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@../clientTry/application.css" text="?" />
+            <Button fx:id="helpBtn" layoutX="396.0" layoutY="14.0" mnemonicParsing="false" onMouseEntered="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@../clientTry/application.css" text="?" />
             <Button fx:id="backBtn" layoutX="14.0" layoutY="376.0" mnemonicParsing="false" onMouseClicked="#cancelOrder" prefHeight="44.0" prefWidth="122.0" styleClass="cancelBtn" stylesheets="@../clientTry/application.css" text="cancel order" />
             <Text layoutX="14.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="We send SMS to:">
                <font>

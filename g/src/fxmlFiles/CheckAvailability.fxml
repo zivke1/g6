@@ -46,7 +46,7 @@
          <children>
             <Button fx:id="checkBtn" layoutX="455.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#checkFreeSpaceDepManager" prefHeight="34.0" prefWidth="80.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Check" visible="false" />
             <ComboBox fx:id="parksNamesCombo" layoutX="198.0" layoutY="21.0" prefHeight="31.0" prefWidth="175.0" visible="false" />
-            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
+            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onDragEntered="#helpBtnPressed" onMouseClicked="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
             <Text layoutX="58.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Park name:">
                <font>
                   <Font size="18.0" />

@@ -44,7 +44,7 @@
       <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="finishOrderBtn" layoutX="708.0" layoutY="441.0" mnemonicParsing="false" onMouseClicked="#finishOrderClicked" prefHeight="46.0" prefWidth="171.0" styleClass="approvalBtn" stylesheets="@/clientTry/application.css" text="Move To Payment" />
-            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
+            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseEntered="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
             <Text layoutX="36.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total amount:">
                <font>
                   <Font size="18.0" />

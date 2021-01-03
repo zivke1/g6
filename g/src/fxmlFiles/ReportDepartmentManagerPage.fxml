@@ -49,7 +49,7 @@
                   <String fx:value="mybutton1" />
                   <String fx:value="approvalBtn" />
                </styleClass></Button>
-            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
+            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseEntered="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
             <Label layoutX="38.0" layoutY="26.0" text="Hello, which report would you like to generate:">
                <font>
                   <Font size="18.0" />
