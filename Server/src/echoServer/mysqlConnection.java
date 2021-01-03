@@ -1217,6 +1217,7 @@ public class mysqlConnection {
 	/**
 	 * checking if any of the existing orders' status should be changed to expire
 	 * and changes it if needed
+	 * or delete if it's still in the waiting list
 	 * 
 	 */
 	public static void checkOrdersStatus() {
@@ -1240,11 +1241,20 @@ public class mysqlConnection {
 							&& !rs.getString("OrderStatus").equals("expired")
 							&& !rs.getString("OrderStatus").equals("cancelled")
 							&& !rs.getString("OrderStatus").equals("active")) {
+						if(rs.getString("OrderStatus").equals("waitingList"))
+						{
+							PreparedStatement update = conn
+									.prepareStatement("delete from orders where OrderID=?");
+							update.setString(1, rs.getString("OrderID"));
+							update.executeUpdate();
+						}
+						else {
 						PreparedStatement update = conn
 								.prepareStatement("UPDATE orders SET OrderStatus=? WHERE OrderID=?");
 						update.setString(2, rs.getString("OrderID"));
 						update.setString(1, "expired");
 						update.executeUpdate();
+						}
 					}
 
 				}
