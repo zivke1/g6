@@ -454,7 +454,7 @@ public class EchoServer extends AbstractServer {
 		@Override
 		public void run() {
 			try {
-				Thread.sleep(sleepT);// sleep 2 hours
+				Thread.sleep(sleepT);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
