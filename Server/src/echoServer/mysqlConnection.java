@@ -1227,7 +1227,7 @@ public class mysqlConnection {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("select * from orders");
 			while (rs.next()) {
-				Time t = new Time(d.getHours() - 4, d.getMinutes(), d.getSeconds());
+				Time t = new Time(d.getHours() - 4, d.getMinutes(), d.getSeconds());//allowing 4 hours late
 				dateDb = rs.getDate("VisitDate");
 				if (dateDb.getYear() < dateToday.getYear()
 						|| (dateDb.getYear() == dateToday.getYear() && dateDb.getMonth() < dateToday.getMonth())
