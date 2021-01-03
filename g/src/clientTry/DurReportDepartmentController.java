@@ -19,6 +19,11 @@ import javafx.stage.Stage;
 import util.DurationOrder;
 import util.NextStages;
 
+/**
+ * showing the percentage of member,group and personal for the selected duration and date
+ * 
+ *
+ */
 public class DurReportDepartmentController {
 
 	ObservableList<String> parkNames = FXCollections.observableArrayList("Tal Park", "Carmel Park", "Jordan Park");
@@ -91,7 +96,10 @@ public class DurReportDepartmentController {
 	void helpBtnPressed(MouseEvent event) {
 
 	}
-
+	/**
+	 * displaying a pie chart of the selected park and date 
+	 * @param event
+	 */
 	@FXML
 	void showReport(MouseEvent event) {
 		chart.getData().clear();

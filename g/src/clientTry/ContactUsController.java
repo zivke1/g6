@@ -6,6 +6,11 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
+/**
+ * giving contact information 
+ * 
+ *
+ */
 public class ContactUsController {
 
     @FXML

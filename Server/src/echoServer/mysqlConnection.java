@@ -1106,9 +1106,9 @@ public class mysqlConnection {
 			ResultSet rs = stmt.executeQuery("select * from orders Where OrderStatus='waitingToApprove'");
 			while (rs.next()) {
 				dDb = rs.getDate("VisitDate");
-
+				System.out.println("year "+d1.getYear()+" "+ dDb.getYear() +" month "+d1.getMonth() +" "+dDb.getMonth()+" day "+d1.getDate()+" "+ dDb.getDate());
 				if (d1.getYear() == dDb.getYear() && d1.getMonth() == dDb.getMonth() && d1.getDate() == dDb.getDate()) {
-					if (rs.getString("TypeOfOrder").equals("'user'"))
+					if (rs.getString("TypeOfOrder").equals("user"))
 						arr.add(new SimulationDetails(rs.getString("Email"), null, rs.getString("OrderID")));
 					else {
 						String id = rs.getString("UserID");

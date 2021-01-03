@@ -21,6 +21,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import util.NextStages;
 
+/**
+ * adding new guide to the DB
+ * with all the required information
+ *
+ */
 public class AddInstructorController {
 
 	@FXML
@@ -106,6 +111,11 @@ public class AddInstructorController {
 		((Stage) ((Node) m_previousPage.getSource()).getScene().getWindow()).show();
 	}
 
+	/**
+	 * checking if all the information is filled correctly and if so adding him to the DB
+	 * unless their ID is already in the DB
+	 * @param event
+	 */
 	@FXML
 	void checkRegistration(MouseEvent event) {
 		boolean flag = true;// checking if all the fields are filed correctly
@@ -303,74 +313,3 @@ public class AddInstructorController {
 
 }
 
-//package clientTry;
-//
-//import javafx.fxml.FXML;
-//import javafx.scene.control.Button;
-//import javafx.scene.control.Label;
-//import javafx.scene.control.RadioButton;
-//import javafx.scene.control.TextField;
-//import javafx.scene.image.ImageView;
-//import javafx.scene.input.MouseEvent;
-//
-//public class AddInstructorController {
-//
-//    @FXML
-//    private ImageView imgContactUs;
-//
-//    @FXML
-//    private Button backBtn;
-//
-//    @FXML
-//    private Button finishOrderBtn;
-//
-//    @FXML
-//    private Button helpBtn;
-//
-//    @FXML
-//    private Label ccLabel;
-//
-//    @FXML
-//    private RadioButton yBtn;
-//
-//    @FXML
-//    private RadioButton nBtn;
-//
-//    @FXML
-//    private TextField ccField;
-//
-//    @FXML
-//    void backClicked(MouseEvent event) {
-//    	
-//    }
-//
-//    @FXML
-//    void moveToSuccess(MouseEvent event) {
-//
-//    }
-//
-//    @FXML
-//    void goToContactUsPopUp(MouseEvent event) {
-//
-//    }
-//
-//    @FXML
-//    void helpBtnPressed(MouseEvent event) {
-//
-//    }
-//    
-//    @FXML
-//    void ccNo(MouseEvent event) {
-//    	yBtn.setSelected(false);
-//    	ccLabel.setVisible(false);
-//    	ccField.setVisible(false);
-//    }
-//
-//    @FXML
-//    void ccYes(MouseEvent event) {
-//    	nBtn.setSelected(false);
-//    	ccLabel.setVisible(true);
-//    	ccField.setVisible(true);
-//    }
-//
-//}
