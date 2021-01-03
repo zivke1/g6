@@ -286,7 +286,7 @@ public class CardReaderController implements Initializable {
 								&& currentTime.compareTo(timeOfChossenOrderPlusH) < 0)// if the visitor came between the
 																						// time
 																						// of orders up to hour late
-						{
+						{ 
 							this.orderID.setText(arrtmp.get(0));
 							pName.setText(arrtmp.get(1));
 							hour.setText(arrtmp.get(2));

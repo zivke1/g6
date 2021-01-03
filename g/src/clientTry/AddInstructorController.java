@@ -15,6 +15,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -22,8 +23,7 @@ import javafx.stage.Stage;
 import util.NextStages;
 
 /**
- * adding new guide to the DB
- * with all the required information
+ * adding new guide to the DB with all the required information
  *
  */
 public class AddInstructorController {
@@ -68,6 +68,9 @@ public class AddInstructorController {
 	private Label ccLabel;
 
 	@FXML
+	private Button helpBtn;
+
+	@FXML
 	private Label errorMsg;
 
 	private String fNameHM;
@@ -79,21 +82,24 @@ public class AddInstructorController {
 	private String roleHM;
 
 	private String parkNameHM;
-	
-	MouseEvent m_previousPage; 
+
+	MouseEvent m_previousPage;
 	MouseEvent m_MainPage;
-	
 
 	@FXML
 	void helpBtnPressed(MouseEvent event) {
+		Tooltip tt = new Tooltip();
+		tt.setText("Fill all the following details"); // add text to help filed
+		tt.setStyle("-fx-font: normal bold 15 Langdon; " + "-fx-background-color: #F0F8FF; " + "-fx-text-fill: black;");
 
+		helpBtn.setTooltip(tt);
 	}
 
 	@FXML
 	void backClicked(MouseEvent event) {
 		((Node) event.getSource()).getScene().getWindow().hide();
-		
-		//ziv change
+
+		// ziv change
 //		Stage stage = new Stage();
 //		FXMLLoader loader = new FXMLLoader();
 //		Parent root;
@@ -107,13 +113,14 @@ public class AddInstructorController {
 //		} catch (IOException e1) {
 //			e1.printStackTrace();
 //		}
-	
+
 		((Stage) ((Node) m_previousPage.getSource()).getScene().getWindow()).show();
 	}
 
 	/**
-	 * checking if all the information is filled correctly and if so adding him to the DB
-	 * unless their ID is already in the DB
+	 * checking if all the information is filled correctly and if so adding him to
+	 * the DB unless their ID is already in the DB
+	 * 
 	 * @param event
 	 */
 	@FXML
@@ -226,14 +233,15 @@ public class AddInstructorController {
 			}
 			if (ChatClient.dataInArrayList.contains("Success")) {
 				ChatClient.dataInArrayList.remove("Success");
-			
-		     	NextStages nextStages = new NextStages("/fxmlFiles/MembershipRegistrationSuccess.fxml", "Membership Registration Success", userIDHM);
-		    	FXMLLoader loader = nextStages.goToNextStage(event);
-		    	MembershipRegistrationSucccesCon controller = loader.getController();
-		    	controller.setMainPage(m_MainPage);
-		    	controller.updateMemberNum(ChatClient.dataInArrayList.get(0));
-				//ziv change
-				//	((Node) event.getSource()).getScene().getWindow().hide();
+
+				NextStages nextStages = new NextStages("/fxmlFiles/MembershipRegistrationSuccess.fxml",
+						"Membership Registration Success", userIDHM);
+				FXMLLoader loader = nextStages.goToNextStage(event);
+				MembershipRegistrationSucccesCon controller = loader.getController();
+				controller.setMainPage(m_MainPage);
+				controller.updateMemberNum(ChatClient.dataInArrayList.get(0));
+				// ziv change
+				// ((Node) event.getSource()).getScene().getWindow().hide();
 //				Stage stage = new Stage();
 //				FXMLLoader loader = new FXMLLoader();
 //				BorderPane root;
@@ -257,8 +265,8 @@ public class AddInstructorController {
 
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
-		
-		//ziv change
+
+		// ziv change
 //		((Node) event.getSource()).getScene().getWindow().hide();
 //		Stage stage = new Stage();
 //		FXMLLoader loader = new FXMLLoader();
@@ -273,8 +281,8 @@ public class AddInstructorController {
 //		} catch (IOException e1) {
 //			e1.printStackTrace();
 //		}
-		
-		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order",userIDHM );
+
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order", userIDHM);
 		FXMLLoader loader = nextStages.openPopUp();
 		loader.getController();
 	}
@@ -292,7 +300,7 @@ public class AddInstructorController {
 		ccLabel.setVisible(false);
 		enterCardNumber.setVisible(false);
 	}
-	
+
 	public void setDetails(String fName, String lName, String role, String userID, String parkName) {
 		this.fNameHM = fName;
 		this.lNameHM = lName;
@@ -312,4 +320,3 @@ public class AddInstructorController {
 	}
 
 }
-

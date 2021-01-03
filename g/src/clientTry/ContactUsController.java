@@ -18,7 +18,7 @@ public class ContactUsController {
 
     @FXML
     private Text phoneNumber;
-
+ 
     @FXML
     private Text emailAddress;
 

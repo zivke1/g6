@@ -24,7 +24,7 @@ public class MembershipRegistrationSucccesCon {
 
     @FXML
     private ImageView imgContactUs;
-
+ 
     @FXML
     private Button backBtn;
 
