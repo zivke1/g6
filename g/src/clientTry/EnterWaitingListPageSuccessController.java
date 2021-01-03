@@ -7,7 +7,12 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
+/**
+ * 
+ * this controller is for page that user enter to waiting list and show 
+ * him the order number that he can check his status later
+ *
+ */
 public class EnterWaitingListPageSuccessController {
 	MouseEvent m_eventMain;
 	String m_orderNumber;

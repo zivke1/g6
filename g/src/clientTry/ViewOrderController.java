@@ -17,7 +17,11 @@ import javafx.stage.Stage;
 import util.Func;
 import util.NextStages;
 import util.Role;
-
+/**
+ * 
+ *with this page the user can see his order details 
+ *
+ */
 public class ViewOrderController {
 
 	@FXML

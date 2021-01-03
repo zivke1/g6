@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import util.NextStages;
 /**
  * 
- * 
+ * the controller of page that come after we success to invite order
  *
  */
 public class OrderConfirmedController {

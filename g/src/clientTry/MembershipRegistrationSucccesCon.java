@@ -14,7 +14,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import util.NextStages;
-
+/**
+ *
+ * the controller of page that come after we success to register new member
+ *
+ */
 public class MembershipRegistrationSucccesCon {
 
 

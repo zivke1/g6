@@ -61,6 +61,10 @@ public class LoginController {
 
 	@FXML
 	private AnchorPane login;
+	
+
+    @FXML
+    private Button helpBtn;
 
 	@FXML
 	private TextField enterUserName;
@@ -316,5 +320,11 @@ public class LoginController {
 	public void loginSetVisibility(boolean cond) {
 		login.setVisible(cond);
 	}
+	
+
+    @FXML
+    void helpBtnPressed(MouseEvent event) {
+
+    }
 
 }

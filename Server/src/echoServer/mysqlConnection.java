@@ -178,7 +178,12 @@ public class mysqlConnection {
 		}
 		return dataFromDB;
 	}
-
+/**
+ * check
+ * @param arr
+ * @return
+ * @throws SQLException
+ */
 	public static ArrayList<String> checkIfEmployee(ArrayList<String> arr) throws SQLException {
 
 		String id, firstName, lastName, role, connected, password, park;

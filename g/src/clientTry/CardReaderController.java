@@ -29,7 +29,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
-
+/**
+ * 
+ * this controller simulate enter and exit from the park 
+ * if there is order for this ID that the user enter
+ *
+ */
 public class CardReaderController implements Initializable {
 	@FXML
 	private ImageView imgContactUs;
