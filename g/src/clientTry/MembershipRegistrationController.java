@@ -15,16 +15,25 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import util.NextStages;
 
+/**
+ * 
+ * With this controller the employee register new member to the system.
+ *
+ */
 public class MembershipRegistrationController {
-	//private String pName="";
+	// private String pName="";
 	ObservableList<String> amountOfVisitors = FXCollections.observableArrayList("1", "2", "3", "4", "5", "6", "7", "8",
 			"9", "10", "11", "12", "13", "14", "15");
+
+	@FXML
+	private Button helpBtn;
 
 	@FXML
 	private ImageView imgContactUs;
@@ -72,15 +81,13 @@ public class MembershipRegistrationController {
 	private String roleH;
 	private String userIDH;
 	private String parkNameH;
-	MouseEvent m_mainPage,m_previousPage;
-	
-	
+	MouseEvent m_mainPage, m_previousPage;
+
 	@FXML
 	void backClicked(MouseEvent event) {
 		((Node) event.getSource()).getScene().getWindow().hide();
 		((Stage) ((Node) m_previousPage.getSource()).getScene().getWindow()).show();
-		
-		
+
 //		((Node) event.getSource()).getScene().getWindow().hide();
 //		Stage stage = new Stage();
 //		FXMLLoader loader = new FXMLLoader();
@@ -209,14 +216,14 @@ public class MembershipRegistrationController {
 			}
 			if (ChatClient.dataInArrayList.contains("Success")) {
 				ChatClient.dataInArrayList.remove("Success");
-				
-				
-				NextStages nextStages = new NextStages("/fxmlFiles/MembershipRegistrationSuccess.fxml", "Membership Registration Success", userIDH);
-		    	FXMLLoader loader = nextStages.goToNextStage(event);
-		    	MembershipRegistrationSucccesCon controller=loader.getController();
-		    	controller.updateMemberNum(ChatClient.dataInArrayList.get(0));
-		    	controller.setDetails(fNameH, lNameH, roleH, userIDH, parkNameH);
-		    
+
+				NextStages nextStages = new NextStages("/fxmlFiles/MembershipRegistrationSuccess.fxml",
+						"Membership Registration Success", userIDH);
+				FXMLLoader loader = nextStages.goToNextStage(event);
+				MembershipRegistrationSucccesCon controller = loader.getController();
+				controller.updateMemberNum(ChatClient.dataInArrayList.get(0));
+				controller.setDetails(fNameH, lNameH, roleH, userIDH, parkNameH);
+
 				controller.setMainPage(m_mainPage);
 //				((Node) event.getSource()).getScene().getWindow().hide();
 //				Stage stage = new Stage();
@@ -279,21 +286,33 @@ public class MembershipRegistrationController {
 		numVisitor.setValue("1");
 		numVisitor.setItems(amountOfVisitors);
 	}
-	public void setDetails(String fName, String lName, String role, String userID, String parkName)
-	{
-		this.fNameH=fName;
-		this.lNameH=lName;
-		this.roleH=role;
-		this.userIDH=userID;
-		this.parkNameH=parkName;
+
+	@FXML
+	void helpBtnPressed(MouseEvent event) {
+		Tooltip tt = new Tooltip();
+		tt.setText("Fill all the following details");  // add text to help filed 
+		tt.setStyle("-fx-font: normal bold 15 Langdon; "
+		    + "-fx-background-color: #F0F8FF; "
+		    + "-fx-text-fill: black;");
+
+		helpBtn.setTooltip(tt);
 	}
-	
+
+	public void setDetails(String fName, String lName, String role, String userID, String parkName) {
+		this.fNameH = fName;
+		this.lNameH = lName;
+		this.roleH = role;
+		this.userIDH = userID;
+		this.parkNameH = parkName;
+	}
+
 	public void setMainPage(MouseEvent event) {
 		m_mainPage = event;
 	}
-	
+
 	public void setPreviousPage(MouseEvent event) {
 		// TODO Auto-generated method stub
 		m_previousPage = event;
 	}
+
 }

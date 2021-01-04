@@ -13,12 +13,18 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import util.DurationOrder;
 import util.NextStages;
 
+/**
+ * showing the percentage of member,group and personal for the selected duration and date
+ * 
+ *
+ */
 public class DurReportDepartmentController {
 
 	ObservableList<String> parkNames = FXCollections.observableArrayList("Tal Park", "Carmel Park", "Jordan Park");
@@ -38,7 +44,7 @@ public class DurReportDepartmentController {
 	@FXML
 	private Button backBtn;
 
-	@FXML
+	@FXML 
 	private Button helpBtn;
 
 	@FXML
@@ -89,9 +95,18 @@ public class DurReportDepartmentController {
 
 	@FXML
 	void helpBtnPressed(MouseEvent event) {
+		Tooltip tt = new Tooltip();
+		tt.setText("This page shows the precentage of each type of order\n(personal/member/group)\nfor the selected park, date and duration");  // add text to help filed 
+		tt.setStyle("-fx-font: normal bold 15 Langdon; "
+		    + "-fx-background-color: #F0F8FF; "
+		    + "-fx-text-fill: black;");
 
+		helpBtn.setTooltip(tt);
 	}
-
+	/**
+	 * displaying a pie chart of the selected park and date 
+	 * @param event
+	 */
 	@FXML
 	void showReport(MouseEvent event) {
 		chart.getData().clear();

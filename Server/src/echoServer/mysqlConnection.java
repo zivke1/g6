@@ -178,7 +178,12 @@ public class mysqlConnection {
 		}
 		return dataFromDB;
 	}
-
+/**
+ * check if this is employee id and password valid
+ * @param arr
+ * @return
+ * @throws SQLException
+ */
 	public static ArrayList<String> checkIfEmployee(ArrayList<String> arr) throws SQLException {
 
 		String id, firstName, lastName, role, connected, password, park;
@@ -225,6 +230,13 @@ public class mysqlConnection {
 	}
 
 	// check if member ID is in member table
+	
+	/**
+	 * get id and check if this is a member or user and if he connected before
+	 * @param arr
+	 * @return
+	 * @throws SQLException
+	 */
 	public static ArrayList<String> checkIfIdConnectedWithId(ArrayList<String> arr) throws SQLException {
 		ArrayList<String> toReturn = new ArrayList<String>();
 		// toReturn.add(arr.get(0));
@@ -237,7 +249,12 @@ public class mysqlConnection {
 			return toReturn;
 		}
 	}
-
+/**
+ * check if the id this function get is a member
+ * @param arr
+ * @return
+ * @throws SQLException
+ */
 	public static ArrayList<String> checkIdInMember(ArrayList<String> arr) throws SQLException {
 		ArrayList<String> toReturn = new ArrayList<String>();
 		toReturn.add(arr.get(0));
@@ -258,7 +275,11 @@ public class mysqlConnection {
 		}
 		return toReturn;
 	}
-
+/**
+ * this function add to members table new member
+ * @param arr
+ * @return
+ */
 	public static String RegisterMember(ArrayList<String> arr) {
 		int memberID = 0;
 		if (!insertToUsers(arr.get(2)))
@@ -344,7 +365,12 @@ public class mysqlConnection {
 		return toReturn;
 
 	}
-
+/**
+ * check if this member id in the member table
+ * @param arr
+ * @return
+ * @throws SQLException
+ */
 	public static ArrayList<String> checkMemberIDInMembers(ArrayList<String> arr) throws SQLException {
 		ArrayList<String> toReturn = new ArrayList<String>();
 		ResultSet rs;
@@ -373,7 +399,11 @@ public class mysqlConnection {
 		}
 		return toReturn;
 	}
-
+/**
+ * this function add to paraUpdate table
+ * @param arr
+ * @return
+ */
 	public static boolean insertParaUpdate(Object arr) {
 		try {// inserting new row to the table
 			ArrayList<String> a = (ArrayList<String>) arr;
@@ -389,6 +419,7 @@ public class mysqlConnection {
 		return true;
 	}
 
+	
 	public static ArrayList<String> FetchParkDetails(ArrayList<String> arr) {
 		ArrayList<String> dataFromDB = new ArrayList<>();
 		try {
@@ -416,7 +447,12 @@ public class mysqlConnection {
 		return dataFromDB;
 
 	}
-
+/**
+ *  remove id from the set of the id that connected
+ * @param arr
+ * @return
+ * @throws SQLException
+ */
 	public static String closeAndSetIdNull(ArrayList<String> arr) throws SQLException {
 		String id = arr.get(0);
 		m_connectedID.remove(id);
@@ -590,7 +626,11 @@ public class mysqlConnection {
 		}
 		return dataFromDB;
 	}
-
+/**
+ * set
+ * @param arr
+ * @return
+ */
 	public static String CancelOrder(ArrayList<String> arr) {
 		try {
 			PreparedStatement update = conn.prepareStatement("UPDATE orders SET OrderStatus=? WHERE OrderID=?");
@@ -1106,9 +1146,8 @@ public class mysqlConnection {
 			ResultSet rs = stmt.executeQuery("select * from orders Where OrderStatus='waitingToApprove'");
 			while (rs.next()) {
 				dDb = rs.getDate("VisitDate");
-
 				if (d1.getYear() == dDb.getYear() && d1.getMonth() == dDb.getMonth() && d1.getDate() == dDb.getDate()) {
-					if (rs.getString("TypeOfOrder").equals("'user'"))
+					if (rs.getString("TypeOfOrder").equals("user"))
 						arr.add(new SimulationDetails(rs.getString("Email"), null, rs.getString("OrderID")));
 					else {
 						String id = rs.getString("UserID");
@@ -1178,6 +1217,7 @@ public class mysqlConnection {
 	/**
 	 * checking if any of the existing orders' status should be changed to expire
 	 * and changes it if needed
+	 * or delete if it's still in the waiting list
 	 * 
 	 */
 	public static void checkOrdersStatus() {
@@ -1188,7 +1228,7 @@ public class mysqlConnection {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("select * from orders");
 			while (rs.next()) {
-				Time t = new Time(d.getHours() + 1, d.getMinutes(), d.getSeconds());
+				Time t = new Time(d.getHours() - 4, d.getMinutes(), d.getSeconds());//allowing 4 hours late
 				dateDb = rs.getDate("VisitDate");
 				if (dateDb.getYear() < dateToday.getYear()
 						|| (dateDb.getYear() == dateToday.getYear() && dateDb.getMonth() < dateToday.getMonth())
@@ -1201,11 +1241,20 @@ public class mysqlConnection {
 							&& !rs.getString("OrderStatus").equals("expired")
 							&& !rs.getString("OrderStatus").equals("cancelled")
 							&& !rs.getString("OrderStatus").equals("active")) {
+						if(rs.getString("OrderStatus").equals("waitingList"))
+						{
+							PreparedStatement update = conn
+									.prepareStatement("delete from orders where OrderID=?");
+							update.setString(1, rs.getString("OrderID"));
+							update.executeUpdate();
+						}
+						else {
 						PreparedStatement update = conn
 								.prepareStatement("UPDATE orders SET OrderStatus=? WHERE OrderID=?");
 						update.setString(2, rs.getString("OrderID"));
 						update.setString(1, "expired");
 						update.executeUpdate();
+						}
 					}
 
 				}
@@ -1262,7 +1311,7 @@ public class mysqlConnection {
 	public static String WaitingForVisitOrder(ArrayList<String> arr) {
 		try {
 			PreparedStatement update = conn.prepareStatement("UPDATE orders SET OrderStatus=? WHERE OrderID=?");
-			if(checkDateWatingList(arr.get(0)))
+			if(!checkDateWatingList(arr.get(0)))
 			update.setString(1, "waitingToVisit");
 			else update.setString(1, "waitingToApprove");
 			update.setString(2, arr.get(0));
@@ -1288,7 +1337,7 @@ public class mysqlConnection {
 			ResultSet rs = stmt.executeQuery("select * from orders where orderID=" + orderID);
 			if(rs.next())
 				orderD=rs.getDate("VisitDate");
-			if(today.equals(orderD))
+			if(today.getYear()==orderD.getYear()&&today.getMonth()==orderD.getMonth()&&today.getDate()==today.getDate())
 				return false;
 		} catch (SQLException e) {
 			e.printStackTrace();

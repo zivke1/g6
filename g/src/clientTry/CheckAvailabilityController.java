@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -82,7 +83,7 @@ public class CheckAvailabilityController {
 		String enteredID = IDtxt.getText(); // if id wasn't entered - present error message
 
 		if (enteredID.equals("")) {
-			IDErrMsg.setVisible(true);
+			IDErrMsg.setVisible(true); 
 			return;
 		}
 		// if the user enter incorrect id number
@@ -161,7 +162,11 @@ public class CheckAvailabilityController {
 
 	@FXML
 	void helpBtnPressed(MouseEvent event) {
+		Tooltip tt = new Tooltip();
+		tt.setText("This page shows the current available \nspace in this park"); // add text to help filed 
+		tt.setStyle("-fx-font: normal bold 15 Langdon; " + "-fx-background-color: #F0F8FF; " + "-fx-text-fill: black;");
 
+		helpBtn.setTooltip(tt);
 	}
 
 	// return capacity - amount of orders form DB where status is active

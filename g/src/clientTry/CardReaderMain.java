@@ -1,12 +1,7 @@
 package clientTry;
 
-
-
 import java.io.IOException;
 import java.util.ArrayList;
-
-import clientTry.ClientConsole;
-import clientTry.ClientMain;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -14,30 +9,37 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-public class MainForLogin extends Application {
-	
+public class CardReaderMain extends Application {
+	public static ClientConsole chat; //only one instance
 	public static void main(String[] args) {
 		launch(args);
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		chat=new ClientConsole("localhost", 5555);
+//		this make the X btn to close the connection
+		primaryStage.setOnCloseRequest(evt->{
+			if (CardReaderMain.chat.checkConnection()) {
+	    	ArrayList<String> arr = new ArrayList<String>();
+			arr.add("close");
+			CardReaderMain.chat.accept(arr);
+	    	CardReaderMain.chat.stopConnection();
+			}
+		});	
 		
 		BorderPane borderPane = null;
-		//EnterIDController controller;
 		try {
 			FXMLLoader loader=new FXMLLoader();
-
-//			loader.setLocation(getClass().getResource("../fxmlFiles/LoginP.fxml"));
-			loader.setLocation(getClass().getResource("../fxmlFiles/OrderNew.fxml"));
+			loader.setLocation(getClass().getResource("../fxmlFiles/CardReader.fxml"));
 			borderPane = loader.load();
-			//controller = loader.getController();
 		} catch (IOException e) {
 		e.printStackTrace();
 		}	
 		Scene scene=new Scene(borderPane);
 		primaryStage.setScene(scene);
-		primaryStage.setTitle("Login");
+		primaryStage.setTitle("Card Reader");
 		primaryStage.show();
+		/////////////////////////////////////////////////
 	}
 }

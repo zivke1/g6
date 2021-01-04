@@ -55,7 +55,7 @@
             <RadioButton fx:id="setDiscount" layoutX="112.0" layoutY="74.0" mnemonicParsing="false" onMouseClicked="#setDiscount" text="Set discount" toggleGroup="$setParm" />
             <Button fx:id="conBtn" layoutX="706.0" layoutY="450.0" mnemonicParsing="false" onMouseClicked="#sendToDepMan" prefHeight="40.0" prefWidth="173.0" styleClass="mybutton1" text="send to confirmation" />
             <Label layoutX="114.0" layoutY="24.0" text="Park's name:" />
-            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
+            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseEntered="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
             <AnchorPane fx:id="anchorSetDiscount" layoutX="99.0" layoutY="266.0" prefHeight="180.0" prefWidth="601.0" visible="false">
                <children>
                   <Label fx:id="discountLabel" layoutX="7.0" layoutY="19.0" text="Set new discount:" />

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import clientTry.ClientConsole;
 import clientTry.ClientMain;
-import clientTry.EnterIDController;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

@@ -102,40 +102,33 @@ public class EchoServer extends AbstractServer {
 			ArrayList<String> dataFromDb;
 			ArrayList<String> arr = (ArrayList<String>) msg;
 
-			
-			if(arr.contains("DurRep"))
-			{
+			if (arr.contains("DurRep")) {
 				arr.remove("DurRep");
-				ArrayList<DurationOrder> ret=mysqlConnection.depManDuration(arr);
+				ArrayList<DurationOrder> ret = mysqlConnection.depManDuration(arr);
 				client.sendToClient(ret);
 			}
-			if(arr.contains("updateToActive"))
-			{
+			if (arr.contains("updateToActive")) {
 				mysqlConnection.updateToActive(arr);
-				client.sendToClient(msg);  
+				client.sendToClient(msg);
 				return;
 			}
-			if(arr.contains("updateToFinished"))
-			{
+			if (arr.contains("updateToFinished")) {
 				mysqlConnection.updateToFinished(arr);
 				client.sendToClient(msg);
 				return;
 			}
-			if(arr.contains("ReturnUserIDInTableOrdersForCardReader"))
-			{
+			if (arr.contains("ReturnUserIDInTableOrdersForCardReader")) {
 				ArrayList<OrderToView> ar = mysqlConnection.ReturnUserIDInTableOrdersForCardReader(arr);
 				client.sendToClient(ar);
 				return;
 			}
-			if(arr.contains("simulationCardReader"))
-			{
-				dataFromDb=mysqlConnection.simulationCardReader();
+			if (arr.contains("simulationCardReader")) {
+				dataFromDb = mysqlConnection.simulationCardReader();
 				client.sendToClient(dataFromDb);
 				return;
 			}
-			if(arr.contains("UsageReports"))
-			{
-				dataFromDb=mysqlConnection.UsageReports(arr);
+			if (arr.contains("UsageReports")) {
+				dataFromDb = mysqlConnection.UsageReports(arr);
 				client.sendToClient(dataFromDb);
 				return;
 			}
@@ -172,7 +165,10 @@ public class EchoServer extends AbstractServer {
 
 			if (arr.contains("close")) {
 				arr.remove("close");
+				ArrayList<String> tmp = new ArrayList<>();
+				client.sendToClient(tmp);
 				clientDisconnected(null);
+				return;
 			}
 			/*
 			 * // check if id exist in visitor table if (arr.contains("CheckID")) {
@@ -213,13 +209,13 @@ public class EchoServer extends AbstractServer {
 			}
 			if (arr.contains("takeCapacity")) {
 				arr.remove("takeCapacity");
-				ArrayList< String> answer = mysqlConnection.cheakCapacity(arr);
+				ArrayList<String> answer = mysqlConnection.cheakCapacity(arr);
 				client.sendToClient(answer);
 				return;
 			}
 			if (arr.contains("takeGap")) {
 				arr.remove("takeGap");
-				ArrayList< String> answer = mysqlConnection.cheakGap(arr);
+				ArrayList<String> answer = mysqlConnection.cheakGap(arr);
 				client.sendToClient(answer);
 				return;
 			}
@@ -309,7 +305,7 @@ public class EchoServer extends AbstractServer {
 					break;
 				}
 				ArrayList<HourAmount> answer;
-				answer = mysqlConnection.depManVisitRep(type,arr);
+				answer = mysqlConnection.depManVisitRep(type, arr);
 				client.sendToClient(answer);
 
 				return;
@@ -370,7 +366,7 @@ public class EchoServer extends AbstractServer {
 				client.sendToClient(ar);
 				return;
 			}
-			
+
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -451,16 +447,18 @@ public class EchoServer extends AbstractServer {
 		@Override
 		public void run() {
 			try {
-				Thread.sleep(sleepT);// sleep 2 hours
+				Thread.sleep(sleepT);// sleepT
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			if (s != null)
-				if (!mysqlConnection.checkWaiting(s.getOrderID(), "waitingToVisit")) {
+			if (s != null) { 
+				// if (!mysqlConnection.checkWaiting(s.getOrderID(), "waitingToVisit"))
+				if (mysqlConnection.checkWaiting(s.getOrderID(), "waitingToVisit"))
 					mysqlConnection.setOrderExpired(s.getOrderID(), "expired");
-				} else if (!mysqlConnection.checkWaiting(order.getOrderID(), "waitingToVisit")&&mysqlConnection.checkDateWatingList(order.getOrderID())) {
-					mysqlConnection.setOrderExpired(order.getOrderID(), "cancelled");
-				}
+			} else if (!mysqlConnection.checkWaiting(order.getOrderID(), "waitingToVisit")
+					&& mysqlConnection.checkDateWatingList(order.getOrderID())) {
+				mysqlConnection.setOrderExpired(order.getOrderID(), "cancelled");
+			}
 
 		}
 

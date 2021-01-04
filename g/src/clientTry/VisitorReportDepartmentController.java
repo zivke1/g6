@@ -66,7 +66,7 @@ public class VisitorReportDepartmentController {
 
 	@FXML
 	private DatePicker selectDate;
-
+ 
 	@FXML
 	private Button showBtn;
 
@@ -108,7 +108,7 @@ public class VisitorReportDepartmentController {
 		xaxis.lookup(".axis-label").setStyle("-fx-label-padding: -5 0 -40 0;");
 		xaxis.categorySpacingProperty().add(5);
 		yaxis.setLowerBound(0);
-		yaxis.setTickUnit(1);
+		yaxis.setTickUnit(5);
 		yaxis.setAutoRanging(false);
 		try {
 			boolean flag1 = false, flag2 = false, flag3 = false;

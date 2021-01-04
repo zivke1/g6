@@ -106,22 +106,11 @@ public class LoginController {
 	}
     
 	@FXML
-    void helpBtnPressed(MouseEvent event) {
-		Tooltip tt = new Tooltip();
-		tt.setText("Please choose which way to\nlogin our system.");
-		tt.setStyle("-fx-font: normal bold 15 Langdon; "
-		    + "-fx-background-color: #F0F8FF; "
-		    + "-fx-text-fill: black;");
-
-		helpBtn.setTooltip(tt);
-    }
-    
-	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "Contact Us", userID);
 		FXMLLoader loader = nextStages.openPopUp();
 		loader.getController();
-	}
+	} 
 
 	@FXML
 	void changeIdentificationVisible(ActionEvent event) {
@@ -331,5 +320,17 @@ public class LoginController {
 	public void loginSetVisibility(boolean cond) {
 		login.setVisible(cond);
 	}
+	
+
+    @FXML
+    void helpBtnPressed(MouseEvent event) {
+    	Tooltip tt = new Tooltip();
+		tt.setText("please choose which type of login you would like to do\n(employee/visitor)\nand fill the required details");  // add text to help filed 
+		tt.setStyle("-fx-font: normal bold 15 Langdon; "
+		    + "-fx-background-color: #F0F8FF; "
+		    + "-fx-text-fill: black;");
+
+		helpBtn.setTooltip(tt);
+    }
 
 }

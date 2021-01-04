@@ -29,7 +29,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
-
+/**
+ * 
+ * this controller simulate enter and exit from the park 
+ * if there is order for this ID that the user enter
+ *
+ */
 public class CardReaderController implements Initializable {
 	@FXML
 	private ImageView imgContactUs;
@@ -171,7 +176,7 @@ public class CardReaderController implements Initializable {
 					return;
 				} else {
 					arrtmp.add(amountActualInt + "");
-					ClientMain.chat.accept(arrtmp);
+					CardReaderMain.chat.accept(arrtmp);
 					textErrNumberVisitors.setVisible(false);
 					textGetIn.setVisible(true);
 					btnBack.setVisible(false);
@@ -209,7 +214,7 @@ public class CardReaderController implements Initializable {
 		ArrayList<String> arr = new ArrayList<>();
 
 		arr.add("simulationCardReader");
-		ClientMain.chat.accept(arr);
+		CardReaderMain.chat.accept(arr);
 		userIDH = ChatClient.dataInArrayList.get(0);
 		textUserID2.setVisible(true);
 		txtUserIdAboveTable.setText(userIDH);
@@ -222,7 +227,7 @@ public class CardReaderController implements Initializable {
 		ArrayList<String> arr = new ArrayList<>();
 		arr.add(userIDH);
 		arr.add("ReturnUserIDInTableOrdersForCardReader");
-		ClientMain.chat.accept(arr);
+		CardReaderMain.chat.accept(arr);
 		ArrayList<OrderToView> temp = ChatClient.dataInArrayListObject;
 
 		if (!temp.isEmpty()) {
@@ -232,12 +237,13 @@ public class CardReaderController implements Initializable {
 			}
 			for (int i = 0; i < temp.size(); i++) {
 				if (temp.get(i).getStatus().equals("active")) {
+					String orderID=temp.get(i).getOrderID();
 					enterUserID.setVisible(false);
 					orderDetails.setVisible(true);
 					arr.clear();
 					arr.add("ViewOrder");
 					arr.add(temp.get(i).getOrderID());
-					ClientMain.chat.accept(arr);
+					CardReaderMain.chat.accept(arr);
 					arr = ChatClient.dataInArrayList;
 					this.orderID.setText(arr.get(0));
 					pName.setText(arr.get(1));
@@ -252,8 +258,8 @@ public class CardReaderController implements Initializable {
 					textGetOut.setVisible(true);
 					arr.clear();
 					arr.add("updateToFinished");
-					arr.add(temp.get(i).getOrderID());
-					ClientMain.chat.accept(arr);
+					arr.add(orderID);
+					CardReaderMain.chat.accept(arr);
 					OkBtn.setVisible(true);
 					i = temp.size();
 				}
@@ -268,7 +274,7 @@ public class CardReaderController implements Initializable {
 						arrtmp.clear();
 						arrtmp.add("ViewOrder");
 						arrtmp.add(rowData.getOrderID());
-						ClientMain.chat.accept(arrtmp);
+						CardReaderMain.chat.accept(arrtmp);
 						arrtmp = ChatClient.dataInArrayList;
 						System.out.println(arrtmp.get(2));
 						LocalTime timeOfChossenOrder = LocalTime.of(Integer.valueOf(arrtmp.get(2).substring(0, 2)),
@@ -281,7 +287,7 @@ public class CardReaderController implements Initializable {
 								&& currentTime.compareTo(timeOfChossenOrderPlusH) < 0)// if the visitor came between the
 																						// time
 																						// of orders up to hour late
-						{
+						{ 
 							this.orderID.setText(arrtmp.get(0));
 							pName.setText(arrtmp.get(1));
 							hour.setText(arrtmp.get(2));

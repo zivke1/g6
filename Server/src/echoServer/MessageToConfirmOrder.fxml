@@ -33,14 +33,14 @@
       </AnchorPane>
    </top>
    <left>
-      <AnchorPane prefHeight="464.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" stylesheets="application.css" BorderPane.alignment="CENTER" />
+      <AnchorPane prefHeight="464.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" BorderPane.alignment="CENTER" />
    </left>
    <center>
       <AnchorPane prefHeight="434.0" prefWidth="455.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="cofirmBtn" layoutX="319.0" layoutY="376.0" mnemonicParsing="false" onMouseClicked="#confirmOrder" prefHeight="44.0" prefWidth="122.0" styleClass="approvalBtn" stylesheets="application.css" text="confirm order" />
-            <Button fx:id="helpBtn" layoutX="396.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" text="?" />
-            <Button fx:id="backBtn" layoutX="14.0" layoutY="376.0" mnemonicParsing="false" onMouseClicked="#cancelOrder" prefHeight="44.0" prefWidth="122.0" styleClass="cancelBtn" stylesheets="application.css" text="cancel order" />
+            <Button fx:id="cofirmBtn" layoutX="319.0" layoutY="376.0" mnemonicParsing="false" onMouseClicked="#confirmOrder" prefHeight="44.0" prefWidth="122.0" styleClass="approvalBtn" text="confirm order" />
+            <Button fx:id="helpBtn" layoutX="396.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="application.css" text="?" />
+            <Button fx:id="backBtn" layoutX="14.0" layoutY="376.0" mnemonicParsing="false" onMouseClicked="#cancelOrder" prefHeight="44.0" prefWidth="122.0" styleClass="cancelBtn" text="cancel order" />
             <Text layoutX="14.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="We send SMS to:">
                <font>
                   <Font size="18.0" />
