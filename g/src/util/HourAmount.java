@@ -10,7 +10,7 @@ public class HourAmount implements Serializable {
 	private String hour;
 	private int amount;
 
-	public String getHour() {
+	public String getHour() { 
 		return hour;
 	}
 
