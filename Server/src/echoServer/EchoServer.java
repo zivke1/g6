@@ -40,6 +40,7 @@ import util.SimulationDetails;
 public class EchoServer extends AbstractServer {
 	// Class variables *************************************************
 	ServerControl m_ServerControl;
+	SimulationController simControl=null;
 	/**
 	 * The default port to listen on.
 	 */
@@ -426,7 +427,7 @@ public class EchoServer extends AbstractServer {
 
 					for (SimulationDetails s : arr) {
 						Platform.runLater((new EchoServer.HoursCheck(s.getPhoneNum(), s.getEmail(), s.getOrderID(),
-								"Day Before Visit Day Confirmation")));
+								"1 Day Before Visit Day Confirmation")));
 						Thread t = new Thread(new EchoServer.CheckWaiting(null, s, 1000 * 60 * 60 * 2));
 						t.start();
 					}
@@ -461,17 +462,25 @@ public class EchoServer extends AbstractServer {
 		@Override
 		public void run() {
 			try {
-				Thread.sleep(10000);// sleepT
+				Thread.sleep(sleepT);// sleepT
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 			if (s != null) { 
 				// if (!mysqlConnection.checkWaiting(s.getOrderID(), "waitingToVisit"))
 				if (mysqlConnection.checkWaiting(s.getOrderID(), "waitingToVisit"))
+				{
 					mysqlConnection.setOrderExpired(s.getOrderID(), "expired");
+					while(simControl==null)
+						;
+					simControl.hideAll();
+				}
 			} else if (mysqlConnection.checkWaiting(order.getOrderID(), "waitingToVisit")
 					&& mysqlConnection.checkDateWatingList(order.getOrderID())) {
 				mysqlConnection.setOrderExpired(order.getOrderID(), "cancelled");
+				while(simControl==null)
+					;
+				simControl.hideAll();
 			}
 
 		}
@@ -504,6 +513,7 @@ public class EchoServer extends AbstractServer {
 				FXMLLoader loader = new FXMLLoader();
 				root = loader.load(getClass().getResource("/echoServer/MessageToConfirmOrder.fxml").openStream());
 				SimulationController c = loader.getController();
+				simControl=c;
 				c.setDetails(orderID, phoneNum, email, msg);
 				Scene scene = new Scene(root);
 				scene.getStylesheets().add(getClass().getResource("/echoServer/application.css").toExternalForm());

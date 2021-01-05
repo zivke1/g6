@@ -2,6 +2,7 @@ package echoServer;
 
 import java.util.ArrayList;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -9,12 +10,22 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import util.NextStages;
 import util.SimulationDetails;
 
 public class SimulationController {
-	
+
+	@FXML
+	private AnchorPane anchor;
+
+	@FXML
+	private Text sms;
+
+	@FXML
+	private Label msg;
+
 	@FXML
 	private Text orderID;
 
@@ -88,13 +99,22 @@ public class SimulationController {
 
 	}
 
-	
 	public void setDetails(String orderID, String phoneNum, String email, String msg) {
 		this.orderIDS = orderID;
-		phoneNumber.setText(phoneNum);
+		if (phoneNum == null)
+			sms.setVisible(false);
+		else
+			phoneNumber.setText(phoneNum);
 		emailAddress.setText(email);
 		label.setText(msg);
 		this.orderID.setText(orderID);
 	}
 
+	public void hideAll() {
+		Platform.runLater(() -> {
+		cofirmBtn.setVisible(false);
+		backBtn.setVisible(false);
+		label.setText("We are sorry but you didn't respond in time\nand your order is been cancelled/expired");
+		});
+	}
 }
