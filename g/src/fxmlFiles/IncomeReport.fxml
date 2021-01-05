@@ -67,6 +67,8 @@
                </font>
             </Label>
             <Label fx:id="totalIncome" layoutX="212.0" layoutY="193.0" />
+            <Button layoutX="814.0" layoutY="453.0" mnemonicParsing="false" onAction="#submitIncomeReport" text="submit" />
+            <Label fx:id="submitted" layoutX="655.0" layoutY="458.0" text="Successfully submitted" textFill="#4abf46" visible="false" />
          </children>
       </AnchorPane>
    </center>

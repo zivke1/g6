@@ -102,6 +102,20 @@ public class EchoServer extends AbstractServer {
 			ArrayList<String> dataFromDb;
 			ArrayList<String> arr = (ArrayList<String>) msg;
 
+			
+			if(arr.contains("SubmitUsageReport"))
+			{
+				mysqlConnection.SubmitUsageReport(arr);
+				client.sendToClient(msg);
+				return;
+			}
+			if(arr.contains("SubmitIncomeReport"))
+			{
+				mysqlConnection.SubmitIncomeReport(arr);
+				client.sendToClient(msg);
+				return;
+			}
+
 			if (arr.contains("DurRep")) {
 				arr.remove("DurRep");
 				ArrayList<DurationOrder> ret = mysqlConnection.depManDuration(arr);
