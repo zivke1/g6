@@ -242,7 +242,7 @@ public class UpdateParametersController {
 			ClientMain.chat.accept(arr);
 			if (ChatClient.dataInArrayList.get(0).equals("True"))
 				errorMsg.setText(errorMsg.getText()
-						+ "\n the parameter Gap between \n max orders and max visitors update request has been sent to the department manager\n");
+						+ "\n the parameter Gap between \n max orders and max visitors update \nrequest has been sent to the department manager\n");
 			arr.clear();
 			maxOrderField.clear();
 
