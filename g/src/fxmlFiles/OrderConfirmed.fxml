@@ -29,8 +29,8 @@
                </image>
             </ImageView>
             <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
-            <Label fx:id="employeeOrderCrums" layoutX="178.0" layoutY="95.0" text="Home Page &gt; Availability Check &gt; Make new order &gt; Order confirmed" visible="false" />
-            <Label fx:id="userOrderCrums" layoutX="178.0" layoutY="95.0" text="Home Page &gt; Make new order &gt; Order confirmed" visible="false" />
+            <Label fx:id="txtCrumViaHomePageLabel" layoutX="178.0" layoutY="95.0" prefHeight="21.0" prefWidth="704.0" text="Home Page &gt; Make New Order &gt; Checkout  &gt; Order confirmed" visible="false" />
+            <Label fx:id="txtCrumLabel" layoutX="178.0" layoutY="95.0" text="Home Page &gt; Availability Check &gt; Make New Order &gt; Checkout &gt; Order confirmed" visible="false" />
          </children>
       </AnchorPane>
    </top>
@@ -41,7 +41,7 @@
       <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="finishOrderBtn" layoutX="732.0" layoutY="443.0" mnemonicParsing="false" onMouseClicked="#finishOrderClicked" prefHeight="44.0" prefWidth="147.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="go to main page" />
-            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
+            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseEntered="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
             <Text layoutX="25.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="We are waiting for your visit">
                <font>
                   <Font size="18.0" />

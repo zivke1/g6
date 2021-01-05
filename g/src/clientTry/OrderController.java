@@ -192,6 +192,7 @@ public class OrderController implements Initializable {
 		paymentPageController.setPreviousPage(m_event);
 		paymentPageController.setMainPage(m_eventMain);
 		paymentPageController.setOrderDetails(m_orderDetails);
+		paymentPageController.setOccasional(m_occasional);
 //		Scene scene = new Scene(borderPane);
 //		primaryStage.setTitle("Home Page");
 //		primaryStage.setScene(scene);

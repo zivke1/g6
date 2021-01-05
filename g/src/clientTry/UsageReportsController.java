@@ -150,6 +150,7 @@ public class UsageReportsController {
 		}
 		return orders;
 	}
+	
 	public void setPreviousPage(MouseEvent event) {
 		 m_event = event;
 		}

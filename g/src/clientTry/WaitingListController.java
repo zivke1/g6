@@ -24,7 +24,12 @@ import util.FreePlaceInPark;
 import util.Func;
 import util.NextStages;
 import util.OrderToView;
-
+/**
+ * this page show the date and time that you can do your invite 
+ * and ask you to make your order in this date or register to waiting list
+ * 
+ *
+ */
 public class WaitingListController implements Initializable {
 	String m_fName,m_lName,m_role,m_userID,m_parkName;
     MouseEvent m_previousPage,m_eventMain;
@@ -147,6 +152,7 @@ public class WaitingListController implements Initializable {
 					paymentPageController.setPreviousPage(evento) ;
 					paymentPageController.setMainPage(m_eventMain);
 					paymentPageController.setOrderDetails(m_orderDetails);
+					paymentPageController.setOccasional(false);
 					m_invite.set(2, rowData.getTime());
 					m_invite.set(3, Func.unFixDate(rowData.getDate()));
 					

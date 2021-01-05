@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import clientTry.ClientConsole;
 import clientTry.ClientMain;
-import clientTry.EnterIDController;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -28,9 +28,9 @@ public class FakeMain extends Application {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 
-			loader.setLocation(getClass().getResource("/fxmlFiles/ApproveParameters.fxml"));
+			loader.setLocation(getClass().getResource("/fxmlFiles/DurationReportDeparmentManager.fxml"));
 			borderPane = loader.load();
-			ApproveParametersController controller = loader.getController();
+			DurReportDepartmentController controller = loader.getController();
 			controller.setDetails(null, null, Role.Member.toString(), null, null);
 
 		} catch (IOException e) {

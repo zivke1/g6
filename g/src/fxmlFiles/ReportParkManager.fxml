@@ -57,7 +57,7 @@
             <Label fx:id="repMonthLabel" layoutX="119.0" layoutY="306.0" text="Enter the month for the report:" />
             <Button fx:id="showRep" layoutX="762.0" layoutY="432.0" mnemonicParsing="false" onMouseClicked="#showTheReport" prefHeight="50.0" prefWidth="107.0" styleClass="mybutton1" text="Show report" />
             <Label layoutX="119.0" layoutY="52.0" text="Park's name:" />
-            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
+            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseEntered="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
             <Label fx:id="parkName" layoutX="216.0" layoutY="52.0" />
             <Label fx:id="errSelectReport" layoutX="536.0" layoutY="447.0" text="Error: pls select report to show." textFill="RED" visible="false" />
          </children>

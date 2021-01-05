@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -11,11 +12,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.ReportDepartmentManagerController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.DurReportDepartmentController">
    <top>
       <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
          <children>
-            <Text layoutX="178.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Generate Report">
+            <Text layoutX="180.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Duration Report">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font>
@@ -31,7 +32,7 @@
                </image>
             </ImageView>
             <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
-            <Label layoutX="178.0" layoutY="95.0" text="Home Page &gt; Generate Report" />
+            <Label layoutX="176.0" layoutY="95.0" text="Home Page &gt; Generate Reports &gt; Duration Report" />
          </children>
       </AnchorPane>
    </top>
@@ -44,33 +45,34 @@
    <right>
       <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="showReportBtn" layoutX="260.0" layoutY="419.0" mnemonicParsing="false" onMouseClicked="#finishOrderClicked" prefHeight="44.0" prefWidth="122.0" stylesheets="@/clientTry/application.css" text="Show report">
-               <styleClass>
-                  <String fx:value="mybutton1" />
-                  <String fx:value="approvalBtn" />
-               </styleClass></Button>
             <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseEntered="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
-            <Label layoutX="38.0" layoutY="26.0" text="Hello, which report would you like to generate:">
+            <Label layoutX="31.0" layoutY="37.0" text="Select Park:">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <RadioButton fx:id="visitBTN" layoutX="45.0" layoutY="93.0" mnemonicParsing="false" onMouseClicked="#visitReportClick" text="Visit Report">
+            <ComboBox fx:id="selectPark" layoutX="139.0" layoutY="35.0" prefHeight="31.0" prefWidth="149.0" />
+            <Label layoutX="322.0" layoutY="37.0" text="Select Date:">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
-            </RadioButton>
-            <RadioButton fx:id="cancelBTN" layoutX="45.0" layoutY="140.0" mnemonicParsing="false" onMouseClicked="#cancelReportClick" text="Cancel Report">
+            </Label>
+            <DatePicker fx:id="selectDate" layoutX="428.0" layoutY="35.0" prefHeight="25.0" prefWidth="134.0" />
+            <Button fx:id="showBtn" layoutX="613.0" layoutY="26.0" mnemonicParsing="false" onMouseClicked="#showReport" prefHeight="49.0" prefWidth="83.0" styleClass="approvalBtn" text="Show">
                <font>
-                  <Font size="18.0" />
+                  <Font size="16.0" />
                </font>
-            </RadioButton>
-            <Label fx:id="errorMsg" layoutX="325.0" layoutY="103.0" prefHeight="73.0" prefWidth="201.0" textFill="RED" />
-            <RadioButton fx:id="durationBTN" layoutX="45.0" layoutY="187.0" mnemonicParsing="false" onMouseClicked="#durRepClicked" text="Duration Report">
+            </Button>
+            <PieChart fx:id="chart" layoutX="31.0" layoutY="157.0" prefHeight="334.0" prefWidth="630.0" />
+            <Label layoutX="31.0" layoutY="97.0" text="Select Duration In Hours:">
                <font>
-                  <Font size="18.0" />
-               </font>
-            </RadioButton>
+                  <Font name="System Bold" size="18.0" />
+               </font></Label>
+            <ComboBox fx:id="durBox" layoutX="260.0" layoutY="95.0" prefHeight="31.0" prefWidth="96.0" />
+            <Label fx:id="errorMsg" layoutX="613.0" layoutY="147.0" textFill="RED" />
+            <Label fx:id="userP" layoutX="570.0" layoutY="240.0" text="User percentage:" visible="false" />
+            <Label fx:id="memberP" layoutX="570.0" layoutY="289.0" text="Member percentage:" visible="false" />
+            <Label fx:id="groupP" layoutX="570.0" layoutY="342.0" text="group percentage:" visible="false" />
          </children>
       </AnchorPane>
    </right>

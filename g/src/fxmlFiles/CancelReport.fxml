@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.CancelReportController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.CancelReportController">
    <top>
       <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
          <children>
@@ -43,7 +43,7 @@
    <right>
       <AnchorPane prefHeight="527.0" prefWidth="893.0" stylesheets="@../clientTry/application.css" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
+            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseEntered="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
             <Label layoutX="76.0" layoutY="299.0" text="Cancelled orders:">
                <font>
                   <Font size="18.0" />
@@ -54,34 +54,34 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="numCancelOrders" layoutX="223.0" layoutY="301.0" text="-">
+            <Label fx:id="numCancelOrders" layoutX="223.0" layoutY="301.0" prefHeight="27.0" prefWidth="354.0" text="-">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="numExpiredOrders" layoutX="223.0" layoutY="354.0" prefHeight="20.0" prefWidth="0.0" text="-">
+            <Label fx:id="numExpiredOrders" layoutX="223.0" layoutY="354.0" prefHeight="27.0" prefWidth="328.0" text="-">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="76.0" layoutY="115.0" text="Select Month:">
+            <Label layoutX="77.0" layoutY="122.0" text="Select Month:">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="76.0" layoutY="72.0" text="Select Park:">
+            <Label layoutX="76.0" layoutY="82.0" text="Select Park:">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="76.0" layoutY="163.0" text="Select Year:">
+            <Label layoutX="77.0" layoutY="162.0" text="Select Year:">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <ComboBox fx:id="selectPark" layoutX="213.0" layoutY="74.0" prefWidth="150.0" />
-            <ComboBox fx:id="selectYear" layoutX="213.0" layoutY="164.0" prefWidth="150.0" />
-            <ComboBox fx:id="selectMonth" layoutX="213.0" layoutY="116.0" prefWidth="150.0" />
+            <ComboBox fx:id="selectPark" layoutX="220.0" layoutY="80.0" prefWidth="150.0" />
+            <ComboBox fx:id="selectYear" layoutX="220.0" layoutY="160.0" prefWidth="150.0" />
+            <ComboBox fx:id="selectMonth" layoutX="220.0" layoutY="120.0" prefWidth="150.0" />
             <Button fx:id="showBtn" layoutX="405.0" layoutY="198.0" mnemonicParsing="false" onMouseClicked="#showReport" prefHeight="49.0" prefWidth="83.0" styleClass="approvalBtn" text="Show">
                <font>
                   <Font size="16.0" />

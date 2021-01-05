@@ -10,6 +10,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -64,7 +65,13 @@ public class EmployeeEnterCustomerIDController {
 
     @FXML
     void helpBtnPressed(MouseEvent event) {
+    	Tooltip tt = new Tooltip();
+		tt.setText("This page shows all the exsiting orders\nwith the enetered ID\nfor more details about each order\npress it's line");  // add text to help filed 
+		tt.setStyle("-fx-font: normal bold 15 Langdon; "
+		    + "-fx-background-color: #F0F8FF; "
+		    + "-fx-text-fill: black;");
 
+		helpBtn.setTooltip(tt);
     }
 
     @FXML /// maybe delete
@@ -82,6 +89,7 @@ public class EmployeeEnterCustomerIDController {
     			ClientMain.chat.accept(arr);
     			ArrayList<OrderToView> temp = ChatClient.dataInArrayListObject;
     			if (!temp.isEmpty()) {
+    				NoExistOrderMsg.setVisible(false);
     				// order ID Column
     				TableColumn<OrderToView, String> orderIDcolumn = new TableColumn<>("Order ID");
     				orderIDcolumn.setMinWidth(150);
@@ -122,6 +130,7 @@ public class EmployeeEnterCustomerIDController {
 
     			} else {
     				NoExistOrderMsg.setVisible(true);
+    				existingOrdersTable.setVisible(false);
     			}
     }
     void setDetails(String fName,String lName,String role,String userID,String parkName){

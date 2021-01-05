@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -85,7 +86,7 @@ public class incomeReportController {
 				System.out.println("Error in the data");
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		} 
     }
     
     @FXML
@@ -119,7 +120,13 @@ public class incomeReportController {
 
     @FXML
     void helpBtnPressed(MouseEvent event) {
-    	
+    	Tooltip tt = new Tooltip();
+		tt.setText("This page shows the total income\nfor the selected month in this park");  // add text to help filed 
+		tt.setStyle("-fx-font: normal bold 15 Langdon; "
+		    + "-fx-background-color: #F0F8FF; "
+		    + "-fx-text-fill: black;");
+
+		helpBtn.setTooltip(tt);
     }
 
 	public void setPreviousPage(MouseEvent event) {

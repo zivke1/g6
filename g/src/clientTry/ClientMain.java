@@ -12,6 +12,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class ClientMain extends Application {
+	final public static int OPEN_TIME_INT=8;
+	final public static int CLOSE_TIME_INT=16;
+	final public static int AVG_DUR_TIME_INT=4;
 	public static ClientConsole chat; //only one instance
 	public static void main(String[] args) {
 		launch(args);
@@ -39,7 +42,7 @@ public class ClientMain extends Application {
 			loader.setLocation(getClass().getResource("../fxmlFiles/LoginP.fxml"));
 //			loader.setLocation(getClass().getResource("../fxmlFiles/CardReader.fxml"));
 
-			
+			 
 
 
 			borderPane = loader.load();

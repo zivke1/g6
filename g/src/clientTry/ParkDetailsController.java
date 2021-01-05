@@ -21,7 +21,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import util.NextStages;
-
+/**
+ * in this page we can know the details of each park
+ *
+ *
+ */
 public class ParkDetailsController {
 
 	ObservableList<String> ParksName = FXCollections.observableArrayList("Tal Park", "Carmel Park", "Jordan Park");

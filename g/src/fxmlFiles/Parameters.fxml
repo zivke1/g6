@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" stylesheets="@../clientTry/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.UpdateParametersController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" stylesheets="@/clientTry/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.UpdateParametersController">
    <top>
       <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
          <children>
@@ -38,9 +38,9 @@
       </AnchorPane>
    </top>
    <left>
-      <AnchorPane prefHeight="464.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" stylesheets="@../clientTry/application.css" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="464.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" stylesheets="@/clientTry/application.css" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="backBtn" layoutX="42.0" layoutY="9.0" mnemonicParsing="false" onMouseClicked="#backClicked" prefHeight="43.0" prefWidth="68.0" rotate="180.0" styleClass="mybutton1" stylesheets="@../clientTry/application.css" text="Back" />
+            <Button fx:id="backBtn" layoutX="42.0" layoutY="9.0" mnemonicParsing="false" onMouseClicked="#backClicked" prefHeight="43.0" prefWidth="68.0" rotate="180.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Back" />
          </children></AnchorPane>
    </left>
    <right>
@@ -55,7 +55,7 @@
             <RadioButton fx:id="setDiscount" layoutX="112.0" layoutY="74.0" mnemonicParsing="false" onMouseClicked="#setDiscount" text="Set discount" toggleGroup="$setParm" />
             <Button fx:id="conBtn" layoutX="706.0" layoutY="450.0" mnemonicParsing="false" onMouseClicked="#sendToDepMan" prefHeight="40.0" prefWidth="173.0" styleClass="mybutton1" text="send to confirmation" />
             <Label layoutX="114.0" layoutY="24.0" text="Park's name:" />
-            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@../clientTry/application.css" text="?" />
+            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseEntered="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
             <AnchorPane fx:id="anchorSetDiscount" layoutX="99.0" layoutY="266.0" prefHeight="180.0" prefWidth="601.0" visible="false">
                <children>
                   <Label fx:id="discountLabel" layoutX="7.0" layoutY="19.0" text="Set new discount:" />
@@ -88,8 +88,8 @@
                   <Button fx:id="btnSaveMaxOrder" layoutX="395.0" layoutY="76.0" mnemonicParsing="false" onMouseClicked="#saveGap" prefHeight="48.0" prefWidth="117.0" styleClass="approvalBtn" text="save" />
                </children>
             </AnchorPane>
-            <Label fx:id="parks_name" layoutX="185.0" layoutY="24.0" prefHeight="17.0" prefWidth="90.0" />
-            <Label fx:id="errorMsg" layoutX="541.0" layoutY="30.0" prefHeight="130.0" prefWidth="264.0" textFill="RED" />
+            <Label fx:id="parks_name" layoutX="204.0" layoutY="24.0" prefHeight="21.0" prefWidth="109.0" />
+            <Label fx:id="errorMsg" layoutX="394.0" layoutY="41.0" prefHeight="146.0" prefWidth="374.0" textFill="RED" />
          </children>
       </AnchorPane>
    </right>

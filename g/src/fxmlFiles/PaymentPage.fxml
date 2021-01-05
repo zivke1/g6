@@ -30,7 +30,7 @@
             </ImageView>
             <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
             <Label fx:id="txtCrumViaHomePageLabel" layoutX="178.0" layoutY="95.0" text="Home Page &gt; Make New Order &gt; Checkout" visible="false" />
-            <Label fx:id="txtCrumLabel" layoutX="178.0" layoutY="95.0" text="Home Page &gt; Make New Order &gt; Checkout" visible="false" />
+            <Label fx:id="txtCrumLabel" layoutX="178.0" layoutY="95.0" prefHeight="21.0" prefWidth="432.0" text="Home Page &gt; Availability Check &gt; Make New Order &gt; Checkout" visible="false" />
          </children>
       </AnchorPane>
    </top>
@@ -44,7 +44,7 @@
       <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="finishOrderBtn" layoutX="708.0" layoutY="441.0" mnemonicParsing="false" onMouseClicked="#finishOrderClicked" prefHeight="46.0" prefWidth="171.0" styleClass="approvalBtn" stylesheets="@/clientTry/application.css" text="Move To Payment" />
-            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
+            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseEntered="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
             <Text layoutX="36.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total amount:">
                <font>
                   <Font size="18.0" />

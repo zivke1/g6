@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -82,7 +83,7 @@ public class CheckAvailabilityController {
 		String enteredID = IDtxt.getText(); // if id wasn't entered - present error message
 
 		if (enteredID.equals("")) {
-			IDErrMsg.setVisible(true);
+			IDErrMsg.setVisible(true); 
 			return;
 		}
 		// if the user enter incorrect id number
@@ -129,10 +130,12 @@ public class CheckAvailabilityController {
 		FXMLLoader loader = nextStages.goToNextStage(event);
 		OrderController orderControl = loader.getController();
 		orderControl.setDetails(fName, lName, role, userID, parkName);
+
 		orderControl.setDetailsOfOwner(ownerUserID, ownerRole, occasional, amountOfPeople, amountInoccasional); // order
 																												// owner
 
 	//	anchorMakeOrder.setVisible(false);
+
 		orderControl.setPreviousPage(event);
 		orderControl.setMainPage(m_eventMain);
 
@@ -159,7 +162,11 @@ public class CheckAvailabilityController {
 
 	@FXML
 	void helpBtnPressed(MouseEvent event) {
+		Tooltip tt = new Tooltip();
+		tt.setText("This page shows the current available \nspace in this park"); // add text to help filed 
+		tt.setStyle("-fx-font: normal bold 15 Langdon; " + "-fx-background-color: #F0F8FF; " + "-fx-text-fill: black;");
 
+		helpBtn.setTooltip(tt);
 	}
 
 	// return capacity - amount of orders form DB where status is active
@@ -184,11 +191,12 @@ public class CheckAvailabilityController {
 		}
 		// if current capacity greater than 0 allow employee to make new order for
 		// customer
-		else if (openSpace > 0 && role.equals(Role.ParkEmployee.toString())) {
+		else if (openSpace > 0) {
 			freeSpacetxt.setVisible(true);
 			FreeSpaceLeft.setVisible(true);
-			anchorMakeOrder.setVisible(true);
 			NoFreeSpaceLable.setVisible(false);
+			if(role.equals(Role.ParkEmployee.toString()))
+				anchorMakeOrder.setVisible(true);
 		}
 		return openSpace + "";
 	}
