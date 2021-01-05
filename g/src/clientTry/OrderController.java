@@ -24,11 +24,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Control;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
@@ -62,7 +64,7 @@ public class OrderController implements Initializable {
 	private Button backBtn;
 
 	@FXML
-	private AnchorPane helpBtn;
+	private	Button helpBtn;
 
 	@FXML
 	private Text guideWelcomeText;
@@ -260,7 +262,11 @@ public class OrderController implements Initializable {
 
 	@FXML
 	void helpBtnPressed(MouseEvent event) {
+		Tooltip tt = new Tooltip();
+		tt.setText("This page is intended \nfor placing an order"); // add text to help filed 
+		tt.setStyle("-fx-font: normal bold 15 Langdon; " + "-fx-background-color: #F0F8FF; " + "-fx-text-fill: black;");
 
+		helpBtn.setTooltip(tt);
 	}
 
 	ObservableList<String> list;

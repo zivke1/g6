@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.OrderController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.OrderController">
    <top>
       <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
          <children>
@@ -45,7 +45,7 @@
          </children></AnchorPane>
    </left>
    <center>
-      <AnchorPane fx:id="helpBtn" onMouseClicked="#helpBtnPressed" prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
+      <AnchorPane onMouseClicked="#helpBtnPressed" prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
          <children>
             <Text fx:id="guideWelcomeText" layoutX="45.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hi guide please enter your invitition: " visible="false">
                <font>
@@ -83,7 +83,7 @@
             </Text>
             <TextField fx:id="emailTextFiled" layoutX="208.0" layoutY="321.0" promptText="-emter email-" />
             <Button fx:id="finishOrderBtn" layoutX="757.0" layoutY="443.0" mnemonicParsing="false" onMouseClicked="#finishOrderClicked" prefHeight="44.0" prefWidth="122.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Checkout" />
-            <Button layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseEntered="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
+            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseEntered="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
             <Text fx:id="notAllfieldFilledLabel" fill="RED" layoutX="523.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Note Not all fields are filled in. Please fill in all fields and click Finish Order" visible="false" wrappingWidth="271.11181640625">
                <font>
                   <Font name="System Bold" size="18.0" />

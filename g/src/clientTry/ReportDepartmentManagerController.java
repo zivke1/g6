@@ -26,6 +26,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 /**
@@ -141,7 +142,12 @@ public class ReportDepartmentManagerController {
 
     @FXML
     void helpBtnPressed(MouseEvent event) {
-
+    	Tooltip tt = new Tooltip();
+		tt.setText("Please select the report you want to view \nand then click show");  // add text to help filed 
+		tt.setStyle("-fx-font: normal bold 15 Langdon; "
+		    + "-fx-background-color: #F0F8FF; "
+		    + "-fx-text-fill: black;");
+		helpBtn.setTooltip(tt);
     }
     
 	public void setDetails(String fName, String lName, String role, String userID, String parkName)

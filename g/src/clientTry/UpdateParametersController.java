@@ -24,6 +24,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -157,7 +158,12 @@ public class UpdateParametersController {
 // need to complete
 	@FXML
 	void helpBtnPressed(MouseEvent event) {
-
+		Tooltip tt = new Tooltip();
+		tt.setText("Please select the parameter you \nwant to update and fill the fields");  // add text to help filed 
+		tt.setStyle("-fx-font: normal bold 15 Langdon; "
+		    + "-fx-background-color: #F0F8FF; "
+		    + "-fx-text-fill: black;");
+		helpBtn.setTooltip(tt);
 	}
 
 	/**
