@@ -1337,7 +1337,7 @@ public class mysqlConnection {
 			ResultSet rs = stmt.executeQuery("select * from orders where orderID=" + orderID);
 			if(rs.next())
 				orderD=rs.getDate("VisitDate");
-			if(today.getYear()==orderD.getYear()&&today.getMonth()==orderD.getMonth()&&today.getDate()==today.getDate())
+			if(today.getYear()==orderD.getYear()&&today.getMonth()==orderD.getMonth()&&today.getDate()==orderD.getDate())
 				return false;
 		} catch (SQLException e) {
 			e.printStackTrace();

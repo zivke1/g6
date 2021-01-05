@@ -447,7 +447,7 @@ public class EchoServer extends AbstractServer {
 		@Override
 		public void run() {
 			try {
-				Thread.sleep(sleepT);// sleepT
+				Thread.sleep(10000);// sleepT
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -455,7 +455,7 @@ public class EchoServer extends AbstractServer {
 				// if (!mysqlConnection.checkWaiting(s.getOrderID(), "waitingToVisit"))
 				if (mysqlConnection.checkWaiting(s.getOrderID(), "waitingToVisit"))
 					mysqlConnection.setOrderExpired(s.getOrderID(), "expired");
-			} else if (!mysqlConnection.checkWaiting(order.getOrderID(), "waitingToVisit")
+			} else if (mysqlConnection.checkWaiting(order.getOrderID(), "waitingToVisit")
 					&& mysqlConnection.checkDateWatingList(order.getOrderID())) {
 				mysqlConnection.setOrderExpired(order.getOrderID(), "cancelled");
 			}
