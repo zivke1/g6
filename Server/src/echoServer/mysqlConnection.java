@@ -939,13 +939,13 @@ public class mysqlConnection {
 			TypeOfOrder = "personalFamily";
 		}
 		boolean ocasional = toDiscount.get(1).equals("occasional");
-		int toTableOcasional=0;
-		if(ocasional) {
-			toTableOcasional=1;	
+		int toTableOcasional = 0;
+		if (ocasional) {
+			toTableOcasional = 1;
 		}
 		Statement stmt = conn.createStatement();
-		ResultSet rs = stmt.executeQuery(
-				"select * from discounts Where TypeOfOrder='" + TypeOfOrder + "' AND ocasional='" + toTableOcasional + "'");
+		ResultSet rs = stmt.executeQuery("select * from discounts Where TypeOfOrder='" + TypeOfOrder
+				+ "' AND ocasional='" + toTableOcasional + "'");
 		while (rs.next()) {
 			toReturn.add(rs.getInt("percentage"));
 			toReturn.add(rs.getInt("percentageForMembers"));
@@ -1731,10 +1731,14 @@ public class mysqlConnection {
 				arr.add(rs.getString(1));
 			}
 			Random rand = new Random();
-			String userId = arr.get(rand.nextInt(arr.size()));
-			arr.clear();
-			arr.add(userId);
-		} catch (SQLException e) {
+			if (arr.size() > 0) {
+				String userId = arr.get(rand.nextInt(arr.size()));
+				arr.clear();
+				arr.add(userId);
+			}
+		} catch (
+
+		SQLException e) {
 			e.printStackTrace();
 		}
 		return arr;
