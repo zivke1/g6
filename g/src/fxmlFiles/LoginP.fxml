@@ -109,7 +109,7 @@
                   <PasswordField fx:id="EnterPsw" layoutX="140.0" layoutY="91.0" />
                </children>
             </AnchorPane>
-            <Label fx:id="logInBeforeLabel" layoutX="108.0" layoutY="340.0" text="Your ID already log in please check with owr coustumer servise at 0527715115" textFill="RED" visible="false">
+            <Label fx:id="logInBeforeLabel" layoutX="108.0" layoutY="340.0" text="Your ID already logged in please check with our coustumer service at 0527715115" textFill="RED" visible="false">
                <font>
                   <Font size="18.0" />
                </font>
