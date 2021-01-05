@@ -192,8 +192,11 @@ public class UpdateParametersController {
 			arr.add(null);
 			ClientMain.chat.accept(arr);
 			if (ChatClient.dataInArrayList.get(0).equals("True"))
+			{
+				savedParametersLable.setVisible(true);
 				errorMsg.setText(errorMsg.getText()
-						+ "\n the parameter of Capacity update request \n has been sent to the department manager\n");
+						+ "Capacity\n");
+			}
 			arr.clear();
 			maxVisitField.clear();
 		}
@@ -208,8 +211,11 @@ public class UpdateParametersController {
 			arr.add(until.toString());
 			ClientMain.chat.accept(arr);
 			if (ChatClient.dataInArrayList.get(0).equals("True"))
+			{
+				savedParametersLable.setVisible(true);
 				errorMsg.setText(errorMsg.getText()
-						+ "\n the parameter Discount update request \n has been sent to the department manager\n");
+						+ "Discount\n");
+			}
 			arr.clear();
 			discountField.clear();
 		}
@@ -225,8 +231,11 @@ public class UpdateParametersController {
 			arr.add(null);
 			ClientMain.chat.accept(arr);
 			if (ChatClient.dataInArrayList.get(0).equals("True"))
+			{
+				savedParametersLable.setVisible(true);
 				errorMsg.setText(errorMsg.getText()
-						+ "\n the parameter Duration update request \n has been sent to the department manager\n");
+						+ "Duration\n");
+			}
 			arr.clear();
 			visitDurField.clear();
 		}
@@ -241,14 +250,20 @@ public class UpdateParametersController {
 			arr.add(null);
 			ClientMain.chat.accept(arr);
 			if (ChatClient.dataInArrayList.get(0).equals("True"))
+			{
+				savedParametersLable.setVisible(true);
 				errorMsg.setText(errorMsg.getText()
-						+ "\n the parameter Gap between \n max orders and max visitors update \nrequest has been sent to the department manager\n");
+						+ "Gap\n");
+			}
 			arr.clear();
 			maxOrderField.clear();
 
 		}
 		if (!chosenCapacity && !chosenDiscount && !chosenDuration && !chosenGap)
+		{
 			errorMsg.setText("please fill all the required fields");
+			savedParametersLable.setVisible(false);	
+		}
 		chosenCapacity = false;
 		chosenDiscount = false;
 		chosenDuration = false;
