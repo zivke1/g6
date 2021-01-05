@@ -232,6 +232,7 @@ public class CardReaderController implements Initializable {
 			}
 			for (int i = 0; i < temp.size(); i++) {
 				if (temp.get(i).getStatus().equals("active")) {
+					String orderID=temp.get(i).getOrderID();
 					enterUserID.setVisible(false);
 					orderDetails.setVisible(true);
 					arr.clear();
@@ -252,7 +253,7 @@ public class CardReaderController implements Initializable {
 					textGetOut.setVisible(true);
 					arr.clear();
 					arr.add("updateToFinished");
-					arr.add(temp.get(i).getOrderID());
+					arr.add(orderID);
 					ClientMain.chat.accept(arr);
 					OkBtn.setVisible(true);
 					i = temp.size();

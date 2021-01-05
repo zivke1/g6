@@ -183,7 +183,10 @@
             </AnchorPane>
             <AnchorPane fx:id="enterUserID" prefHeight="498.0" prefWidth="894.0">
                <children>
-                  <Label layoutX="42.0" layoutY="32.0" text="Enter userID or Enter Card to the device:" />
+                  <Label layoutX="42.0" layoutY="32.0" text="Enter userID or Enter Card to the device:">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
                   <AnchorPane fx:id="anchorCustomer" layoutY="1.0" prefHeight="499.0" prefWidth="894.0">
                      <children>
                         <TableView fx:id="tblExistingOrder" layoutX="292.0" layoutY="195.0" prefHeight="201.0" prefWidth="450.0" visible="false" />
@@ -194,12 +197,18 @@
                         </Label>
                         <TextField fx:id="textUserID" layoutX="42.0" layoutY="84.0" promptText="Enter userID" visible="false" />
                         <Button fx:id="btnEnterCard" layoutX="41.0" layoutY="84.0" mnemonicParsing="false" onAction="#enterCardsimulate" prefHeight="31.0" prefWidth="189.0" text="Enter Card" visible="false" />
-                        <RadioButton fx:id="rbUserId" layoutX="332.0" layoutY="30.0" mnemonicParsing="false" onAction="#rbUserIDPress" text="userID">
+                        <RadioButton fx:id="rbUserId" layoutX="379.0" layoutY="30.0" mnemonicParsing="false" onAction="#rbUserIDPress" text="Manual entry">
                            <toggleGroup>
                               <ToggleGroup fx:id="op" />
                            </toggleGroup>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
                         </RadioButton>
-                        <RadioButton fx:id="rbCard" layoutX="447.0" layoutY="30.0" mnemonicParsing="false" onAction="#rdEnterCard" text="Enter card" toggleGroup="$op" />
+                        <RadioButton fx:id="rbCard" layoutX="535.0" layoutY="30.0" mnemonicParsing="false" onAction="#rdEnterCard" text="Automatic Entry" toggleGroup="$op">
+                           <font>
+                              <Font size="18.0" />
+                           </font></RadioButton>
                         <Button fx:id="btnEnterUserID" layoutX="260.0" layoutY="84.0" mnemonicParsing="false" onAction="#enterUserIdManual" text="Enter" visible="false" />
                         <Label fx:id="textUserID2" layoutX="42.0" layoutY="150.0" text="userID:" visible="false" />
                         <Label fx:id="txtUserIdAboveTable" layoutX="98.0" layoutY="150.0" />

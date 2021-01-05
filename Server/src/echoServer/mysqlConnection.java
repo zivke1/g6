@@ -1482,22 +1482,17 @@ public class mysqlConnection {
 				dataFromDB.add("0");
 		}
 		return dataFromDB;
-		/**
-		 * i need to think how i transfer the data from her to the client i have picture
-		 * of how the arrays look like
-		 */
-
 	}
 
 	/**
-	 * @author elira simulate card reader that return random user id
+	 * @author eliran simulate card reader that return random user id
 	 */
 
 	public static ArrayList<String> simulationCardReader() {
 		ArrayList<String> arr = new ArrayList<>();
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("select UserID from orders");
+			ResultSet rs = stmt.executeQuery("select UserID from orders where OrderStatus='waitingToVisit' OR OrderStatus='active'");
 			while (rs.next()) {
 				arr.add(rs.getString(1));
 			}
@@ -1725,5 +1720,53 @@ public class mysqlConnection {
 		}
 		toReturn.add(countOrders);
 		return toReturn;
+	}
+
+	public static void SubmitIncomeReport(ArrayList<String> arr) {
+		arr.remove("SubmitIncomeReport");
+		if(existInDBReport(arr.get(0),arr.get(1),arr.get(2),"incomereport"))
+			return;
+		try {// inserting new row to the table
+			PreparedStatement update = conn.prepareStatement(
+					"INSERT INTO incomereport (year,month,parkName,totalIncome) VALUES ( ?, ?, ?,?)");
+			for (int i = 0; i < ((ArrayList<String>) arr).size(); i++)
+				update.setString(i + 1, ((ArrayList<String>) arr).get(i));
+			update.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	public static void SubmitUsageReport(ArrayList<String> arr) {
+		arr.remove("SubmitUsageReport");
+		if(existInDBReport(arr.get(0),arr.get(1),arr.get(2),"usagereport"))
+			return;
+		try {// inserting new row to the table
+			PreparedStatement update = conn.prepareStatement(
+					"INSERT INTO usagereport (year,month,parkName,day1,day2,day3,day4,day5,day6,day7,day8,day9,day10,day11,day12,day13,day14,day15,day16,day17,day18,day19,day20,day21,day22,day23,day24,day25,day26,day27,day28,day29,day30,day31)"
+					+ " VALUES ( ?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?)");
+			for (int i = 0; i < ((ArrayList<String>) arr).size(); i++)
+				update.setString(i + 1, ((ArrayList<String>) arr).get(i));
+			update.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+	}
+	public static boolean existInDBReport(String year,String month,String parkName,String reportName)
+	{	
+		try {
+	        Statement stmt = conn.createStatement();
+			ResultSet rs;
+				rs = stmt.executeQuery("select * from "+reportName+" Where year="+year+" AND month="+month+" AND parkName='"+parkName+"'");
+				if (rs.next()) {// check if employee exist
+					return true;
+				} else {
+					return false;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		return false;
 	}
 }
