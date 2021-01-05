@@ -14,7 +14,7 @@ import util.NextStages;
 import util.SimulationDetails;
 
 public class SimulationController {
-
+	
 	@FXML
 	private Text orderID;
 
@@ -46,7 +46,7 @@ public class SimulationController {
 
 	@FXML
 	void cancelOrder(MouseEvent event) {
-		ArrayList<String> arr = new ArrayList<>(); 
+		ArrayList<String> arr = new ArrayList<>();
 		arr.add(orderIDS);
 		errorMsg.setText(mysqlConnection.CancelOrder(arr));
 		cofirmBtn.setVisible(false);
@@ -85,9 +85,10 @@ public class SimulationController {
 
 	@FXML
 	void helpBtnPressed(MouseEvent event) {
- 
+
 	}
 
+	
 	public void setDetails(String orderID, String phoneNum, String email, String msg) {
 		this.orderIDS = orderID;
 		phoneNumber.setText(phoneNum);
