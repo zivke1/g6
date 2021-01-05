@@ -75,6 +75,8 @@
                   <Font size="19.0" />
                </font>
             </Label>
+            <Button layoutX="814.0" layoutY="453.0" mnemonicParsing="false" onAction="#submitUsageReport" text="submit" />
+            <Label fx:id="submitted" layoutX="652.0" layoutY="458.0" text="Successfully submitted" textFill="#4abf46" visible="false" />
          </children>
       </AnchorPane>
    </right>

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -46,6 +47,8 @@ public class incomeReportController {
 
     @FXML
     private Label yearLabel;
+    @FXML
+    private Label submitted;
 
     @FXML
     private Label totalIncome;
@@ -56,7 +59,8 @@ public class incomeReportController {
 	private String parkNameS;
 
 	private MouseEvent m_event;
-    
+	
+	private boolean flag=false;
 	
     public void setDetails(String year, String month,String parkName,String fName, String lName, String role, String userID) {
     	this.parkName.setText(parkName);
@@ -76,7 +80,7 @@ public class incomeReportController {
 			ClientMain.chat.accept(arr);
 			if(ChatClient.dataInArrayList.contains("incomeReport"))
 			{
-				totalIncome.setText(ChatClient.dataInArrayList.get(1)+"�");
+				totalIncome.setText(ChatClient.dataInArrayList.get(1)+"$");
 			}
 			else
 				System.out.println("Error in the data");
@@ -92,22 +96,7 @@ public class incomeReportController {
     }
 
     @FXML
-    void goToContactUsPopUp(MouseEvent event) {
-//    	((Node) event.getSource()).getScene().getWindow().hide();
-//		Stage stage = new Stage();
-//		FXMLLoader loader = new FXMLLoader();
-//		Parent root;
-//		try {
-//			root = loader.load(getClass().getResource("/fxmlFiles/ContactUsPopUp.fxml").openStream());
-//			Scene scene = new Scene(root);
-//			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-//			stage.setTitle("Contact Us");
-//			stage.setScene(scene);
-//			stage.show();
-//		} catch (IOException e1) {
-//			e1.printStackTrace();
-//		}
-    	
+    void goToContactUsPopUp(MouseEvent event) {	
 		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order", userID);
 		FXMLLoader loader = nextStages.openPopUp();
 		loader.getController();
@@ -129,6 +118,20 @@ public class incomeReportController {
 		m_event=event;
 		
 	}
+	@FXML
+    void submitIncomeReport(ActionEvent event) {
+		if(flag==false) {
+			ArrayList<String> arr = new ArrayList<>();
+			arr.add("SubmitIncomeReport");
+			arr.add(yearLabel.getText());
+			arr.add(monthLabel.getText());
+			arr.add(parkName.getText());
+			arr.add(totalIncome.getText());
+			ClientMain.chat.accept(arr);
+			flag=true;
+			submitted.setVisible(true);
+		}
+    }
 
 }
 

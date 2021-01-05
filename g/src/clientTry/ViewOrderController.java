@@ -132,7 +132,7 @@ public class ViewOrderController {
 		this.parkNameH = parkName;
 		this.orderIDH = orderID;
 
-		if (roleH.equals(Role.Member.toString().toLowerCase()) || roleH.equals(Role.User.toString().toLowerCase())||roleH.equals(Role.Guide.toString())) {
+		if (roleH.equals(Role.Member.toString().toLowerCase()) || roleH.equals(Role.User.toString().toLowerCase())||roleH.equals(Role.Guide.toString().toLowerCase())) {
 			cancelBtn.setVisible(true);
 			customerOrder.setVisible(true);
 			employeeOrder.setVisible(false);
