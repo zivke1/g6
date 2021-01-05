@@ -21,133 +21,126 @@ import util.TableViewOrders;
 import javafx.stage.Stage;
 
 /**
- * class to enter customer ID and check if he\she have existing orders
- * if so- present their orders in table and enable viewing them 
- * by clicking the right row in the table - which goes to view order control
- * @author shani
+ * class to enter customer ID and check if he\she have existing orders if so-
+ * present their orders in table and enable viewing them by clicking the right
+ * row in the table - which goes to view order control
  *
  */
 public class EmployeeEnterCustomerIDController {
 	private String fName, lName, role, userID, parkName, customerID;
 	private MouseEvent m_event;
-	
-    @FXML
-    private ImageView imgContactUs;
 
-    @FXML
-    private Button helpBtn;
+	@FXML
+	private ImageView imgContactUs;
 
-    @FXML
-    private TextField enterID;
+	@FXML
+	private Button helpBtn;
 
-    @FXML
-    private TableView<OrderToView> existingOrdersTable;
+	@FXML
+	private TextField enterID;
 
-    @FXML
-    private Label NoExistOrderMsg;
+	@FXML
+	private TableView<OrderToView> existingOrdersTable;
 
-    @FXML
-    private Button btnCheck;
-    
-    @FXML
-    void backClicked(MouseEvent event) {
-    	setAllUnvisible();
-    	((Node) event.getSource()).getScene().getWindow().hide();
-    	((Stage)((Node) m_event.getSource()).getScene().getWindow()).show();
-    }
+	@FXML
+	private Label NoExistOrderMsg;
 
-    @FXML
-    void goToContactUsPopUp(MouseEvent event) {
+	@FXML
+	private Button btnCheck;
+
+	@FXML
+	void backClicked(MouseEvent event) {
+		setAllUnvisible();
+		((Node) event.getSource()).getScene().getWindow().hide();
+		((Stage) ((Node) m_event.getSource()).getScene().getWindow()).show();
+	}
+
+	@FXML
+	void goToContactUsPopUp(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order", userID);
-		FXMLLoader loader = nextStages.openPopUp();
-		loader.getController();
-    }
+		nextStages.openPopUp();
+	}
 
-    @FXML
-    void helpBtnPressed(MouseEvent event) {
-    	Tooltip tt = new Tooltip();
-		tt.setText("This page shows all the exsiting orders\nwith the enetered ID\nfor more details about each order\npress it's line");  // add text to help filed 
-		tt.setStyle("-fx-font: normal bold 15 Langdon; "
-		    + "-fx-background-color: #F0F8FF; "
-		    + "-fx-text-fill: black;");
+	@FXML
+	void helpBtnPressed(MouseEvent event) {
+		Tooltip tt = new Tooltip();
+		tt.setText(
+				"This page shows all the exsiting orders\nwith the enetered ID\nIf there is existing orders for this ID\na Table will be presented.\nfor more details about each order\ndouble click it's row"); 
+		tt.setStyle("-fx-font: normal bold 15 Langdon; " + "-fx-background-color: #F0F8FF; " + "-fx-text-fill: black;");
 
 		helpBtn.setTooltip(tt);
-    }
+	}
 
-    @FXML /// maybe delete
-    void viewOrder(MouseEvent event) {
+	@FXML
+	void CheckIDInOrders(MouseEvent event) {
+		// if customer Id is in orders table -> set visible tblExisitingOrder
+		customerID = enterID.getText();
+		ArrayList<String> arr = new ArrayList<>();
+		arr.add(customerID);
+		arr.add("ReturnUserIDInTableOrders");
+		ClientMain.chat.accept(arr);
+		ArrayList<OrderToView> temp = ChatClient.dataInArrayListObject;
+		if (!temp.isEmpty()) {
+			NoExistOrderMsg.setVisible(false);
+			// order ID Column
+			TableColumn<OrderToView, String> orderIDcolumn = new TableColumn<>("Order ID");
+			orderIDcolumn.setMinWidth(150);
+			orderIDcolumn.setCellValueFactory(new PropertyValueFactory<>("orderID"));
 
-    }
-    
-    @FXML
-    void CheckIDInOrders(MouseEvent event) {
-    	// if customer Id is in orders table -> set visible tblExisitingOrder
-    	customerID = enterID.getText();
-    		ArrayList<String> arr = new ArrayList<>();
-    			arr.add(customerID);
-    			arr.add("ReturnUserIDInTableOrders");
-    			ClientMain.chat.accept(arr);
-    			ArrayList<OrderToView> temp = ChatClient.dataInArrayListObject;
-    			if (!temp.isEmpty()) {
-    				NoExistOrderMsg.setVisible(false);
-    				// order ID Column
-    				TableColumn<OrderToView, String> orderIDcolumn = new TableColumn<>("Order ID");
-    				orderIDcolumn.setMinWidth(150);
-    				orderIDcolumn.setCellValueFactory(new PropertyValueFactory<>("orderID"));
+			// Status Column
+			TableColumn<OrderToView, String> statusColumn = new TableColumn<>("Status");
+			statusColumn.setMinWidth(150);
+			statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-    				// Status Column
-    				TableColumn<OrderToView, String> statusColumn = new TableColumn<>("Status");
-    				statusColumn.setMinWidth(150);
-    				statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+			// Date Column
+			TableColumn<OrderToView, String> dateColumn = new TableColumn<>("Date");
+			dateColumn.setMinWidth(150);
+			dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
 
-    				// Date Column
-    				TableColumn<OrderToView, String> dateColumn = new TableColumn<>("Date");
-    				dateColumn.setMinWidth(150);
-    				dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+			TableViewOrders obsList = new TableViewOrders();
+			// tblExistingOrder = new TableView<>();
+			existingOrdersTable.setItems(obsList.getOrders(temp));
 
-    				TableViewOrders obsList = new TableViewOrders();
-    				// tblExistingOrder = new TableView<>();
-    				existingOrdersTable.setItems(obsList.getOrders(temp));
-    				
-    				existingOrdersTable.setRowFactory(tv -> {
-    					TableRow<OrderToView> row = new TableRow<>();
-    					row.setOnMouseClicked(evento -> {
-    						if (evento.getClickCount() == 2 && (!row.isEmpty())) {
-    							OrderToView rowData = row.getItem();
-    							NextStages nextStages = new NextStages("/fxmlFiles/ViewOrder.fxml", "View Order", userID);
-    							FXMLLoader loader = nextStages.goToNextStage(evento);
-    							setAllUnvisible();
-    							ViewOrderController viewOrderControl = loader.getController();
-    							viewOrderControl.setDetails(fName, lName, role, userID, parkName, rowData.getOrderID());
-    							viewOrderControl.setPreviousPage(event);
-    						}
-    					});
-    					return row;
-    				});
+			existingOrdersTable.setRowFactory(tv -> {
+				TableRow<OrderToView> row = new TableRow<>();
+				row.setOnMouseClicked(evento -> {
+					if (evento.getClickCount() == 2 && (!row.isEmpty())) {
+						OrderToView rowData = row.getItem();
+						NextStages nextStages = new NextStages("/fxmlFiles/ViewOrder.fxml", "View Order", userID);
+						FXMLLoader loader = nextStages.goToNextStage(evento);
+						setAllUnvisible();
+						ViewOrderController viewOrderControl = loader.getController();
+						viewOrderControl.setDetails(fName, lName, role, userID, parkName, rowData.getOrderID());
+						viewOrderControl.setPreviousPage(event);
+					}
+				});
+				return row;
+			});
 
-    				existingOrdersTable.getColumns().addAll(orderIDcolumn, statusColumn, dateColumn);
-    				existingOrdersTable.setVisible(true);
+			existingOrdersTable.getColumns().addAll(orderIDcolumn, statusColumn, dateColumn);
+			existingOrdersTable.setVisible(true);
 
-    			} else {
-    				NoExistOrderMsg.setVisible(true);
-    				existingOrdersTable.setVisible(false);
-    			}
-    }
-    void setDetails(String fName,String lName,String role,String userID,String parkName){
+		} else {
+			NoExistOrderMsg.setVisible(true);
+			existingOrdersTable.setVisible(false);
+		}
+	}
+
+	void setDetails(String fName, String lName, String role, String userID, String parkName) {
 		this.fName = fName;
 		this.lName = lName;
 		this.userID = userID;
 		this.role = role;
 		this.parkName = parkName;
-    }
-    
+	}
+
 	public void setAllUnvisible() {
 		existingOrdersTable.setVisible(false);
 		NoExistOrderMsg.setVisible(false);
 	}
 
 	public void setPreviousPage(MouseEvent event) {
-		m_event=event;
+		m_event = event;
 	}
 
 }

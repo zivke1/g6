@@ -68,6 +68,9 @@ public class OrderController implements Initializable {
 
 	@FXML
 	private Text guideWelcomeText;
+    
+	@FXML
+    private Label MemberOrderlab;
 
 	@FXML
 	private ComboBox<String> parkNameCombo;
@@ -390,6 +393,9 @@ public class OrderController implements Initializable {
 					};
 				}
 			});
+			if (status.equals("member")) {
+				MemberOrderlab.setVisible(true);
+			}
 
 //			 setNumberOfVistors("free place");//for occasional visit i need to set the number of visitors to the one i get from the previous page
 
@@ -417,6 +423,7 @@ public class OrderController implements Initializable {
 			});
 			if (status.equals("member")) {
 				setNumberOfVistors(membersAmount);
+				MemberOrderlab.setVisible(true);
 			} else {
 				setNumberOfVistors(15);
 			}

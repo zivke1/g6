@@ -20,8 +20,6 @@ import javafx.stage.Stage;
 import util.NextStages;
 
 /**
- * 
- * @author Idan 
  * controller for cancel report of department manager
  */
 public class CancelReportController {
@@ -36,7 +34,7 @@ public class CancelReportController {
 
 	@FXML
 	private Button backBtn;
-
+    
 	@FXML
 	private Button helpBtn; 
 
@@ -72,9 +70,8 @@ public class CancelReportController {
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "Contact Us", userIDH);
-		FXMLLoader loader = nextStages.openPopUp();
-		loader.getController();
-	}
+		nextStages.openPopUp();
+		}
 
 	@FXML
 	void helpBtnPressed(MouseEvent event) {
