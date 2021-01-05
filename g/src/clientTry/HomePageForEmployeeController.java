@@ -360,7 +360,7 @@ public class HomePageForEmployeeController implements Initializable {
 			employeeCrums.setVisible(true);
 			anchorParkManager.setVisible(true);
 			greetingMsg.setText(
-					fName.substring(0, 1).toUpperCase() + fName.substring(1) + ", " + parkName + " Park Manager, have a great day!");
+					fName.substring(0, 1).toUpperCase() + fName.substring(1) + ", " + parkName + " Manager, have a great day!");
 
 		} else if (role.equals(roleDM)) {
 			employeeCrums.setVisible(true);
