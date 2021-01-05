@@ -96,22 +96,7 @@ public class incomeReportController {
     }
 
     @FXML
-    void goToContactUsPopUp(MouseEvent event) {
-//    	((Node) event.getSource()).getScene().getWindow().hide();
-//		Stage stage = new Stage();
-//		FXMLLoader loader = new FXMLLoader();
-//		Parent root;
-//		try {
-//			root = loader.load(getClass().getResource("/fxmlFiles/ContactUsPopUp.fxml").openStream());
-//			Scene scene = new Scene(root);
-//			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-//			stage.setTitle("Contact Us");
-//			stage.setScene(scene);
-//			stage.show();
-//		} catch (IOException e1) {
-//			e1.printStackTrace();
-//		}
-    	
+    void goToContactUsPopUp(MouseEvent event) {	
 		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order", userID);
 		FXMLLoader loader = nextStages.openPopUp();
 		loader.getController();
