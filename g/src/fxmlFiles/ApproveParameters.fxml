@@ -55,6 +55,11 @@
                   <TableColumn fx:id="approve" minWidth="0.0" prefWidth="0.0" text="Approve" />
               </columns>
             </TableView>
+            <Label fx:id="explenationLabel" layoutX="32.0" layoutY="36.0" text="Please choose which parameters to approve or deny, by clicking on the wanted button:">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </center>

@@ -133,6 +133,9 @@ public class UpdateParametersController {
 	@FXML
 	private Label parks_name;
 
+    @FXML
+    private Label savedParametersLable;
+    
 	@FXML
 	private Label errorMsg;
 	private MouseEvent m_previousPage;
@@ -308,7 +311,7 @@ public class UpdateParametersController {
 		errorMsg.setText("");
 		maxCapacity = maxVisitField.getText();
 		if (maxCapacity.length() == 0)
-			errorMsg.setText("\nPlease fill all filed\n");
+			errorMsg.setText("\nPlease fill all fields\n");
 		int capaInt=Integer.parseInt(maxCapacity);
 		if(capaInt<=0)
 			errorMsg.setText("\nThe capacity value must be possitve number\n");
@@ -348,7 +351,7 @@ public class UpdateParametersController {
 		discount = discountField.getText();
 		from = fromDate.getValue();
 		until = untilDate.getValue();
-		if (until.toString().length() == 0 || from.toString().length() == 0 || discount.length() == 0) {
+		if (from == null || until == null || until.toString().length() == 0 || from.toString().length() == 0 || discount.length() == 0) {
 			errorMsg.setText("\nPlease fill all filed\n");
 			return;
 		}
@@ -393,8 +396,10 @@ public class UpdateParametersController {
 	void saveDuration(MouseEvent event) {
 		errorMsg.setText("");
 		duration = visitDurField.getText();
-		if (duration.length() == 0)
-			errorMsg.setText("\nPlease fill all filed\n");
+		if (duration.length() == 0) {
+			errorMsg.setText("\nPlease fill all fields\n");
+			return;
+		}
 		int durInt=Integer.parseInt(duration);
 		if(durInt<=0)
 			errorMsg.setText("\nThe duration must be possitve number\n");
@@ -423,7 +428,7 @@ public class UpdateParametersController {
 		errorMsg.setText(""); 
 		gap = maxOrderField.getText();
 		if (gap.length() == 0) 
-			errorMsg.setText("\nPlease fill all filed\n");
+			errorMsg.setText("\nPlease fill all fields\n");
 		int gapInt=Integer.parseInt(gap);
 		if(gapInt<=0)
 			errorMsg.setText("\nThe gap must be possitve number\n");
