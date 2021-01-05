@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.OrderController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.OrderController">
    <top>
       <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
          <children>
@@ -45,13 +45,18 @@
          </children></AnchorPane>
    </left>
    <center>
-      <AnchorPane fx:id="helpBtn" onMouseClicked="#helpBtnPressed" prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
+      <AnchorPane onMouseClicked="#helpBtnPressed" prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
          <children>
-            <Text fx:id="guideWelcomeText" layoutX="45.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hi guide please enter your invitition: " visible="false">
+            <Text fx:id="guideWelcomeText" layoutX="45.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hi guide please enter your invitation: " visible="false">
                <font>
                   <Font size="20.0" />
                </font>
             </Text>
+            <Label fx:id="MemberOrderlab" layoutX="46.0" layoutY="13.0" prefHeight="30.0" prefWidth="349.0" text="Member Order" visible="false">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
             <Text layoutX="20.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Park's name:">
                <font>
                   <Font size="20.0" />

@@ -80,6 +80,13 @@
             </Label>
             <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseEntered="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" text="?" />
             <Label fx:id="errorMsg" layoutX="542.0" layoutY="79.0" textFill="RED" />
+            <Label layoutX="197.0" layoutY="80.0" text="*" textFill="RED" />
+            <Label layoutX="197.0" layoutY="134.0" text="*" textFill="RED" />
+            <Label layoutX="197.0" layoutY="181.0" text="*" textFill="RED" />
+            <Label layoutX="197.0" layoutY="231.0" text="*" textFill="RED" />
+            <Label layoutX="197.0" layoutY="279.0" text="*" textFill="RED" />
+            <Label layoutX="205.0" layoutY="334.0" text="*" textFill="RED" />
+            <Label layoutX="233.0" layoutY="391.0" text="*" textFill="RED" />
          </children>
       </AnchorPane>
    </center>

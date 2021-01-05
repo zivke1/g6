@@ -89,7 +89,7 @@
                </children>
             </AnchorPane>
             <Label fx:id="parks_name" layoutX="204.0" layoutY="24.0" prefHeight="21.0" prefWidth="109.0" />
-            <Label fx:id="errorMsg" layoutX="452.0" layoutY="69.0" prefHeight="122.0" prefWidth="285.0" textFill="RED" />
+            <Label fx:id="errorMsg" layoutX="452.0" layoutY="69.0" prefHeight="122.0" prefWidth="367.0" textFill="RED" />
             <Label fx:id="savedParametersLable" layoutX="456.0" layoutY="15.0" prefHeight="53.0" prefWidth="276.0" text="The following parameters had been sent &#10;to the department manager's approval:" textFill="RED" visible="false" />
          </children>
       </AnchorPane>

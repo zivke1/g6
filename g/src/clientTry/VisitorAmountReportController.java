@@ -16,16 +16,16 @@ import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import util.NextStages;
+
 /**
- * @author eliran
- * this class is controller for the FXML VisitorAmountReport
- * the controller fetch from the DB the data for the report 
- * in a specific month
- * and display chart with the data.
+ * @author eliran this class is controller for the FXML VisitorAmountReport the
+ *         controller fetch from the DB the data for the report in a specific
+ *         month and display chart with the data.
  *
  */
 public class VisitorAmountReportController implements Initializable {
@@ -62,8 +62,8 @@ public class VisitorAmountReportController implements Initializable {
 	@FXML
 	private Label parkName;
 	@FXML
-    private Label noReportToPresent;
-	
+	private Label noReportToPresent;
+
 	private String fName;
 	private String lName;
 	private String role;
@@ -77,16 +77,17 @@ public class VisitorAmountReportController implements Initializable {
 	@FXML
 	void backClicked(MouseEvent event) {
 		((Node) event.getSource()).getScene().getWindow().hide();
-    	((Stage)((Node) m_event.getSource()).getScene().getWindow()).show();
-		
+		((Stage) ((Node) m_event.getSource()).getScene().getWindow()).show();
+
 	}
 
-	public void setDetails(String year, String month, String parkName, String fName, String lName, String role, String userID) {// the other page call to this method
+	public void setDetails(String year, String month, String parkName, String fName, String lName, String role,
+			String userID) {// the other page call to this method
 		this.fName = fName;
 		this.lName = lName;
 		this.userID = userID;
 		this.role = role;
-		this.parkNameS=parkName;
+		this.parkNameS = parkName;
 		this.year.setText(year);
 		this.month.setText(month);
 		this.parkName.setText(parkName);
@@ -98,32 +99,31 @@ public class VisitorAmountReportController implements Initializable {
 
 		try {
 			ClientMain.chat.accept(arr);
-			if(ChatClient.dataInArrayList.contains("VisitorAmountReport"))
-			{
-				if(ChatClient.dataInArrayList.get(0)!=null) {
-				totalAmountOfVisitors.setText(ChatClient.dataInArrayList.get(0));
-				amountOfUsers.setText(ChatClient.dataInArrayList.get(1));
-				amountOfGroug.setText(ChatClient.dataInArrayList.get(2));
-				amountOfMembers.setText(ChatClient.dataInArrayList.get(3));
-				System.out.println(totalAmountOfVisitors.getText()+amountOfUsers.getText()+amountOfGroug.getText()+amountOfMembers.getText());
-				z=100*Float.valueOf(amountOfGroug.getText())/Float.valueOf(totalAmountOfVisitors.getText());
-				y=100*Float.valueOf(amountOfMembers.getText())/Float.valueOf(totalAmountOfVisitors.getText());
-				x=100*Float.valueOf(amountOfUsers.getText())/Float.valueOf(totalAmountOfVisitors.getText());
-				ObservableList<PieChart.Data> pieChartDatas = FXCollections.observableArrayList(new PieChart.Data("Users", x),
-						new PieChart.Data("Members", y), new PieChart.Data("Group", z));
-				pieChart.setData(pieChartDatas);
-				}
-				else {
+			if (ChatClient.dataInArrayList.contains("VisitorAmountReport")) {
+				if (ChatClient.dataInArrayList.get(0) != null) {
+					totalAmountOfVisitors.setText(ChatClient.dataInArrayList.get(0));
+					amountOfUsers.setText(ChatClient.dataInArrayList.get(1));
+					amountOfGroug.setText(ChatClient.dataInArrayList.get(2));
+					amountOfMembers.setText(ChatClient.dataInArrayList.get(3));
+					System.out.println(totalAmountOfVisitors.getText() + amountOfUsers.getText()
+							+ amountOfGroug.getText() + amountOfMembers.getText());
+					z = 100 * Float.valueOf(amountOfGroug.getText()) / Float.valueOf(totalAmountOfVisitors.getText());
+					y = 100 * Float.valueOf(amountOfMembers.getText()) / Float.valueOf(totalAmountOfVisitors.getText());
+					x = 100 * Float.valueOf(amountOfUsers.getText()) / Float.valueOf(totalAmountOfVisitors.getText());
+					ObservableList<PieChart.Data> pieChartDatas = FXCollections.observableArrayList(
+							new PieChart.Data("Users", x), new PieChart.Data("Members", y),
+							new PieChart.Data("Group", z));
+					pieChart.setData(pieChartDatas);
+				} else {
 					totalAmountOfVisitors.setText("0");
 					amountOfUsers.setText("0");
 					amountOfGroug.setText("0");
 					amountOfMembers.setText("0");
 					noReportToPresent.setVisible(true);
 					pieChart.setVisible(false);
-					
+
 				}
-			}
-			else
+			} else
 				System.out.println("Error in the data");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -139,7 +139,10 @@ public class VisitorAmountReportController implements Initializable {
 
 	@FXML
 	void helpBtnPressed(MouseEvent event) {
-
+		Tooltip tt = new Tooltip();
+		tt.setText("This page show report of visitor amount\n"); // add text to help filed
+		tt.setStyle("-fx-font: normal bold 15 Langdon; " + "-fx-background-color: #F0F8FF; " + "-fx-text-fill: black;");
+		helpBtn.setTooltip(tt);
 	}
 
 	@Override
@@ -150,7 +153,7 @@ public class VisitorAmountReportController implements Initializable {
 	}
 
 	public void setPreviousPage(MouseEvent event) {
-		 m_event = event;	
+		m_event = event;
 	}
 
 }
