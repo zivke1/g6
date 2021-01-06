@@ -178,12 +178,14 @@ public class mysqlConnection {
 		}
 		return dataFromDB;
 	}
-/**
- * check if this is employee id and password valid
- * @param arr
- * @return
- * @throws SQLException
- */
+
+	/**
+	 * check if this is employee id and password valid
+	 * 
+	 * @param arr
+	 * @return
+	 * @throws SQLException
+	 */
 	public static ArrayList<String> checkIfEmployee(ArrayList<String> arr) throws SQLException {
 
 		String id, firstName, lastName, role, connected, password, park;
@@ -230,9 +232,10 @@ public class mysqlConnection {
 	}
 
 	// check if member ID is in member table
-	
+
 	/**
 	 * get id and check if this is a member or user and if he connected before
+	 * 
 	 * @param arr
 	 * @return
 	 * @throws SQLException
@@ -249,12 +252,14 @@ public class mysqlConnection {
 			return toReturn;
 		}
 	}
-/**
- * check if the id this function get is a member
- * @param arr
- * @return
- * @throws SQLException
- */
+
+	/**
+	 * check if the id this function get is a member
+	 * 
+	 * @param arr
+	 * @return
+	 * @throws SQLException
+	 */
 	public static ArrayList<String> checkIdInMember(ArrayList<String> arr) throws SQLException {
 		ArrayList<String> toReturn = new ArrayList<String>();
 		toReturn.add(arr.get(0));
@@ -275,11 +280,13 @@ public class mysqlConnection {
 		}
 		return toReturn;
 	}
-/**
- * this function add to members table new member
- * @param arr
- * @return
- */
+
+	/**
+	 * this function add to members table new member
+	 * 
+	 * @param arr
+	 * @return
+	 */
 	public static String RegisterMember(ArrayList<String> arr) {
 		int memberID = 0;
 		if (!insertToUsers(arr.get(2)))
@@ -365,12 +372,14 @@ public class mysqlConnection {
 		return toReturn;
 
 	}
-/**
- * check if this member id in the member table
- * @param arr
- * @return
- * @throws SQLException
- */
+
+	/**
+	 * check if this member id in the member table
+	 * 
+	 * @param arr
+	 * @return
+	 * @throws SQLException
+	 */
 	public static ArrayList<String> checkMemberIDInMembers(ArrayList<String> arr) throws SQLException {
 		ArrayList<String> toReturn = new ArrayList<String>();
 		ResultSet rs;
@@ -399,11 +408,13 @@ public class mysqlConnection {
 		}
 		return toReturn;
 	}
-/**
- * this function add to paraUpdate table
- * @param arr
- * @return
- */
+
+	/**
+	 * this function add to paraUpdate table
+	 * 
+	 * @param arr
+	 * @return
+	 */
 	public static boolean insertParaUpdate(Object arr) {
 		try {// inserting new row to the table
 			ArrayList<String> a = (ArrayList<String>) arr;
@@ -411,7 +422,7 @@ public class mysqlConnection {
 					"INSERT INTO paraUpdate (ParkName, paraType, ParaVal, dateOfRequest, FromDate, UntilDate) VALUES (?, ?, ?, ?,?,?)");
 			for (int i = 0; i < ((ArrayList<String>) arr).size(); i++)
 				update.setString(i + 1, ((ArrayList<String>) arr).get(i));
-			update.executeUpdate();  
+			update.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -419,7 +430,6 @@ public class mysqlConnection {
 		return true;
 	}
 
-	
 	public static ArrayList<String> FetchParkDetails(ArrayList<String> arr) {
 		ArrayList<String> dataFromDB = new ArrayList<>();
 		try {
@@ -447,12 +457,14 @@ public class mysqlConnection {
 		return dataFromDB;
 
 	}
-/**
- *  remove id from the set of the id that connected
- * @param arr
- * @return
- * @throws SQLException
- */
+
+	/**
+	 * remove id from the set of the id that connected
+	 * 
+	 * @param arr
+	 * @return
+	 * @throws SQLException
+	 */
 	public static String closeAndSetIdNull(ArrayList<String> arr) throws SQLException {
 		String id = arr.get(0);
 		m_connectedID.remove(id);
@@ -460,11 +472,8 @@ public class mysqlConnection {
 
 	}
 
-	public static ArrayList<String> visitorAmountReport(ArrayList<String> arr) {
-		ArrayList<String> dataFromDB = new ArrayList<>();
-		String year = arr.get(1), month = arr.get(2), amountOfVisitors = null, amountOfPersonal = null,
-				amountOfGroup = null, amountOfMember = null;
-		String parkName = "'" + arr.get(3) + "'";
+	public static String amountOfVisitors(String year, String month, String parkName) {
+		String amountOfVisitors = null;
 		try {
 			ResultSet rs = null;
 			Statement stmt = conn.createStatement();
@@ -488,106 +497,219 @@ public class mysqlConnection {
 			while (rs.next()) {
 				amountOfVisitors = rs.getString(1);
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		if (amountOfVisitors==null)
+			return ""+0;
+		return amountOfVisitors;
+	}
 
+	public static int returnTypeOfVisitorsEachDay(String type, String year, String month, String day, String parkName) {
+		String numberOfTypeInSomeDate = null;
 		try {
 			ResultSet rs = null;
 			Statement stmt = conn.createStatement();
-			if (month.equals("02")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
-						+ year + "-" + month + "-01' AND '" + year + "-" + month
-						+ "-28' AND OrderStatus='finished' AND TypeOfOrder='user' AND ParkName=" + parkName);
-			}
-			if (month.equals("01") || month.equals("03") || month.equals("05") || month.equals("07")
-					|| month.equals("08") || month.equals("10") || month.equals("12")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
-						+ year + "-" + month + "-01' AND '" + year + "-" + month
-						+ "-31' AND OrderStatus='finished' AND TypeOfOrder='user' AND ParkName=" + parkName);
-			}
-			if (month.equals("04") || month.equals("06") || month.equals("09") || month.equals("11")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where (VisitDate BETWEEN '"
-						+ year + "-" + month + "-01' AND '" + year + "-" + month
-						+ "-30') AND OrderStatus='finished' AND TypeOfOrder='user' AND ParkName=" + parkName);
-			}
+			rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate ='" + year + "-"
+					+ month + "-" + day + "' AND OrderStatus='finished' AND TypeOfOrder='" + type + "' AND ParkName="
+					+ parkName);
 			while (rs.next()) {
-				amountOfPersonal = rs.getString(1);
+				numberOfTypeInSomeDate = rs.getString(1);
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		if(numberOfTypeInSomeDate==null)
+			return 0;
+		return Integer.valueOf(numberOfTypeInSomeDate);//need to check if there in no visitor if return 0
+	}
 
-		try {
-			ResultSet rs = null;
-			Statement stmt = conn.createStatement();
-			if (month.equals("02")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
-						+ year + "-" + month + "-01' AND '" + year + "-" + month
-						+ "-28' AND OrderStatus='finished' AND TypeOfOrder='member' AND ParkName=" + parkName);
-			}
-			if (month.equals("01") || month.equals("03") || month.equals("05") || month.equals("07")
-					|| month.equals("08") || month.equals("10") || month.equals("12")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
-						+ year + "-" + month + "-01' AND '" + year + "-" + month
-						+ "-31' AND OrderStatus='finished' AND TypeOfOrder='member' AND ParkName=" + parkName);
-			}
-			if (month.equals("04") || month.equals("06") || month.equals("09") || month.equals("11")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where (VisitDate BETWEEN '"
-						+ year + "-" + month + "-01' AND '" + year + "-" + month
-						+ "-30') AND OrderStatus='finished' AND TypeOfOrder='member' AND ParkName=" + parkName);
-			}
-			while (rs.next()) {
-				amountOfMember = rs.getString(1);
-			}
+	public static ArrayList<String> visitorAmountReport(ArrayList<String> arr) {
+		ArrayList<String> dataFromDB = new ArrayList<>();
+		String year = arr.get(1), month = arr.get(2), amountOfVisitors = null, amountOfPersonal = null,
+				amountOfGroup = null, amountOfMember = null;
+		String parkName = "'" + arr.get(3) + "'";
+		int tmpGroup = 0, groupDay0 = 0, groupDay1 = 0, groupDay2 = 0, groupDay3 = 0, groupDay4 = 0, groupDay5 = 0,
+				groupDay6 = 0;
+		int tmpUser = 0, userDay0 = 0, userDay1 = 0, userDay2 = 0, userDay3 = 0, userDay4 = 0, userDay5 = 0,
+				userDay6 = 0;
+		int tmpMember = 0, memberDay0 = 0, memberDay1 = 0, memberDay2 = 0, memberDay3 = 0, memberDay4 = 0,
+				memberDay5 = 0, memberDay6 = 0;
 
-		} catch (SQLException e) {
-			e.printStackTrace();
+		amountOfVisitors = amountOfVisitors(year, month, parkName);
+		/**
+		 * if there is no visitors in this month go home
+		 */
+		if(amountOfVisitors.equals("0"))
+		{
+			dataFromDB.add("0");
+			return dataFromDB;
 		}
+		
+		if (month.equals("02")) {
+			for (int i = 1; i <= 28; i++) {
+				tmpGroup = returnTypeOfVisitorsEachDay("group", year, month, i + "", parkName);// get the number of some
+																								// type in some park in
+																								// some date
+				tmpUser = returnTypeOfVisitorsEachDay("user", year, month, i + "", parkName);// get the number of some
+																								// type in some park in
+																								// some date
+				tmpMember = returnTypeOfVisitorsEachDay("member", year, month, i + "", parkName);// get the number of
+																									// some type in some
+																									// park in some date
 
-		try {
-			ResultSet rs = null;
-			Statement stmt = conn.createStatement();
-			if (month.equals("02")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
-						+ year + "-" + month + "-01' AND '" + year + "-" + month
-						+ "-28' AND OrderStatus='finished' AND TypeOfOrder='group' AND ParkName=" + parkName);
+				java.sql.Date day = new java.sql.Date(Integer.valueOf(year) - 1900, Integer.valueOf(month) - 1, i);
+				if (day.getDay() == 0)// add the number to the right day
+				{
+					groupDay0 += tmpGroup;
+					userDay0 += tmpUser;
+					memberDay0 += tmpMember;
+				}
+				if (day.getDay() == 1) {
+					groupDay1 += tmpGroup;
+					userDay1 += tmpUser;
+					memberDay1 += tmpMember;
+				}
+				if (day.getDay() == 2) {
+					groupDay2 += tmpGroup;
+					userDay2 += tmpUser;
+					memberDay2 += tmpMember;
+				}
+				if (day.getDay() == 3) {
+					groupDay3 += tmpGroup;
+					userDay3+= tmpUser;
+					memberDay3 += tmpMember;
+				}
+				if (day.getDay() == 4) {
+					groupDay4 += tmpGroup;
+					userDay4 += tmpUser;
+					memberDay4 += tmpMember;
+				}
+				if (day.getDay() == 5) {
+					groupDay5 += tmpGroup;
+					userDay5 += tmpUser;
+					memberDay5 += tmpMember;
+				}
+				if (day.getDay() == 6) {
+					groupDay6 += tmpGroup;
+					userDay6 += tmpUser;
+					memberDay6 += tmpMember;
+				}
 			}
-			if (month.equals("01") || month.equals("03") || month.equals("05") || month.equals("07")
-					|| month.equals("08") || month.equals("10") || month.equals("12")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
-						+ year + "-" + month + "-01' AND '" + year + "-" + month
-						+ "-31' AND OrderStatus='finished' AND TypeOfOrder='group' AND ParkName=" + parkName);
-			}
-			if (month.equals("04") || month.equals("06") || month.equals("09") || month.equals("11")) {
-				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where (VisitDate BETWEEN '"
-						+ year + "-" + month + "-01' AND '" + year + "-" + month
-						+ "-30') AND OrderStatus='finished' AND TypeOfOrder='group' AND ParkName=" + parkName);
-			}
-			while (rs.next()) {
-				amountOfGroup = rs.getString(1);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
+		if (month.equals("01") || month.equals("03") || month.equals("05") || month.equals("07") || month.equals("08")
+				|| month.equals("10") || month.equals("12")) {
+			for (int i = 1; i <= 31; i++) {
+				tmpGroup = returnTypeOfVisitorsEachDay("group", year, month, i + "", parkName);// get the number of some
+																								// type in some park in
+																								// some date
+				tmpUser = returnTypeOfVisitorsEachDay("user", year, month, i + "", parkName);// get the number of some
+																								// type in some park in
+																								// some date
+				tmpMember = returnTypeOfVisitorsEachDay("member", year, month, i + "", parkName);// get the number of
+																									// some type in some
+																									// park in some date
 
+				java.sql.Date day = new java.sql.Date(Integer.valueOf(year) - 1900, Integer.valueOf(month) - 1, i);
+				if (day.getDay() == 0)// add the number to the right day
+				{
+					groupDay0 += tmpGroup;
+					userDay0 += tmpUser;
+					memberDay0 += tmpMember;
+				}
+				if (day.getDay() == 1) {
+					groupDay1 += tmpGroup;
+					userDay1 += tmpUser;
+					memberDay1 += tmpMember;
+				}
+				if (day.getDay() == 2) {
+					groupDay2 += tmpGroup;
+					userDay2 += tmpUser;
+					memberDay2 += tmpMember;
+				}
+				if (day.getDay() == 3) {
+					groupDay3 += tmpGroup;
+					userDay3+= tmpUser;
+					memberDay3 += tmpMember;
+				}
+				if (day.getDay() == 4) {
+					groupDay4 += tmpGroup;
+					userDay4 += tmpUser;
+					memberDay4 += tmpMember;
+				}
+				if (day.getDay() == 5) {
+					groupDay5 += tmpGroup;
+					userDay5 += tmpUser;
+					memberDay5 += tmpMember;
+				}
+				if (day.getDay() == 6) {
+					groupDay6 += tmpGroup;
+					userDay6 += tmpUser;
+					memberDay6 += tmpMember;
+				}
+			}
+
+		}
+		if (month.equals("04") || month.equals("06") || month.equals("09") || month.equals("11")) {
+			for (int i = 1; i <= 30; i++) {
+				tmpGroup = returnTypeOfVisitorsEachDay("group", year, month, i + "", parkName);// get the number of some
+																								// type in some park in
+																								// some date
+				tmpUser = returnTypeOfVisitorsEachDay("user", year, month, i + "", parkName);// get the number of some
+																								// type in some park in
+																								// some date
+				tmpMember = returnTypeOfVisitorsEachDay("member", year, month, i + "", parkName);// get the number of
+																									// some type in some
+																									// park in some date
+
+				java.sql.Date day = new java.sql.Date(Integer.valueOf(year) - 1900, Integer.valueOf(month) - 1, i);
+				if (day.getDay() == 0)// add the number to the right day
+				{
+					groupDay0 += tmpGroup;
+					userDay0 += tmpUser;
+					memberDay0 += tmpMember;
+				}
+				if (day.getDay() == 1) {
+					groupDay1 += tmpGroup;
+					userDay1 += tmpUser;
+					memberDay1 += tmpMember;
+				}
+				if (day.getDay() == 2) {
+					groupDay2 += tmpGroup;
+					userDay2 += tmpUser;
+					memberDay2 += tmpMember;
+				}
+				if (day.getDay() == 3) {
+					groupDay3 += tmpGroup;
+					userDay3+= tmpUser;
+					memberDay3 += tmpMember;
+				}
+				if (day.getDay() == 4) {
+					groupDay4 += tmpGroup;
+					userDay4 += tmpUser;
+					memberDay4 += tmpMember;
+				}
+				if (day.getDay() == 5) {
+					groupDay5 += tmpGroup;
+					userDay5 += tmpUser;
+					memberDay5 += tmpMember;
+				}
+				if (day.getDay() == 6) {
+					groupDay6 += tmpGroup;
+					userDay6 += tmpUser;
+					memberDay6 += tmpMember;
+				}
+			}
+		}
+		
 		dataFromDB.add(amountOfVisitors);
-		if (amountOfPersonal == null)
-			dataFromDB.add("0");
-		else
-			dataFromDB.add(amountOfPersonal);
-		if (amountOfGroup == null)
-			dataFromDB.add("0");
-		else
-			dataFromDB.add(amountOfGroup);
-		if (amountOfMember == null)
-			dataFromDB.add("0");
-		else
-			dataFromDB.add(amountOfMember);
-		dataFromDB.add("VisitorAmountReport");
+		dataFromDB.add(groupDay0+"");dataFromDB.add(groupDay1+"");dataFromDB.add(groupDay2+"");dataFromDB.add(groupDay3+"");
+		dataFromDB.add(groupDay4+"");dataFromDB.add(groupDay5+"");dataFromDB.add(groupDay6+"");
+		dataFromDB.add(userDay0+"");dataFromDB.add(userDay1+"");dataFromDB.add(userDay2+"");dataFromDB.add(userDay3+"");
+		dataFromDB.add(userDay4+"");dataFromDB.add(userDay5+"");dataFromDB.add(userDay6+"");
+		dataFromDB.add(memberDay0+"");dataFromDB.add(memberDay1+"");dataFromDB.add(memberDay2+"");dataFromDB.add(memberDay3+"");
+		dataFromDB.add(memberDay4+"");dataFromDB.add(memberDay5+"");dataFromDB.add(memberDay6+"");
 		return dataFromDB;
 	}
 
@@ -626,11 +748,13 @@ public class mysqlConnection {
 		}
 		return dataFromDB;
 	}
-/**
- * set
- * @param arr
- * @return
- */
+
+	/**
+	 * set
+	 * 
+	 * @param arr
+	 * @return
+	 */
 	public static String CancelOrder(ArrayList<String> arr) {
 		try {
 			PreparedStatement update = conn.prepareStatement("UPDATE orders SET OrderStatus=? WHERE OrderID=?");
@@ -817,8 +941,8 @@ public class mysqlConnection {
 		String dateToMySql = d.getYear() + 1900 + "-" + d.getMonth() + 1 + "-" + d.getDate();
 		int discaount = 0;
 		try {
-			ResultSet rs = stmt.executeQuery("select MAX(percentage) from extradiscount Where startDate<='" + dateToMySql
-					+ "' AND endDate >='" + dateToMySql + "' AND parkName= '" + parkName+ "';");
+			ResultSet rs = stmt.executeQuery("select MAX(percentage) from extradiscount Where startDate<='"
+					+ dateToMySql + "' AND endDate >='" + dateToMySql + "' AND parkName= '" + parkName + "';");
 			while (rs.next()) {
 				discaount = rs.getInt("MAX(percentage)");
 			}
@@ -1216,8 +1340,7 @@ public class mysqlConnection {
 
 	/**
 	 * checking if any of the existing orders' status should be changed to expire
-	 * and changes it if needed
-	 * or delete if it's still in the waiting list
+	 * and changes it if needed or delete if it's still in the waiting list
 	 * 
 	 */
 	public static void checkOrdersStatus() {
@@ -1228,7 +1351,7 @@ public class mysqlConnection {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("select * from orders");
 			while (rs.next()) {
-				Time t = new Time(d.getHours() - 4, d.getMinutes(), d.getSeconds());//allowing 4 hours late
+				Time t = new Time(d.getHours() - 4, d.getMinutes(), d.getSeconds());// allowing 4 hours late
 				dateDb = rs.getDate("VisitDate");
 				if (dateDb.getYear() < dateToday.getYear()
 						|| (dateDb.getYear() == dateToday.getYear() && dateDb.getMonth() < dateToday.getMonth())
@@ -1241,19 +1364,16 @@ public class mysqlConnection {
 							&& !rs.getString("OrderStatus").equals("expired")
 							&& !rs.getString("OrderStatus").equals("cancelled")
 							&& !rs.getString("OrderStatus").equals("active")) {
-						if(rs.getString("OrderStatus").equals("waitingList"))
-						{
-							PreparedStatement update = conn
-									.prepareStatement("delete from orders where OrderID=?");
+						if (rs.getString("OrderStatus").equals("waitingList")) {
+							PreparedStatement update = conn.prepareStatement("delete from orders where OrderID=?");
 							update.setString(1, rs.getString("OrderID"));
 							update.executeUpdate();
-						}
-						else {
-						PreparedStatement update = conn
-								.prepareStatement("UPDATE orders SET OrderStatus=? WHERE OrderID=?");
-						update.setString(2, rs.getString("OrderID"));
-						update.setString(1, "expired");
-						update.executeUpdate();
+						} else {
+							PreparedStatement update = conn
+									.prepareStatement("UPDATE orders SET OrderStatus=? WHERE OrderID=?");
+							update.setString(2, rs.getString("OrderID"));
+							update.setString(1, "expired");
+							update.executeUpdate();
 						}
 					}
 
@@ -1311,9 +1431,10 @@ public class mysqlConnection {
 	public static String WaitingForVisitOrder(ArrayList<String> arr) {
 		try {
 			PreparedStatement update = conn.prepareStatement("UPDATE orders SET OrderStatus=? WHERE OrderID=?");
-			if(!checkDateWatingList(arr.get(0)))
-			update.setString(1, "waitingToVisit");
-			else update.setString(1, "waitingToApprove");
+			if (!checkDateWatingList(arr.get(0)))
+				update.setString(1, "waitingToVisit");
+			else
+				update.setString(1, "waitingToApprove");
 			update.setString(2, arr.get(0));
 			update.executeUpdate();
 		} catch (SQLException e) {
@@ -1321,28 +1442,30 @@ public class mysqlConnection {
 		}
 		return "Thank You For Your Confrimation";
 	}
+
 	/**
 	 * checks if this order needs a day before visit simulation
+	 * 
 	 * @param orderID
 	 * @return
 	 */
-	public static boolean checkDateWatingList(String orderID)
-	{
-		
+	public static boolean checkDateWatingList(String orderID) {
+
 		Statement stmt;
-		Date d=new Date();
-		java.sql.Date orderD=null,today=new java.sql.Date(d.getYear(), d.getMonth(), d.getDate()+1);
+		Date d = new Date();
+		java.sql.Date orderD = null, today = new java.sql.Date(d.getYear(), d.getMonth(), d.getDate() + 1);
 		try {
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("select * from orders where orderID=" + orderID);
-			if(rs.next())
-				orderD=rs.getDate("VisitDate");
-			if(today.getYear()==orderD.getYear()&&today.getMonth()==orderD.getMonth()&&today.getDate()==today.getDate())
+			if (rs.next())
+				orderD = rs.getDate("VisitDate");
+			if (today.getYear() == orderD.getYear() && today.getMonth() == orderD.getMonth()
+					&& today.getDate() == today.getDate())
 				return false;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return true;
 	}
 
@@ -1564,8 +1687,8 @@ public class mysqlConnection {
 		if (arr.contains("y")) {
 			if (arr.contains("discount")) {
 				try {
-					PreparedStatement update = conn
-							.prepareStatement("INSERT INTO extradiscount  (percentage,startDate,endDate,parkName) values (?,?,?,?)");
+					PreparedStatement update = conn.prepareStatement(
+							"INSERT INTO extradiscount  (percentage,startDate,endDate,parkName) values (?,?,?,?)");
 					update.setString(1, arr.get(3));
 					update.setString(2, arr.get(5));
 					update.setString(3, arr.get(6));
@@ -1709,7 +1832,8 @@ public class mysqlConnection {
 		ArrayList<String> arr = new ArrayList<>();
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("select UserID from orders where OrderStatus='waitingToVisit' OR OrderStatus='active'");
+			ResultSet rs = stmt.executeQuery(
+					"select UserID from orders where OrderStatus='waitingToVisit' OR OrderStatus='active'");
 			while (rs.next()) {
 				arr.add(rs.getString(1));
 			}
@@ -1939,55 +2063,55 @@ public class mysqlConnection {
 		return toReturn;
 	}
 
-
 	public static void SubmitIncomeReport(ArrayList<String> arr) {
 		arr.remove("SubmitIncomeReport");
-		if(existInDBReport(arr.get(0),arr.get(1),arr.get(2),"incomereport"))
+		if (existInDBReport(arr.get(0), arr.get(1), arr.get(2), "incomereport"))
 			return;
 		try {// inserting new row to the table
-			PreparedStatement update = conn.prepareStatement(
-					"INSERT INTO incomereport (year,month,parkName,totalIncome) VALUES ( ?, ?, ?,?)");
+			PreparedStatement update = conn
+					.prepareStatement("INSERT INTO incomereport (year,month,parkName,totalIncome) VALUES ( ?, ?, ?,?)");
 			for (int i = 0; i < ((ArrayList<String>) arr).size(); i++)
 				update.setString(i + 1, ((ArrayList<String>) arr).get(i));
 			update.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public static void SubmitUsageReport(ArrayList<String> arr) {
 		arr.remove("SubmitUsageReport");
-		if(existInDBReport(arr.get(0),arr.get(1),arr.get(2),"usagereport"))
+		if (existInDBReport(arr.get(0), arr.get(1), arr.get(2), "usagereport"))
 			return;
 		try {// inserting new row to the table
 			PreparedStatement update = conn.prepareStatement(
 					"INSERT INTO usagereport (year,month,parkName,day1,day2,day3,day4,day5,day6,day7,day8,day9,day10,day11,day12,day13,day14,day15,day16,day17,day18,day19,day20,day21,day22,day23,day24,day25,day26,day27,day28,day29,day30,day31)"
-					+ " VALUES ( ?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?)");
+							+ " VALUES ( ?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?)");
 			for (int i = 0; i < ((ArrayList<String>) arr).size(); i++)
 				update.setString(i + 1, ((ArrayList<String>) arr).get(i));
 			update.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}	
+		}
 	}
-	public static boolean existInDBReport(String year,String month,String parkName,String reportName)
-	{	
+
+	public static boolean existInDBReport(String year, String month, String parkName, String reportName) {
 		try {
-	        Statement stmt = conn.createStatement();
+			Statement stmt = conn.createStatement();
 			ResultSet rs;
-				rs = stmt.executeQuery("select * from "+reportName+" Where year="+year+" AND month="+month+" AND parkName='"+parkName+"'");
-				if (rs.next()) {// check if employee exist
-					return true;
-				} else {
-					return false;
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+			rs = stmt.executeQuery("select * from " + reportName + " Where year=" + year + " AND month=" + month
+					+ " AND parkName='" + parkName + "'");
+			if (rs.next()) {// check if employee exist
+				return true;
+			} else {
+				return false;
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
-	
+
 	public static ArrayList<ViewReports> reportsToView() {
 		ArrayList<ViewReports> toReturn = new ArrayList<>();
 		try {
@@ -1999,7 +2123,7 @@ public class mysqlConnection {
 				String month = rs.getString("month");
 				String parkName = rs.getString("parkName");
 				String totalIncome = rs.getString("totalIncome");
-				ViewReports tmp = new ViewReports(year, month, parkName, "Income Report"); 
+				ViewReports tmp = new ViewReports(year, month, parkName, "Income Report");
 				tmp.setDataIncomeReport(totalIncome);
 				toReturn.add(tmp);
 			}
@@ -2011,9 +2135,9 @@ public class mysqlConnection {
 				String parkName = rs.getString("parkName");
 				ArrayList<String> dayUsage = new ArrayList<>();
 				for (int i = 1; i <= 31; i++) {
-					dayUsage.add(rs.getString("day" + i)); //what if day empty, short month
+					dayUsage.add(rs.getString("day" + i)); // what if day empty, short month
 				}
-				ViewReports tmp = new ViewReports(year, month, parkName, "Usage Report"); 
+				ViewReports tmp = new ViewReports(year, month, parkName, "Usage Report");
 				tmp.setDataUsageReport(dayUsage);
 				toReturn.add(tmp);
 			}
@@ -2023,10 +2147,9 @@ public class mysqlConnection {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return toReturn;
 	}
-	
 
 	public static ArrayList<String> cheakGap(ArrayList<String> arr) {
 		Integer gap = 0;
@@ -2086,6 +2209,26 @@ public class mysqlConnection {
 			e.printStackTrace();
 		}
 		return arrD;
+	}
+
+	public static void SubmitVisitorAmountReport(ArrayList<String> arr) {
+		ArrayList<String> reportData=visitorAmountReport(arr);
+		
+		if (existInDBReport(arr.get(1), arr.get(2), arr.get(3), "visitorsreport"))
+			return;
+		try {// inserting new row to the table
+			PreparedStatement update = conn.prepareStatement(
+					"INSERT INTO visitorsreport (year,month,parkName,TotalVisitors,groupday0,groupday1,groupday2,groupday3,groupday4,groupday5,groupday6,userday0,userday1,userday2,userday3,userday4,userday5,userday6,memberday0,memberday1,memberday2,memberday3,memberday4,memberday5,memberday6)"
+							+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			update.setString(1,arr.get(1));
+			update.setString(2, arr.get(2));
+			update.setString(3, arr.get(3));
+			for (int i = 4; i < ((ArrayList<String>) reportData).size()+4; i++)
+				update.setString(i , ((ArrayList<String>) reportData).get(i-4));
+			update.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

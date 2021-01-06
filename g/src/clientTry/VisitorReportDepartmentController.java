@@ -69,6 +69,7 @@ public class VisitorReportDepartmentController {
  
 	@FXML
 	private Button showBtn;
+	
 
 	@FXML
 	void backClicked(MouseEvent event) {

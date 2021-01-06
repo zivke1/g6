@@ -103,6 +103,12 @@ public class EchoServer extends AbstractServer {
 			ArrayList<String> arr = (ArrayList<String>) msg;
 
 			
+			if(arr.contains("SubmitVisitorAmountReport"))
+			{
+				mysqlConnection.SubmitVisitorAmountReport(arr);
+				client.sendToClient(msg);
+				return;
+			}
 			if(arr.contains("SubmitUsageReport"))
 			{
 				mysqlConnection.SubmitUsageReport(arr);
