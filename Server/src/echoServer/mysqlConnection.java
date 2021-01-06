@@ -533,7 +533,7 @@ public class mysqlConnection {
 		int tmpGroup = 0, groupDay0 = 0, groupDay1 = 0, groupDay2 = 0, groupDay3 = 0, groupDay4 = 0, groupDay5 = 0,
 				groupDay6 = 0;
 		int tmpUser = 0, userDay0 = 0, userDay1 = 0, userDay2 = 0, userDay3 = 0, userDay4 = 0, userDay5 = 0,
-				userDay6 = 0;
+				userDay6 = 0;//asdadsads
 		int tmpMember = 0, memberDay0 = 0, memberDay1 = 0, memberDay2 = 0, memberDay3 = 0, memberDay4 = 0,
 				memberDay5 = 0, memberDay6 = 0;
 
