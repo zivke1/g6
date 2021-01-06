@@ -2088,19 +2088,19 @@ public class mysqlConnection {
 	}
 
 	public static void SubmitUsageReport(ArrayList<String> arr) {
-		arr.remove("SubmitUsageReport");
-		if (existInDBReport(arr.get(0), arr.get(1), arr.get(2), "usagereport"))//arr[year,month,parkName]
-			return;
-		
-		try {// inserting new row to the table
-			PreparedStatement update = conn.prepareStatement(
-					"INSERT INTO usagereport (year,month,day,parkName,8,9,10,11,12,13,14,15,16)"
-							+ " VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?,?)");
-				update.setString(i + 1, ((ArrayList<String>) arr).get(i));
-			update.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+//		arr.remove("SubmitUsageReport");
+//		if (existInDBReport(arr.get(0), arr.get(1), arr.get(2), "usagereport"))//arr[year,month,parkName]
+//			return;
+//		
+//		try {// inserting new row to the table
+//			PreparedStatement update = conn.prepareStatement(
+//					"INSERT INTO usagereport (year,month,day,parkName,8,9,10,11,12,13,14,15,16)"
+//							+ " VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?,?)");
+//				update.setString(i + 1, ((ArrayList<String>) arr).get(i));
+//			update.executeUpdate();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	public static boolean existInDBReport(String year, String month, String parkName, String reportName) {
