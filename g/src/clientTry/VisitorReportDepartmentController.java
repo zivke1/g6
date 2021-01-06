@@ -138,7 +138,7 @@ public class VisitorReportDepartmentController {
 				if (h.getAmount() > 0)
 					flag1 = true;
 			int max[] = new int[24];
-			for (int i = 0; i < 24; i++) {
+			for (int i = 8; i < 17; i++) {
 				max[i] = 0;
 				personal.getData().add(new XYChart.Data(i + "", 0));
 				member.getData().add(new XYChart.Data(i + "", 0));

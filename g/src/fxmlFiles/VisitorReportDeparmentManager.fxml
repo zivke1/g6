@@ -49,7 +49,7 @@
       <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseEntered="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
-            <StackedBarChart fx:id="chart" layoutX="31.0" layoutY="84.0" legendSide="RIGHT" prefHeight="400.0" prefWidth="667.0">
+            <StackedBarChart fx:id="chart" layoutX="31.0" layoutY="84.0" legendSide="RIGHT" prefHeight="396.0" prefWidth="744.0">
               <xAxis>
                 <CategoryAxis label="Hour" prefHeight="23.0" prefWidth="443.0" fx:id="xaxis">
                      <padding>
