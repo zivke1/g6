@@ -88,6 +88,7 @@
             </Text>
             <TextField fx:id="emailTextFiled" layoutX="208.0" layoutY="321.0" promptText="-emter email-" />
             <Button fx:id="finishOrderBtn" layoutX="757.0" layoutY="443.0" mnemonicParsing="false" onMouseClicked="#finishOrderClicked" prefHeight="44.0" prefWidth="122.0" styleClass="approvalBtn" stylesheets="@/clientTry/application.css" text="Checkout" />
+
             <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseEntered="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
             <Text fx:id="notAllfieldFilledLabel" fill="RED" layoutX="523.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Note Not all fields are filled in. Please fill in all fields and click Finish Order" visible="false" wrappingWidth="271.11181640625">
                <font>
