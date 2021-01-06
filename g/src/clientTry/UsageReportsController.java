@@ -25,12 +25,10 @@ import util.DayToView;
 import util.NextStages;
 
 /**
- * @author Eliran
- * this class is controller for the FXML UsageReports
- * the controller fetch from the DB the data for the report 
- * in a specific month
- * and display table with the data.
- * func calculate the usage of the numbers of visitor each day
+ * @author Eliran this class is controller for the FXML UsageReports the
+ *         controller fetch from the DB the data for the report in a specific
+ *         month and display table with the data. func calculate the usage of
+ *         the numbers of visitor each day
  *
  */
 public class UsageReportsController {
@@ -52,6 +50,9 @@ public class UsageReportsController {
 
 	@FXML
 	private Label year;
+
+	@FXML
+	private Button btnSubmit;
 	
 	@FXML
 	private Label parkName;
@@ -63,10 +64,10 @@ public class UsageReportsController {
 	private String userID;
 	private String parkNameS;
 	@FXML
-    private Label submitted;
-	private boolean flag=false;
+	private Label submitted;
+	private boolean flag = false;
 	private MouseEvent m_event;
-	ArrayList<String> usage=new ArrayList<>();
+	ArrayList<String> usage = new ArrayList<>();
 
 	public void setDetails(String year, String month, String parkName, String fName, String lName, String role,
 			String userID) {// the other page call to this method
@@ -79,45 +80,68 @@ public class UsageReportsController {
 		this.month.setText(month);
 		this.parkName.setText(parkName);
 		ArrayList<String> arr = new ArrayList<>();
-		arr.add("UsageReports");
+		arr.add("UsageReport");
+		arr.add(parkName);
 		arr.add(year);
 		arr.add(month);
-		arr.add(parkName);
 		try {
+			ArrayList<DayToView> temp;
 			ClientMain.chat.accept(arr);
-			if(!ChatClient.dataInArrayList.get(0).equals("0"))
-			{
-				usageNumber=Integer.valueOf(ChatClient.dataInArrayList.get(0));
-				ArrayList<DayToView> temp = new ArrayList<DayToView>();
-				for(int i=1;i<10;i++)
-				{
-					float x=(Float.valueOf(ChatClient.dataInArrayList.get(i))/usageNumber)*100;//usageNumber is number that count to full capacity
-					usage.add(x+"");
-					if(x<100)
-						temp.add(new DayToView("0"+i,x+"%"));
-				}
-				for(int i=10;i<ChatClient.dataInArrayList.size();i++)
-				{
-					float x=(Float.valueOf(ChatClient.dataInArrayList.get(i))/usageNumber)*100;//usageNumber is number that count to full capacity
-					usage.add(x+"");
-					if(x<100)
-						temp.add(new DayToView(""+i,x+"%"));
-				}
+	 		temp=ChatClient.usageReportDayToView;
+				
 				// day column
-				TableColumn<DayToView, String> dayColumn = new TableColumn<>("Day");
+				TableColumn<DayToView, String> dayColumn = new TableColumn<>("");
 				dayColumn.setMinWidth(150);
 				dayColumn.setCellValueFactory(new PropertyValueFactory<>("day"));
 
-				// usage Column
-				TableColumn<DayToView, String> usageColumn = new TableColumn<>("Usage");
-				usageColumn.setMinWidth(150);
-				usageColumn.setCellValueFactory(new PropertyValueFactory<>("usage"));
-				
-				table.setItems(getOrders(temp));
+				// h1 Column
+				TableColumn<DayToView, String> h1Column = new TableColumn<>("8:00");
+				h1Column.setMinWidth(150);
+				h1Column.setCellValueFactory(new PropertyValueFactory<>("h1"));
 
-				table.getColumns().addAll(dayColumn, usageColumn);
-			} else
-				System.out.println("Error in the data");
+				// h2 Column
+				TableColumn<DayToView, String> h2Column = new TableColumn<>("9:00");
+				h2Column.setMinWidth(150);
+				h2Column.setCellValueFactory(new PropertyValueFactory<>("h2"));
+
+				// h3 Column
+				TableColumn<DayToView, String> h3Column = new TableColumn<>("10:00");
+				h3Column.setMinWidth(150);
+				h3Column.setCellValueFactory(new PropertyValueFactory<>("h3"));
+
+				// h4 Column
+				TableColumn<DayToView, String> h4Column = new TableColumn<>("11:00");
+				h4Column.setMinWidth(150);
+				h4Column.setCellValueFactory(new PropertyValueFactory<>("h4"));
+
+				// h5 Column
+				TableColumn<DayToView, String> h5Column = new TableColumn<>("12:00");
+				h5Column.setMinWidth(150);
+				h5Column.setCellValueFactory(new PropertyValueFactory<>("h5"));
+
+				// h6 Column
+				TableColumn<DayToView, String> h6Column = new TableColumn<>("13:00");
+				h6Column.setMinWidth(150);
+				h6Column.setCellValueFactory(new PropertyValueFactory<>("h6"));
+
+				// h7 Column
+				TableColumn<DayToView, String> h7Column = new TableColumn<>("14:00");
+				h7Column.setMinWidth(150);
+				h7Column.setCellValueFactory(new PropertyValueFactory<>("h7"));
+
+				// h8 Column
+				TableColumn<DayToView, String> h8Column = new TableColumn<>("15:00");
+				h8Column.setMinWidth(150);
+				h8Column.setCellValueFactory(new PropertyValueFactory<>("h8"));
+
+				// h9 Column
+				TableColumn<DayToView, String> h9Column = new TableColumn<>("16:00");
+				h9Column.setMinWidth(150);
+				h9Column.setCellValueFactory(new PropertyValueFactory<>("h9"));
+
+				table.setItems(getOrders(temp));
+				table.getColumns().addAll(dayColumn, h1Column, h2Column, h3Column, h4Column, h5Column, h6Column,
+						h7Column, h8Column, h9Column);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -126,7 +150,7 @@ public class UsageReportsController {
 	@FXML
 	void backClicked(MouseEvent event) {
 		((Node) event.getSource()).getScene().getWindow().hide();
-    	((Stage)((Node) m_event.getSource()).getScene().getWindow()).show();
+		((Stage) ((Node) m_event.getSource()).getScene().getWindow()).show();
 	}
 
 	@FXML
@@ -154,37 +178,173 @@ public class UsageReportsController {
 		}
 		return orders;
 	}
-	
+
 	public void setPreviousPage(MouseEvent event) {
-		 m_event = event;
+		m_event = event;
+	}
+
+	@FXML
+	void submitUsageReport(ActionEvent event) {
+		if (flag == false) {
+			ArrayList<String> arr = new ArrayList<>();
+			arr.add("SubmitUsageReport");
+			arr.add(year.getText());
+			arr.add(month.getText());
+			arr.add(parkName.getText());
+			ClientMain.chat.accept(arr);
+			flag = true;
+			submitted.setVisible(true);
 		}
+	}
 
-    @FXML
-    void submitUsageReport(ActionEvent event) {
-    	if(flag==false)
-    	{
-    		ArrayList<String> arr = new ArrayList<>();
-    		arr.add("SubmitUsageReport");
-    		arr.add(year.getText());
-    		arr.add(month.getText());
-    		arr.add(parkName.getText());
-    		if(usage.size()==28)
-    		{
-    			usage.add("100");
-    			usage.add("100");
-    			usage.add("100");			
-    		}
-    		if(usage.size()==30)
-    		{
-    			usage.add("100");		
-    		}
-    		arr.addAll(usage);
-    		usage.clear();
-    		ClientMain.chat.accept(arr);
-    		flag=true;
-    	    submitted.setVisible(true);
-    	}
-    }
-
-
+//
+// * package gui;
+//
+//import java.net.URL;
+//import java.util.ArrayList;
+//import java.util.Calendar;
+//import java.util.HashMap;
+//import java.util.LinkedHashMap;
+//import java.util.Locale;
+//import java.util.Map;
+//
+//import javafx.collections.FXCollections;
+//import javafx.collections.ObservableList;
+//import javafx.fxml.FXML;
+//import javafx.scene.chart.CategoryAxis;
+//import javafx.scene.chart.NumberAxis;
+//import javafx.scene.chart.ScatterChart;
+//import javafx.scene.chart.XYChart;
+//import javafx.scene.control.Label;
+//import javafx.scene.control.ListView;
+//import javafx.scene.control.TableColumn;
+//import javafx.scene.control.TableView;
+//
+//import java.util.ResourceBundle;
+//
+//import java.util.List;
+//
+//import entity.Employee;
+//import entity.EntityConstants;
+//import entity.ParkCapacityReport;
+//
+//import javafx.fxml.Initializable;
+//import javafx.scene.layout.ColumnConstraints;
+//import javafx.scene.layout.GridPane;
+//import javafx.scene.layout.RowConstraints;
+//import message.ClientMessage;
+//import message.ClientMessageType;
+///**
+// * 
+// * This class responsible for the control page of the park manager's capacity report
+// *
+// */
+// 
+//public class ParkManagerCapacityReportController implements Initializable {
+//	GUIControl guiControl = GUIControl.getInstance();
+//
+//	@FXML
+//	private Label month;
+//
+//	@FXML
+//	private Label parkName;
+//	
+//
+//	    @FXML
+//	    private Label year2021;
+//	    @FXML
+//	    private ListView<String> list8;
+//
+//	    @FXML
+//	    private ListView<String> list9;
+//
+//	    @FXML
+//	    private ListView<String> list10;
+//
+//	    @FXML
+//	    private ListView<String> list11;
+//
+//	    @FXML
+//	    private ListView<String> list12;
+//
+//	    @FXML
+//	    private ListView<String> list13;
+//
+//	    @FXML
+//	    private ListView<String> list14;
+//
+//	    @FXML
+//	    private ListView<String> list15;
+//
+//	    @FXML
+//	    private ListView<String> list16;
+//
+//	    @FXML
+//	    private ListView<String> list17;
+//
+//	    @FXML
+//	    private ListView<String> listDate;
+//	    /**
+//	     * initialize all the Data report before the page uploaded and displayed to the user
+//	     */
+//	@Override
+//	public void initialize(URL location, ResourceBundle resources) {
+//	
+//
+//		Calendar c = Calendar.getInstance();
+//		
+//		String park = ((Employee) (guiControl.getUser())).getParkName();
+//		parkName.setText(park);
+//		 year2021.setText(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
+//		month.setText(c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH));
+//		int intMonth=Calendar.MONTH-1;
+//		int thisDay = c.get(Calendar.DAY_OF_MONTH);
+//		guiControl.sendToServer(new ClientMessage(ClientMessageType.PARK_MNG_CAPACITY_REPORT, park));
+//		Map<Integer, boolean[]> capacityMap = (Map<Integer, boolean[]> ) guiControl.getServerMsg().getMessage();
+//		int daysInMonth = c.getActualMaximum(Calendar.DAY_OF_MONTH);
+//		
+//		ObservableList list=FXCollections.observableArrayList();
+//		int key=EntityConstants.PARK_OPEN;
+//		
+//		HashMap<Integer, ListView<String>> map = new LinkedHashMap<Integer, ListView<String>>();
+//	map.put(key++,list8);
+//	map.put(key++, list9);
+//	map.put(key++,list10);	
+//	map.put(key++,list11);
+//	map.put(key++,list12);
+//	map.put(key++,list13);
+//	map.put(key++,list14);
+//	map.put(key++,list15);
+//	map.put(key++,list16);
+//	map.put(key++,list17);
+//	 key=EntityConstants.PARK_OPEN;
+//	 ObservableList listDateOb=FXCollections.observableArrayList();
+//		for(boolean[] b: capacityMap.values())
+//		{ list.removeAll(list);
+//		list.add(key>=10?key+":00":"0"+key+":00");
+//			for(int i=1;i<=thisDay;i++)
+//			{
+//				if(b[i]==false)
+//				{
+//					list.add("Not Full");
+//				}
+//				else
+//					list.add("");
+//				
+//			}
+//			
+//			map.get(key).getItems().addAll(list);
+//			key++;
+//			if(key>EntityConstants.PARK_CLOSED)
+//				break;
+//		}
+//		listDateOb.add("");
+//		for(int i=1;i<=thisDay;i++)   
+//		listDateOb.add(i<10?"0"+i+"/"+(intMonth<10?"0"+intMonth:intMonth):i+"/"+(intMonth<10?"0"+intMonth:intMonth));
+//		
+//		listDate.getItems().addAll(listDateOb);
+//		}
+//	
+//}
+// */
 }

@@ -34,7 +34,7 @@ public class ReportParkManagerController {
 
 	ObservableList<String> months = FXCollections.observableArrayList("01", "02", "03", "04", "05", "06", "07", "08",
 			"09", "10", "11", "12");
-	ObservableList<String> years = FXCollections.observableArrayList("2017", "2018", "2019", "2020");
+	ObservableList<String> years = FXCollections.observableArrayList("2020","2021");
 	ObservableList<String> parksNames = FXCollections.observableArrayList("Jordan Park", "Carmel Park", "Tal Park");
 
 	@FXML
@@ -171,7 +171,8 @@ public class ReportParkManagerController {
 		repMonth.setItems(months);
 		ObservableList<String> months = FXCollections.observableArrayList("01", "02", "03", "04", "05", "06", "07",
 				"08", "09", "10", "11", "12");
-		ObservableList<String> years = FXCollections.observableArrayList("2017", "2018", "2019", "2020");
+		
+		ObservableList<String> years = FXCollections.observableArrayList("2020","2021");
 		repYear.setValue("2020");
 		repYear.setItems(years);
 	}
