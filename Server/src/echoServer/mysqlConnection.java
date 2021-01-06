@@ -1,8 +1,10 @@
 package echoServer;
 
 import util.OrderToChange;
+import util.DayToView;
 import util.DurationOrder;
 import util.FreePlaceInPark;
+import util.Func;
 import util.ViewReports;
 import util.OrderToView;
 import util.ParameterToView;
@@ -18,6 +20,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
@@ -34,8 +37,10 @@ import java.util.TreeMap;
 
 import com.mysql.cj.jdbc.SuspendableXAConnection;
 import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import util.HourAmount;
+import util.OrderForUsage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -472,8 +477,11 @@ public class mysqlConnection {
 
 	}
 
-	public static String amountOfVisitors(String year, String month, String parkName) {
-		String amountOfVisitors = null;
+	public static ArrayList<String> visitorAmountReport(ArrayList<String> arr) {
+		ArrayList<String> dataFromDB = new ArrayList<>();
+		String year = arr.get(1), month = arr.get(2), amountOfVisitors = null, amountOfPersonal = null,
+				amountOfGroup = null, amountOfMember = null;
+		String parkName = "'" + arr.get(3) + "'";
 		try {
 			ResultSet rs = null;
 			Statement stmt = conn.createStatement();
@@ -497,219 +505,106 @@ public class mysqlConnection {
 			while (rs.next()) {
 				amountOfVisitors = rs.getString(1);
 			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if (amountOfVisitors==null)
-			return ""+0;
-		return amountOfVisitors;
-	}
 
-	public static int returnTypeOfVisitorsEachDay(String type, String year, String month, String day, String parkName) {
-		String numberOfTypeInSomeDate = null;
 		try {
 			ResultSet rs = null;
 			Statement stmt = conn.createStatement();
-			rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate ='" + year + "-"
-					+ month + "-" + day + "' AND OrderStatus='finished' AND TypeOfOrder='" + type + "' AND ParkName="
-					+ parkName);
+			if (month.equals("02")) {
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-28' AND OrderStatus='finished' AND TypeOfOrder='user' AND ParkName=" + parkName);
+			}
+			if (month.equals("01") || month.equals("03") || month.equals("05") || month.equals("07")
+					|| month.equals("08") || month.equals("10") || month.equals("12")) {
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-31' AND OrderStatus='finished' AND TypeOfOrder='user' AND ParkName=" + parkName);
+			}
+			if (month.equals("04") || month.equals("06") || month.equals("09") || month.equals("11")) {
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where (VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-30') AND OrderStatus='finished' AND TypeOfOrder='user' AND ParkName=" + parkName);
+			}
 			while (rs.next()) {
-				numberOfTypeInSomeDate = rs.getString(1);
+				amountOfPersonal = rs.getString(1);
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if(numberOfTypeInSomeDate==null)
-			return 0;
-		return Integer.valueOf(numberOfTypeInSomeDate);//need to check if there in no visitor if return 0
-	}
 
-	public static ArrayList<String> visitorAmountReport(ArrayList<String> arr) {
-		ArrayList<String> dataFromDB = new ArrayList<>();
-		String year = arr.get(1), month = arr.get(2), amountOfVisitors = null, amountOfPersonal = null,
-				amountOfGroup = null, amountOfMember = null;
-		String parkName = "'" + arr.get(3) + "'";
-		int tmpGroup = 0, groupDay0 = 0, groupDay1 = 0, groupDay2 = 0, groupDay3 = 0, groupDay4 = 0, groupDay5 = 0,
-				groupDay6 = 0;
-		int tmpUser = 0, userDay0 = 0, userDay1 = 0, userDay2 = 0, userDay3 = 0, userDay4 = 0, userDay5 = 0,
-				userDay6 = 0;
-		int tmpMember = 0, memberDay0 = 0, memberDay1 = 0, memberDay2 = 0, memberDay3 = 0, memberDay4 = 0,
-				memberDay5 = 0, memberDay6 = 0;
-
-		amountOfVisitors = amountOfVisitors(year, month, parkName);
-		/**
-		 * if there is no visitors in this month go home
-		 */
-		if(amountOfVisitors.equals("0"))
-		{
-			dataFromDB.add("0");
-			return dataFromDB;
-		}
-		
-		if (month.equals("02")) {
-			for (int i = 1; i <= 28; i++) {
-				tmpGroup = returnTypeOfVisitorsEachDay("group", year, month, i + "", parkName);// get the number of some
-																								// type in some park in
-																								// some date
-				tmpUser = returnTypeOfVisitorsEachDay("user", year, month, i + "", parkName);// get the number of some
-																								// type in some park in
-																								// some date
-				tmpMember = returnTypeOfVisitorsEachDay("member", year, month, i + "", parkName);// get the number of
-																									// some type in some
-																									// park in some date
-
-				java.sql.Date day = new java.sql.Date(Integer.valueOf(year) - 1900, Integer.valueOf(month) - 1, i);
-				if (day.getDay() == 0)// add the number to the right day
-				{
-					groupDay0 += tmpGroup;
-					userDay0 += tmpUser;
-					memberDay0 += tmpMember;
-				}
-				if (day.getDay() == 1) {
-					groupDay1 += tmpGroup;
-					userDay1 += tmpUser;
-					memberDay1 += tmpMember;
-				}
-				if (day.getDay() == 2) {
-					groupDay2 += tmpGroup;
-					userDay2 += tmpUser;
-					memberDay2 += tmpMember;
-				}
-				if (day.getDay() == 3) {
-					groupDay3 += tmpGroup;
-					userDay3+= tmpUser;
-					memberDay3 += tmpMember;
-				}
-				if (day.getDay() == 4) {
-					groupDay4 += tmpGroup;
-					userDay4 += tmpUser;
-					memberDay4 += tmpMember;
-				}
-				if (day.getDay() == 5) {
-					groupDay5 += tmpGroup;
-					userDay5 += tmpUser;
-					memberDay5 += tmpMember;
-				}
-				if (day.getDay() == 6) {
-					groupDay6 += tmpGroup;
-					userDay6 += tmpUser;
-					memberDay6 += tmpMember;
-				}
+		try {
+			ResultSet rs = null;
+			Statement stmt = conn.createStatement();
+			if (month.equals("02")) {
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-28' AND OrderStatus='finished' AND TypeOfOrder='member' AND ParkName=" + parkName);
 			}
-		}
-		if (month.equals("01") || month.equals("03") || month.equals("05") || month.equals("07") || month.equals("08")
-				|| month.equals("10") || month.equals("12")) {
-			for (int i = 1; i <= 31; i++) {
-				tmpGroup = returnTypeOfVisitorsEachDay("group", year, month, i + "", parkName);// get the number of some
-																								// type in some park in
-																								// some date
-				tmpUser = returnTypeOfVisitorsEachDay("user", year, month, i + "", parkName);// get the number of some
-																								// type in some park in
-																								// some date
-				tmpMember = returnTypeOfVisitorsEachDay("member", year, month, i + "", parkName);// get the number of
-																									// some type in some
-																									// park in some date
-
-				java.sql.Date day = new java.sql.Date(Integer.valueOf(year) - 1900, Integer.valueOf(month) - 1, i);
-				if (day.getDay() == 0)// add the number to the right day
-				{
-					groupDay0 += tmpGroup;
-					userDay0 += tmpUser;
-					memberDay0 += tmpMember;
-				}
-				if (day.getDay() == 1) {
-					groupDay1 += tmpGroup;
-					userDay1 += tmpUser;
-					memberDay1 += tmpMember;
-				}
-				if (day.getDay() == 2) {
-					groupDay2 += tmpGroup;
-					userDay2 += tmpUser;
-					memberDay2 += tmpMember;
-				}
-				if (day.getDay() == 3) {
-					groupDay3 += tmpGroup;
-					userDay3+= tmpUser;
-					memberDay3 += tmpMember;
-				}
-				if (day.getDay() == 4) {
-					groupDay4 += tmpGroup;
-					userDay4 += tmpUser;
-					memberDay4 += tmpMember;
-				}
-				if (day.getDay() == 5) {
-					groupDay5 += tmpGroup;
-					userDay5 += tmpUser;
-					memberDay5 += tmpMember;
-				}
-				if (day.getDay() == 6) {
-					groupDay6 += tmpGroup;
-					userDay6 += tmpUser;
-					memberDay6 += tmpMember;
-				}
+			if (month.equals("01") || month.equals("03") || month.equals("05") || month.equals("07")
+					|| month.equals("08") || month.equals("10") || month.equals("12")) {
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-31' AND OrderStatus='finished' AND TypeOfOrder='member' AND ParkName=" + parkName);
+			}
+			if (month.equals("04") || month.equals("06") || month.equals("09") || month.equals("11")) {
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where (VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-30') AND OrderStatus='finished' AND TypeOfOrder='member' AND ParkName=" + parkName);
+			}
+			while (rs.next()) {
+				amountOfMember = rs.getString(1);
 			}
 
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		if (month.equals("04") || month.equals("06") || month.equals("09") || month.equals("11")) {
-			for (int i = 1; i <= 30; i++) {
-				tmpGroup = returnTypeOfVisitorsEachDay("group", year, month, i + "", parkName);// get the number of some
-																								// type in some park in
-																								// some date
-				tmpUser = returnTypeOfVisitorsEachDay("user", year, month, i + "", parkName);// get the number of some
-																								// type in some park in
-																								// some date
-				tmpMember = returnTypeOfVisitorsEachDay("member", year, month, i + "", parkName);// get the number of
-																									// some type in some
-																									// park in some date
 
-				java.sql.Date day = new java.sql.Date(Integer.valueOf(year) - 1900, Integer.valueOf(month) - 1, i);
-				if (day.getDay() == 0)// add the number to the right day
-				{
-					groupDay0 += tmpGroup;
-					userDay0 += tmpUser;
-					memberDay0 += tmpMember;
-				}
-				if (day.getDay() == 1) {
-					groupDay1 += tmpGroup;
-					userDay1 += tmpUser;
-					memberDay1 += tmpMember;
-				}
-				if (day.getDay() == 2) {
-					groupDay2 += tmpGroup;
-					userDay2 += tmpUser;
-					memberDay2 += tmpMember;
-				}
-				if (day.getDay() == 3) {
-					groupDay3 += tmpGroup;
-					userDay3+= tmpUser;
-					memberDay3 += tmpMember;
-				}
-				if (day.getDay() == 4) {
-					groupDay4 += tmpGroup;
-					userDay4 += tmpUser;
-					memberDay4 += tmpMember;
-				}
-				if (day.getDay() == 5) {
-					groupDay5 += tmpGroup;
-					userDay5 += tmpUser;
-					memberDay5 += tmpMember;
-				}
-				if (day.getDay() == 6) {
-					groupDay6 += tmpGroup;
-					userDay6 += tmpUser;
-					memberDay6 += tmpMember;
-				}
+		try {
+			ResultSet rs = null;
+			Statement stmt = conn.createStatement();
+			if (month.equals("02")) {
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-28' AND OrderStatus='finished' AND TypeOfOrder='group' AND ParkName=" + parkName);
 			}
+			if (month.equals("01") || month.equals("03") || month.equals("05") || month.equals("07")
+					|| month.equals("08") || month.equals("10") || month.equals("12")) {
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-31' AND OrderStatus='finished' AND TypeOfOrder='group' AND ParkName=" + parkName);
+			}
+			if (month.equals("04") || month.equals("06") || month.equals("09") || month.equals("11")) {
+				rs = stmt.executeQuery("select SUM(VisitorsAmountActual) from orders" + " Where (VisitDate BETWEEN '"
+						+ year + "-" + month + "-01' AND '" + year + "-" + month
+						+ "-30') AND OrderStatus='finished' AND TypeOfOrder='group' AND ParkName=" + parkName);
+			}
+			while (rs.next()) {
+				amountOfGroup = rs.getString(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		
+
 		dataFromDB.add(amountOfVisitors);
-		dataFromDB.add(groupDay0+"");dataFromDB.add(groupDay1+"");dataFromDB.add(groupDay2+"");dataFromDB.add(groupDay3+"");
-		dataFromDB.add(groupDay4+"");dataFromDB.add(groupDay5+"");dataFromDB.add(groupDay6+"");
-		dataFromDB.add(userDay0+"");dataFromDB.add(userDay1+"");dataFromDB.add(userDay2+"");dataFromDB.add(userDay3+"");
-		dataFromDB.add(userDay4+"");dataFromDB.add(userDay5+"");dataFromDB.add(userDay6+"");
-		dataFromDB.add(memberDay0+"");dataFromDB.add(memberDay1+"");dataFromDB.add(memberDay2+"");dataFromDB.add(memberDay3+"");
-		dataFromDB.add(memberDay4+"");dataFromDB.add(memberDay5+"");dataFromDB.add(memberDay6+"");
+		if (amountOfPersonal == null)
+			dataFromDB.add("0");
+		else
+			dataFromDB.add(amountOfPersonal);
+		if (amountOfGroup == null)
+			dataFromDB.add("0");
+		else
+			dataFromDB.add(amountOfGroup);
+		if (amountOfMember == null)
+			dataFromDB.add("0");
+		else
+			dataFromDB.add(amountOfMember);
+		dataFromDB.add("VisitorAmountReport");
 		return dataFromDB;
 	}
 
@@ -1464,7 +1359,6 @@ public class mysqlConnection {
 				orderD = rs.getDate("VisitDate");
 			if (today.getYear() == orderD.getYear() && today.getMonth() == orderD.getMonth()
 					&& today.getDate() == orderD.getDate())
-
 				return false;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -2219,24 +2113,101 @@ public class mysqlConnection {
 		return arrD;
 	}
 
-	public static void SubmitVisitorAmountReport(ArrayList<String> arr) {
-		ArrayList<String> reportData=visitorAmountReport(arr);
+	public static ArrayList<DayToView> checkForUsage(ArrayList<String> arr) throws SQLException {
+		// ArrayList<String> parkDetails = new ArrayList<String>();
+		ArrayList<Integer> parkDetails = checkCapacityAndAvarageVisitTime(arr.get(0));
+		int capacity = parkDetails.get(0);
+
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery("select * from orders Where OrderStatus='finished' AND month(visitDate) ='"
+				+ arr.get(2) + "' AND year(visitDate)='" + arr.get(1) + "' AND ParkName ='" + arr.get(0)
+				+ "' order by VisitDate ");
+		ArrayList<OrderForUsage> orders = new ArrayList<OrderForUsage>();
+		while (rs.next()) {
+			java.sql.Date visitDate = rs.getDate("visitDate");
+			Time enterTime = rs.getTime("EnterTime");
+			Time exitTime = rs.getTime("ExitTime");
+			int visitorsAmount = rs.getInt("VisitorsAmountActual");
+			orders.add(new OrderForUsage(visitDate, enterTime, exitTime, visitorsAmount));
+		}
+
+		YearMonth ym = YearMonth.of(Integer.parseInt(arr.get(1)), Integer.parseInt(arr.get(2)));
+		int lastDay = ym.lengthOfMonth();
+		int amountInThisTime = 0;
+		ArrayList<DayToView> toReturn = new ArrayList<DayToView>();
+
+		for (int day = 1; day <= lastDay; day++) {
+//		java.sql.Date checkDateNow =new java.sql.Date(,),)  
+
+			LocalDate dt = ym.atDay(day);
+			java.sql.Date checkDateNow = new java.sql.Date(dt.getYear() - 1900, dt.getMonth().ordinal(), day);
+//			System.out.println(checkDateNow.toString());
+			DayToView nowDayToView = new DayToView();
+			nowDayToView.setDay(Func.fixDateString(checkDateNow.toString()));
+			for (int i = OPEN_TIME_INT; i <= CLOSE_TIME_INT; i++) {
+				Time checkTimeNow = new Time(i, 0, 0);
+				for (OrderForUsage o : orders) {
+
+					if (o.getVisitDate().equals(checkDateNow) && (o.getEnterTime().compareTo(checkTimeNow) <= 0)
+							&& (o.getExitTime().compareTo(checkTimeNow) >= 0)) {// this order was in the park in this
+						amountInThisTime += o.getVisitorsAmount(); // time
+
+					}
+
+				}
+				
+				enterToDayToView(capacity, amountInThisTime, nowDayToView, i);
+				amountInThisTime=0;
+
+			}
+			toReturn.add(nowDayToView);
+			
+		}
+
+		return toReturn;
+	}
+
+	private static void enterToDayToView(int capacity, int amountInThisTime, DayToView nowDayToView, int i) {
+	
+		String temp = (float)amountInThisTime*100.0/capacity>=100?"Full":String.format("%.2f",amountInThisTime*100.0/capacity)+"%";
 		
-		if (existInDBReport(arr.get(1), arr.get(2), arr.get(3), "visitorsreport"))
-			return;
-		try {// inserting new row to the table
-			PreparedStatement update = conn.prepareStatement(
-					"INSERT INTO visitorsreport (year,month,parkName,TotalVisitors,groupday0,groupday1,groupday2,groupday3,groupday4,groupday5,groupday6,userday0,userday1,userday2,userday3,userday4,userday5,userday6,memberday0,memberday1,memberday2,memberday3,memberday4,memberday5,memberday6)"
-							+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-			update.setString(1,arr.get(1));
-			update.setString(2, arr.get(2));
-			update.setString(3, arr.get(3));
-			for (int i = 4; i < ((ArrayList<String>) reportData).size()+4; i++)
-				update.setString(i , ((ArrayList<String>) reportData).get(i-4));
-			update.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		switch (i) {
+		case 8:
+			nowDayToView.setH1(temp);
+			break;
+
+		case 9:
+			nowDayToView.setH2(temp);
+			break;
+		case 10:
+			nowDayToView.setH3(temp);
+			break;
+		case 11:
+			nowDayToView.setH4(temp);
+			break;
+		case 12:
+			nowDayToView.setH5(temp);
+			break;
+		case 13:
+			nowDayToView.setH6(temp);
+			break;
+		case 14:
+			nowDayToView.setH7(temp);
+			break;
+		case 15:
+			nowDayToView.setH8(temp);
+			break;
+		case 16:
+			nowDayToView.setH9(temp);
+			break;
+		default:
+			break;
 		}
 	}
+
+//	select * from orders 
+//	Where OrderStatus='finished' AND VisitDate >= '2020-1-1' AND VisitDate<='2020-1-31' AND ParkName = 'Jordan Park' 
+//    group by VisitDate  
+//	order by VisitDate 
 
 }
