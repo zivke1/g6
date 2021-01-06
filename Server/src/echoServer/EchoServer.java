@@ -24,6 +24,7 @@ import util.HourAmount;
 import util.TypeOfOrder;
 import util.ViewReports;
 import util.OrderToChange;
+import util.DayToView;
 import util.DurationOrder;
 import util.FreePlaceInPark;
 
@@ -104,12 +105,6 @@ public class EchoServer extends AbstractServer {
 			ArrayList<String> arr = (ArrayList<String>) msg;
 
 			
-			if(arr.contains("SubmitVisitorAmountReport"))
-			{
-				mysqlConnection.SubmitVisitorAmountReport(arr);
-				client.sendToClient(msg);
-				return;
-			}
 			if(arr.contains("SubmitUsageReport"))
 			{
 				mysqlConnection.SubmitUsageReport(arr);
@@ -387,6 +382,13 @@ public class EchoServer extends AbstractServer {
 				client.sendToClient(ar);
 				return;
 			}
+			if (arr.contains("UsageReport")) {
+				arr.remove("UsageReport");
+				ArrayList<DayToView> ar = mysqlConnection.checkForUsage(arr);
+				client.sendToClient(ar);
+				return;
+			}
+			
 
 		} catch (Exception e) {
 
