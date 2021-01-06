@@ -1207,7 +1207,7 @@ public class mysqlConnection {
 
 	public static ArrayList<HourAmount> depManVisitRep(TypeOfOrder type, ArrayList<String> arr) {
 		ArrayList<HourAmount> dataFromDB = new ArrayList<>();
-		for (int i = 0; i < 24; i++)
+		for (int i = OPEN_TIME_INT; i <= CLOSE_TIME_INT; i++)
 			dataFromDB.add(new HourAmount(i + "", 0));
 		ResultSet rs = null;
 		Time t1, t2;
@@ -1231,7 +1231,6 @@ public class mysqlConnection {
 				if (rs.next()) {
 					sum[x] = rs.getInt("sum(VisitorsAmountActual)");
 					// Integer temp = t1.getHours();
-					System.out.println(x+" "+sum[x]);
 					for (HourAmount h : dataFromDB)
 						if (h.getHour().equals(x.toString()))
 							h.setAmount(h.getAmount() + sum[x]);
@@ -2260,13 +2259,11 @@ public class mysqlConnection {
 
 	public static void insertOrders() {
 
-		//int amount =2000;
 		for (int j = 0; j < 10; j++) {
 			for (int i = 0; i < 5; i++) {
 				try {
 					Random rand = new Random(System.currentTimeMillis());
 					int amount = rand.nextInt(100000);
-					//amount+=amount*i;
 					PreparedStatement update = conn.prepareStatement(
 							"INSERT INTO orders (UserID,OrderID,parkName,ExpectedEnterTime,VisitDate,VisitorsAmount,TypeOfOrder,OrderStatus,EnterTime,ExitTime,Occasional,VisitorsAmountActual,Payment,Email,EnterWaitingListDate)"
 									+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");

@@ -181,9 +181,8 @@ public class VisitorReportDepartmentController {
 			{
 				if (i > maxRes)
 					maxRes = i;
-				System.out.println("max="+maxRes);
 			}
-			//yaxis.setUpperBound(maxRes);
+			yaxis.setUpperBound(maxRes);
  
 			if (!flag1 && !flag2 && !flag3) {
 				chart.setVisible(false);

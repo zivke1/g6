@@ -37,7 +37,7 @@ public class ServerControl {
 			echoServer = new EchoServer(5555, this);
 			try {
 				echoServer.listen(); // Start listening for connections
-				//mysqlConnection.insertOrders();
+				mysqlConnection.insertOrders();
 			} catch (Exception ex) {
 				System.out.println("ERROR - Could not listen for clients!");
 			}
