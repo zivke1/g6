@@ -1,8 +1,10 @@
 package echoServer;
 
 import util.OrderToChange;
+import util.DayToView;
 import util.DurationOrder;
 import util.FreePlaceInPark;
+import util.Func;
 import util.ViewReports;
 import util.OrderToView;
 import util.ParameterToView;
@@ -18,6 +20,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
@@ -36,6 +39,7 @@ import com.mysql.cj.jdbc.SuspendableXAConnection;
 import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
 
 import util.HourAmount;
+import util.OrderForUsage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -2088,19 +2092,38 @@ public class mysqlConnection {
 	}
 
 	public static void SubmitUsageReport(ArrayList<String> arr) {
-//		arr.remove("SubmitUsageReport");
-//		if (existInDBReport(arr.get(0), arr.get(1), arr.get(2), "usagereport"))//arr[year,month,parkName]
-//			return;
-//		
-//		try {// inserting new row to the table
-//			PreparedStatement update = conn.prepareStatement(
-//					"INSERT INTO usagereport (year,month,day,parkName,8,9,10,11,12,13,14,15,16)"
-//							+ " VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?,?)");
-//				update.setString(i + 1, ((ArrayList<String>) arr).get(i));
-//			update.executeUpdate();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
+		arr.remove("SubmitUsageReport");
+		if (existInDBReport(arr.get(0), arr.get(1), arr.get(2), "usagereport"))//arr[year,month,parkName]
+			return;
+		String year=arr.get(0),month=arr.get(1),parkName=arr.get(2);
+		for(int i=0;i<3;i++)
+			arr.remove(0);
+		int size=arr.size()/9;
+		for(int i=0;i<size;i++)
+		{
+			try {// inserting new row to the table
+				PreparedStatement update = conn.prepareStatement(
+						"INSERT INTO usagereport (year,month,day,parkName,h8,h9,h10,h11,h12,h13,h14,h15,h16)"
+								+ " VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?,?)");
+				//update.setString(i + 1, ((ArrayList<String>) arr).get(i));
+				update.setString(1, year);
+				update.setString(2, month);
+				update.setInt(3, i+1);
+				update.setString(4, parkName);
+				for(int j=0;j<9;j++)
+				{
+					update.setString(j+5, arr.get(j));
+				}
+				for(int j=0;j<9;j++)
+				{
+					arr.remove(0);
+				}
+				update.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+		}
 	}
 
 	public static boolean existInDBReport(String year, String month, String parkName, String reportName) {
@@ -2236,6 +2259,98 @@ public class mysqlConnection {
 			update.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public static ArrayList<DayToView> checkForUsage(ArrayList<String> arr) throws SQLException {
+		// ArrayList<String> parkDetails = new ArrayList<String>();
+		ArrayList<Integer> parkDetails = checkCapacityAndAvarageVisitTime(arr.get(0));
+		int capacity = parkDetails.get(0);
+
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery("select * from orders Where OrderStatus='finished' AND month(visitDate) ='"
+				+ arr.get(2) + "' AND year(visitDate)='" + arr.get(1) + "' AND ParkName ='" + arr.get(0)
+				+ "' order by VisitDate ");
+		ArrayList<OrderForUsage> orders = new ArrayList<OrderForUsage>();
+		while (rs.next()) {
+			java.sql.Date visitDate = rs.getDate("visitDate");
+			Time enterTime = rs.getTime("EnterTime");
+			Time exitTime = rs.getTime("ExitTime");
+			int visitorsAmount = rs.getInt("VisitorsAmountActual");
+			orders.add(new OrderForUsage(visitDate, enterTime, exitTime, visitorsAmount));
+		}
+
+		YearMonth ym = YearMonth.of(Integer.parseInt(arr.get(1)), Integer.parseInt(arr.get(2)));
+		int lastDay = ym.lengthOfMonth();
+		int amountInThisTime = 0;
+		ArrayList<DayToView> toReturn = new ArrayList<DayToView>();
+
+		for (int day = 1; day <= lastDay; day++) {
+//		java.sql.Date checkDateNow =new java.sql.Date(,),)  
+
+			LocalDate dt = ym.atDay(day);
+			java.sql.Date checkDateNow = new java.sql.Date(dt.getYear() - 1900, dt.getMonth().ordinal(), day);
+//			System.out.println(checkDateNow.toString());
+			DayToView nowDayToView = new DayToView();
+			nowDayToView.setDay(Func.fixDateString(checkDateNow.toString()));
+			for (int i = OPEN_TIME_INT; i <= CLOSE_TIME_INT; i++) {
+				Time checkTimeNow = new Time(i, 0, 0);
+				for (OrderForUsage o : orders) {
+
+					if (o.getVisitDate().equals(checkDateNow) && (o.getEnterTime().compareTo(checkTimeNow) <= 0)
+							&& (o.getExitTime().compareTo(checkTimeNow) >= 0)) {// this order was in the park in this
+						amountInThisTime += o.getVisitorsAmount(); // time
+
+					}
+
+				}
+				
+				enterToDayToView(capacity, amountInThisTime, nowDayToView, i);
+				amountInThisTime=0;
+
+			}
+			toReturn.add(nowDayToView);
+			
+		}
+
+		return toReturn;
+	}
+
+	private static void enterToDayToView(int capacity, int amountInThisTime, DayToView nowDayToView, int i) {
+	
+		String temp = (float)amountInThisTime*100.0/capacity>=100?"Full":String.format("%.2f",amountInThisTime*100.0/capacity)+"%";
+		
+		switch (i) {
+		case 8:
+			nowDayToView.setH1(temp);
+			break;
+
+		case 9:
+			nowDayToView.setH2(temp);
+			break;
+		case 10:
+			nowDayToView.setH3(temp);
+			break;
+		case 11:
+			nowDayToView.setH4(temp);
+			break;
+		case 12:
+			nowDayToView.setH5(temp);
+			break;
+		case 13:
+			nowDayToView.setH6(temp);
+			break;
+		case 14:
+			nowDayToView.setH7(temp);
+			break;
+		case 15:
+			nowDayToView.setH8(temp);
+			break;
+		case 16:
+			nowDayToView.setH9(temp);
+			break;
+		default:
+			break;
 		}
 	}
 

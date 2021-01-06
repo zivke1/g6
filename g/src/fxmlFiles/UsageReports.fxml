@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.UsageReportsController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" stylesheets="@/clientTry/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.UsageReportsController">
    <top>
       <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
          <children>
@@ -74,9 +74,9 @@
                   <Font size="19.0" />
                </font>
             </Label>
-            <Button fx:id="btnSubmit" layoutX="793.0" layoutY="443.0" mnemonicParsing="false" onAction="#submitUsageReport" prefHeight="41.0" prefWidth="87.0" styleClass="mybutton1" text="submit" />
+            <Button fx:id="btnSubmit" layoutX="793.0" layoutY="443.0" mnemonicParsing="false" onAction="#submitUsageReport" prefHeight="41.0" prefWidth="87.0" styleClass="approvalBtn" text="submit" />
             <Label fx:id="submitted" layoutX="632.0" layoutY="453.0" text="Successfully submitted" textFill="#4abf46" visible="false" />
-            <TableView fx:id="table" layoutX="23.0" layoutY="75.0" prefHeight="348.0" prefWidth="823.0" />
+            <TableView fx:id="table" layoutX="23.0" layoutY="75.0" prefHeight="348.0" prefWidth="823.0" style="-fx-cell-size: 50;" />
          </children>
       </AnchorPane>
    </right>
