@@ -18,9 +18,10 @@ import javafx.stage.Stage;
 import util.Func;
 import util.NextStages;
 import util.Role;
+
 /**
  * 
- *with this page the user can see his order details 
+ * with this page the user can see his order details
  *
  */
 public class ViewOrderController {
@@ -89,28 +90,28 @@ public class ViewOrderController {
 	private String orderIDH;
 
 	private String orderStatusH;
-	
+
 	MouseEvent m_event;
 
 	@FXML
 	void backClicked(MouseEvent event) {
-    	((Node) event.getSource()).getScene().getWindow().hide();
-    	((Stage)((Node) m_event.getSource()).getScene().getWindow()).show();
+		((Node) event.getSource()).getScene().getWindow().hide();
+		((Stage) ((Node) m_event.getSource()).getScene().getWindow()).show();
 	}
 
 	@FXML
 	void cancelOrder(MouseEvent event) {
-		if(orderStatusH.equals("waitingList")||orderStatusH.equals("waitingToApprove")||orderStatusH.equals("waitingToVisit"))
-		{
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("CancelOrder");
-		arr.add(orderIDH);
-		ClientMain.chat.accept(arr);
-		cancelBtn.setVisible(false);
-		orderStatus.setText("cancelled");
-		errorMsg.setText(ChatClient.dataInArrayList.get(0));
-		}
-		else errorMsg.setText("Cannot cancel active/finished/exipred/cancelled order");
+		if (orderStatusH.equals("waitingList") || orderStatusH.equals("waitingToApprove")
+				|| orderStatusH.equals("waitingToVisit")) {
+			ArrayList<String> arr = new ArrayList<>();
+			arr.add("CancelOrder");
+			arr.add(orderIDH);
+			ClientMain.chat.accept(arr);
+			cancelBtn.setVisible(false);
+			orderStatus.setText("cancelled");
+			errorMsg.setText(ChatClient.dataInArrayList.get(0));
+		} else
+			errorMsg.setText("Cannot cancel active/finished/exipred/cancelled order");
 	}
 
 	@FXML
@@ -136,7 +137,8 @@ public class ViewOrderController {
 		this.parkNameH = parkName;
 		this.orderIDH = orderID;
 
-		if (roleH.equals(Role.Member.toString().toLowerCase()) || roleH.equals(Role.User.toString().toLowerCase())||roleH.equals(Role.Guide.toString().toLowerCase())) {
+		if (roleH.equals(Role.Member.toString().toLowerCase()) || roleH.equals(Role.User.toString().toLowerCase())
+				|| roleH.equals(Role.Guide.toString().toLowerCase())) {
 			cancelBtn.setVisible(true);
 			customerOrder.setVisible(true);
 			employeeOrder.setVisible(false);
@@ -156,14 +158,21 @@ public class ViewOrderController {
 		date.setText(Func.fixDateString(arr.get(3)));
 		numVisit.setText(arr.get(4));
 		typeOfOrder.setText(arr.get(5) + "'s order");
-		orderStatus.setText(arr.get(6));
-		this.orderStatusH=orderStatus.getText();
+		if (arr.get(6).equals("waitingToVisit"))
+			orderStatus.setText("Waiting To Visit");
+		else if (arr.get(6).equals("waitingToApprove"))
+			orderStatus.setText("Waiting To Approve");
+		else if (arr.get(6).equals("waitingList"))
+			orderStatus.setText("Waiting List");
+		else
+			orderStatus.setText(arr.get(6));
+		this.orderStatusH = orderStatus.getText();
 		totalCost.setText(arr.get(7) + "$");
 		email.setText(arr.get(8));
 	}
+
 	public void setPreviousPage(MouseEvent event) {
 		m_event = event;
 	}
 
 }
-

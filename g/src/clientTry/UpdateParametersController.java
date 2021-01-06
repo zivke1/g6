@@ -178,6 +178,8 @@ public class UpdateParametersController {
 	 */
 	@FXML
 	void sendToDepMan(MouseEvent event) {
+		savedParametersLable.setText("The following parameters had been sent \r\n"
+				+ "to the department manager's approval:");
 		ArrayList<String> arr = new ArrayList<>();
 		errorMsg.setText("");
 		LocalDateTime d;
@@ -194,8 +196,9 @@ public class UpdateParametersController {
 			if (ChatClient.dataInArrayList.get(0).equals("True"))
 			{
 				savedParametersLable.setVisible(true);
-				errorMsg.setText(errorMsg.getText()
-						+ "Capacity\n");
+				savedParametersLable.setText(savedParametersLable.getText() + "\nCapacity ");
+	//		errorMsg.setText(errorMsg.getText()
+		//				+ "Capacity\n");
 			}
 			arr.clear();
 			maxVisitField.clear();
@@ -213,8 +216,9 @@ public class UpdateParametersController {
 			if (ChatClient.dataInArrayList.get(0).equals("True"))
 			{
 				savedParametersLable.setVisible(true);
-				errorMsg.setText(errorMsg.getText()
-						+ "Discount\n");
+				savedParametersLable.setText(savedParametersLable.getText()+"\nDiscount");
+			//	errorMsg.setText(errorMsg.getText()
+			//			+ "Discount\n");
 			}
 			arr.clear();
 			discountField.clear();
@@ -233,8 +237,9 @@ public class UpdateParametersController {
 			if (ChatClient.dataInArrayList.get(0).equals("True"))
 			{
 				savedParametersLable.setVisible(true);
-				errorMsg.setText(errorMsg.getText()
-						+ "Duration\n");
+				savedParametersLable.setText(savedParametersLable.getText()+"\nDuration");
+		//		errorMsg.setText(errorMsg.getText()
+		//				+ "Duration\n");
 			}
 			arr.clear();
 			visitDurField.clear();
@@ -252,8 +257,9 @@ public class UpdateParametersController {
 			if (ChatClient.dataInArrayList.get(0).equals("True"))
 			{
 				savedParametersLable.setVisible(true);
-				errorMsg.setText(errorMsg.getText()
-						+ "Gap\n");
+				savedParametersLable.setText(savedParametersLable.getText()+"\nGap");
+			//	errorMsg.setText(errorMsg.getText()
+			//			+ "Gap\n");
 			}
 			arr.clear();
 			maxOrderField.clear();
@@ -277,6 +283,7 @@ public class UpdateParametersController {
 
 	@FXML
 	void setDiscount(MouseEvent event) {
+		savedParametersLable.setVisible(false);
 		anchorSetDiscount.setVisible(true);
 		anchorSetDuration.setVisible(false);
 		anchorSetGapNum.setVisible(false);
@@ -290,6 +297,7 @@ public class UpdateParametersController {
 
 	@FXML
 	void setMaxOrder(MouseEvent event) {
+		savedParametersLable.setVisible(false);
 		anchorSetDiscount.setVisible(false);
 		anchorSetDuration.setVisible(false);
 		anchorSetGapNum.setVisible(true);
@@ -304,6 +312,7 @@ public class UpdateParametersController {
 
 	@FXML
 	void setMaxVisit(MouseEvent event) {
+		savedParametersLable.setVisible(false);
 		anchorSetDiscount.setVisible(false);
 		anchorSetDuration.setVisible(false);
 		anchorSetGapNum.setVisible(false);
@@ -317,6 +326,7 @@ public class UpdateParametersController {
 	 */
 	@FXML
 	void setVisitDur(MouseEvent event) {
+		savedParametersLable.setVisible(false);
 		anchorSetDiscount.setVisible(false);
 		anchorSetDuration.setVisible(true);
 		anchorSetGapNum.setVisible(false);
