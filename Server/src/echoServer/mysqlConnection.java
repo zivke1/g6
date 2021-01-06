@@ -500,8 +500,8 @@ public class mysqlConnection {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if (amountOfVisitors==null)
-			return ""+0;
+		if (amountOfVisitors == null)
+			return "" + 0;
 		return amountOfVisitors;
 	}
 
@@ -520,9 +520,9 @@ public class mysqlConnection {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if(numberOfTypeInSomeDate==null)
+		if (numberOfTypeInSomeDate == null)
 			return 0;
-		return Integer.valueOf(numberOfTypeInSomeDate);//need to check if there in no visitor if return 0
+		return Integer.valueOf(numberOfTypeInSomeDate);// need to check if there in no visitor if return 0
 	}
 
 	public static ArrayList<String> visitorAmountReport(ArrayList<String> arr) {
@@ -541,12 +541,11 @@ public class mysqlConnection {
 		/**
 		 * if there is no visitors in this month go home
 		 */
-		if(amountOfVisitors.equals("0"))
-		{
+		if (amountOfVisitors.equals("0")) {
 			dataFromDB.add("0");
 			return dataFromDB;
 		}
-		
+
 		if (month.equals("02")) {
 			for (int i = 1; i <= 28; i++) {
 				tmpGroup = returnTypeOfVisitorsEachDay("group", year, month, i + "", parkName);// get the number of some
@@ -578,7 +577,7 @@ public class mysqlConnection {
 				}
 				if (day.getDay() == 3) {
 					groupDay3 += tmpGroup;
-					userDay3+= tmpUser;
+					userDay3 += tmpUser;
 					memberDay3 += tmpMember;
 				}
 				if (day.getDay() == 4) {
@@ -630,7 +629,7 @@ public class mysqlConnection {
 				}
 				if (day.getDay() == 3) {
 					groupDay3 += tmpGroup;
-					userDay3+= tmpUser;
+					userDay3 += tmpUser;
 					memberDay3 += tmpMember;
 				}
 				if (day.getDay() == 4) {
@@ -682,7 +681,7 @@ public class mysqlConnection {
 				}
 				if (day.getDay() == 3) {
 					groupDay3 += tmpGroup;
-					userDay3+= tmpUser;
+					userDay3 += tmpUser;
 					memberDay3 += tmpMember;
 				}
 				if (day.getDay() == 4) {
@@ -702,14 +701,29 @@ public class mysqlConnection {
 				}
 			}
 		}
-		
+
 		dataFromDB.add(amountOfVisitors);
-		dataFromDB.add(groupDay0+"");dataFromDB.add(groupDay1+"");dataFromDB.add(groupDay2+"");dataFromDB.add(groupDay3+"");
-		dataFromDB.add(groupDay4+"");dataFromDB.add(groupDay5+"");dataFromDB.add(groupDay6+"");
-		dataFromDB.add(userDay0+"");dataFromDB.add(userDay1+"");dataFromDB.add(userDay2+"");dataFromDB.add(userDay3+"");
-		dataFromDB.add(userDay4+"");dataFromDB.add(userDay5+"");dataFromDB.add(userDay6+"");
-		dataFromDB.add(memberDay0+"");dataFromDB.add(memberDay1+"");dataFromDB.add(memberDay2+"");dataFromDB.add(memberDay3+"");
-		dataFromDB.add(memberDay4+"");dataFromDB.add(memberDay5+"");dataFromDB.add(memberDay6+"");
+		dataFromDB.add(groupDay0 + "");
+		dataFromDB.add(groupDay1 + "");
+		dataFromDB.add(groupDay2 + "");
+		dataFromDB.add(groupDay3 + "");
+		dataFromDB.add(groupDay4 + "");
+		dataFromDB.add(groupDay5 + "");
+		dataFromDB.add(groupDay6 + "");
+		dataFromDB.add(userDay0 + "");
+		dataFromDB.add(userDay1 + "");
+		dataFromDB.add(userDay2 + "");
+		dataFromDB.add(userDay3 + "");
+		dataFromDB.add(userDay4 + "");
+		dataFromDB.add(userDay5 + "");
+		dataFromDB.add(userDay6 + "");
+		dataFromDB.add(memberDay0 + "");
+		dataFromDB.add(memberDay1 + "");
+		dataFromDB.add(memberDay2 + "");
+		dataFromDB.add(memberDay3 + "");
+		dataFromDB.add(memberDay4 + "");
+		dataFromDB.add(memberDay5 + "");
+		dataFromDB.add(memberDay6 + "");
 		return dataFromDB;
 	}
 
@@ -1193,6 +1207,8 @@ public class mysqlConnection {
 
 	public static ArrayList<HourAmount> depManVisitRep(TypeOfOrder type, ArrayList<String> arr) {
 		ArrayList<HourAmount> dataFromDB = new ArrayList<>();
+		for (int i = 0; i < 24; i++)
+			dataFromDB.add(new HourAmount(i + "", 0));
 		ResultSet rs = null;
 		Time t1, t2;
 		t1 = new Time(OPEN_TIME_INT, 0, 0);
@@ -1200,22 +1216,25 @@ public class mysqlConnection {
 		int openTime = CLOSE_TIME_INT - OPEN_TIME_INT + 1;
 		int[] sum = new int[24];// sum for each hour
 		try {
-			for (int i = OPEN_TIME_INT; i <= CLOSE_TIME_INT; i++, t1 = new Time(t1.getHours(), 0,
+			for (int i = OPEN_TIME_INT; i <= CLOSE_TIME_INT; i++, t1 = new Time(t1.getHours() + 1, 0,
 					0), t2 = new Time(t2.getHours() + 1, 0, 0)) {
 				Statement stmt = conn.createStatement();
-				rs = stmt.executeQuery("select sum(VisitorsAmountActual) from orders Where EnterTime BETWEEN ('"
+				rs = stmt.executeQuery("select sum(VisitorsAmountActual) from orders Where EnterTime BETWEEN '"
 						+ t1.toString() + "'" + "						 AND '" + t2.toString()
-						+ "') AND OrderStatus='finished' AND TypeOfOrder='" + arr.get(2) + "' AND ParkName='"
+						+ "' AND OrderStatus='finished' AND TypeOfOrder='" + arr.get(2) + "' AND ParkName='"
 						+ arr.get(0) + "'" + "						 AND VisitDate ='" + arr.get(1) + "';");
 //				rs = stmt.executeQuery("select sum(VisitorsAmountActual) from orders Where (EnterTime BETWEEN '" + t1
 //						+ "' AND '" + t2 + "') AND OrderStatus='finished' AND TypeOfOrder='" + type + "' AND ParkName='"
 //						+ arr.get(0) + "' AND VisitDate ='" + arr.get(1) + "'");
-				int x = Integer.parseInt(t1.toString().substring(0, 2));
+				Integer x = Integer.parseInt(t1.toString().substring(0, 2));
 
-				if (rs.next() && sum[x] == 0) {
+				if (rs.next()) {
 					sum[x] = rs.getInt("sum(VisitorsAmountActual)");
-					Integer temp = t1.getHours();
-					dataFromDB.add(new HourAmount(temp.toString(), sum[x]));
+					// Integer temp = t1.getHours();
+					System.out.println(x+" "+sum[x]);
+					for (HourAmount h : dataFromDB)
+						if (h.getHour().equals(x.toString()))
+							h.setAmount(h.getAmount() + sum[x]);
 				}
 				// System.out.println("sum["+x+"]="+sum[x]);
 //				while (rs.next())
@@ -2220,22 +2239,78 @@ public class mysqlConnection {
 	}
 
 	public static void SubmitVisitorAmountReport(ArrayList<String> arr) {
-		ArrayList<String> reportData=visitorAmountReport(arr);
-		
+		ArrayList<String> reportData = visitorAmountReport(arr);
+
 		if (existInDBReport(arr.get(1), arr.get(2), arr.get(3), "visitorsreport"))
 			return;
 		try {// inserting new row to the table
 			PreparedStatement update = conn.prepareStatement(
 					"INSERT INTO visitorsreport (year,month,parkName,TotalVisitors,groupday0,groupday1,groupday2,groupday3,groupday4,groupday5,groupday6,userday0,userday1,userday2,userday3,userday4,userday5,userday6,memberday0,memberday1,memberday2,memberday3,memberday4,memberday5,memberday6)"
 							+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-			update.setString(1,arr.get(1));
+			update.setString(1, arr.get(1));
 			update.setString(2, arr.get(2));
 			update.setString(3, arr.get(3));
-			for (int i = 4; i < ((ArrayList<String>) reportData).size()+4; i++)
-				update.setString(i , ((ArrayList<String>) reportData).get(i-4));
+			for (int i = 4; i < ((ArrayList<String>) reportData).size() + 4; i++)
+				update.setString(i, ((ArrayList<String>) reportData).get(i - 4));
 			update.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public static void insertOrders() {
+
+		//int amount =2000;
+		for (int j = 0; j < 10; j++) {
+			for (int i = 0; i < 5; i++) {
+				try {
+					Random rand = new Random(System.currentTimeMillis());
+					int amount = rand.nextInt(100000);
+					//amount+=amount*i;
+					PreparedStatement update = conn.prepareStatement(
+							"INSERT INTO orders (UserID,OrderID,parkName,ExpectedEnterTime,VisitDate,VisitorsAmount,TypeOfOrder,OrderStatus,EnterTime,ExitTime,Occasional,VisitorsAmountActual,Payment,Email,EnterWaitingListDate)"
+									+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+					update.setString(1, (1000000 + i) + "");
+					update.setString(2, (2000 + i + 10 * j) + "");
+					if ((amount) % 7 <= 2)
+						update.setString(3, "Tal Park");
+					if ((amount) % 7 >= 3 && (amount) % 7 <= 5)
+						update.setString(3, "Carmel Park");
+					if ((amount) % 7 > 5)
+						update.setString(3, "Jordan Park");
+					if ((amount % 3) == 0) {
+//						update.setTime(4, new Time(8 + (i + j) % 4 + i % 5 + 1, 0, 0));
+//						update.setTime(9, new Time(8 + (i + j) % 4 + i % 5 + 1, 0, 0));
+						update.setString(7, "user");
+					}
+					if ((amount % 3) == 1) {
+						// update.setTime(4, new Time(8 + (amount) % 9, 0, 0));
+						// update.setTime(9, new Time(8 + (amount) % 9, 0, 0));
+						update.setString(7, "member");
+					}
+					// if (i % 3 == 2&&j%3==1) {
+					if ((amount % 3) == 2) {
+//						update.setTime(4, new Time(8 + (i + j) % 5 + ((i + j)%4 + 1) % 5, 0, 0));
+//						update.setTime(9, new Time(8 + (i + j) % 5 + ((i + j)%4 + 1) % 5, 0, 0));
+						update.setString(7, "group");
+					}
+					update.setDate(5, new java.sql.Date(121, 0, 6));
+					update.setTime(4, new Time(8 + amount % 4 + amount % 5 + 1, 0, 0));
+					update.setTime(9, new Time(8 + amount % 4 + amount % 5 + 1, 0, 0));
+					update.setInt(6, amount % 16);
+					update.setString(8, "finished");
+
+					update.setTime(10, new Time(8 + amount % 4 + amount % 5 + 1 + 4, 0, 0));
+					update.setBoolean(11, false);
+					update.setInt(12, amount % 16);
+					update.setFloat(13, 150.6f);
+					update.setString(14, "abc" + i + "@abc.com");
+					update.setString(15, null);
+					update.executeUpdate();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 

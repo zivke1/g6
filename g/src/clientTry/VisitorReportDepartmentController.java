@@ -114,7 +114,7 @@ public class VisitorReportDepartmentController {
 		xaxis.lookup(".axis-label").setStyle("-fx-label-padding: -5 0 -40 0;");
 		xaxis.categorySpacingProperty().add(5);
 		yaxis.setLowerBound(0);
-		yaxis.setTickUnit(5);
+		//yaxis.setTickUnit(5);
 		yaxis.setAutoRanging(false);
 		try {
 			boolean flag1 = false, flag2 = false, flag3 = false;
@@ -138,12 +138,12 @@ public class VisitorReportDepartmentController {
 				if (h.getAmount() > 0)
 					flag1 = true;
 			int max[] = new int[24];
-			for (int i = 0; i < 24; i++) {
-				max[i] = 0;
-				personal.getData().add(new XYChart.Data(i + "", 0));
-				member.getData().add(new XYChart.Data(i + "", 0));
-				group.getData().add(new XYChart.Data(i + "", 0));
-			}
+//			for (int i = 0; i < 24; i++) {
+//				max[i] = 0;
+//				personal.getData().add(new XYChart.Data(i + "", 0));
+//				member.getData().add(new XYChart.Data(i + "", 0));
+//				group.getData().add(new XYChart.Data(i + "", 0));
+//			}
 			for (HourAmount a : answer) {
 				max[Integer.parseInt(a.getHour())] += a.getAmount();
 				personal.getData().add(new XYChart.Data(a.getHour(), a.getAmount()));
@@ -151,7 +151,7 @@ public class VisitorReportDepartmentController {
 			chart.getData().add(personal);
 			arr.remove(TypeOfOrder.user.toString());
 			arr.add(3, TypeOfOrder.member.toString());
-			
+			ChatClient.dataInArrayListHour.clear();
 			ClientMain.chat.accept(arr);
 			answer = ChatClient.dataInArrayListHour;
 			for (HourAmount h : ChatClient.dataInArrayListHour)
@@ -163,8 +163,9 @@ public class VisitorReportDepartmentController {
 			}
 			chart.getData().add(member);
 			arr.remove(TypeOfOrder.member.toString());
-			arr.add(3, TypeOfOrder.group.toString());
+			arr.add(3, TypeOfOrder.group.toString().toLowerCase());
 			ChatClient.dataInArrayListHour.clear();
+			ClientMain.chat.accept(arr);
 		
 			answer = ChatClient.dataInArrayListHour;
 			for (HourAmount h : ChatClient.dataInArrayListHour)
@@ -173,14 +174,17 @@ public class VisitorReportDepartmentController {
 			for (HourAmount a : answer) {
 				max[Integer.parseInt(a.getHour())] += a.getAmount();
 				group.getData().add(new XYChart.Data(a.getHour(), a.getAmount()));
-			}
+			} 
 			chart.getData().add(group);
 			int maxRes = max[0];
 			for (int i : max)
+			{
 				if (i > maxRes)
 					maxRes = i;
-			yaxis.setUpperBound(maxRes);
-
+				System.out.println("max="+maxRes);
+			}
+			//yaxis.setUpperBound(maxRes);
+ 
 			if (!flag1 && !flag2 && !flag3) {
 				chart.setVisible(false);
 				errorMsg.setVisible(true);
