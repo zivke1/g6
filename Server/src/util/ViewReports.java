@@ -2,7 +2,11 @@ package util;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
+/**
+ * Class holds information of a specific report 
+ * created by park manager and saved for department manager:
+ * usage Or visitors amount Or income report.
+ */
 public class ViewReports implements Serializable {
 
 	private static final long serialVersionUID = 1L;
