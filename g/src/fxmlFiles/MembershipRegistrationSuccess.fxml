@@ -42,7 +42,7 @@
             <Label layoutX="69.0" layoutY="130.0" styleClass="textA" text="We would love to see you in our parks" />
             <Label layoutX="69.0" layoutY="60.0" styleClass="textA" text="Your membership number is: " />
             <Label fx:id="memberNum" layoutX="360.0" layoutY="60.0" styleClass="textA" />
-            <Button fx:id="backBtn" layoutX="720.0" layoutY="443.0" mnemonicParsing="false" onMouseClicked="#backClicked" prefHeight="43.0" prefWidth="154.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Back To Home Page" />
+            <Button fx:id="backBtn" layoutX="700.0" layoutY="438.0" mnemonicParsing="false" onMouseClicked="#backClicked" prefHeight="48.0" prefWidth="174.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Back To Home Page" />
          </children>
       </AnchorPane>
    </center>

@@ -45,6 +45,9 @@ public class ApproveParametersController {
 	@FXML
 	private ImageView imgContactUs;
 
+    @FXML
+    private Label explenationLabel;
+    
 	@FXML
 	private Button backBtn;
 
@@ -97,27 +100,14 @@ public class ApproveParametersController {
 
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
-//		Stage stage = new Stage();
-//		FXMLLoader loader = new FXMLLoader();
-//		Parent root;
-//		try {
-//			root = loader.load(getClass().getResource("/fxmlFiles/ContactUsPopUp.fxml").openStream());
-//			Scene scene = new Scene(root);
-//			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-//			stage.setTitle("Contact Us");
-//			stage.setScene(scene);
-//			stage.show();
-//		} catch (IOException e1) {
-//			e1.printStackTrace();
-//		}
 		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order", userIDH);
-		FXMLLoader loader = nextStages.openPopUp();
+		nextStages.openPopUp();
 	} 
 
 	@FXML
 	void helpBtnPressed(MouseEvent event) {
 		Tooltip tt = new Tooltip();
-		tt.setText("This table represents all the parks managers' requests\nto change parameters"); // add text to help filed
+		tt.setText("This table represents all the parks managers' requests\nto change parameters in their parks"); // add text to help filed
 		tt.setStyle("-fx-font: normal bold 15 Langdon; " + "-fx-background-color: #F0F8FF; " + "-fx-text-fill: black;");
 
 		helpBtn.setTooltip(tt);
@@ -193,6 +183,8 @@ public class ApproveParametersController {
 
 			} else {
 				errorMsg.setText("You don't have parameters to approve.");
+				explenationLabel.setVisible(false);
+
 				table.setVisible(false);
 			}
 

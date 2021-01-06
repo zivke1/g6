@@ -38,7 +38,7 @@ public class NextStages {
 		try {
 			root = loader.load(getClass().getResource(this.getPath()).openStream());
 			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("/echoServer/application.css").toExternalForm());
 			stage.setTitle(this.getStageTitle());
 			stage.setScene(scene);
 			stage.show();

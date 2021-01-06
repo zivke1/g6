@@ -146,8 +146,7 @@ public class HomePageForEmployeeController implements Initializable {
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "Contact Us", userID);
-		FXMLLoader loader = nextStages.openPopUp();
-		loader.getController();
+		nextStages.openPopUp();
 	}
 
 	@FXML
@@ -291,7 +290,7 @@ public class HomePageForEmployeeController implements Initializable {
 	@FXML
 	void helpBtnPressed(MouseEvent event) {
 		Tooltip tt = new Tooltip();
-		tt.setText("Please choose which page\nyou want to move to.");  // add text to help filed 
+		tt.setText("Please choose which page\nyou want to enter.");  // add text to help filed 
 		tt.setStyle("-fx-font: normal bold 15 Langdon; "
 		    + "-fx-background-color: #F0F8FF; "
 		    + "-fx-text-fill: black;");
@@ -361,7 +360,7 @@ public class HomePageForEmployeeController implements Initializable {
 			employeeCrums.setVisible(true);
 			anchorParkManager.setVisible(true);
 			greetingMsg.setText(
-					fName.substring(0, 1).toUpperCase() + fName.substring(1) + ", " + parkName + " Park Manager, have a great day!");
+					fName.substring(0, 1).toUpperCase() + fName.substring(1) + ", " + parkName + " Manager, have a great day!");
 
 		} else if (role.equals(roleDM)) {
 			employeeCrums.setVisible(true);

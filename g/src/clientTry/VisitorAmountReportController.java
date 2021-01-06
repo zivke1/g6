@@ -22,12 +22,14 @@ import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import util.HourAmount;
 import util.NextStages;
 import util.TypeOfOrder;
+
 
 /**
  * @author eliran this class is controller for the FXML VisitorAmountReport the
@@ -75,6 +77,7 @@ public class VisitorAmountReportController implements Initializable {
 	@FXML
 	private StackedBarChart<String, Number> chart;
 	private boolean flag = false;
+
 	private String fName;
 	private String lName;
 	private String role;
@@ -115,6 +118,7 @@ public class VisitorAmountReportController implements Initializable {
 			arr.add(month);
 			arr.add(parkName);
 			ClientMain.chat.accept(arr);
+
 			if (ChatClient.dataInArrayList.get(0).equals("0")) {
 				totalAmountOfVisitors.setText("0");
 				noReportToPresent.setVisible(true);
@@ -158,8 +162,7 @@ public class VisitorAmountReportController implements Initializable {
 				member.getData().add(new XYChart.Data<>("Sat", Integer.valueOf(arr.get(6))));
 
 				chart.getData().addAll(personal, group, member);
-			}
-
+			}			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -174,7 +177,10 @@ public class VisitorAmountReportController implements Initializable {
 
 	@FXML
 	void helpBtnPressed(MouseEvent event) {
-
+		Tooltip tt = new Tooltip();
+		tt.setText("This page show report of visitor amount\n"); // add text to help filed
+		tt.setStyle("-fx-font: normal bold 15 Langdon; " + "-fx-background-color: #F0F8FF; " + "-fx-text-fill: black;");
+		helpBtn.setTooltip(tt);
 	}
 
 	@Override
@@ -198,6 +204,7 @@ public class VisitorAmountReportController implements Initializable {
 			flag = true;
 			submitted.setVisible(true);
 		}
+
 	}
 
 }

@@ -89,7 +89,7 @@ public class AddInstructorController {
 	@FXML
 	void helpBtnPressed(MouseEvent event) {
 		Tooltip tt = new Tooltip();
-		tt.setText("Fill all the following details"); // add text to help filed
+		tt.setText("Fill all the following details\nin order to register a new instructor."); // add text to help 
 		tt.setStyle("-fx-font: normal bold 15 Langdon; " + "-fx-background-color: #F0F8FF; " + "-fx-text-fill: black;");
 
 		helpBtn.setTooltip(tt);
@@ -98,22 +98,6 @@ public class AddInstructorController {
 	@FXML
 	void backClicked(MouseEvent event) {
 		((Node) event.getSource()).getScene().getWindow().hide();
-
-		// ziv change
-//		Stage stage = new Stage();
-//		FXMLLoader loader = new FXMLLoader();
-//		Parent root;
-//		try {
-//			root = loader.load(getClass().getResource("/fxmlFiles/HomePageForEmployee.fxml").openStream());
-//			Scene scene = new Scene(root);
-//			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-//			stage.setTitle("HomePage");
-//			stage.setScene(scene);
-//			stage.show();
-//		} catch (IOException e1) {
-//			e1.printStackTrace();
-//		}
-
 		((Stage) ((Node) m_previousPage.getSource()).getScene().getWindow()).show();
 	}
 
@@ -240,48 +224,12 @@ public class AddInstructorController {
 				MembershipRegistrationSucccesCon controller = loader.getController();
 				controller.setMainPage(m_MainPage);
 				controller.updateMemberNum(ChatClient.dataInArrayList.get(0));
-				// ziv change
-				// ((Node) event.getSource()).getScene().getWindow().hide();
-//				Stage stage = new Stage();
-//				FXMLLoader loader = new FXMLLoader();
-//				BorderPane root;
-//				try {
-//					root = loader
-//							.load(getClass().getResource("/fxmlFiles/MembershipRegistrationSuccess.fxml").openStream());
-//					MembershipRegistrationSucccesCon controller = loader.getController();
-//					controller.updateMemberNum(ChatClient.dataInArrayList.get(0));
-//					Scene scene = new Scene(root);
-//					scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-//					stage.setTitle("Membership Registration Success");
-//					stage.setScene(scene);
-//					stage.show();
-//				} catch (IOException e1) {
-//					e1.printStackTrace();
-//				}
-//
 			}
 		}
 	}
 
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
-
-		// ziv change
-//		((Node) event.getSource()).getScene().getWindow().hide();
-//		Stage stage = new Stage();
-//		FXMLLoader loader = new FXMLLoader();
-//		Parent root;
-//		try {
-//			root = loader.load(getClass().getResource("/fxmlFiles/ContactUsPopUp.fxml").openStream());
-//			Scene scene = new Scene(root);
-//			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-//			stage.setTitle("Contact Us");
-//			stage.setScene(scene);
-//			stage.show();
-//		} catch (IOException e1) {
-//			e1.printStackTrace();
-//		}
-
 		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order", userIDHM);
 		FXMLLoader loader = nextStages.openPopUp();
 		loader.getController();

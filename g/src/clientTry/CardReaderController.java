@@ -29,10 +29,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+
 /**
  * 
- * this controller simulate enter and exit from the park 
- * if there is order for this ID that the user enter
+ * this controller simulate enter and exit from the park if there is order for
+ * this ID that the user enter
  *
  */
 public class CardReaderController implements Initializable {
@@ -215,11 +216,13 @@ public class CardReaderController implements Initializable {
 
 		arr.add("simulationCardReader");
 		CardReaderMain.chat.accept(arr);
-		userIDH = ChatClient.dataInArrayList.get(0);
-		textUserID2.setVisible(true);
-		txtUserIdAboveTable.setText(userIDH);
-		arr.clear();
-		getToTable();
+		if (ChatClient.dataInArrayList.size() > 0) {
+			userIDH = ChatClient.dataInArrayList.get(0);
+			textUserID2.setVisible(true);
+			txtUserIdAboveTable.setText(userIDH);
+			arr.clear();
+			getToTable();
+		}
 
 	}
 
@@ -237,7 +240,7 @@ public class CardReaderController implements Initializable {
 			}
 			for (int i = 0; i < temp.size(); i++) {
 				if (temp.get(i).getStatus().equals("active")) {
-					String orderID=temp.get(i).getOrderID();
+					String orderID = temp.get(i).getOrderID();
 					enterUserID.setVisible(false);
 					orderDetails.setVisible(true);
 					arr.clear();
@@ -287,7 +290,7 @@ public class CardReaderController implements Initializable {
 								&& currentTime.compareTo(timeOfChossenOrderPlusH) < 0)// if the visitor came between the
 																						// time
 																						// of orders up to hour late
-						{ 
+						{
 							this.orderID.setText(arrtmp.get(0));
 							pName.setText(arrtmp.get(1));
 							hour.setText(arrtmp.get(2));

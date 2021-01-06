@@ -46,7 +46,7 @@
          <children>
             <Button fx:id="checkBtn" layoutX="455.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#checkFreeSpaceDepManager" prefHeight="34.0" prefWidth="80.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Check" visible="false" />
             <ComboBox fx:id="parksNamesCombo" layoutX="198.0" layoutY="21.0" prefHeight="31.0" prefWidth="175.0" visible="false" />
-            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onDragEntered="#helpBtnPressed" onMouseClicked="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
+            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onDragEntered="#helpBtnPressed" onMouseEntered="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
             <Text layoutX="58.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Park name:">
                <font>
                   <Font size="18.0" />
@@ -74,12 +74,12 @@
             </Label>
             <AnchorPane fx:id="anchorMakeOrder" layoutX="31.0" layoutY="199.0" prefHeight="269.0" prefWidth="573.0" visible="false">
                <children>
-                  <Label layoutX="43.0" layoutY="111.0" text="Enter ID:">
+                  <Label layoutX="43.0" layoutY="111.0" text="Enter ID\ member ID:">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="IDtxt" layoutX="137.0" layoutY="109.0" />
+                  <TextField fx:id="IDtxt" layoutX="221.0" layoutY="109.0" />
                   <Button fx:id="btnMakeOrder" layoutX="408.0" layoutY="177.0" mnemonicParsing="false" onMouseClicked="#MoveToNewOrder" prefHeight="44.0" prefWidth="122.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Let's Order" />
                   <Label layoutX="30.0" layoutY="23.0" text="There is free space in the park!  you can make a new order">
                      <font>

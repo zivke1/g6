@@ -24,6 +24,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -39,7 +40,8 @@ import util.NextStages;
  */
 
 public class UpdateParametersController {
-	private String  discount, duration, gap, maxCapacity,fNameH,lNameH,roleH,userIDH,parkNameH;
+	private String discount = null, duration = null, gap = null, maxCapacity = null, fNameH, lNameH, roleH, userIDH,
+			parkNameH;
 	private LocalDate from, until;
 	private boolean chosenDuration = false, chosenDiscount = false, chosenGap = false, chosenCapacity = false;
 
@@ -134,6 +136,9 @@ public class UpdateParametersController {
 	private Label parks_name;
 
 	@FXML
+	private Label savedParametersLable;
+
+	@FXML
 	private Label errorMsg;
 	private MouseEvent m_previousPage;
 
@@ -146,7 +151,7 @@ public class UpdateParametersController {
 		((Node) event.getSource()).getScene().getWindow().hide();
 		((Stage) ((Node) m_previousPage.getSource()).getScene().getWindow()).show();
 	}
- 
+
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "Contact Us", userIDH);
@@ -157,7 +162,12 @@ public class UpdateParametersController {
 // need to complete
 	@FXML
 	void helpBtnPressed(MouseEvent event) {
-
+		Tooltip tt = new Tooltip();
+		tt.setText("Please select the parameter you \nwant to update and fill the fields");  // add text to help filed 
+		tt.setStyle("-fx-font: normal bold 15 Langdon; "
+		    + "-fx-background-color: #F0F8FF; "
+		    + "-fx-text-fill: black;");
+		helpBtn.setTooltip(tt);
 	}
 
 	/**
@@ -182,8 +192,11 @@ public class UpdateParametersController {
 			arr.add(null);
 			ClientMain.chat.accept(arr);
 			if (ChatClient.dataInArrayList.get(0).equals("True"))
+			{
+				savedParametersLable.setVisible(true);
 				errorMsg.setText(errorMsg.getText()
-						+ "\n the parameter of Capacity update request \n has been sent to the department manager\n");
+						+ "Capacity\n");
+			}
 			arr.clear();
 			maxVisitField.clear();
 		}
@@ -198,14 +211,17 @@ public class UpdateParametersController {
 			arr.add(until.toString());
 			ClientMain.chat.accept(arr);
 			if (ChatClient.dataInArrayList.get(0).equals("True"))
+			{
+				savedParametersLable.setVisible(true);
 				errorMsg.setText(errorMsg.getText()
-						+ "\n the parameter Discount update request \n has been sent to the department manager\n");
+						+ "Discount\n");
+			}
 			arr.clear();
 			discountField.clear();
 		}
 		if (chosenDuration) {
 			arr.add("sendToDeparmentManager");
-			 arr.add(parkNameH);
+			arr.add(parkNameH);
 			arr.add("TimeOfAverageVisit");
 			arr.add(duration);
 			d = LocalDateTime.now();
@@ -215,8 +231,11 @@ public class UpdateParametersController {
 			arr.add(null);
 			ClientMain.chat.accept(arr);
 			if (ChatClient.dataInArrayList.get(0).equals("True"))
+			{
+				savedParametersLable.setVisible(true);
 				errorMsg.setText(errorMsg.getText()
-						+ "\n the parameter Duration update request \n has been sent to the department manager\n");
+						+ "Duration\n");
+			}
 			arr.clear();
 			visitDurField.clear();
 		}
@@ -231,18 +250,24 @@ public class UpdateParametersController {
 			arr.add(null);
 			ClientMain.chat.accept(arr);
 			if (ChatClient.dataInArrayList.get(0).equals("True"))
+			{
+				savedParametersLable.setVisible(true);
 				errorMsg.setText(errorMsg.getText()
-						+ "\n the parameter Gap between \n max orders and max visitors update request has been sent to the department manager\n");
+						+ "Gap\n");
+			}
 			arr.clear();
 			maxOrderField.clear();
 
 		}
 		if (!chosenCapacity && !chosenDiscount && !chosenDuration && !chosenGap)
+		{
 			errorMsg.setText("please fill all the required fields");
-		chosenCapacity=false;
-		chosenDiscount=false;
-		chosenDuration=false;
-		chosenGap=false;
+			savedParametersLable.setVisible(false);	
+		}
+		chosenCapacity = false;
+		chosenDiscount = false;
+		chosenDuration = false;
+		chosenGap = false;
 	}
 
 	/**
@@ -305,37 +330,46 @@ public class UpdateParametersController {
 	 */
 	@FXML
 	void saveCapacity(MouseEvent event) {
+		int capaInt=0;
 		errorMsg.setText("");
 		maxCapacity = maxVisitField.getText();
-		if (maxCapacity.length() == 0)
-			errorMsg.setText("\nPlease fill all filed\n");
-		int capaInt=Integer.parseInt(maxCapacity);
-		if(capaInt<=0)
-			errorMsg.setText("\nThe capacity value must be possitve number\n");
+		if (maxCapacity.length() == 0) {
+			errorMsg.setText("\nPlease fill all fields\n");
+			return;
+		}
 		boolean flag = true;
 		char chars[] = maxCapacity.toCharArray();
 		for (char c : chars) {
 			if (!Character.isDigit(c)) {
 				errorMsg.setText(errorMsg.getText() + "Please enter a valid Capacity value\n");
 				flag = false;
-				break;
+				return;
 			}
-		}//////////////////////////////
-		ArrayList<String> arr =new ArrayList<>();
+		} //////////////////////////////
+		if (flag) {
+			capaInt = Integer.parseInt(maxCapacity);
+			if (capaInt <= 0) {
+				errorMsg.setText("\nThe capacity value must be possitve number\n");
+				return;
+			}
+		}
+		ArrayList<String> arr = new ArrayList<>();
 		arr.add("takeGap");
 		arr.add(parkNameH);
 		ClientMain.chat.accept(arr);
-		ArrayList<String> answer= ChatClient.dataInArrayList;
-		if(Integer.parseInt(answer.get(0))>capaInt) {
-			errorMsg.setText(errorMsg.getText()+" The gap is above the capacity please enter gap value below "+ answer.get(0));
-			flag=false; 
+		ArrayList<String> answer = ChatClient.dataInArrayList;
+		if (Integer.parseInt(answer.get(0)) > capaInt) {
+			errorMsg.setText(errorMsg.getText() + " The gap is above the capacity please enter a capacity\n value above "
+					+ answer.get(0));
+			flag = false;
 		}
-		if(chosenGap &&chosenCapacity &&Integer.parseInt(maxVisitField.getText())>= Integer.parseInt(maxOrderField.getText()))
-			flag=true;
+		if (chosenGap && chosenCapacity)
+			if (maxCapacity != null && gap != null && Integer.parseInt(maxCapacity) >= Integer.parseInt(gap))
+				flag = true;
 
 		if (flag)
 			chosenCapacity = true;
-		 maxVisitField.clear();
+		maxVisitField.clear();
 	}
 
 	/**
@@ -348,35 +382,35 @@ public class UpdateParametersController {
 		discount = discountField.getText();
 		from = fromDate.getValue();
 		until = untilDate.getValue();
-		if (until.toString().length() == 0 || from.toString().length() == 0 || discount.length() == 0) {
-			errorMsg.setText("\nPlease fill all filed\n");
+		if (from == null || until == null || until.toString().length() == 0 || from.toString().length() == 0
+				|| discount.length() == 0) {
+			errorMsg.setText("\nPlease fill all fields\n");
 			return;
 		}
-		if (from.compareTo(until) > 0)
-		{
+		if (from.compareTo(until) > 0) {
 			errorMsg.setText("\"from\" date must be earlier than the \"until\" date \n");
 			return;
 		}
-		int discountInt=Integer.parseInt(discount);
-		if(discountInt<=0||discountInt>100)
-		{
-			errorMsg.setText("\nThe discount value must be possitve number \nbetween 0 and 100\n");
-			return;
-		}
-		Date d=new Date();
-		if(LocalDate.now().compareTo(fromDate.getValue())>0)
-			errorMsg.setText(errorMsg.getText() + "Please enter a valid from date\n");
-		if(fromDate.getValue().compareTo(untilDate.getValue())>0)
-			errorMsg.setText(errorMsg.getText() + "Please enter a valid until date\n");
 		boolean flag = true;
 		char chars[] = discount.toCharArray();
 		for (int i = 0; i < chars.length - 1; i++) {
 			if (!Character.isDigit(chars[i])) {
 				errorMsg.setText(errorMsg.getText() + "Please enter a valid discount\n");
 				flag = false;
-				break;
+				return;
 			}
 		}
+		int discountInt = Integer.parseInt(discount);
+		if (discountInt <= 0 || discountInt > 100) {
+			errorMsg.setText("\nThe discount value must be possitve number \nbetween 1 and 100\n");
+			return;
+		}
+		Date d = new Date();
+		if (LocalDate.now().compareTo(fromDate.getValue()) > 0)
+			errorMsg.setText(errorMsg.getText() + "Please enter a valid from date\n");
+		if (fromDate.getValue().compareTo(untilDate.getValue()) > 0)
+			errorMsg.setText(errorMsg.getText() + "Please enter a valid until date\n");
+	
 		if (flag)
 			chosenDiscount = true;
 		else
@@ -393,21 +427,25 @@ public class UpdateParametersController {
 	void saveDuration(MouseEvent event) {
 		errorMsg.setText("");
 		duration = visitDurField.getText();
-		if (duration.length() == 0)
-			errorMsg.setText("\nPlease fill all filed\n");
-		int durInt=Integer.parseInt(duration);
-		if(durInt<=0)
-			errorMsg.setText("\nThe duration must be possitve number\n");
+		if (duration.length() == 0) {
+			errorMsg.setText("\nPlease fill all fields\n");
+			return;
+		}
 		boolean flag = true;
 		char chars[] = duration.toCharArray();
 		for (char c : chars) {
 			if (!Character.isDigit(c)) {
 				errorMsg.setText(errorMsg.getText() + "Please enter a valid visit duration\n");
 				flag = false;
-				break;
+				return;
 			}
 		}
-
+		int durInt = Integer.parseInt(duration);
+		if (durInt <= 0||durInt>8)
+		{
+			errorMsg.setText("\nThe duration must be possitve number\nbetween 1 and 8");
+			return;
+		}
 		if (flag)
 			chosenDuration = true;
 		visitDurField.clear();
@@ -420,34 +458,43 @@ public class UpdateParametersController {
 	 */
 	@FXML
 	void saveGap(MouseEvent event) {
-		errorMsg.setText(""); 
+		int gapInt = 0;
+		errorMsg.setText("");
 		gap = maxOrderField.getText();
-		if (gap.length() == 0) 
-			errorMsg.setText("\nPlease fill all filed\n");
-		int gapInt=Integer.parseInt(gap);
-		if(gapInt<=0)
-			errorMsg.setText("\nThe gap must be possitve number\n");
+		if (gap.length() == 0) {
+			errorMsg.setText("\nPlease fill all fields\n");
+			return;
+		}
 		boolean flag = true;
 		char chars[] = gap.toCharArray();
 		for (char c : chars) {
 			if (!Character.isDigit(c)) {
 				errorMsg.setText(errorMsg.getText() + "Please enter a valid gap value\n");
 				flag = false;
-				break;
+				return;
 			}
 		}
-		ArrayList<String> arr =new ArrayList<>();
+		if (flag) {
+			gapInt = Integer.parseInt(gap);
+			if (gapInt <= 0) {
+				errorMsg.setText("\nThe gap must be possitve number\n");
+				return;
+			}
+		}
+		ArrayList<String> arr = new ArrayList<>();
 		arr.add("takeCapacity");
 		arr.add(parkNameH);
 		ClientMain.chat.accept(arr);
-		ArrayList<String> answer= ChatClient.dataInArrayList;
-		if(Integer.parseInt(answer.get(0))<gapInt) {
-			errorMsg.setText(errorMsg.getText()+" The gap is above the capacity please enter gap value below "+ answer.get(0));
-			flag=false;
+		ArrayList<String> answer = ChatClient.dataInArrayList;
+		if (Integer.parseInt(answer.get(0)) < gapInt) {
+			errorMsg.setText(errorMsg.getText() + " The gap is above the capacity please enter gap value \n below "
+					+ answer.get(0));
+			flag = false;
 		}
-		if(chosenCapacity && chosenGap &&Integer.parseInt(maxVisitField.getText()) >= Integer.parseInt(maxOrderField.getText()))
-			flag=true;
-		
+		if (chosenCapacity && chosenGap
+				&& Integer.parseInt(maxVisitField.getText()) >= Integer.parseInt(maxOrderField.getText()))
+			flag = true;
+
 		if (flag)
 			chosenGap = true;
 		maxOrderField.clear();
@@ -457,21 +504,21 @@ public class UpdateParametersController {
 	 * @author Idan
 	 * @param parkName the park name of the manager the method get the park name of
 	 *                 the manager park
-	 */ 
+	 */
 //	public void sendToParaController(String parkName) {
 //		this.parkName = parkName;
 //		parks_name.setText(parkName);
 //
 //	}
-	public void setDetails(String fName, String lName, String role, String userID, String parkName)
-	{
-		this.fNameH=fName;
-		this.lNameH=lName;
-		this.roleH=role;
-		this.userIDH=userID;
-		this.parkNameH=parkName;
+	public void setDetails(String fName, String lName, String role, String userID, String parkName) {
+		this.fNameH = fName;
+		this.lNameH = lName;
+		this.roleH = role;
+		this.userIDH = userID;
+		this.parkNameH = parkName;
 		parks_name.setText(parkName);
 	}
+
 	public void setPreviousPage(MouseEvent event) {
 		m_previousPage = event;
 	}

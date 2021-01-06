@@ -56,7 +56,7 @@ public class OrderConfirmedController {
     @FXML
     void helpBtnPressed(MouseEvent event) {
     	Tooltip tt = new Tooltip();
-		tt.setText("Fill all the following details");  // add text to help filed 
+		tt.setText("This page show the order number ");  // add text to help filed 
 		tt.setStyle("-fx-font: normal bold 15 Langdon; "
 		    + "-fx-background-color: #F0F8FF; "
 		    + "-fx-text-fill: black;");

@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -121,7 +122,10 @@ public class ViewOrderController {
 
 	@FXML
 	void helpBtnPressed(MouseEvent event) {
-
+		Tooltip tt = new Tooltip();
+		tt.setText("This page show the order details \n"); // add text to help filed
+		tt.setStyle("-fx-font: normal bold 15 Langdon; " + "-fx-background-color: #F0F8FF; " + "-fx-text-fill: black;");
+		helpBtn.setTooltip(tt);
 	}
 
 	public void setDetails(String fName, String lName, String role, String userID, String parkName, String orderID) {
@@ -132,7 +136,7 @@ public class ViewOrderController {
 		this.parkNameH = parkName;
 		this.orderIDH = orderID;
 
-		if (roleH.equals(Role.Member.toString().toLowerCase()) || roleH.equals(Role.User.toString().toLowerCase())||roleH.equals(Role.Guide.toString())) {
+		if (roleH.equals(Role.Member.toString().toLowerCase()) || roleH.equals(Role.User.toString().toLowerCase())||roleH.equals(Role.Guide.toString().toLowerCase())) {
 			cancelBtn.setVisible(true);
 			customerOrder.setVisible(true);
 			employeeOrder.setVisible(false);
