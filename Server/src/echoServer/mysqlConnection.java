@@ -2140,18 +2140,40 @@ public class mysqlConnection {
 			while (rs.next()) {
 				String year = rs.getString("year");
 				String month = rs.getString("month");
+				String day = rs.getString("day");
 				String parkName = rs.getString("parkName");
-				ArrayList<String> dayUsage = new ArrayList<>();
-				for (int i = 1; i <= 31; i++) {
-					dayUsage.add(rs.getString("day" + i)); // what if day empty, short month
+				ArrayList<String> usagePerHour = new ArrayList<>();
+				for (int i = 8; i <= 16; i++) {
+					usagePerHour.add(rs.getString(i + "")); 
 				}
 				ViewReports tmp = new ViewReports(year, month, parkName, "Usage Report");
-				tmp.setDataUsageReport(dayUsage);
+				tmp.setDataUsageReport(usagePerHour, day);
 				toReturn.add(tmp);
 			}
 			// third go over visitor amount report table
-			////
-
+			rs = stmt.executeQuery("Select * From visitorsreport");
+			while (rs.next()) {
+				String year = rs.getString("year");
+				String month = rs.getString("month");
+				String parkName = rs.getString("parkName");
+				String totalVisitors = rs.getString("TotalVisitors");
+				ArrayList<String> groupDays = new ArrayList<>();
+				for (int i = 0; i < 7; i++) {
+					groupDays.add(rs.getString("groupday" + i));
+				}
+				ArrayList<String> userDays = new ArrayList<>();
+				for (int i = 0; i < 7; i++) {
+					userDays.add(rs.getString("userday" + i));
+				}
+				ArrayList<String> memberDays = new ArrayList<>();
+				for (int i = 0; i < 7; i++) {
+					memberDays.add(rs.getString("memberday" + i));
+				}
+				ViewReports tmp = new ViewReports(year, month, parkName, "Visitors Amount Report");
+				tmp.setDataVisitReport(totalVisitors, groupDays, userDays, memberDays);
+				toReturn.add(tmp);
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

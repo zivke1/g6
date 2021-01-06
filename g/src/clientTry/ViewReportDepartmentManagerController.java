@@ -15,13 +15,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import util.NextStages;
 import util.ViewReports;
-
+/**
+ * Class for department manager to choose which report 
+ * to view from the reports that were saved for him 
+ */
 public class ViewReportDepartmentManagerController implements Initializable {
 
     @FXML
@@ -33,6 +37,9 @@ public class ViewReportDepartmentManagerController implements Initializable {
     @FXML
     private Button helpBtn;
 
+    @FXML
+    private Label explenationMsg;
+    
     @FXML
     private TableView<ViewReports> tableViewReport;
 
@@ -58,7 +65,11 @@ public class ViewReportDepartmentManagerController implements Initializable {
 
     @FXML
     void helpBtnPressed(MouseEvent event) {
+		Tooltip tt = new Tooltip();
+		tt.setText("Present a table of submitted reports,\nfrom park managers, if exist."); // add text to help filed
+		tt.setStyle("-fx-font: normal bold 15 Langdon; " + "-fx-background-color: #F0F8FF; " + "-fx-text-fill: black;");
 
+		helpBtn.setTooltip(tt);
     }
     
 	public void setPreviousPage(MouseEvent event) {
@@ -82,7 +93,7 @@ public class ViewReportDepartmentManagerController implements Initializable {
 		if (!temp.isEmpty()) {
 			// Report name Column
 			TableColumn<ViewReports, String> reportNamecolumn = new TableColumn<>("Report Name");
-			reportNamecolumn.setMinWidth(150);
+			reportNamecolumn.setMinWidth(200);
 			reportNamecolumn.setCellValueFactory(new PropertyValueFactory<>("reportName"));
 
 			// park name Column
@@ -92,12 +103,12 @@ public class ViewReportDepartmentManagerController implements Initializable {
 
 			// Month Column
 			TableColumn<ViewReports, String> monthColumn = new TableColumn<>("Month");
-			monthColumn.setMinWidth(150);
+			monthColumn.setMinWidth(100);
 			monthColumn.setCellValueFactory(new PropertyValueFactory<>("month"));
 			
 			// Year Column
 			TableColumn<ViewReports, String> yearColumn = new TableColumn<>("Year");
-			yearColumn.setMinWidth(150);
+			yearColumn.setMinWidth(100);
 			yearColumn.setCellValueFactory(new PropertyValueFactory<>("year"));
 			
 			tableViewReport.setItems(getOrders(temp));
@@ -114,10 +125,10 @@ public class ViewReportDepartmentManagerController implements Initializable {
 							control.setIncomeReport(rowData.getParkName(), rowData.getMonth(), rowData.getYear(), rowData.getIncome());
 						}
 						else if(rowData.getReportName().equals("Usage Report")) {
-							control.setUsageReport(rowData.getParkName(), rowData.getMonth(), rowData.getYear(), rowData.getUsagePerDay());
+							control.setUsageReport(rowData.getParkName(), rowData.getMonth(), rowData.getYear(), rowData.getDayOfUsage(), rowData.getUsagePerHour());
 						}
-						else if(rowData.getReportName().equals("")) {
-							
+						else if(rowData.getReportName().equals("Visitors Amount Report")) {
+							control.setVisitorsReport(rowData.getParkName(), rowData.getMonth(), rowData.getYear(), rowData.getTotalVisitor(), rowData.getGroupDays(), rowData.getUserDays(), rowData.getMemberDays());
 						}
 					}
 				});
@@ -127,9 +138,11 @@ public class ViewReportDepartmentManagerController implements Initializable {
 			tableViewReport.getColumns().addAll(reportNamecolumn, parkNameColumn, monthColumn, yearColumn);
 			tableViewReport.setVisible(true);
 			emptyTableMsg.setVisible(false);
+			explenationMsg.setVisible(true);
 		} else {
 			emptyTableMsg.setVisible(true);
 			tableViewReport.setVisible(false);
+			explenationMsg.setVisible(false);
 		}
 	}
 	

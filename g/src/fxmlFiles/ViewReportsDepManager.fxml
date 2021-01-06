@@ -44,7 +44,7 @@
       <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseEntered="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
-            <Label layoutX="43.0" layoutY="37.0" text="You can choose from the table which report to view by double click on the row:">
+            <Label fx:id="explenationMsg" layoutX="43.0" layoutY="37.0" text="You can choose from the table which report to view by double click on the row:">
                <font>
                   <Font size="18.0" />
                </font>

@@ -148,7 +148,7 @@
                   </VBox>
                </children>
             </HBox>
-            <Label fx:id="explanation" layoutX="98.0" layoutY="289.0" prefHeight="21.0" prefWidth="296.0" text="*Gap between max capacity to max orders" />
+            <Label fx:id="explanation" layoutX="98.0" layoutY="289.0" prefHeight="21.0" prefWidth="380.0" text="*Gap between max capacity to max amount of orders" />
             <Button fx:id="QuestionBtn" layoutX="347.0" layoutY="249.0" mnemonicParsing="false" onMouseClicked="#explainGapVisitors" text="?" />
             <AnchorPane fx:id="optOfManager" layoutX="89.0" layoutY="13.0" prefHeight="47.0" prefWidth="402.0">
                <children>
