@@ -918,10 +918,10 @@ public class mysqlConnection {
 		int visitorsNow = 0;
 
 		Date d = new Date();
-		String dateToMySql = d.getYear() + "-" + d.getMonth() + "-" + d.getDay();
+//		String dateToMySql = d.getYear() + "-" + d.getMonth() + "-" + d.getDay();
 		try {
 			ResultSet rs = stmt
-					.executeQuery("select SUM(VisitorsAmountActual) from orders Where OrderStatus ='active'");
+					.executeQuery("select SUM(VisitorsAmountActual) from orders Where OrderStatus ='active' AND ParkName ='"+string+"'");
 			while (rs.next()) {
 				visitorsNow = rs.getInt("SUM(VisitorsAmountActual)");
 			}
@@ -1216,7 +1216,7 @@ public class mysqlConnection {
 		ResultSet rs = null;
 		Time t1, t2;
 		t1 = new Time(OPEN_TIME_INT, 0, 0);
-		t2 = new Time(t1.getHours() + 1, 0, 0);
+		t2 = new Time(t1.getHours() , 59, 59);
 		int openTime = CLOSE_TIME_INT - OPEN_TIME_INT + 1;
 		int[] sum = new int[24];// sum for each hour
 		try {
@@ -1742,6 +1742,7 @@ public class mysqlConnection {
 	public static ArrayList<String> incomeReport(ArrayList<String> arr) {
 		ArrayList<String> dataFromDB = new ArrayList<>();
 		String year = arr.get(1), month = arr.get(2), income = null;
+		float incomeFloat=0;
 		String parkName = "'" + arr.get(3) + "'";
 		try {
 			ResultSet rs = null;
@@ -1763,17 +1764,17 @@ public class mysqlConnection {
 						+ parkName);
 			}
 			while (rs.next()) {
-				income = rs.getString(1);
+				incomeFloat = rs.getFloat(1);
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		dataFromDB.add("incomeReport");
-		if (income == null)
+		if (incomeFloat == 0)
 			dataFromDB.add("0");
 		else
-			dataFromDB.add(income);
+			dataFromDB.add(String.format("%.2f",incomeFloat));
 		return dataFromDB;
 	}
 
@@ -2076,7 +2077,7 @@ public class mysqlConnection {
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(
-					"Select SUM(VisitorsAmount) From orders O Where O.OrderStatus = 'active' AND O.ParkName =" + "'"
+					"Select SUM(VisitorsAmountActual) From orders O Where O.OrderStatus = 'active' AND O.ParkName =" + "'"
 							+ parkName + "'");
 			while (rs.next()) {
 				countOrders = rs.getString(1);

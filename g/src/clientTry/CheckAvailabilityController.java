@@ -169,7 +169,10 @@ public class CheckAvailabilityController {
 		helpBtn.setTooltip(tt);
 	}
 
-	// return capacity - amount of orders form DB where status is active
+/**
+ *  return capacity - amount of orders form DB where status is active
+ * @return
+ */
 	public String checkAvailability() {
 		ArrayList<String> arr = new ArrayList<>();
 		arr.add("countActiveOrders");
@@ -201,7 +204,14 @@ public class CheckAvailabilityController {
 		return openSpace + "";
 	}
 
-	// logged in user
+	/**
+	 *  logged in user
+	 * @param fName
+	 * @param lName
+	 * @param role
+	 * @param userID
+	 * @param parkName
+	 */
 	public void setDetails(String fName, String lName, String role, String userID, String parkName) {
 		this.fName = fName;
 		this.lName = lName;

@@ -86,7 +86,7 @@ public class ParkDetailsController {
 		arr.add(parkName.getText());
 		try {
 			ClientMain.chat.accept(arr);
-			// activityHours.setText("8:00-16:00 Sunday to Thursday");//ziv change
+			// activityHours.setText("8:00-16:00 Sunday to Thursday");
 			activityHours.setText("8:00-16:00 Seven days a week");
 			ManagerName.setText(ChatClient.dataInArrayList.get(3));// the number is according to the order of the
 																	// insert

@@ -106,8 +106,8 @@ public class VisitorReportDepartmentController {
 		chart.setVisible(false);
 	}
 
+	
 	@FXML
-
 	void showReport(MouseEvent event) {
 		chart.getData().clear();
 		chart.setAnimated(false);

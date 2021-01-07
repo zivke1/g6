@@ -168,6 +168,7 @@ public class VisitorAmountReportController implements Initializable {
 		}
 	}
 
+	
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "Contact Us", userID);
@@ -191,7 +192,10 @@ public class VisitorAmountReportController implements Initializable {
 	public void setPreviousPage(MouseEvent event) {
 		m_event = event;
 	}
-
+/**
+ * Submit the report
+ * @param event
+ */
 	@FXML
 	void submitVisitorAmount(ActionEvent event) {
 		if (flag == false) {
