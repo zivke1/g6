@@ -3,7 +3,7 @@ package util;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import clientTry.ClientMain;
+import client.ClientMain;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

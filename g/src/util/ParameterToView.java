@@ -5,8 +5,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import clientTry.ClientMain;
-
+import client.ClientMain;
 import javafx.scene.control.Button;
 
 /**

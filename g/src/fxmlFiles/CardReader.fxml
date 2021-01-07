@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.CardReaderController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.CardReaderController">
    <top>
       <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
          <children>
@@ -39,7 +39,7 @@
       </AnchorPane>
    </top>
    <left>
-      <AnchorPane prefHeight="464.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" stylesheets="@../clientTry/application.css" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="464.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" stylesheets="@../client/application.css" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="btnBack" layoutX="32.0" layoutY="4.0" mnemonicParsing="false" onAction="#backBtn" prefHeight="46.0" prefWidth="77.0" rotate="180.0" styleClass="mybutton1" text="Back" visible="false" />
          </children></AnchorPane>
