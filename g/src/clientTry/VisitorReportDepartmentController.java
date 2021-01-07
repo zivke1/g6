@@ -137,19 +137,19 @@ public class VisitorReportDepartmentController {
 				if (h.getAmount() > 0)
 					flag1 = true;
 			int max[] = new int[24];
-//			for (int i = 8; i < 17; i++) {
-//				max[i] = 0;
-//				personal.getData().add(new XYChart.Data(i + "", 0));
-//				member.getData().add(new XYChart.Data(i + "", 0));
-//				group.getData().add(new XYChart.Data(i + "", 0));
-//			}
-//			for (HourAmount a : answer) {
-//				max[Integer.parseInt(a.getHour())] += a.getAmount();
-//				personal.getData().add(new XYChart.Data(a.getHour(), a.getAmount()));
-//			}
-//			chart.getData().add(personal);
-//			arr.remove(TypeOfOrder.user.toString());
-//			arr.add(3, TypeOfOrder.member.toString());
+			for (int i = 8; i < 17; i++) {
+				max[i] = 0;
+				personal.getData().add(new XYChart.Data(i + "", 0));
+				member.getData().add(new XYChart.Data(i + "", 0));
+				group.getData().add(new XYChart.Data(i + "", 0));
+			}
+			for (HourAmount a : answer) {
+				max[Integer.parseInt(a.getHour())] += a.getAmount();
+				personal.getData().add(new XYChart.Data(a.getHour(), a.getAmount()));
+			}
+			chart.getData().add(personal);
+			arr.remove(TypeOfOrder.user.toString());
+			arr.add(3, TypeOfOrder.member.toString());
 			
 			ClientMain.chat.accept(arr);
 			answer = ChatClient.dataInArrayListHour;
