@@ -2413,8 +2413,13 @@ public class mysqlConnection {
 					update.setInt(6, amount % 16);
 					update.setString(8, "finished");
 
+					
 					update.setTime(10, new Time(8 + amount % 4 + amount % 5 + 1 + 4, 0, 0));
-					update.setBoolean(11, false);
+					if(amount%8==0)
+						update.setBoolean(11, true);
+					else
+						update.setBoolean(11, false);
+					
 					update.setInt(12, amount % 16);
 					update.setFloat(13, 150.6f);
 					update.setString(14, "abc" + i + "@abc.com");
