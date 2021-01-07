@@ -1858,9 +1858,12 @@ public class mysqlConnection {
 	public static ArrayList<String> simulationCardReader() {
 		ArrayList<String> arr = new ArrayList<>();
 		try {
+			Date today=new Date();
+			String date=today.getYear()+"-"+today.getMonth()+"-"+today.getDate();
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(
-					"select UserID from orders where OrderStatus='waitingToVisit' OR OrderStatus='active'");
+					"select UserID from orders where (OrderStatus='waitingToVisit' OR OrderStatus='active') and"
+					+ " VisitDate='"+date+"'");
 			while (rs.next()) {
 				arr.add(rs.getString(1));
 			}
