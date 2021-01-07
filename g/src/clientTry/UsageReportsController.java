@@ -69,6 +69,17 @@ public class UsageReportsController {
 	private MouseEvent m_event;
 	ArrayList<String> usage = new ArrayList<>();
 
+	
+	/**
+	 * get data from the previous page and build the table of the usage report
+	 * @param year
+	 * @param month
+	 * @param parkName
+	 * @param fName
+	 * @param lName
+	 * @param role
+	 * @param userID
+	 */
 	public void setDetails(String year, String month, String parkName, String fName, String lName, String role,
 			String userID) {// the other page call to this method
 		this.fName = fName;

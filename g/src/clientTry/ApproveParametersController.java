@@ -121,7 +121,9 @@ public class ApproveParametersController {
 		this.parkNameH = parkName;
 		setTable();
 	}
-
+/**
+ * build the table of approving parameters
+ */
 	private void setTable() {
 
 		ArrayList<String> arr = new ArrayList<>();
