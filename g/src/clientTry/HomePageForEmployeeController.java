@@ -188,7 +188,10 @@ public class HomePageForEmployeeController implements Initializable {
 		addInstructor.setMainPage(event);
 	}
 
-	// user sign out
+	/**
+	 *  user sign out
+	 * @param event
+	 */
 	@FXML
 	void goToLoginP(MouseEvent event) {
 		ArrayList<String> arr = new ArrayList<String>();
@@ -200,7 +203,10 @@ public class HomePageForEmployeeController implements Initializable {
 		LoginController logControl = loader.getController();
 	}
 
-	// customer does
+	/**
+	 *  customer does
+	 * @param event
+	 */
 	@FXML
 	void goToNewOrderCustomer(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/OrderNew.fxml", "New Order", userID);
@@ -224,7 +230,10 @@ public class HomePageForEmployeeController implements Initializable {
 		//updatePcontrol.setMainPage(event);
 	}
 
-	// Employee wants to view customers order
+	/**
+	 *  Employee wants to view customers order
+	 * @param event
+	 */
 	@FXML
 	void goToViewExistOrder(MouseEvent event) {
 		// here employee will need to enter customer id to view his order
@@ -235,7 +244,10 @@ public class HomePageForEmployeeController implements Initializable {
 		viewOrderControl.setPreviousPage(event);
 	}
 
-	// customer wants to view his orders
+	/**
+	 *  customer wants to view his orders
+	 * @param event
+	 */
 	@FXML
 	void goToViewOrderCustomer(MouseEvent event) {
 		// if customer Id is in orders table -> set visible tblExisitingOrder
@@ -318,7 +330,9 @@ public class HomePageForEmployeeController implements Initializable {
 		//parkDetailsControl.setMainPage(event);
 	}
 
-	// prepare form - preset all as invisible
+	/**
+	 * prepare form - preset all as invisible
+	 */
 	public void setAllUnvisible() {
 		anchorParkEmployee.setVisible(false);
 		anchorParkManager.setVisible(false);

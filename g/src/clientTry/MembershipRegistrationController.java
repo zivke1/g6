@@ -106,6 +106,11 @@ public class MembershipRegistrationController {
 //		}
 	}
 
+	
+	/**
+	 * check the data of registration
+	 * @param event
+	 */
 	@FXML
 	void checkRegistration(MouseEvent event) {
 		boolean flag = true;// checking if all the fields are filed correctly

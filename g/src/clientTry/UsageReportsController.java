@@ -205,6 +205,11 @@ public class UsageReportsController {
 		m_event = event;
 	}
 
+	
+	/**
+	 * send to DB the report
+	 * @param event
+	 */
 	@FXML
 	void submitUsageReport(ActionEvent event) {
 		if (flag == false) {

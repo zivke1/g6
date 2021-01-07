@@ -118,6 +118,11 @@ public class incomeReportController {
 		m_event=event;
 		
 	}
+	
+	/**
+	 * submit income report 
+	 * @param event
+	 */
 	@FXML
     void submitIncomeReport(ActionEvent event) {
 		if(flag==false) {

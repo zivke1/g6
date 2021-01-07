@@ -21,7 +21,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import util.NextStages;
 import util.ViewReports;
-
+/**
+ * 
+ * with this controller, we show the reports to the department manager  
+ *
+ */
 public class ViewReportDepartmentManagerController implements Initializable {
 
     @FXML

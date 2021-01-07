@@ -99,6 +99,10 @@ public class ViewOrderController {
 		((Stage) ((Node) m_event.getSource()).getScene().getWindow()).show();
 	}
 
+	/**
+	 * if the user wants to cancel the order
+	 * @param event
+	 */
 	@FXML
 	void cancelOrder(MouseEvent event) {
 		if (orderStatusH.equals("waitingList") || orderStatusH.equals("waitingToApprove")

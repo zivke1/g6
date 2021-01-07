@@ -98,10 +98,7 @@ public class CancelReportController {
 
 			}
 	
-	/**
-	 * 
-	 * @param event
-	 */
+
 
 	@FXML
 	void showReport(MouseEvent event) {

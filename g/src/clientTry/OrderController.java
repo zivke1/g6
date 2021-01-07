@@ -113,6 +113,12 @@ public class OrderController implements Initializable {
 		((Stage) ((Node) m_previousPage.getSource()).getScene().getWindow()).show();
 	}
 
+	
+	/**
+	 * check if the order details right or not and check if there is a place in the park
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	void finishOrderClicked(MouseEvent event) throws IOException {
 		m_event = event;
@@ -176,7 +182,10 @@ public class OrderController implements Initializable {
 		}
 
 	}
-
+/**
+ * There is a place in the park hence we open confirm order page
+ * @throws IOException
+ */
 	private void OpenInviteConfirmPage() throws IOException {
 		// TODO Auto-generated method stub
 //		BorderPane borderPane = null;
@@ -214,7 +223,11 @@ public class OrderController implements Initializable {
 //		primaryStage.show();
 
 	}
-
+/**
+ * The park is full and we open him a page that shows the
+ *  free place and option to enter the waiting list
+ * @throws IOException
+ */
 	private void openWaitingListPage() throws IOException {
 		// TODO Auto-generated method stub
 //		BorderPane borderPane = null;

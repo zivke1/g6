@@ -16,6 +16,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+
+/**
+ * 
+ *Get the information of the user with this id
+ *
+ */
 public class UserInformationController {
 
 	@FXML

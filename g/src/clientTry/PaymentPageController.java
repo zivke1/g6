@@ -70,6 +70,11 @@ public class PaymentPageController {
 		((Stage) ((Node) m_event.getSource()).getScene().getWindow()).show();
 	}
 
+	/**
+	 * set the invite in the DB
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	void finishOrderClicked(MouseEvent event) throws IOException {
 		if (m_price.equals("") == false) {

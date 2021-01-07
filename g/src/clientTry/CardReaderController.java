@@ -165,6 +165,9 @@ public class CardReaderController implements Initializable {
 
 	MouseEvent m_event;
 
+	
+	
+	
 	@FXML
 	void btnCheckActualVisitors(ActionEvent event) {
 		if (amountActual.getText().length() > 0) {
