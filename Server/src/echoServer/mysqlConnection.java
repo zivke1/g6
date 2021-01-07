@@ -2112,36 +2112,33 @@ public class mysqlConnection {
 
 	public static void SubmitUsageReport(ArrayList<String> arr) {
 		arr.remove("SubmitUsageReport");
-		if (existInDBReport(arr.get(0), arr.get(1), arr.get(2), "usagereport"))//arr[year,month,parkName]
+		if (existInDBReport(arr.get(0), arr.get(1), arr.get(2), "usagereport"))// arr[year,month,parkName]
 			return;
-		String year=arr.get(0),month=arr.get(1),parkName=arr.get(2);
-		for(int i=0;i<3;i++)
+		String year = arr.get(0), month = arr.get(1), parkName = arr.get(2);
+		for (int i = 0; i < 3; i++)
 			arr.remove(0);
-		int size=arr.size()/9;
-		for(int i=0;i<size;i++)
-		{
+		int size = arr.size() / 9;
+		for (int i = 0; i < size; i++) {
 			try {// inserting new row to the table
 				PreparedStatement update = conn.prepareStatement(
 						"INSERT INTO usagereport (year,month,day,parkName,h8,h9,h10,h11,h12,h13,h14,h15,h16)"
 								+ " VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?,?)");
-				//update.setString(i + 1, ((ArrayList<String>) arr).get(i));
+				// update.setString(i + 1, ((ArrayList<String>) arr).get(i));
 				update.setString(1, year);
 				update.setString(2, month);
-				update.setInt(3, i+1);
+				update.setInt(3, i + 1);
 				update.setString(4, parkName);
-				for(int j=0;j<9;j++)
-				{
-					update.setString(j+5, arr.get(j));
+				for (int j = 0; j < 9; j++) {
+					update.setString(j + 5, arr.get(j));
 				}
-				for(int j=0;j<9;j++)
-				{
+				for (int j = 0; j < 9; j++) {
 					arr.remove(0);
 				}
 				update.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			
+
 		}
 	}
 
@@ -2162,6 +2159,12 @@ public class mysqlConnection {
 		return false;
 	}
 
+	/**
+	 * return an array list of reports made for department manager
+	 * and saved in DB for his use.
+	 * 
+	 * @return ArrayList<ViewReports>
+	 */
 	public static ArrayList<ViewReports> reportsToView() {
 		ArrayList<ViewReports> toReturn = new ArrayList<>();
 		try {
@@ -2178,27 +2181,84 @@ public class mysqlConnection {
 				toReturn.add(tmp);
 			}
 			// second go over usage report table
-			rs = stmt.executeQuery("Select * From usagereport");
+			setExistUsageReports();
+			rs = stmt.executeQuery("select * from existusagereports");
 			while (rs.next()) {
 				String year = rs.getString("year");
 				String month = rs.getString("month");
 				String parkName = rs.getString("parkName");
-				ArrayList<String> dayUsage = new ArrayList<>();
-				for (int i = 1; i <= 31; i++) {
-					dayUsage.add(rs.getString("day" + i)); // what if day empty, short month
+				
+				PreparedStatement update = conn.prepareStatement(
+						"select * from usagereport \n" + 
+						"where parkName = ? and year = ? and month = ? \n" + 
+						"order by 'day'");
+				update.setString(1, parkName);
+				update.setString(2, year);
+				update.setString(3, month);
+				
+				ResultSet rsInQuery = update.executeQuery();
+				int index = 0;				
+				ArrayList<ArrayList<String>> usagePerHour = new ArrayList<ArrayList<String>>();
+				ArrayList<Integer> day = new ArrayList<>();
+				while (rsInQuery.next()) {
+					//String year1 = rsInQuery.getString("year");
+					//String month1 = rsInQuery.getString("month");
+					day.add(rsInQuery.getInt("day"));	
+					//String parkName1 = rsInQuery.getString("parkName");
+					usagePerHour.add(new ArrayList<String>());
+					for (int i = 8; i <= 16; i++) {
+						usagePerHour.get(index).add(rsInQuery.getString("h" + i));
+					}
+					index++;
 				}
 				ViewReports tmp = new ViewReports(year, month, parkName, "Usage Report");
-				tmp.setDataUsageReport(dayUsage);
+				tmp.setDataUsageReport(usagePerHour, day);
 				toReturn.add(tmp);
 			}
 			// third go over visitor amount report table
-			////
+			rs = stmt.executeQuery("Select * From visitorsreport");
+			while (rs.next()) {
+				String year = rs.getString("year");
+				String month = rs.getString("month");
+				String parkName = rs.getString("parkName");
+				String totalVisitors = rs.getString("TotalVisitors");
+				ArrayList<String> groupDays = new ArrayList<>();
+				for (int i = 0; i < 7; i++) {
+					groupDays.add(rs.getString("groupday" + i));
+				}
+				ArrayList<String> userDays = new ArrayList<>();
+				for (int i = 0; i < 7; i++) {
+					userDays.add(rs.getString("userday" + i));
+				}
+				ArrayList<String> memberDays = new ArrayList<>();
+				for (int i = 0; i < 7; i++) {
+					memberDays.add(rs.getString("memberday" + i));
+				}
+				ViewReports tmp = new ViewReports(year, month, parkName, "Visitors Amount Report");
+				tmp.setDataVisitReport(totalVisitors, groupDays, userDays, memberDays);
+				toReturn.add(tmp);
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 		return toReturn;
+	}
+
+	/**
+	 * set table Exist Usage Reports- according to Usage Reports table
+	 */
+	public static void setExistUsageReports() {
+		try {
+			//ResultSet rs;
+			//Statement stmt = conn.createStatement();
+			PreparedStatement update = conn.prepareStatement("insert into existusagereports (year, month, parkName) \n"
+					+ "select distinct year, month, parkName from usagereport");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static ArrayList<String> cheakGap(ArrayList<String> arr) {
@@ -2280,7 +2340,7 @@ public class mysqlConnection {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static ArrayList<DayToView> checkForUsage(ArrayList<String> arr) throws SQLException {
 		// ArrayList<String> parkDetails = new ArrayList<String>();
 		ArrayList<Integer> parkDetails = checkCapacityAndAvarageVisitTime(arr.get(0));
@@ -2323,22 +2383,23 @@ public class mysqlConnection {
 					}
 
 				}
-				
+
 				enterToDayToView(capacity, amountInThisTime, nowDayToView, i);
-				amountInThisTime=0;
+				amountInThisTime = 0;
 
 			}
 			toReturn.add(nowDayToView);
-			
+
 		}
 
 		return toReturn;
 	}
 
 	private static void enterToDayToView(int capacity, int amountInThisTime, DayToView nowDayToView, int i) {
-	
-		String temp = (float)amountInThisTime*100.0/capacity>=100?"Full":String.format("%.2f",amountInThisTime*100.0/capacity)+"%";
-		
+
+		String temp = (float) amountInThisTime * 100.0 / capacity >= 100 ? "Full"
+				: String.format("%.2f", amountInThisTime * 100.0 / capacity) + "%";
+
 		switch (i) {
 		case 8:
 			nowDayToView.setH1(temp);
