@@ -190,7 +190,11 @@ public class UsageReportsController {
 
 		helpBtn.setTooltip(tt);
 	}
-
+/**
+ * ObservableList for table
+ * @param temp
+ * @return ObservableList<DayToView>
+ */
 	public ObservableList<DayToView> getOrders(ArrayList<DayToView> temp) {
 
 		ObservableList<DayToView> orders = FXCollections.observableArrayList();
@@ -205,6 +209,10 @@ public class UsageReportsController {
 		m_event = event;
 	}
 
+	/**
+	 * save reports in DB for department manager
+	 * @param event
+	 */
 	@FXML
 	void submitUsageReport(ActionEvent event) {
 		if (flag == false) {
