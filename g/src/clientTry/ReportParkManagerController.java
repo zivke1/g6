@@ -150,15 +150,19 @@ public class ReportParkManagerController {
 		if (incomeRep.isSelected()) {
 			flag = true;
 			errSelectReport.setVisible(false);
-			repMonth.setValue("01");
-			repYear.setValue("2020");
+			////ziv change
+//			repMonth.setValue("01");
+//			repYear.setValue("2020");
+	///////ziv end
 			incomeRep.setSelected(false);
 			NextStages nextStages = new NextStages("/fxmlFiles/IncomeReport.fxml", "Income Report", userID);
 			FXMLLoader loader = nextStages.goToNextStage(event);
 			incomeReportController incomeControl = loader.getController();
 			incomeControl.setDetails(repYear.getValue().toString(), repMonth.getValue().toString(), parkNameS, fName, lName,
 					role, userID);
-			incomeControl.setPreviousPage(event);			
+			incomeControl.setPreviousPage(event);
+			repMonth.setValue("01");
+			repYear.setValue("2020");
 		}
 		if (!flag) {
 			// if no one selected err
