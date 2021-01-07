@@ -918,10 +918,10 @@ public class mysqlConnection {
 		int visitorsNow = 0;
 
 		Date d = new Date();
-		String dateToMySql = d.getYear() + "-" + d.getMonth() + "-" + d.getDay();
+//		String dateToMySql = d.getYear() + "-" + d.getMonth() + "-" + d.getDay();
 		try {
 			ResultSet rs = stmt
-					.executeQuery("select SUM(VisitorsAmountActual) from orders Where OrderStatus ='active'");
+					.executeQuery("select SUM(VisitorsAmountActual) from orders Where OrderStatus ='active' AND ParkName ='"+string+"'");
 			while (rs.next()) {
 				visitorsNow = rs.getInt("SUM(VisitorsAmountActual)");
 			}
@@ -2076,7 +2076,7 @@ public class mysqlConnection {
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(
-					"Select SUM(VisitorsAmount) From orders O Where O.OrderStatus = 'active' AND O.ParkName =" + "'"
+					"Select SUM(VisitorsAmountActual) From orders O Where O.OrderStatus = 'active' AND O.ParkName =" + "'"
 							+ parkName + "'");
 			while (rs.next()) {
 				countOrders = rs.getString(1);
