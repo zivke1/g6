@@ -1216,7 +1216,7 @@ public class mysqlConnection {
 		ResultSet rs = null;
 		Time t1, t2;
 		t1 = new Time(OPEN_TIME_INT, 0, 0);
-		t2 = new Time(t1.getHours() + 1, 0, 0);
+		t2 = new Time(t1.getHours() , 59, 59);
 		int openTime = CLOSE_TIME_INT - OPEN_TIME_INT + 1;
 		int[] sum = new int[24];// sum for each hour
 		try {
