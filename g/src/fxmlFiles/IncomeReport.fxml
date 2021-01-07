@@ -80,7 +80,7 @@
                   <Font size="18.0" />
                </font></Label>
             <Button layoutX="780.0" layoutY="436.0" mnemonicParsing="false" onAction="#submitIncomeReport" prefHeight="44.0" prefWidth="93.0" styleClass="approvalBtn" text="submit" />
-            <Label fx:id="submitted" layoutX="655.0" layoutY="458.0" text="Successfully submitted" textFill="#4abf46" visible="false" />
+            <Label fx:id="submitted" layoutX="603.0" layoutY="448.0" text="Successfully submitted" textFill="#4abf46" visible="false" />
          </children>
       </AnchorPane>
    </center>

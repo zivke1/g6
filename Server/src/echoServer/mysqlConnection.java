@@ -1742,6 +1742,7 @@ public class mysqlConnection {
 	public static ArrayList<String> incomeReport(ArrayList<String> arr) {
 		ArrayList<String> dataFromDB = new ArrayList<>();
 		String year = arr.get(1), month = arr.get(2), income = null;
+		float incomeFloat=0;
 		String parkName = "'" + arr.get(3) + "'";
 		try {
 			ResultSet rs = null;
@@ -1763,17 +1764,17 @@ public class mysqlConnection {
 						+ parkName);
 			}
 			while (rs.next()) {
-				income = rs.getString(1);
+				incomeFloat = rs.getFloat(1);
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		dataFromDB.add("incomeReport");
-		if (income == null)
+		if (incomeFloat == 0)
 			dataFromDB.add("0");
 		else
-			dataFromDB.add(income);
+			dataFromDB.add(String.format("%.2f",incomeFloat));
 		return dataFromDB;
 	}
 
