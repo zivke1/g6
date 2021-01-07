@@ -3,7 +3,11 @@ package util;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
+/**
+ * 
+ * general function
+ *
+ */
 public class Func {
 
 	public static String fixDate(Date d2)
