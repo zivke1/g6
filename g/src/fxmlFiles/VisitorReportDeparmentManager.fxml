@@ -35,6 +35,7 @@
                </image>
             </ImageView>
             <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
+            <Label layoutX="178.0" layoutY="95.0" text="Home Page &gt; Generate Reports &gt; Entrance Report" />
          </children>
       </AnchorPane>
    </top>
@@ -78,7 +79,6 @@
                </font>
             </Button>
             <Label fx:id="errorMsg" layoutX="144.0" layoutY="140.0" text="No Available Data For This Park In This Date" textFill="RED" visible="false" />
-            <Label layoutX="-114.0" layoutY="9.0" text="Home Page &gt; Generate Reports &gt; Visitors Report" />
          </children>
       </AnchorPane>
    </right>
