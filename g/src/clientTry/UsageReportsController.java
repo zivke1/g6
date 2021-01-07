@@ -89,58 +89,70 @@ public class UsageReportsController {
 	 		temp=ChatClient.dataInArrayListDayToView;
 				
 				// day column
-				TableColumn<DayToView, String> dayColumn = new TableColumn<>("");
-				dayColumn.setMinWidth(100);
+				TableColumn<DayToView, String> dayColumn = new TableColumn<>("Date");
+				dayColumn.setMinWidth(90);
 				dayColumn.setCellValueFactory(new PropertyValueFactory<>("day"));
-
+				dayColumn.setStyle( "-fx-alignment: CENTER;");
+				
 				// h1 Column
 				TableColumn<DayToView, String> h1Column = new TableColumn<>("8:00");
 				h1Column.setMinWidth(80);
 				h1Column.setCellValueFactory(new PropertyValueFactory<>("h1"));
-
+				h1Column.setStyle( "-fx-alignment: CENTER;");
+				
 				// h2 Column
 				TableColumn<DayToView, String> h2Column = new TableColumn<>("9:00");
 				h2Column.setMinWidth(80);
 				h2Column.setCellValueFactory(new PropertyValueFactory<>("h2"));
-
+				h2Column.setStyle( "-fx-alignment: CENTER;");
+				
 				// h3 Column
 				TableColumn<DayToView, String> h3Column = new TableColumn<>("10:00");
 				h3Column.setMinWidth(80);
 				h3Column.setCellValueFactory(new PropertyValueFactory<>("h3"));
-
+				h3Column.setStyle( "-fx-alignment: CENTER;");
+				
 				// h4 Column
 				TableColumn<DayToView, String> h4Column = new TableColumn<>("11:00");
 				h4Column.setMinWidth(80);
 				h4Column.setCellValueFactory(new PropertyValueFactory<>("h4"));
-
+				h4Column.setStyle( "-fx-alignment: CENTER;");
+				
 				// h5 Column
 				TableColumn<DayToView, String> h5Column = new TableColumn<>("12:00");
 				h5Column.setMinWidth(80);
 				h5Column.setCellValueFactory(new PropertyValueFactory<>("h5"));
-
+				h5Column.setStyle( "-fx-alignment: CENTER;");
+				
 				// h6 Column
 				TableColumn<DayToView, String> h6Column = new TableColumn<>("13:00");
 				h6Column.setMinWidth(80);
 				h6Column.setCellValueFactory(new PropertyValueFactory<>("h6"));
-
+				h6Column.setStyle( "-fx-alignment: CENTER;");
+				
 				// h7 Column
 				TableColumn<DayToView, String> h7Column = new TableColumn<>("14:00");
 				h7Column.setMinWidth(80);
 				h7Column.setCellValueFactory(new PropertyValueFactory<>("h7"));
-
+				h7Column.setStyle( "-fx-alignment: CENTER;");
+				
 				// h8 Column
 				TableColumn<DayToView, String> h8Column = new TableColumn<>("15:00");
 				h8Column.setMinWidth(80);
 				h8Column.setCellValueFactory(new PropertyValueFactory<>("h8"));
-
+				h8Column.setStyle( "-fx-alignment: CENTER;");
+				
 				// h9 Column
 				TableColumn<DayToView, String> h9Column = new TableColumn<>("16:00");
 				h9Column.setMinWidth(80);
 				h9Column.setCellValueFactory(new PropertyValueFactory<>("h9"));
+				h9Column.setStyle( "-fx-alignment: CENTER;");
 				
 				table.setItems(getOrders(temp));
 				table.getColumns().addAll(dayColumn, h1Column, h2Column, h3Column, h4Column, h5Column, h6Column,
 						h7Column, h8Column, h9Column);
+				table.setFixedCellSize(35.0);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
