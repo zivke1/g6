@@ -19,7 +19,7 @@
    <top>
       <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
          <children>
-            <Text layoutX="180.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Visitors Report">
+            <Text layoutX="180.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Entrance Report">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font>
@@ -35,7 +35,7 @@
                </image>
             </ImageView>
             <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
-            <Label layoutX="176.0" layoutY="95.0" text="Home Page &gt; Generate Reports &gt; Visitors Report" />
+            <Label layoutX="178.0" layoutY="95.0" text="Home Page &gt; Generate Reports &gt; Entrance Report" />
          </children>
       </AnchorPane>
    </top>
