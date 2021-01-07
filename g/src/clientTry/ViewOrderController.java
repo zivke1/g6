@@ -105,8 +105,8 @@ public class ViewOrderController {
 	 */
 	@FXML
 	void cancelOrder(MouseEvent event) {
-		if (orderStatusH.equals("waitingList") || orderStatusH.equals("waitingToApprove")
-				|| orderStatusH.equals("waitingToVisit")) {
+		if (orderStatusH.equals("Waiting List") || orderStatusH.equals("Waiting To Approve")
+				|| orderStatusH.equals("Waiting To Visit")) {
 			ArrayList<String> arr = new ArrayList<>();
 			arr.add("CancelOrder");
 			arr.add(orderIDH);

@@ -16,9 +16,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import util.NextStages;
+
 /**
- * this page show the user the order details 
- * and the price of the order and the user need to confirm and pay
+ * this page show the user the order details and the price of the order and the
+ * user need to confirm and pay
+ * 
  * @author zivke
  *
  */
@@ -26,8 +28,8 @@ public class PaymentPageController {
 	String m_fName, m_lName, m_role, m_userID, m_parkName, m_price, m_orderNumber;
 	ArrayList<String> m_inviteDetails;
 	MouseEvent m_event, m_eventMain;
-    String m_orderDetails="";
-    boolean m_occasional;
+	String m_orderDetails = "";
+	boolean m_occasional;
 	@FXML
 	private ImageView imgContactUs;
 
@@ -60,9 +62,9 @@ public class PaymentPageController {
 
 	@FXML
 	private Text emailLabel;
-	
-    @FXML
-    private Label informationLabel;
+
+	@FXML
+	private Label informationLabel;
 
 	@FXML
 	void backClicked(MouseEvent event) {
@@ -72,6 +74,7 @@ public class PaymentPageController {
 
 	/**
 	 * set the invite in the DB
+	 * 
 	 * @param event
 	 * @throws IOException
 	 */
@@ -90,11 +93,11 @@ public class PaymentPageController {
 //		FXMLLoader loader = new FXMLLoader();
 //		Stage primaryStage = new Stage();
 		FXMLLoader loader;
-		
+
 //		loader.setLocation(getClass().getResource("../fxmlFiles/OrderConfirmed.fxml"));
 //		borderPane = loader.load();
-     	NextStages nextStages = new NextStages("/fxmlFiles/OrderConfirmed.fxml", "Order Confirmed", m_userID);
-    	loader = nextStages.goToNextStage(event);
+		NextStages nextStages = new NextStages("/fxmlFiles/OrderConfirmed.fxml", "Order Confirmed", m_userID);
+		loader = nextStages.goToNextStage(event);
 		OrderConfirmedController orderConfirmedController = loader.getController();
 		orderConfirmedController.setMainPage(m_eventMain);
 		orderConfirmedController.setOrderNumber(m_orderNumber);
@@ -125,10 +128,8 @@ public class PaymentPageController {
 	@FXML
 	void helpBtnPressed(MouseEvent event) {
 		Tooltip tt = new Tooltip();
-		tt.setText("This page show the amount of order \nand order's details");  // add text to help filed 
-		tt.setStyle("-fx-font: normal bold 15 Langdon; "
-		    + "-fx-background-color: #F0F8FF; "
-		    + "-fx-text-fill: black;");
+		tt.setText("This page show the amount of order \nand order's details"); // add text to help filed
+		tt.setStyle("-fx-font: normal bold 15 Langdon; " + "-fx-background-color: #F0F8FF; " + "-fx-text-fill: black;");
 
 		helpBtn.setTooltip(tt);
 	}
@@ -149,8 +150,11 @@ public class PaymentPageController {
 
 			totalP.setText(m_price);
 		} else {
-
-			totalP.setText(m_inviteDetails.get(8));
+			if (m_inviteDetails.get(8).equals("payBefore") == false) {
+				totalP.setText(m_inviteDetails.get(8));
+			}else {
+				totalP.setText(m_inviteDetails.get(9));
+			}
 		}
 		String temp = m_inviteDetails.get(3);
 		String date = temp.substring(8, 10) + temp.substring(4, 8) + temp.substring(0, 4);
@@ -162,26 +166,26 @@ public class PaymentPageController {
 	}
 
 	public void setPreviousPage(MouseEvent event) {
-		
+
 		m_event = event;
 	}
 
 	public void setMainPage(MouseEvent eventMain) {
-	
+
 		m_eventMain = eventMain;
 	}
-	
+
 	public void setOrderDetails(String orderDetails) {
-		m_orderDetails=orderDetails;
+		m_orderDetails = orderDetails;
 		informationLabel.setText(m_orderDetails);
 	}
 
 	public void setOccasional(boolean occasional) {
 		// TODO Auto-generated method stub
 		m_occasional = occasional;
-		if(m_occasional) {
+		if (m_occasional) {
 			txtCrumLabel.setVisible(true);
-		}else {
+		} else {
 			txtCrumViaHomePageLabel.setVisible(true);
 		}
 	}
