@@ -107,7 +107,10 @@ public class ParkDetailsController {
 		this.userID = userID;
 		this.role = role;
 		parkNameS = parkNameToFetch;
+		
+		
 		if (!(role.equals("Department Manager") || role.equals("Park Manager"))) {// if the asker isn't manager enter
+			comboPark.setValue(parkNameS);
 			ArrayList<String> arr = new ArrayList<String>();
 			arr.add("FetchParkDetails");
 			// ziv

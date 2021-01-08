@@ -148,12 +148,12 @@ public class PaymentPageController {
 		m_price = price;
 		if (m_price.equals("") == false) {
 
-			totalP.setText(m_price);
+			totalP.setText(m_price+"$");
 		} else {
 			if (m_inviteDetails.get(8).equals("payBefore") == false) {
-				totalP.setText(m_inviteDetails.get(8));
+				totalP.setText(m_inviteDetails.get(8)+"$");
 			}else {
-				totalP.setText(m_inviteDetails.get(9));
+				totalP.setText(m_inviteDetails.get(9)+"$");
 			}
 		}
 		String temp = m_inviteDetails.get(3);

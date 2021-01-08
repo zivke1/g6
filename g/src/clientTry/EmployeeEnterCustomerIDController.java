@@ -81,6 +81,7 @@ public class EmployeeEnterCustomerIDController {
 		ClientMain.chat.accept(arr);
 		ArrayList<OrderToView> temp = ChatClient.dataInArrayListObject;
 		if (!temp.isEmpty()) {
+			existingOrdersTable.getColumns().clear();
 			NoExistOrderMsg.setVisible(false);
 			// order ID Column
 			TableColumn<OrderToView, String> orderIDcolumn = new TableColumn<>("Order ID");
@@ -119,7 +120,7 @@ public class EmployeeEnterCustomerIDController {
 
 			existingOrdersTable.getColumns().addAll(orderIDcolumn, statusColumn, dateColumn);
 			existingOrdersTable.setVisible(true);
-
+			
 		} else {
 			NoExistOrderMsg.setVisible(true);
 			existingOrdersTable.setVisible(false);
