@@ -257,6 +257,7 @@ public class HomePageForEmployeeController implements Initializable {
 		ClientMain.chat.accept(arr);
 		ArrayList<OrderToView> temp = ChatClient.dataInArrayListObject;
 		if (!temp.isEmpty()) {
+			tblExistingOrder.getColumns().clear();
 			// order ID Column
 			TableColumn<OrderToView, String> orderIDcolumn = new TableColumn<>("Order ID");
 			orderIDcolumn.setMinWidth(150);
@@ -290,7 +291,6 @@ public class HomePageForEmployeeController implements Initializable {
 				});
 				return row;
 			});
-
 			tblExistingOrder.getColumns().addAll(orderIDcolumn, statusColumn, dateColumn);
 			tblExistingOrder.setVisible(true);
 		} else {
