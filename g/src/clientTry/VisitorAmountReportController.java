@@ -142,7 +142,7 @@ public class VisitorAmountReportController implements Initializable {
 				group.getData().add(new XYChart.Data<>("Sat", Integer.valueOf(arr.get(6))));
 				for (int i = 0; i < 7; i++)
 					arr.remove(0);
-				personal.setName("Personal");
+				personal.setName("Users");
 				personal.getData().add(new XYChart.Data<>("Sun", Integer.valueOf(arr.get(0))));
 				personal.getData().add(new XYChart.Data<>("Mon", Integer.valueOf(arr.get(1))));
 				personal.getData().add(new XYChart.Data<>("Tues", Integer.valueOf(arr.get(2))));

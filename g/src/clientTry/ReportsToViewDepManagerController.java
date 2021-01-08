@@ -289,7 +289,7 @@ public class ReportsToViewDepManagerController {
 			group.getData().add(new XYChart.Data<>("Fri", Integer.valueOf(GroupDays.get(5))));
 			group.getData().add(new XYChart.Data<>("Sat", Integer.valueOf(GroupDays.get(6))));
 	
-			personal.setName("Personal");
+			personal.setName("Users");
 			personal.getData().add(new XYChart.Data<>("Sun", Integer.valueOf(UserDays.get(0))));
 			personal.getData().add(new XYChart.Data<>("Mon", Integer.valueOf(UserDays.get(1))));
 			personal.getData().add(new XYChart.Data<>("Tues", Integer.valueOf(UserDays.get(2))));

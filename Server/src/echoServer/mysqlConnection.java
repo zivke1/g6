@@ -1232,8 +1232,7 @@ public class mysqlConnection {
 		int openTime = CLOSE_TIME_INT - OPEN_TIME_INT + 1;
 		int[] sum = new int[24];// sum for each hour
 		try {
-			for (int i = OPEN_TIME_INT; i <= CLOSE_TIME_INT; i++, t1 = new Time(t1.getHours() + 1, 0,
-					0), t2 = new Time(t2.getHours() + 1, 59, 59)) {
+			for (int i = OPEN_TIME_INT; i <= CLOSE_TIME_INT; i++, t1 = new Time(t1.getHours() + 1, 0,0), t2 = new Time(t2.getHours() + 1, 59, 59)) {
 				Statement stmt = conn.createStatement();
 				rs = stmt.executeQuery("select sum(VisitorsAmountActual) from orders Where EnterTime BETWEEN '"
 						+ t1.toString() + "'" + "						 AND '" + t2.toString()
@@ -2266,7 +2265,7 @@ public class mysqlConnection {
 	/**
 	 * set table Exist Usage Reports- according to Usage Reports table
 	 */
-	public static void setExistUsageReports() {
+	public void setExistUsageReports() {
 		try {
 			//ResultSet rs;
 			//Statement stmt = conn.createStatement();
@@ -2319,17 +2318,22 @@ public class mysqlConnection {
 			while (rs.next()) {
 				String type = rs.getString("TypeOfOrder");
 				int amount = rs.getInt("VisitorsAmountActual");
-				int duration = Integer.parseInt(rs.getTime("ExitTime").toString().substring(0, 2))
-						- Integer.parseInt(rs.getTime("EnterTime").toString().substring(0, 2));
-				if (duration >= Integer.parseInt(arr.get(2)) && duration <= Integer.parseInt(arr.get(3))) {
+//				int duration = Integer.parseInt(rs.getTime("ExitTime").toString().substring(0, 2))
+//						- Integer.parseInt(rs.getTime("EnterTime").toString().substring(0, 2));
+				Time enterTime = rs.getTime("EnterTime");
+				Time exitTime = rs.getTime("ExitTime");
+				long TotalTime = (exitTime.getTime()-enterTime.getTime())/3600000;
+
+				if (TotalTime >= Integer.parseInt(arr.get(2)) && TotalTime <= Integer.parseInt(arr.get(3))) {
 					boolean flag = false;
 					for (DurationOrder d : arrD)
 						if (d.getType().equals(type)) {
 							d.setAmount(d.getAmount() + amount);
 							flag = true;
 						}
+			
 					if (!flag)
-						arrD.add(new DurationOrder(type, duration, amount));
+						arrD.add(new DurationOrder(type, (int)TotalTime, amount));
 				}
 			}
 
