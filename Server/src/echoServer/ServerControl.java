@@ -39,25 +39,35 @@ public class ServerControl {
 
 	@FXML
 	void startServer(MouseEvent event) {
+//		try {
+//			echoServer = new EchoServer(5555, this);
+//			Stage stage=new Stage();
+//			try {
+//				echoServer.listen(); // Start listening for connections
+//				//mysqlConnection.insertOrders();
+//				
+//				BorderPane borderPane = null;
+//				try {
+//					FXMLLoader loader=new FXMLLoader();
+//					loader.setLocation(getClass().getResource("/echoServer/CardReader.fxml"));
+//					borderPane = loader.load();
+//				} catch (IOException e) {
+//				e.printStackTrace();
+//				}	
+//				Scene scene=new Scene(borderPane);
+//				stage.setScene(scene);
+//				stage.setTitle("Card Reader");
+//				stage.show();
+//			} catch (Exception ex) {
+//				System.out.println("ERROR - Could not listen for clients!");
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		try {
 			echoServer = new EchoServer(5555, this);
-			Stage stage=new Stage();
 			try {
 				echoServer.listen(); // Start listening for connections
-				//mysqlConnection.insertOrders();
-				
-				BorderPane borderPane = null;
-				try {
-					FXMLLoader loader=new FXMLLoader();
-					loader.setLocation(getClass().getResource("/echoServer/CardReader.fxml"));
-					borderPane = loader.load();
-				} catch (IOException e) {
-				e.printStackTrace();
-				}	
-				Scene scene=new Scene(borderPane);
-				stage.setScene(scene);
-				stage.setTitle("Card Reader");
-				stage.show();
 			} catch (Exception ex) {
 				System.out.println("ERROR - Could not listen for clients!");
 			}

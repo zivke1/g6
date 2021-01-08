@@ -377,6 +377,7 @@ public class CardReaderController implements Initializable {
 		tblExistingOrder.setVisible(false);
 		textUserID2.setVisible(false);
 		txtUserIdAboveTable.setText("");
+		textUserID.setText("");
 		textGetIn.setVisible(false);
 	}
 

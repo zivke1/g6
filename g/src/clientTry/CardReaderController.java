@@ -180,7 +180,7 @@ public class CardReaderController implements Initializable {
 					return;
 				} else {
 					arrtmp.add(amountActualInt + "");
-					CardReaderMain.chat.accept(arrtmp);
+					ClientMain.chat.accept(arrtmp);
 					textErrNumberVisitors.setVisible(false);
 					textGetIn.setVisible(true);
 					btnBack.setVisible(false);
@@ -218,7 +218,7 @@ public class CardReaderController implements Initializable {
 		ArrayList<String> arr = new ArrayList<>();
 
 		arr.add("simulationCardReader");
-		CardReaderMain.chat.accept(arr);
+		ClientMain.chat.accept(arr);
 		if (ChatClient.dataInArrayList.size() > 0) {
 			userIDH = ChatClient.dataInArrayList.get(0);
 			textUserID2.setVisible(true);
@@ -226,6 +226,9 @@ public class CardReaderController implements Initializable {
 			arr.clear();
 			getToTable();
 		}
+		else
+			NoExistOrderMsg.setVisible(true);
+			
 
 	}
 
@@ -233,7 +236,7 @@ public class CardReaderController implements Initializable {
 		ArrayList<String> arr = new ArrayList<>();
 		arr.add(userIDH);
 		arr.add("ReturnUserIDInTableOrdersForCardReader");
-		CardReaderMain.chat.accept(arr);
+		ClientMain.chat.accept(arr);
 		ArrayList<OrderToView> temp = ChatClient.dataInArrayListObject;
 
 		if (!temp.isEmpty()) {
@@ -249,7 +252,7 @@ public class CardReaderController implements Initializable {
 					arr.clear();
 					arr.add("ViewOrder");
 					arr.add(temp.get(i).getOrderID());
-					CardReaderMain.chat.accept(arr);
+					ClientMain.chat.accept(arr);
 					arr = ChatClient.dataInArrayList;
 					this.orderID.setText(arr.get(0));
 					pName.setText(arr.get(1));
@@ -265,7 +268,7 @@ public class CardReaderController implements Initializable {
 					arr.clear();
 					arr.add("updateToFinished");
 					arr.add(orderID);
-					CardReaderMain.chat.accept(arr);
+					ClientMain.chat.accept(arr);
 					OkBtn.setVisible(true);
 					i = temp.size();
 				}
@@ -280,7 +283,7 @@ public class CardReaderController implements Initializable {
 						arrtmp.clear();
 						arrtmp.add("ViewOrder");
 						arrtmp.add(rowData.getOrderID());
-						CardReaderMain.chat.accept(arrtmp);
+						ClientMain.chat.accept(arrtmp);
 						arrtmp = ChatClient.dataInArrayList;
 						System.out.println(arrtmp.get(2));
 						LocalTime timeOfChossenOrder = LocalTime.of(Integer.valueOf(arrtmp.get(2).substring(0, 2)),
@@ -375,6 +378,7 @@ public class CardReaderController implements Initializable {
 		tblExistingOrder.setVisible(false);
 		textUserID2.setVisible(false);
 		txtUserIdAboveTable.setText("");
+		textUserID.setText("");
 		textGetIn.setVisible(false);
 	}
 
