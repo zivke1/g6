@@ -55,12 +55,12 @@
                   <Button fx:id="btnParkDetails" layoutX="493.0" layoutY="37.0" mnemonicParsing="false" onMouseClicked="#goToParkDetail" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Parks Details" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="anchorParkEmployee" layoutX="27.0" layoutY="82.0" prefHeight="256.0" prefWidth="781.0" visible="false">
+            <AnchorPane fx:id="anchorParkEmployee" layoutX="27.0" layoutY="82.0" prefHeight="256.0" prefWidth="781.0">
                <children>
                   <Button fx:id="btnViewOrder" layoutX="36.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#goToViewExistOrder" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="View Customer's Order" />
                   <Button fx:id="btnAvailabilityCheck" layoutX="296.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#goToAvailbilityCheck" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Availability Check &#10;" />
                   <Button fx:id="btnParkDetails" layoutX="551.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#goToParkDetail" prefHeight="60.0" prefWidth="200.0" styleClass="buttonHomePage" text="Parks Details" />
-                  <Label layoutX="309.0" layoutY="128.0" text="*Make new order in here" />
+                  <Label layoutX="309.0" layoutY="128.0" text="*Here you can make a new &#10;order for occasional visit " />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="anchorParkManager" layoutX="20.0" layoutY="79.0" prefHeight="215.0" prefWidth="720.0" visible="false">
