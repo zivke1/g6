@@ -163,7 +163,7 @@ public class DurReportDepartmentController {
 		selectPark.setValue("Tal Park");
 		selectDate.setValue(LocalDate.now());
 		int test=0;
-		for(int i=ClientMain.OPEN_TIME_INT;i<ClientMain.CLOSE_TIME_INT+ClientMain.AVG_DUR_TIME_INT;i+=2)
+		for(int i=ClientMain.OPEN_TIME_INT;i<ClientMain.CLOSE_TIME_INT+ClientMain.AVG_DUR_TIME_INT-2;i+=2)
 		{
 			int time=i-ClientMain.OPEN_TIME_INT;
 			dur.add(time+"-"+(time+2));
