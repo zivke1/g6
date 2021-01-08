@@ -204,7 +204,7 @@ public class AddInstructorController {
 			arr.add(id.getText());
 			arr.add(email.getText());
 			arr.add(phoneNum.getText());
-			arr.add(null);// number of visitors
+			arr.add("15");// number of visitors
 			if (flagCC)
 				arr.add(enterCardNumber.getText());
 			else
