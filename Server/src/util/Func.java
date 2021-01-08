@@ -3,7 +3,12 @@ package util;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
+/**
+ * 
+ * Class to present date by order
+ * of day - month - year
+ *
+ */
 public class Func {
 
 	public static String fixDate(Date d2)

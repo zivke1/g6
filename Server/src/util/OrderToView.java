@@ -2,12 +2,14 @@ package util;
 import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
-
-
+ 
+/**
+ * class to hold information about order for the table view existing orders
+ * @author shani
+ *
+ */
 public class OrderToView implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private String userID;
 	private String orderID;

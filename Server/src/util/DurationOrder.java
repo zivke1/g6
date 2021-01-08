@@ -1,12 +1,13 @@
 package util;
 
 import java.io.Serializable;
-
+/**
+ * Class to save information about visit
+ * for duration report
+ *
+ */
 public class DurationOrder implements Serializable {
-
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private String type;
 	private int duration,amount;

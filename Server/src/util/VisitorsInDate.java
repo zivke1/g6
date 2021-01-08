@@ -4,7 +4,12 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.HashMap;
 import java.util.TreeMap;
-
+/**
+ * 
+ * class holds amount of people in park in a specific date
+ * using it in the waiting list process
+ *
+ */
 public class VisitorsInDate {
 	Date day;
 	int[] visitors = new int[24];
@@ -47,7 +52,7 @@ public class VisitorsInDate {
 	}
 
 	public int[] getVisitors() {
-		return visitors;
+		return visitors; 
 	}
 
 	public void setVisitors(int[] visitors) {

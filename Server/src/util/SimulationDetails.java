@@ -1,5 +1,9 @@
 package util;
-
+/**
+ * details of an order that needs a 1 day before the visit simulation
+ * 
+ *
+ */
 public class SimulationDetails {
 	
 	private String email,phoneNum,orderID;
@@ -18,7 +22,7 @@ public class SimulationDetails {
 		this.email = email;
 	}
 
-	public String getPhoneNum() {
+	public String getPhoneNum() { 
 		return phoneNum;
 	}
 

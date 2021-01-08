@@ -1,11 +1,12 @@
 package util;
 
 import java.io.Serializable;
-
+/**
+ * Class save date and time of free space
+ * for use of waiting list 
+ */
 public class FreePlaceInPark implements Serializable {
-	/**c
-		 * 
-		 */
+	
 	private static final long serialVersionUID = 1L;
 	String time, date;
 	

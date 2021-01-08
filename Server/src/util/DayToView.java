@@ -1,7 +1,11 @@
 package util;
 
 import java.io.Serializable;
-
+/**
+ * class to assist in present 
+ * usage report table
+ *
+ */
 public class DayToView implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -11,7 +15,7 @@ public class DayToView implements Serializable {
 	public DayToView() {
 		day = "";
 		h1 = "8:00";
-		h2 = "9:00";
+		h2 = "9:00"; 
 		h3 = "10:00";
 		h4 = "11:00";
 		h5 = "12:00";

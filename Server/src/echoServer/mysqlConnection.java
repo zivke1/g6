@@ -1627,7 +1627,7 @@ public class mysqlConnection {
 					+ OPEN_TIME.toString() + "' AND ExpectedEnterTime<='" + CLOSE_TIME.toString() + "' AND ParkName = '"
 					+ order.getpName() + "' AND VisitDate='" + order.getVisitDate() + "' GROUP BY ExpectedEnterTime "
 					+ "Order BY ExpectedEnterTime ;");
-
+ 
 			int[] visitorsPerDay = new int[24];
 			Time time;
 			while (rs.next()) {
@@ -2267,11 +2267,11 @@ public class mysqlConnection {
 	 */
 	public void setExistUsageReports() {
 		try {
-			//ResultSet rs;
-			//Statement stmt = conn.createStatement();
-			PreparedStatement update = conn.prepareStatement("insert into existusagereports (year, month, parkName) \n"
-					+ "select distinct year, month, parkName from usagereport");
-
+			PreparedStatement update = conn.prepareStatement("delete FROM visitorschema.existusagereports;");
+			PreparedStatement update1 = conn.prepareStatement("insert into visitorschema.existusagereports(year, month, parkName)  \r\n" + 
+					"select distinct year, month, parkName from visitorschema.usagereport;");
+			update.execute();
+			update1.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -2285,7 +2285,7 @@ public class mysqlConnection {
 			Statement stmt = conn.createStatement();
 			rs = stmt.executeQuery("select * from park Where ParkName='" + arr.get(0) + "'");
 			if (rs.next())
-				gap = rs.getInt("GapVisitors");
+				gap = rs.getInt("GapVisitors"); 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
