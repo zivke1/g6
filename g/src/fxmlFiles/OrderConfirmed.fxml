@@ -47,7 +47,7 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text layoutX="22.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="One day before the due date you will receive a notification please which your order within two hours otherwise it will be canceled" wrappingWidth="451.7431640625">
+            <Text layoutX="22.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="One day before the due date you will receive a notification please Approve your order within two hours otherwise it will be canceled" wrappingWidth="451.7431640625">
                <font>
                   <Font size="18.0" />
                </font></Text>
