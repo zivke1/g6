@@ -493,7 +493,10 @@ public class EchoServer extends AbstractServer {
 				}
 			} else if (Connection.checkWaiting(order.getOrderID(), "waitingToVisit")
 					&& Connection.checkDateWatingList(order.getOrderID())) {
-				Connection.setOrderExpired(order.getOrderID(), "cancelled");
+				ArrayList<String> a=new ArrayList<>();
+				a.add(order.getOrderID());
+				Connection.CancelOrder(a);
+				//Connection.setOrderExpired(order.getOrderID(), "cancelled");
 				while(simControl==null)
 					;
 				simControl.hideAll();

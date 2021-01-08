@@ -780,7 +780,7 @@ public class mysqlConnection {
 	}
 
 	/**
-	 * set
+	 *update the order's status to cancelled and start the waiting list thread check
 	 * 
 	 * @param arr
 	 * @return
