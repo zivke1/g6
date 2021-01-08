@@ -26,12 +26,16 @@ import util.Role;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.image.ImageView;
+
 /**
- * this controller is for log in you can enter to the system via id
- *  member number or if you an employee you can enter by employee number and password
+ * this controller is for log in you can enter to the system via id member
+ * number or if you an employee you can enter by employee number and password
  *
  */
 public class LoginController {
+
+	@FXML
+	private Label noSelected;
 
 	@FXML
 	private ImageView imgContactUs;
@@ -78,9 +82,9 @@ public class LoginController {
 	@FXML
 	private Label txtErrUserName;
 
-    @FXML
-    private Button helpBtn;
-    
+	@FXML
+	private Button helpBtn;
+
 	@FXML
 	private Label dontFindMemberShipIDLabel;
 
@@ -104,24 +108,26 @@ public class LoginController {
 	enum UserType {
 		user, member, employee
 	}
-    
+
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "Contact Us", userID);
 		FXMLLoader loader = nextStages.openPopUp();
 		loader.getController();
-	} 
+	}
 
 	@FXML
 	void changeIdentificationVisible(ActionEvent event) {
 		loginSetVisibility(false);
 		identificationSetVisibility(true);
+		noSelected.setVisible(false);
 	}
 
 	@FXML
 	void changeLoginVisible(ActionEvent event) {
 		identificationSetVisibility(false);
 		loginSetVisibility(true);
+		noSelected.setVisible(false);
 	}
 
 	/**
@@ -132,11 +138,11 @@ public class LoginController {
 	 */
 	@FXML
 	void finishOrderClicked(MouseEvent event) throws Exception {
+		
 		m_event = event;
 		ArrayList<String> toSend = new ArrayList<String>();
 		clearAllErrorMessage();
 		if (enterAsEmployee.isSelected()) {// check if employee
-
 			String empNumber = enterUserName.getText();
 			String password = EnterPsw.getText();
 			if (empNumber.equals("") || password.equals("")) {
@@ -188,7 +194,7 @@ public class LoginController {
 //					}
 					statusToOpen();
 				}
-				
+
 				if (!memberNumber.equals("")) {// if the user enter membership number
 					char[] chars = memberNumber.toCharArray();
 					for (char c : chars) {
@@ -209,6 +215,8 @@ public class LoginController {
 				}
 			}
 		}
+		else 
+			 noSelected.setVisible(true);
 	}
 
 	/**
@@ -223,11 +231,12 @@ public class LoginController {
 		txtErrAllFieldsReq.setVisible(false);
 		IDError.setVisible(false);
 		memberNotNumbers.setVisible(false);
-		
+
 	}
 
 	/**
 	 * check which status we need to open
+	 * 
 	 * @throws Exception
 	 */
 	private void statusToOpen() throws Exception {
@@ -250,14 +259,14 @@ public class LoginController {
 	 */
 	private void openHomePage(UserType userType) throws Exception {
 		// TODO
-		
+
 		switch (userType) {
 		case member: {
 			fName = ChatClient.dataInArrayList.get(1);
 			lName = ChatClient.dataInArrayList.get(2);
 			userID = ChatClient.dataInArrayList.get(0);
 			role = ChatClient.dataInArrayList.get(3);
-			if(role.equals(Role.Member.toString().toLowerCase()))
+			if (role.equals(Role.Member.toString().toLowerCase()))
 				amountOfPeople = Integer.parseInt(ChatClient.dataInArrayList.get(4));
 			break;
 		}
@@ -279,20 +288,17 @@ public class LoginController {
 		}
 //		BorderPane borderPane = null;
 //		FXMLLoader loader = new FXMLLoader();
-		FXMLLoader loader;		
+		FXMLLoader loader;
 //		Stage primaryStage = new Stage();
 		// Pane root =
 		// loader.load(getClass().getResource("../fxmlFiles/HomePageForEmployee.fxml").openStream());
 
-		
 		NextStages nextStages = new NextStages("/fxmlFiles/HomePageForEmployee.fxml", "Home Page", userID);
-    	loader = nextStages.goToNextStage(m_event);
+		loader = nextStages.goToNextStage(m_event);
 //		loader.setLocation(getClass().getResource("../fxmlFiles/HomePageForEmployee.fxml"));
 //		borderPane = loader.load();
 		HomePageForEmployeeController homePageForEmployeeController = loader.getController();
 
-		
-		
 		homePageForEmployeeController.setDetails(fName, lName, role, userID, park);
 		homePageForEmployeeController.setAmountForMember(amountOfPeople);
 		// Scene scene = new Scene(root);
@@ -320,17 +326,19 @@ public class LoginController {
 	public void loginSetVisibility(boolean cond) {
 		login.setVisible(cond);
 	}
-	
 
-    @FXML
-    void helpBtnPressed(MouseEvent event) {
-    	Tooltip tt = new Tooltip();
-		tt.setText("please choose which type of login you would like to do\n(employee/visitor)\nand fill the required details");  // add text to help filed 
-		tt.setStyle("-fx-font: normal bold 15 Langdon; "
-		    + "-fx-background-color: #F0F8FF; "
-		    + "-fx-text-fill: black;");
+	@FXML
+	void helpBtnPressed(MouseEvent event) {
+		Tooltip tt = new Tooltip();
+		tt.setText(
+				"please choose which type of login you would like to do\n(employee/visitor)\nand fill the required details"); // add
+																																// text
+																																// to
+																																// help
+																																// filed
+		tt.setStyle("-fx-font: normal bold 15 Langdon; " + "-fx-background-color: #F0F8FF; " + "-fx-text-fill: black;");
 
 		helpBtn.setTooltip(tt);
-    }
+	}
 
 }
