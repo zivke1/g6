@@ -13,7 +13,6 @@ import javafx.scene.Node;
 
 /**
  * 
- * @author shani
  * class to show next stage with and without hiding current stage
  * @param path - of fxml to open
  * @param stageTitle - to set in form

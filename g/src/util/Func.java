@@ -5,7 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 /**
  * 
- * general function
+ * Class to present date by order
+ * of day - month - year
  *
  */
 public class Func {

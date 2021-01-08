@@ -285,11 +285,11 @@ public class CardReaderController implements Initializable {
 						arrtmp.add(rowData.getOrderID());
 						ClientMain.chat.accept(arrtmp);
 						arrtmp = ChatClient.dataInArrayList;
-						System.out.println(arrtmp.get(2));
+						//System.out.println(arrtmp.get(2));
 						LocalTime timeOfChossenOrder = LocalTime.of(Integer.valueOf(arrtmp.get(2).substring(0, 2)),
 								Integer.valueOf(arrtmp.get(2).substring(3, 5)),
 								Integer.valueOf(arrtmp.get(2).substring(6, 8)));
-						System.out.println(timeOfChossenOrder);
+						//System.out.println(timeOfChossenOrder);
 						LocalTime currentTime = LocalTime.now();
 						LocalTime timeOfChossenOrderPlusH = timeOfChossenOrder.plusHours(3);
 						if (currentTime.compareTo(timeOfChossenOrder) >= 0
@@ -391,6 +391,8 @@ public class CardReaderController implements Initializable {
 
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
+		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "Contact Us", "");
+		nextStages.openPopUp();
 	}
 
 	@FXML

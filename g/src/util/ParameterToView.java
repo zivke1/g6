@@ -16,11 +16,7 @@ import javafx.scene.control.Button;
  *the table in GUI
  */
 public class ParameterToView implements Serializable {
-	
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private String parkName,parameter;
 //	final private String reject="Deny",approve="Accept";
