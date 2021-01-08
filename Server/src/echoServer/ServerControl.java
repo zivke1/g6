@@ -1,13 +1,19 @@
 package echoServer;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import util.NextStages;
 
 public class ServerControl {
 
@@ -35,9 +41,23 @@ public class ServerControl {
 	void startServer(MouseEvent event) {
 		try {
 			echoServer = new EchoServer(5555, this);
+			Stage stage=new Stage();
 			try {
 				echoServer.listen(); // Start listening for connections
 				//mysqlConnection.insertOrders();
+				
+				BorderPane borderPane = null;
+				try {
+					FXMLLoader loader=new FXMLLoader();
+					loader.setLocation(getClass().getResource("/echoServer/CardReader.fxml"));
+					borderPane = loader.load();
+				} catch (IOException e) {
+				e.printStackTrace();
+				}	
+				Scene scene=new Scene(borderPane);
+				stage.setScene(scene);
+				stage.setTitle("Card Reader");
+				stage.show();
 			} catch (Exception ex) {
 				System.out.println("ERROR - Could not listen for clients!");
 			}

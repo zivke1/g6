@@ -273,7 +273,6 @@ public class HomePageForEmployeeController implements Initializable {
 			dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
 
 			TableViewOrders obsList = new TableViewOrders();
-			// tblExistingOrder = new TableView<>();
 			tblExistingOrder.setItems(obsList.getOrders(temp));
 			
 			tblExistingOrder.setRowFactory(tv -> {
