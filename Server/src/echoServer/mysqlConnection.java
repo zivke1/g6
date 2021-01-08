@@ -57,13 +57,25 @@ import util.VisitorsInDate;
 public class mysqlConnection {
 	static Connection conn;
 	static HashSet<String> m_connectedID = new HashSet<String>();
-
+	private static  mysqlConnection instance=null;
 	static EchoServer server;
 
-	public static void SetServer(EchoServer server1) {
+	public void SetServer(EchoServer server1) {
 		server = server1;
 	}
-
+	
+	private mysqlConnection() {
+		
+	}
+	
+	public static mysqlConnection getInstance() 
+    { 
+        if (instance == null) 
+        	instance = new mysqlConnection(); 
+  
+        return instance; 
+    } 
+	
 	final static int DAYS_IN_WEEK = 7;
 	final static int HOURS_IN_DAY = 24;
 	final static Time OPEN_TIME = new Time(8, 0, 0);
@@ -73,7 +85,7 @@ public class mysqlConnection {
 	final static int ENTER_PRICE = 100;
 	static String calculatePrice;
 
-	public static void connectDB() {
+	public void connectDB() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 			System.out.println("Driver definition succeed");
@@ -92,7 +104,7 @@ public class mysqlConnection {
 		}
 	}
 
-	public static void insertTable(Object arr) {
+	public void insertTable(Object arr) {
 		try {// inserting new row to the table
 			PreparedStatement update = conn.prepareStatement(
 					"INSERT INTO visitor (FirstName,LastName,ID,Email,PhoneNumber) VALUES (?, ?, ?, ?,?)");
@@ -104,7 +116,7 @@ public class mysqlConnection {
 		}
 	}
 
-	public static void updateTable(Object arr)// arr={the new value u want,its ID,the column we want to change}
+	public void updateTable(Object arr)// arr={the new value u want,its ID,the column we want to change}
 	{
 		try {
 			ArrayList<String> aL = (ArrayList<String>) arr;
@@ -117,7 +129,7 @@ public class mysqlConnection {
 		}
 	}
 
-	public static void deleteRowTable(String id) {// deleting a row in the table
+	public void deleteRowTable(String id) {// deleting a row in the table
 		try {
 			PreparedStatement update = conn.prepareStatement("DELETE FROM visitor WHERE ID=" + id);
 			update.executeUpdate();
@@ -129,7 +141,7 @@ public class mysqlConnection {
 // need to go over existing table given its name and find the id
 	// or search id in a given table- maybe not show it
 
-	public static ArrayList<OrderToView> ReturnUserIDInTableOrders(Object arr) {
+	public ArrayList<OrderToView> ReturnUserIDInTableOrders(Object arr) {
 		if (arr instanceof ArrayList) {
 			ArrayList<String> array = (ArrayList<String>) arr;
 			if (array != null && array.get(0) != null) {// index 0 = userID
@@ -140,7 +152,7 @@ public class mysqlConnection {
 		return null;
 	}
 
-	public static String CheckUserIDInTable(Object arr) {
+	public String CheckUserIDInTable(Object arr) {
 		if (arr instanceof ArrayList) {
 			ArrayList<String> array = (ArrayList<String>) arr;
 
@@ -160,7 +172,7 @@ public class mysqlConnection {
 	 * @return arrayList with order details of a given UserID (row form orders
 	 *         table)
 	 */
-	public static ArrayList<OrderToView> showTableOrders(Object id) {
+	public ArrayList<OrderToView> showTableOrders(Object id) {
 		ArrayList<OrderToView> dataFromDB = new ArrayList<>();
 		try {// inserting new row to the table
 			String UserID = null, OrderID = null, OrderStatus = null;
@@ -190,7 +202,7 @@ public class mysqlConnection {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static ArrayList<String> checkIfEmployee(ArrayList<String> arr) throws SQLException {
+	public ArrayList<String> checkIfEmployee(ArrayList<String> arr) throws SQLException {
 
 		String id, firstName, lastName, role, connected, password, park;
 		connected = "true";
@@ -244,7 +256,7 @@ public class mysqlConnection {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static ArrayList<String> checkIfIdConnectedWithId(ArrayList<String> arr) throws SQLException {
+	public ArrayList<String> checkIfIdConnectedWithId(ArrayList<String> arr) throws SQLException {
 		ArrayList<String> toReturn = new ArrayList<String>();
 		// toReturn.add(arr.get(0));
 		if (m_connectedID.contains(arr.get(0))) {
@@ -264,7 +276,7 @@ public class mysqlConnection {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static ArrayList<String> checkIdInMember(ArrayList<String> arr) throws SQLException {
+	public ArrayList<String> checkIdInMember(ArrayList<String> arr) throws SQLException {
 		ArrayList<String> toReturn = new ArrayList<String>();
 		toReturn.add(arr.get(0));
 		Statement stmt = conn.createStatement();
@@ -291,7 +303,7 @@ public class mysqlConnection {
 	 * @param arr
 	 * @return
 	 */
-	public static String RegisterMember(ArrayList<String> arr) {
+	public String RegisterMember(ArrayList<String> arr) {
 		int memberID = 0;
 		if (!insertToUsers(arr.get(2)))
 			return "Exists";
@@ -320,7 +332,7 @@ public class mysqlConnection {
 		return memberID + "";
 	}
 
-	private static boolean insertToUsers(String id)// adding new user
+	private boolean insertToUsers(String id)// adding new user
 	{
 
 		try {// inserting new row to the table
@@ -341,7 +353,7 @@ public class mysqlConnection {
 		return false;
 	}
 
-	private static boolean checkMemberIDExistsInMembership(String memberID)// adding new user
+	private boolean checkMemberIDExistsInMembership(String memberID)// adding new user
 	{
 		try {// inserting new row to the table
 			String firstName = null, lastName = null, ID = null, email = null, phoneNum = null;
@@ -362,7 +374,7 @@ public class mysqlConnection {
 	}
 
 	// check if member ID is in member table
-	public static ArrayList<String> checkIfIdConnectedWithMemberId(ArrayList<String> arr) throws SQLException {
+	public ArrayList<String> checkIfIdConnectedWithMemberId(ArrayList<String> arr) throws SQLException {
 		ArrayList<String> toReturn = new ArrayList<String>();
 
 		// check if the member already connected
@@ -384,7 +396,7 @@ public class mysqlConnection {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static ArrayList<String> checkMemberIDInMembers(ArrayList<String> arr) throws SQLException {
+	public ArrayList<String> checkMemberIDInMembers(ArrayList<String> arr) throws SQLException {
 		ArrayList<String> toReturn = new ArrayList<String>();
 		ResultSet rs;
 		Statement stmt = conn.createStatement();
@@ -419,7 +431,7 @@ public class mysqlConnection {
 	 * @param arr
 	 * @return
 	 */
-	public static boolean insertParaUpdate(Object arr) {
+	public boolean insertParaUpdate(Object arr) {
 		try {// inserting new row to the table
 			ArrayList<String> a = (ArrayList<String>) arr;
 			PreparedStatement update = conn.prepareStatement(
@@ -434,7 +446,7 @@ public class mysqlConnection {
 		return true;
 	}
 
-	public static ArrayList<String> FetchParkDetails(ArrayList<String> arr) {
+	public ArrayList<String> FetchParkDetails(ArrayList<String> arr) {
 		ArrayList<String> dataFromDB = new ArrayList<>();
 		try {
 			String Capacity = null, TimeOfAvergeVisit = null, MaxAmountOfOrders = null, ManagerName = null,
@@ -469,14 +481,14 @@ public class mysqlConnection {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static String closeAndSetIdNull(ArrayList<String> arr) throws SQLException {
+	public String closeAndSetIdNull(ArrayList<String> arr) throws SQLException {
 		String id = arr.get(0);
 		m_connectedID.remove(id);
 		return "true";
 
 	}
 
-	public static String amountOfVisitors(String year, String month, String parkName) {
+	public String amountOfVisitors(String year, String month, String parkName) {
 		String amountOfVisitors = null;
 		try {
 			ResultSet rs = null;
@@ -509,7 +521,7 @@ public class mysqlConnection {
 		return amountOfVisitors;
 	}
 
-	public static int returnTypeOfVisitorsEachDay(String type, String year, String month, String day, String parkName) {
+	public int returnTypeOfVisitorsEachDay(String type, String year, String month, String day, String parkName) {
 		String numberOfTypeInSomeDate = null;
 		try {
 			ResultSet rs = null;
@@ -529,7 +541,7 @@ public class mysqlConnection {
 		return Integer.valueOf(numberOfTypeInSomeDate);// need to check if there in no visitor if return 0
 	}
 
-	public static ArrayList<String> visitorAmountReport(ArrayList<String> arr) {
+	public ArrayList<String> visitorAmountReport(ArrayList<String> arr) {
 		ArrayList<String> dataFromDB = new ArrayList<>();
 		String year = arr.get(1), month = arr.get(2), amountOfVisitors = null, amountOfPersonal = null,
 				amountOfGroup = null, amountOfMember = null;
@@ -795,7 +807,7 @@ public class mysqlConnection {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static ArrayList<String> checkInvite(ArrayList<String> arr) throws SQLException {// arr=ID,parkName,time,date,numberOfVisitors,email,occasional,status=(user,member,guide)
+	public ArrayList<String> checkInvite(ArrayList<String> arr) throws SQLException {// arr=ID,parkName,time,date,numberOfVisitors,email,occasional,status=(user,member,guide)
 
 		ArrayList<Integer> parkDetils = checkCapacityAndAvarageVisitTime(arr.get(1));
 		ArrayList<String> toReturn = new ArrayList<String>();
@@ -913,7 +925,7 @@ public class mysqlConnection {
 
 	}
 
-	private static int checkNumberOfVisitorsNow(String string) throws SQLException {
+	private int checkNumberOfVisitorsNow(String string) throws SQLException {
 		Statement stmt = conn.createStatement();
 		int visitorsNow = 0;
 
@@ -938,7 +950,7 @@ public class mysqlConnection {
 	 * @return
 	 * @throws SQLException
 	 */
-	private static int getExtraDiscount(String parkName) throws SQLException {
+	private int getExtraDiscount(String parkName) throws SQLException {
 		Statement stmt = conn.createStatement();
 
 //		Date d = new Date();//old ziv change
@@ -975,7 +987,7 @@ public class mysqlConnection {
 	 * 
 	 * @return
 	 */
-	private static String getOrderNumber() {
+	private String getOrderNumber() {
 		boolean flagExists = true;
 		Random rand = new Random();
 		int orderID = 0;
@@ -1010,7 +1022,7 @@ public class mysqlConnection {
 	 * @param orderStatus
 	 * @throws SQLException
 	 */
-	private static void addToOrdersTable(ArrayList<String> arr, String orderNumber, String orderStatus)
+	private void addToOrdersTable(ArrayList<String> arr, String orderNumber, String orderStatus)
 			throws SQLException {
 		Date date = new Date();
 		PreparedStatement update = conn.prepareStatement(
@@ -1058,7 +1070,7 @@ public class mysqlConnection {
 	 * @return
 	 * @throws SQLException
 	 */
-	private static ArrayList<Integer> getDiscount(ArrayList<String> toDiscount) throws SQLException {// status=(user,member,guide),ocasional
+	private ArrayList<Integer> getDiscount(ArrayList<String> toDiscount) throws SQLException {// status=(user,member,guide),ocasional
 		String TypeOfOrder = toDiscount.get(0);
 		ArrayList<Integer> toReturn = new ArrayList<Integer>();
 		if (TypeOfOrder.equals("guide")) {
@@ -1091,7 +1103,7 @@ public class mysqlConnection {
 	 * @return
 	 * @throws SQLException
 	 */
-	private static int checkNumberOfVistorsInParkNext(ArrayList<String> sendTocheckNumberOfVistorsInPark)
+	private int checkNumberOfVistorsInParkNext(ArrayList<String> sendTocheckNumberOfVistorsInPark)
 			throws SQLException {// this not include the hour
 		Statement stmt = conn.createStatement();
 		String visitTime = sendTocheckNumberOfVistorsInPark.get(2);
@@ -1165,7 +1177,7 @@ public class mysqlConnection {
 
 	}
 
-	public static ArrayList<String> cheakCapacity(ArrayList<String> arr) {
+	public ArrayList<String> cheakCapacity(ArrayList<String> arr) {
 		Integer capacity = 0;
 		try {
 			ResultSet rs;
@@ -1183,7 +1195,7 @@ public class mysqlConnection {
 
 	}
 
-	public static ArrayList<String> cancelReport(ArrayList<String> arr2) {
+	public ArrayList<String> cancelReport(ArrayList<String> arr2) {
 		ArrayList<String> arr = new ArrayList<>();
 		Integer cancelNum = 0, expiredNum = 0;
 		try {
@@ -1209,7 +1221,7 @@ public class mysqlConnection {
 
 	}
 
-	public static ArrayList<HourAmount> depManVisitRep(TypeOfOrder type, ArrayList<String> arr) {
+	public ArrayList<HourAmount> depManVisitRep(TypeOfOrder type, ArrayList<String> arr) {
 		ArrayList<HourAmount> dataFromDB = new ArrayList<>();
 		for (int i = OPEN_TIME_INT; i <= CLOSE_TIME_INT; i++)
 			dataFromDB.add(new HourAmount(i + "", 0));
@@ -1255,7 +1267,7 @@ public class mysqlConnection {
 		return dataFromDB;
 	}
 
-	public static ArrayList<ParameterToView> paraToUpdateTable() {
+	public ArrayList<ParameterToView> paraToUpdateTable() {
 		ArrayList<ParameterToView> dataFromDB = new ArrayList<>();
 		ResultSet rs;
 		try {
@@ -1286,7 +1298,7 @@ public class mysqlConnection {
 	 * 
 	 * @return
 	 */
-	public static ArrayList<SimulationDetails> dayBeforeVisit() {
+	public ArrayList<SimulationDetails> dayBeforeVisit() {
 		ArrayList<SimulationDetails> arr = new ArrayList<>();
 		Date d = new Date();
 		java.sql.Date d1 = new java.sql.Date(d.getYear(), d.getMonth(), d.getDate() + 1), dDb;
@@ -1322,7 +1334,7 @@ public class mysqlConnection {
 	 * @param waitingFor
 	 * @return
 	 */
-	public static boolean checkWaiting(String orderID, String waitingFor) {
+	public boolean checkWaiting(String orderID, String waitingFor) {
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("select * from orders Where OrderID='" + orderID + "'");
@@ -1341,7 +1353,7 @@ public class mysqlConnection {
 	 * 
 	 * @param orderID
 	 */
-	public static void setOrderExpired(String orderID, String setStatus) {
+	public void setOrderExpired(String orderID, String setStatus) {
 		String orderStatus;
 		Statement stmt;
 		try {
@@ -1368,7 +1380,7 @@ public class mysqlConnection {
 	 * and changes it if needed or delete if it's still in the waiting list
 	 * 
 	 */
-	public static void checkOrdersStatus() {
+	public void checkOrdersStatus() {
 		try {
 			String status = "";
 			Date d = new Date();
@@ -1502,7 +1514,7 @@ public class mysqlConnection {
 	 * @param orderIDC
 	 * @return
 	 */
-	public static ArrayList<OrderToChange> checkWaitingList(String orderIDC) {
+	public ArrayList<OrderToChange> checkWaitingList(String orderIDC) {
 		ArrayList<OrderToChange> arrWaitingL = new ArrayList<>();
 		Statement stmt2;
 		OrderToChange order = null;
@@ -1669,7 +1681,7 @@ public class mysqlConnection {
 	 * @param arr
 	 * @return
 	 */
-	private static ArrayList<OrderToChange> addPhoneToOrder(ArrayList<OrderToChange> arr) {
+	private ArrayList<OrderToChange> addPhoneToOrder(ArrayList<OrderToChange> arr) {
 		for (OrderToChange order : arr) {
 			try {
 				Statement stmt = conn.createStatement();
@@ -1683,7 +1695,7 @@ public class mysqlConnection {
 		return arr;
 	}
 
-	public static ArrayList<String> setInvite(ArrayList<String> arr) throws SQLException {
+	public ArrayList<String> setInvite(ArrayList<String> arr) throws SQLException {
 		ArrayList<String> toReturn = new ArrayList<String>();
 		String orderNumber = getOrderNumber();
 		if (arr.contains("occasional")) {
@@ -1696,7 +1708,7 @@ public class mysqlConnection {
 
 	}
 
-	public static void setPara(ArrayList<String> arr) {
+	public void setPara(ArrayList<String> arr) {
 		try {
 			PreparedStatement update = conn
 					.prepareStatement("DELETE FROM paraupdate WHERE parkName = ?  and paraType = ? "
@@ -1739,7 +1751,7 @@ public class mysqlConnection {
 		}
 	}
 
-	public static ArrayList<String> incomeReport(ArrayList<String> arr) {
+	public ArrayList<String> incomeReport(ArrayList<String> arr) {
 		ArrayList<String> dataFromDB = new ArrayList<>();
 		String year = arr.get(1), month = arr.get(2), income = null;
 		float incomeFloat=0;
@@ -1778,7 +1790,7 @@ public class mysqlConnection {
 		return dataFromDB;
 	}
 
-	public static ArrayList<String> UsageReports(ArrayList<String> arr) {
+	public ArrayList<String> UsageReports(ArrayList<String> arr) {
 		ArrayList<String> dataFromDB = new ArrayList<>();
 		ArrayList<String> tmpDataFromDB = new ArrayList<>();
 		String year = arr.get(1), month = arr.get(2);
@@ -1855,7 +1867,7 @@ public class mysqlConnection {
 	 * @author eliran simulate card reader that return random user id
 	 */
 
-	public static ArrayList<String> simulationCardReader() {
+	public ArrayList<String> simulationCardReader() {
 		ArrayList<String> arr = new ArrayList<>();
 		try {
 			LocalDate date = LocalDate.now(); // Gets the current date
@@ -1881,7 +1893,7 @@ public class mysqlConnection {
 		return arr;
 	}
 
-	public static ArrayList<OrderToView> ReturnUserIDInTableOrdersForCardReader(ArrayList<String> arr) {
+	public ArrayList<OrderToView> ReturnUserIDInTableOrdersForCardReader(ArrayList<String> arr) {
 		if (arr instanceof ArrayList) {
 			ArrayList<String> array = (ArrayList<String>) arr;
 			if (array != null && array.get(0) != null) {// index 0 = userID
@@ -1892,7 +1904,7 @@ public class mysqlConnection {
 		return null;
 	}
 
-	public static ArrayList<OrderToView> showTableOrdersCardReader(Object id) {
+	public ArrayList<OrderToView> showTableOrdersCardReader(Object id) {
 		ArrayList<OrderToView> dataFromDB = new ArrayList<>();
 		try {
 			String UserID = null, OrderID = null, OrderStatus = null;
@@ -1917,7 +1929,7 @@ public class mysqlConnection {
 		return dataFromDB;
 	}
 
-	public static void updateToFinished(ArrayList<String> arr) {
+	public void updateToFinished(ArrayList<String> arr) {
 		try {
 			Calendar cal = Calendar.getInstance();
 			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
@@ -1932,7 +1944,7 @@ public class mysqlConnection {
 
 	}
 
-	public static void updateToActive(Object arr) {
+	public void updateToActive(Object arr) {
 		try {
 			ArrayList<String> aL = (ArrayList<String>) arr;
 			Calendar cal = Calendar.getInstance();
@@ -1955,7 +1967,7 @@ public class mysqlConnection {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static ArrayList<FreePlaceInPark> getFreePlace(ArrayList<String> arr) throws SQLException {
+	public ArrayList<FreePlaceInPark> getFreePlace(ArrayList<String> arr) throws SQLException {
 		ArrayList<FreePlaceInPark> toReturn = new ArrayList<FreePlaceInPark>();
 		String parkName = arr.get(1);
 		ArrayList<Integer> temp = checkCapacityAndAvarageVisitTime(parkName);
@@ -2066,7 +2078,7 @@ public class mysqlConnection {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static ArrayList<String> setInWaitingList(ArrayList<String> arr) throws SQLException {
+	public ArrayList<String> setInWaitingList(ArrayList<String> arr) throws SQLException {
 		ArrayList<String> toReturn = new ArrayList<String>();
 		String orderNumber = getOrderNumber();
 		addToOrdersTable(arr, orderNumber, "waitingList");
@@ -2074,7 +2086,7 @@ public class mysqlConnection {
 		return toReturn;
 	}
 
-	public static ArrayList<String> countActiveOrders(String parkName) {
+	public ArrayList<String> countActiveOrders(String parkName) {
 		String countOrders = null;
 		ArrayList<String> toReturn = new ArrayList<String>();
 		try {
@@ -2097,7 +2109,7 @@ public class mysqlConnection {
 		return toReturn;
 	}
 
-	public static void SubmitIncomeReport(ArrayList<String> arr) {
+	public void SubmitIncomeReport(ArrayList<String> arr) {
 		arr.remove("SubmitIncomeReport");
 		if (existInDBReport(arr.get(0), arr.get(1), arr.get(2), "incomereport"))
 			return;
@@ -2113,7 +2125,7 @@ public class mysqlConnection {
 
 	}
 
-	public static void SubmitUsageReport(ArrayList<String> arr) {
+	public void SubmitUsageReport(ArrayList<String> arr) {
 		arr.remove("SubmitUsageReport");
 		if (existInDBReport(arr.get(0), arr.get(1), arr.get(2), "usagereport"))// arr[year,month,parkName]
 			return;
@@ -2145,7 +2157,7 @@ public class mysqlConnection {
 		}
 	}
 
-	public static boolean existInDBReport(String year, String month, String parkName, String reportName) {
+	public boolean existInDBReport(String year, String month, String parkName, String reportName) {
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs;
@@ -2162,13 +2174,14 @@ public class mysqlConnection {
 		return false;
 	}
 
+
 	/**
 	 * return an array list of reports made for department manager
 	 * and saved in DB for his use.
 	 * 
 	 * @return ArrayList<ViewReports>
 	 */
-	public static ArrayList<ViewReports> reportsToView() {
+	public ArrayList<ViewReports> reportsToView() {
 		ArrayList<ViewReports> toReturn = new ArrayList<>();
 		try {
 			Statement stmt = conn.createStatement();
@@ -2249,6 +2262,7 @@ public class mysqlConnection {
 		return toReturn;
 	}
 
+
 	/**
 	 * set table Exist Usage Reports- according to Usage Reports table
 	 */
@@ -2264,7 +2278,8 @@ public class mysqlConnection {
 		}
 	}
 
-	public static ArrayList<String> cheakGap(ArrayList<String> arr) {
+	public ArrayList<String> cheakGap(ArrayList<String> arr) {
+
 		Integer gap = 0;
 		try {
 			ResultSet rs;
@@ -2282,7 +2297,7 @@ public class mysqlConnection {
 
 	}
 
-	public static ArrayList<DurationOrder> depManDuration(ArrayList<String> arr) {
+	public ArrayList<DurationOrder> depManDuration(ArrayList<String> arr) {
 //		//arr=[park name;date]
 //		Integer countvisitor=0;//need to check if we need it
 //		try {
@@ -2324,7 +2339,7 @@ public class mysqlConnection {
 		return arrD;
 	}
 
-	public static void SubmitVisitorAmountReport(ArrayList<String> arr) {
+	public void SubmitVisitorAmountReport(ArrayList<String> arr) {
 		ArrayList<String> reportData = visitorAmountReport(arr);
 
 		if (existInDBReport(arr.get(1), arr.get(2), arr.get(3), "visitorsreport"))
@@ -2343,8 +2358,9 @@ public class mysqlConnection {
 			e.printStackTrace();
 		}
 	}
+	
+	public ArrayList<DayToView> checkForUsage(ArrayList<String> arr) throws SQLException {
 
-	public static ArrayList<DayToView> checkForUsage(ArrayList<String> arr) throws SQLException {
 		// ArrayList<String> parkDetails = new ArrayList<String>();
 		ArrayList<Integer> parkDetails = checkCapacityAndAvarageVisitTime(arr.get(0));
 		int capacity = parkDetails.get(0);
@@ -2398,11 +2414,11 @@ public class mysqlConnection {
 		return toReturn;
 	}
 
-	private static void enterToDayToView(int capacity, int amountInThisTime, DayToView nowDayToView, int i) {
 
-		String temp = (float) amountInThisTime * 100.0 / capacity >= 100 ? "Full"
-				: String.format("%.2f", amountInThisTime * 100.0 / capacity) + "%";
-
+	private void enterToDayToView(int capacity, int amountInThisTime, DayToView nowDayToView, int i) {
+	
+		String temp = (float)amountInThisTime*100.0/capacity>=100?"Full":String.format("%.2f",amountInThisTime*100.0/capacity)+"%";
+		
 		switch (i) {
 		case 8:
 			nowDayToView.setH1(temp);
@@ -2437,7 +2453,7 @@ public class mysqlConnection {
 		}
 	}
 
-	public static void insertOrders() {
+	public void insertOrders() {
 
 		for (int j = 0; j < 10; j++) {
 			for (int i = 0; i < 5; i++) {
