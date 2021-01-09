@@ -330,7 +330,7 @@ public class EchoServer extends AbstractServer {
 					break;
 				}
 				ArrayList<HourAmount> answer;
-				answer = Connection.depManVisitRep(type, arr);
+				answer = Connection.depManVisitRep( arr);
 				client.sendToClient(answer);
 
 				return;

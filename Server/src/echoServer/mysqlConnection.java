@@ -58,7 +58,7 @@ import util.VisitorsInDate;
  * get data from our DB using queries
  * singleton
  */
-public class mysqlConnection {
+public class mysqlConnection implements IEnteranceReport {
 	static Connection conn;
 	static HashSet<String> m_connectedID = new HashSet<String>();
 	private static  mysqlConnection instance=null;
@@ -1225,7 +1225,8 @@ public class mysqlConnection {
 
 	}
 
-	public ArrayList<HourAmount> depManVisitRep(TypeOfOrder type, ArrayList<String> arr) {
+	@Override
+	public ArrayList<HourAmount> depManVisitRep( ArrayList<String> arr) {
 		ArrayList<HourAmount> dataFromDB = new ArrayList<>();
 		for (int i = OPEN_TIME_INT; i <= CLOSE_TIME_INT; i++)
 			dataFromDB.add(new HourAmount(i + "", 0));
