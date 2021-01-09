@@ -31,7 +31,7 @@ import util.TypeOfOrder;
 
 /**
  * 
- * @author Idan controller for visitor report of department manager with bar -
+ * 		   controller for visitor report of department manager with bar -
  *         chart
  */
 public class VisitorReportDepartmentController {

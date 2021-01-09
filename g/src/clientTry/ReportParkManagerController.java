@@ -25,7 +25,7 @@ import javafx.stage.Stage;
 import util.NextStages;
 
 /**
- * @author eliran this class is controller for the FXML ReportParkManager the
+ * 		   this class is controller for the FXML ReportParkManager the
  *         controller isn't connect to the DB only call the right page report
  *         and send him the year month and park name.
  *

@@ -258,12 +258,10 @@ public class AddInstructorController {
 	}
 
 	public void setPreviousPage(MouseEvent event) {
-		// TODO Auto-generated method stub
 		m_previousPage = event;
 	}
 
 	public void setMainPage(MouseEvent event) {
-		// TODO Auto-generated method stub
 		m_MainPage = event;
 	}
 

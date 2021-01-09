@@ -32,7 +32,7 @@ import util.TypeOfOrder;
 
 
 /**
- * @author eliran this class is controller for the FXML VisitorAmountReport the
+ * 		    this class is controller for the FXML VisitorAmountReport the
  *         controller fetch from the DB the data for the report in a specific
  *         month and display chart with the data.
  *

@@ -10,7 +10,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
+/**
+ * 
+ * main for server
+ *
+ */
 public class ServerMain extends Application{
 
 	 BorderPane root;

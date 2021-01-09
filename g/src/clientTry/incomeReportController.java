@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 import util.NextStages;
 
 /**
- * @author eliran
+ * 
  * this class is controller for the FXML incomeREport
  * the controller fetch from the DB the data for the income 
  * in a specific month

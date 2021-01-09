@@ -34,7 +34,7 @@ import util.TableApprovePara;
 import util.TableViewOrders;
 /**
  * 
- * @author Idan
+ * 
  *Controller for GUI Approve Parameters Page for department manager.
  *include the ability to approve and deny offers to change parameters or make new discount    
  */

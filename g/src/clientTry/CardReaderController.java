@@ -285,17 +285,15 @@ public class CardReaderController implements Initializable {
 						arrtmp.add(rowData.getOrderID());
 						ClientMain.chat.accept(arrtmp);
 						arrtmp = ChatClient.dataInArrayList;
-						//System.out.println(arrtmp.get(2));
 						LocalTime timeOfChossenOrder = LocalTime.of(Integer.valueOf(arrtmp.get(2).substring(0, 2)),
 								Integer.valueOf(arrtmp.get(2).substring(3, 5)),
 								Integer.valueOf(arrtmp.get(2).substring(6, 8)));
-						//System.out.println(timeOfChossenOrder);
 						LocalTime currentTime = LocalTime.now();
 						LocalTime timeOfChossenOrderPlusH = timeOfChossenOrder.plusHours(3);
 						if (currentTime.compareTo(timeOfChossenOrder) >= 0
-								&& currentTime.compareTo(timeOfChossenOrderPlusH) < 0)// if the visitor came between the
-																						// time
-																						// of orders up to hour late
+								&& currentTime.compareTo(timeOfChossenOrderPlusH) < 0)/** if the visitor came between the
+																						* time
+																						* of orders up to hour late*/
 						{
 							this.orderID.setText(arrtmp.get(0));
 							pName.setText(arrtmp.get(1));
@@ -424,18 +422,17 @@ public class CardReaderController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-		// order ID Column
+		/** order ID Column*/
 		orderIDcolumn = new TableColumn<>("Order ID");
 		orderIDcolumn.setMinWidth(150);
 		orderIDcolumn.setCellValueFactory(new PropertyValueFactory<>("orderID"));
 
-		// Status Column
+		/**Status Column*/
 		statusColumn = new TableColumn<>("Status");
 		statusColumn.setMinWidth(150);
 		statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-		// Date Column
+		/** Date Column*/
 		dateColumn = new TableColumn<>("Date");
 		dateColumn.setMinWidth(150);
 		dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));

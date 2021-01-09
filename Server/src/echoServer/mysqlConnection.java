@@ -53,7 +53,11 @@ import util.Role;
 import util.TypeOfOrder;
 import util.SimulationDetails;
 import util.VisitorsInDate;
-
+/**
+ * 
+ * get data from our DB using queries
+ * singleton
+ */
 public class mysqlConnection {
 	static Connection conn;
 	static HashSet<String> m_connectedID = new HashSet<String>();
@@ -66,7 +70,7 @@ public class mysqlConnection {
 	
 	private mysqlConnection() {
 		
-	}
+	} 
 	
 	public static mysqlConnection getInstance() 
     { 
@@ -2457,7 +2461,7 @@ public class mysqlConnection {
 		}
 	}
 
-	public void insertOrders() {
+	public static void insertOrders() {
 
 		for (int j = 0; j < 10; j++) {
 			for (int i = 0; i < 5; i++) {
@@ -2505,7 +2509,7 @@ public class mysqlConnection {
 						update.setBoolean(11, false);
 					
 					update.setInt(12, amount % 16);
-					update.setFloat(13, 150.6f);
+					update.setFloat(13, 150.6f); 
 					update.setString(14, "abc" + i + "@abc.com");
 					update.setString(15, null);
 					update.executeUpdate();

@@ -11,7 +11,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
+/**
+ * 
+ * main for client
+ *
+ */
 public class ClientMain extends Application {
 	final public static int OPEN_TIME_INT=8;
 	final public static int CLOSE_TIME_INT=16;
@@ -40,7 +44,7 @@ public class ClientMain extends Application {
 			FXMLLoader loader=new FXMLLoader();
 
 
-			loader.setLocation(getClass().getResource("../fxmlFiles/LoginP.fxml"));
+			loader.setLocation(getClass().getResource("/fxmlFiles/LoginP.fxml"));
 //			loader.setLocation(getClass().getResource("../fxmlFiles/CardReader.fxml"));
 
 			 

@@ -14,7 +14,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import util.NextStages;
-
+/**
+ * 
+ * gui for server
+ *
+ */
 public class ServerControl {
 
 	@FXML
@@ -68,6 +72,7 @@ public class ServerControl {
 			echoServer = new EchoServer(5555, this);
 			try {
 				echoServer.listen(); // Start listening for connections
+				mysqlConnection.insertOrders();
 			} catch (Exception ex) {
 				System.out.println("ERROR - Could not listen for clients!");
 			}

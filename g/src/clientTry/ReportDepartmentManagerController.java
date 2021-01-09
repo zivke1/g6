@@ -31,7 +31,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 /**
  * 
- * @author Idan
+ * 
  *  Controller  for Report Department Manager GUI 
  */
 public class ReportDepartmentManagerController {

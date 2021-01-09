@@ -14,7 +14,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import util.NextStages;
 import util.SimulationDetails;
-
+/**
+ * 
+ * simulating sending sms and email to the costumer(if they got out of the waiting list or their order is for tomorrow)
+ *
+ */
 public class SimulationController {
 
 	@FXML

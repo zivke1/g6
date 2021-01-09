@@ -35,10 +35,10 @@ import util.NextStages;
 
 /**
  *
- * @author Idan class Controller for update parameters page
+ * 
+ * class Controller for update parameters page
  *
  */
-
 public class UpdateParametersController {
 	private String discount = null, duration = null, gap = null, maxCapacity = null, fNameH, lNameH, roleH, userIDH,
 			parkNameH;

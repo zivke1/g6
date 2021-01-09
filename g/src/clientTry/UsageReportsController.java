@@ -25,7 +25,7 @@ import util.DayToView;
 import util.NextStages;
 
 /**
- * @author Eliran this class is controller for the FXML UsageReports the
+ *	 this class is controller for the FXML UsageReports the
  *         controller fetch from the DB the data for the report in a specific
  *         month and display table with the data. func calculate the usage of
  *         the numbers of visitor each day
