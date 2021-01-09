@@ -200,7 +200,7 @@ public class HomePageForEmployeeController implements Initializable {
 		ClientMain.chat.accept(arr);
 		NextStages nextStages = new NextStages("/fxmlFiles/LoginP.fxml", "Login", userID);
 		FXMLLoader loader = nextStages.goToNextStage(event);
-		LoginController logControl = loader.getController();
+		LoginControllerTest logControl = loader.getController();
 	}
 
 	/**
