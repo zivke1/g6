@@ -93,7 +93,7 @@ public class ParkDetailsController {
 																	// insert
 																	// in the mysqlconnection
 			MaxCapacity.setText(ChatClient.dataInArrayList.get(0));
-			AvgVisitTime.setText(ChatClient.dataInArrayList.get(1));
+			AvgVisitTime.setText(ChatClient.dataInArrayList.get(1)+" hours");
 			// MaxOrders.setText(ChatClient.dataInArrayList.get(2));
 			gapVisitors.setText(ChatClient.dataInArrayList.get(4));
 		} catch (Exception e) {
