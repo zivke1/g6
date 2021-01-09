@@ -19,7 +19,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
-
+import ocsf.server.iConnector;
 import util.HourAmount;
 import util.TypeOfOrder;
 import util.ViewReports;
@@ -93,7 +93,7 @@ public class EchoServer extends AbstractServer {
 	 * @param client the connection with the client.
 	 */
 
-	synchronized protected void clientDisconnected(ConnectionToClient client) {
+	synchronized protected void clientDisconnected(iConnector client) {
 		m_ServerControl.setParameters(" ", " ", "not connected");
 	}
 	// Instance methods ************************************************
@@ -104,8 +104,10 @@ public class EchoServer extends AbstractServer {
 	 * @param msg    The message received from the client.
 	 * @param client The connection from which the message originated.
 	 */
+	//ziv c
+	
 	@Override
-	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
+	public void handleMessageFromClient(Object msg, iConnector client) {
 //TODO we need to change it to switch case or even if else
 		try {
 
