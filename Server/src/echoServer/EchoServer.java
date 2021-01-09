@@ -68,6 +68,11 @@ public class EchoServer extends AbstractServer {
 		m_ServerControl = control;
 		Connection.SetServer(this);
 	}
+	
+	public void setConnection(mysqlConnection Connection) {
+		this.Connection =Connection;
+	}
+	
 
 	public EchoServer instance() {
 		return this;
