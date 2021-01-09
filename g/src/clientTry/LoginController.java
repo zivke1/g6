@@ -1,5 +1,6 @@
 package clientTry;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.management.openmbean.OpenDataException;
@@ -10,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
@@ -105,8 +107,27 @@ public class LoginController {
 	String park = null;
 	MouseEvent m_event = null;
 
+	//IChatClient chatClientInterface;
+	
 	enum UserType {
 		user, member, employee
+	}
+	///////// unitTest - dependency injection - shani
+	//constructor - load fxml file
+	void LoginController() {
+		Stage stage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Parent root;
+		try {
+			root = loader.load(getClass().getResource("/fxmlFiles/LoginP.fxml").openStream());
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
+			stage.setTitle("Login");
+			stage.setScene(scene);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		//chatClientInterface = icc;
 	}
 
 	@FXML
@@ -206,6 +227,7 @@ public class LoginController {
 
 					toSend.add("checkIfIdConnectedWithMemberId");
 					toSend.add(memberNumber);
+					// break dependency from server
 					ClientMain.chat.accept(toSend);
 					if (ChatClient.dataInArrayList.contains("notMember")) {
 						dontFindMemberShipIDLabel.setVisible(true);
@@ -286,37 +308,17 @@ public class LoginController {
 		default:
 			break;
 		}
-//		BorderPane borderPane = null;
-//		FXMLLoader loader = new FXMLLoader();
+
 		FXMLLoader loader;
-//		Stage primaryStage = new Stage();
-		// Pane root =
-		// loader.load(getClass().getResource("../fxmlFiles/HomePageForEmployee.fxml").openStream());
 
 		NextStages nextStages = new NextStages("/fxmlFiles/HomePageForEmployee.fxml", "Home Page", userID);
 		loader = nextStages.goToNextStage(m_event);
-//		loader.setLocation(getClass().getResource("../fxmlFiles/HomePageForEmployee.fxml"));
-//		borderPane = loader.load();
+
 		HomePageForEmployeeController homePageForEmployeeController = loader.getController();
 
 		homePageForEmployeeController.setDetails(fName, lName, role, userID, park);
 		homePageForEmployeeController.setAmountForMember(amountOfPeople);
-		// Scene scene = new Scene(root);
-//		Scene scene = new Scene(borderPane);
-//		primaryStage.setTitle("Home Page");
-//		primaryStage.setScene(scene);
-//		primaryStage.setOnCloseRequest(evt -> {
-//			if (ClientMain.chat.checkConnection()) {
-//				ArrayList<String> arr = new ArrayList<String>();
-//				arr.add("closeAndSetIdNull");
-//				arr.add(userID);
-//				arr.add("disconnect");
-//				ClientMain.chat.accept(arr);
-//				ClientMain.chat.stopConnection();
-//			}
-//		});
-//		((Node) m_event.getSource()).getScene().getWindow().hide();
-//		primaryStage.show();
+
 	}
 
 	public void identificationSetVisibility(boolean cond) {
