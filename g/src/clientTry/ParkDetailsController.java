@@ -22,6 +22,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import util.NextStages;
+import util.Role;
 /**
  * in this page we can know the details of each park
  *
@@ -109,8 +110,13 @@ public class ParkDetailsController {
 		parkNameS = parkNameToFetch;
 		
 		
-		if (!(role.equals("Department Manager") || role.equals("Park Manager"))) {// if the asker isn't manager enter
+		if (!(role.equals(Role.DepartmentManager.toString()))) {	
 			comboPark.setValue(parkNameS);
+			optOfManager.setVisible(false);
+		} else {
+			optOfManager.setVisible(true);
+			comboPark.setValue("Tal Park");
+		}
 			ArrayList<String> arr = new ArrayList<String>();
 			arr.add("FetchParkDetails");
 			// ziv
@@ -124,7 +130,6 @@ public class ParkDetailsController {
 			//ziv end
 			try {
 				ClientMain.chat.accept(arr);
-//				activityHours.setText("8:00-16:00 Sunday to Thursday");//ziv change
 				activityHours.setText("8:00-16:00 Seven days a week");
 				ManagerName.setText(ChatClient.dataInArrayList.get(3));// the number is according to the order of the
 																		// insert
@@ -136,29 +141,15 @@ public class ParkDetailsController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else
-			optOfManager.setVisible(true);
+
+		
 	}
 
 	@FXML
 	void backClicked(MouseEvent event) {
 		((Node) event.getSource()).getScene().getWindow().hide();
 		((Stage) ((Node) m_previousPage.getSource()).getScene().getWindow()).show();
-//		Stage stage = new Stage();
-//		FXMLLoader loader = new FXMLLoader();
-//		Parent root;
-//		try {
-//			root = loader.load(getClass().getResource("/fxmlFiles/HomePageForEmployee.fxml").openStream());
-//			HomePageForEmployeeController v = loader.getController();
-//			v.setDetails(fName, lName, role, userID, parkNameS);
-//			Scene scene = new Scene(root);
-//			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-//			stage.setTitle("Home Page For Employee");
-//			stage.setScene(scene);
-//			stage.show();
-//		} catch (IOException e1) {
-//			e1.printStackTrace();
-//		}
+
 	}
 /*
 	@FXML
@@ -168,20 +159,6 @@ public class ParkDetailsController {
 */
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
-//		((Node) event.getSource()).getScene().getWindow().hide();
-//		Stage stage = new Stage();
-//		FXMLLoader loader = new FXMLLoader();
-//		Parent root;
-//		try {
-//			root = loader.load(getClass().getResource("/fxmlFiles/ContactUsPopUp.fxml").openStream());
-//			Scene scene = new Scene(root);
-//			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-//			stage.setTitle("Contact Us");
-//			stage.setScene(scene);
-//			stage.show();
-//		} catch (IOException e1) {
-//			e1.printStackTrace();
-//		}
 		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "View Customer's Order", userID);
 		FXMLLoader loader = nextStages.openPopUp();
 		loader.getController();
