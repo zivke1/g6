@@ -640,5 +640,11 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
+	@Override
+	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
 //End of EchoServer class
