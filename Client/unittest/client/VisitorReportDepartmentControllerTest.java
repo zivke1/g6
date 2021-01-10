@@ -1,4 +1,4 @@
-package clientTry;
+package client;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,6 +33,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
+import clientTry.VisitorReportDepartmentController;
 
 import static org.mockito.Mockito.when;
 
