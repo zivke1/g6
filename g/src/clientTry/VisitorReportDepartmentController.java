@@ -34,7 +34,7 @@ import util.TypeOfOrder;
  * 		   controller for visitor report of department manager with bar -
  *         chart
  */
-public class VisitorReportDepartmentController implements IEnteranceReport {
+public class VisitorReportDepartmentController  {
 
 	private String fNameH, lNameH, roleH, userIDH, parkNameH;
 	private MouseEvent m_event;
@@ -94,7 +94,7 @@ public class VisitorReportDepartmentController implements IEnteranceReport {
 		helpBtn.setTooltip(tt);
 	}
 
-	@Override
+
 	public void setDetails(String fName, String lName, String role, String userID, String parkName) {
 		this.fNameH = fName;
 		this.lNameH = lName;
@@ -107,7 +107,7 @@ public class VisitorReportDepartmentController implements IEnteranceReport {
 		chart.setVisible(false);
 	}
 
-	@Override
+
 	public void stubShowReport()
 	{
 		showReport(null);
