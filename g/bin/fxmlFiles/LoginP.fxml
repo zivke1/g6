@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" stylesheets="@/clientTry/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.LoginController">
+   <top>
+      <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+         <children>
+            <Text layoutX="178.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome To GoNature!">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="135.0" fitWidth="176.0" layoutX="-8.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true" styleClass="imgGoN">
+               <image>
+                  <Image url="@/img/img5.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="79.0" layoutY="46.0" styleClass="imgGoN" />
+            <ImageView fx:id="imgContactUs" fitHeight="62.0" fitWidth="62.0" layoutX="951.0" layoutY="-1.0" onMouseClicked="#goToContactUsPopUp" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/img/contactus.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
+            <Label layoutX="178.0" layoutY="95.0" text="Login" />
+         </children>
+      </AnchorPane>
+   </top>
+   <left>
+      <AnchorPane prefHeight="521.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" stylesheets="@/clientTry/application.css" BorderPane.alignment="CENTER" />
+   </left>
+   <center>
+      <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnNextPage" layoutX="757.0" layoutY="443.0" mnemonicParsing="false" onMouseClicked="#finishOrderClicked" prefHeight="44.0" prefWidth="122.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Sign In" />
+            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseEntered="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
+            <RadioButton fx:id="enterAsCoustumerRadioBtn" layoutX="108.0" layoutY="71.0" mnemonicParsing="false" onAction="#changeIdentificationVisible" text="Enter as coustumer">
+               <toggleGroup>
+                  <ToggleGroup fx:id="radio" />
+               </toggleGroup>
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="enterAsEmployee" layoutX="357.0" layoutY="71.0" mnemonicParsing="false" onAction="#changeLoginVisible" text="Enter as employee" toggleGroup="$radio">
+               <font>
+                  <Font size="17.0" />
+               </font></RadioButton>
+            <Label layoutX="108.0" layoutY="26.0" text="What Whould You Like To Do?">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+            </Label>
+            <AnchorPane fx:id="Identification" layoutX="77.0" layoutY="126.0" prefHeight="148.0" prefWidth="657.0" style="-fx-background-color: LightGray;" visible="false">
+               <children>
+                  <Label layoutX="27.0" layoutY="56.0" text="ID Number: " />
+                  <TextField fx:id="enterIDnumber" layoutX="158.0" layoutY="51.0" />
+                  <Label layoutX="27.0" layoutY="98.0" text="Membership ID: " />
+                  <TextField fx:id="enterMemberID" layoutX="158.0" layoutY="93.0" />
+                  <Label layoutX="26.0" layoutY="14.0" text="Please enter one of the following:">
+                     <font>
+                        <Font name="System Bold Italic" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="txtErrAllFieldsReq1" layoutX="409.0" layoutY="95.0" text="Please enter one field" textFill="RED" visible="false">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="login" layoutX="77.0" layoutY="126.0" prefHeight="146.0" prefWidth="656.0" style="-fx-background-color: LightGray;" visible="false">
+               <children>
+                  <Label layoutX="20.0" layoutY="53.0" text="User ID:" />
+                  <Label layoutX="23.0" layoutY="92.0" text="Password:" />
+                  <TextField fx:id="enterUserName" layoutX="140.0" layoutY="48.0" />
+                  <Label layoutX="22.0" layoutY="14.0" text="Please Enter:">
+                     <font>
+                        <Font name="System Bold Italic" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="txtErrAllFieldsReq" layoutX="398.0" layoutY="40.0" text="* All fields required" textFill="RED" visible="false">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="txtErrUserName" layoutX="349.0" layoutY="79.0" text="* User ID do not exist" textFill="RED" visible="false">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="txtErrPassword" layoutX="398.0" layoutY="118.0" text="* Incorrect password" textFill="RED" visible="false">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <PasswordField fx:id="EnterPsw" layoutX="140.0" layoutY="91.0" />
+               </children>
+            </AnchorPane>
+            <Label fx:id="logInBeforeLabel" layoutX="108.0" layoutY="340.0" text="Your ID already logged in please check with our coustumer service at 0527715115" textFill="RED" visible="false">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="dontFindMemberShipIDLabel" layoutX="14.0" layoutY="313.0" text="We are sorry we don't find your membership ID but don't worry you can still sign in with your id" textFill="RED" visible="false">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="IDError" layoutX="108.0" layoutY="316.0" text="The ID number doesn't valid" textFill="RED" visible="false" />
+            <Label fx:id="memberNotNumbers" layoutX="117.0" layoutY="343.0" text="The membership is numbers only" textFill="RED" visible="false" />
+            <Label fx:id="noSelected" layoutX="117.0" layoutY="116.0" text="Pleases choose one of the login options" textFill="RED" visible="false" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

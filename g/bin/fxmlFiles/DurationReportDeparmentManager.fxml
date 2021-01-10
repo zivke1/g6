@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.DurReportDepartmentController">
+   <top>
+      <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+         <children>
+            <Text layoutX="180.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Duration Report">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="135.0" fitWidth="176.0" layoutX="-9.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/img/img5.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="imgContactUs" fitHeight="62.0" fitWidth="62.0" layoutX="951.0" layoutY="-1.0" onMouseClicked="#goToContactUsPopUp" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/img/contactus.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
+            <Label layoutX="176.0" layoutY="95.0" text="Home Page &gt; Generate Reports &gt; Duration Report" />
+         </children>
+      </AnchorPane>
+   </top>
+   <left>
+      <AnchorPane prefHeight="464.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" stylesheets="@/clientTry/application.css" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="backBtn" layoutX="42.0" layoutY="9.0" mnemonicParsing="false" onMouseClicked="#backClicked" prefHeight="43.0" prefWidth="68.0" rotate="180.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Back" />
+         </children></AnchorPane>
+   </left>
+   <right>
+      <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseEntered="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
+            <Label layoutX="31.0" layoutY="37.0" text="Select Park:">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="selectPark" layoutX="139.0" layoutY="35.0" prefHeight="31.0" prefWidth="149.0" />
+            <Label layoutX="322.0" layoutY="37.0" text="Select Date:">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <DatePicker fx:id="selectDate" layoutX="428.0" layoutY="35.0" prefHeight="25.0" prefWidth="134.0" />
+            <Button fx:id="showBtn" layoutX="613.0" layoutY="26.0" mnemonicParsing="false" onMouseClicked="#showReport" prefHeight="49.0" prefWidth="83.0" styleClass="approvalBtn" text="Show">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Button>
+            <PieChart fx:id="chart" layoutX="31.0" layoutY="157.0" prefHeight="334.0" prefWidth="630.0" />
+            <Label layoutX="31.0" layoutY="97.0" text="Select Duration In Hours:">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Label>
+            <ComboBox fx:id="durBox" layoutX="260.0" layoutY="95.0" prefHeight="31.0" prefWidth="96.0" />
+            <Label fx:id="errorMsg" layoutX="613.0" layoutY="147.0" textFill="RED" />
+            <Label fx:id="userP" layoutX="570.0" layoutY="240.0" text="User percentage:" visible="false" />
+            <Label fx:id="memberP" layoutX="570.0" layoutY="289.0" text="Member percentage:" visible="false" />
+            <Label fx:id="groupP" layoutX="570.0" layoutY="342.0" text="group percentage:" visible="false" />
+         </children>
+      </AnchorPane>
+   </right>
+</BorderPane>

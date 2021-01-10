@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.ParkDetailsController">
+
+   <top>
+      <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+         <children>
+            <Text layoutX="178.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Park Details:">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="135.0" fitWidth="176.0" layoutX="-8.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/img/img5.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="parkName" layoutX="428.0" layoutY="29.0" prefHeight="53.0" prefWidth="471.0">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label layoutX="178.0" layoutY="95.0" text="Home Page &gt; Park Details" />
+            <ImageView fx:id="imgContactUs" fitHeight="62.0" fitWidth="62.0" layoutX="951.0" layoutY="-1.0" onMouseClicked="#goToContactUsPopUp" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/img/contactus.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="945.0" layoutY="45.0" text="Contact Us" />
+         </children>
+      </AnchorPane>
+   </top>
+   <left>
+      <AnchorPane prefHeight="464.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" stylesheets="@/clientTry/application.css" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="backBtn" layoutX="42.0" layoutY="9.0" mnemonicParsing="false" onMouseClicked="#backClicked" prefHeight="43.0" prefWidth="68.0" rotate="180.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Back" />
+         </children></AnchorPane>
+   </left>
+   <center>
+      <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseEntered="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
+            <HBox layoutX="89.0" layoutY="66.0">
+               <children>
+                  <VBox prefWidth="156.0">
+                     <children>
+                        <Label text="Activity Hours:">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="Manager Name:">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="Maximum Capacity:">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="Average Visit Time:">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label prefHeight="27.0" prefWidth="113.0" text="Gap Visitors :">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                     <HBox.margin>
+                        <Insets right="15.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox>
+                     <children>
+                        <Text fx:id="activityHours" strokeType="OUTSIDE" strokeWidth="0.0">
+                           <VBox.margin>
+                              <Insets bottom="22.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="ManagerName" strokeType="OUTSIDE" strokeWidth="0.0">
+                           <VBox.margin>
+                              <Insets bottom="26.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="MaxCapacity" strokeType="OUTSIDE" strokeWidth="0.0">
+                           <VBox.margin>
+                              <Insets bottom="22.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="AvgVisitTime" strokeType="OUTSIDE" strokeWidth="0.0">
+                           <VBox.margin>
+                              <Insets bottom="22.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="gapVisitors" strokeType="OUTSIDE" strokeWidth="0.0">
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Label fx:id="explanation" layoutX="98.0" layoutY="289.0" prefHeight="21.0" prefWidth="296.0" text="*Gap between max capacity to max orders" />
+            <Button fx:id="QuestionBtn" layoutX="347.0" layoutY="249.0" mnemonicParsing="false" onMouseClicked="#explainGapVisitors" text="?" />
+            <AnchorPane fx:id="optOfManager" layoutX="89.0" layoutY="13.0" prefHeight="47.0" prefWidth="402.0">
+               <children>
+                  <Label layoutY="10.0" text="Choose Park:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="comboPark" layoutX="145.0" layoutY="8.0" onAction="#comboAction" prefWidth="150.0" />
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

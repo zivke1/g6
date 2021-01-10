@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" stylesheets="@/clientTry/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.UpdateParametersController">
+   <top>
+      <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+         <children>
+            <Text layoutX="178.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Update Paramaters">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="135.0" fitWidth="176.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/img/img5.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="imgContactUs" fitHeight="62.0" fitWidth="62.0" layoutX="951.0" layoutY="-1.0" onMouseClicked="#goToContactUsPopUp" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/img/contactus.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
+            <Label layoutX="178.0" layoutY="95.0" text="Home Page &gt; Update Parameters" visible="false" />
+         </children>
+      </AnchorPane>
+   </top>
+   <left>
+      <AnchorPane prefHeight="464.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" stylesheets="@/clientTry/application.css" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="backBtn" layoutX="42.0" layoutY="9.0" mnemonicParsing="false" onMouseClicked="#backClicked" prefHeight="43.0" prefWidth="68.0" rotate="180.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Back" />
+         </children></AnchorPane>
+   </left>
+   <right>
+      <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
+         <children>
+            <RadioButton fx:id="setMaxVisit" layoutX="114.0" layoutY="161.0" mnemonicParsing="false" onMouseClicked="#setMaxVisit" text="Set max capacity">
+               <toggleGroup>
+                  <ToggleGroup fx:id="setParm" />
+               </toggleGroup></RadioButton>
+            <RadioButton fx:id="setVisitDur" layoutX="114.0" layoutY="119.0" mnemonicParsing="false" onMouseClicked="#setVisitDur" text="Set visit duration" toggleGroup="$setParm" />
+            <RadioButton fx:id="setMaxOrder" layoutX="114.0" layoutY="210.0" mnemonicParsing="false" onMouseClicked="#setMaxOrder" text="Set gap between max capacity to max amount of orders" toggleGroup="$setParm" />
+            <RadioButton fx:id="setDiscount" layoutX="112.0" layoutY="74.0" mnemonicParsing="false" onMouseClicked="#setDiscount" text="Set discount" toggleGroup="$setParm" />
+            <Button fx:id="conBtn" layoutX="706.0" layoutY="450.0" mnemonicParsing="false" onMouseClicked="#sendToDepMan" prefHeight="40.0" prefWidth="173.0" styleClass="mybutton1" text="send to confirmation" />
+            <Label layoutX="114.0" layoutY="24.0" text="Park's name:" />
+            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseEntered="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
+            <AnchorPane fx:id="anchorSetDiscount" layoutX="99.0" layoutY="266.0" prefHeight="180.0" prefWidth="601.0" visible="false">
+               <children>
+                  <Label fx:id="discountLabel" layoutX="7.0" layoutY="19.0" text="Set new discount (%):" />
+                  <Label fx:id="fromLabel" layoutX="288.0" layoutY="19.0" text="From:" />
+                  <DatePicker fx:id="untilDate" layoutX="341.0" layoutY="56.0" prefHeight="31.0" prefWidth="108.0" />
+                  <DatePicker fx:id="fromDate" layoutX="341.0" layoutY="14.0" prefHeight="31.0" prefWidth="108.0" />
+                  <Label fx:id="untilLabel" layoutX="290.0" layoutY="61.0" text="Until:" />
+                  <TextField fx:id="discountField" layoutX="159.0" layoutY="14.0" prefHeight="30.0" prefWidth="100.0" />
+                  <Button fx:id="btnSaveDiscount" layoutX="470.0" layoutY="118.0" mnemonicParsing="false" onMouseClicked="#saveDiscount" prefHeight="48.0" prefWidth="117.0" styleClass="approvalBtn" text="save" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="anchorSetMaxVisit" layoutX="99.0" layoutY="281.0" prefHeight="141.0" prefWidth="478.0" visible="false">
+               <children>
+                  <Label fx:id="maxVisitorsLabel" layoutX="14.0" layoutY="21.0" text="Set new maximum capacity:" />
+                  <TextField fx:id="maxVisitField" layoutX="214.0" layoutY="16.0" prefHeight="30.0" prefWidth="100.0" />
+                  <Button fx:id="btnSaveMaxVisitor" layoutX="303.0" layoutY="79.0" mnemonicParsing="false" onMouseClicked="#saveCapacity" prefHeight="48.0" prefWidth="117.0" styleClass="approvalBtn" text="save" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="anchorSetDuration" layoutX="72.0" layoutY="274.0" prefHeight="175.0" prefWidth="522.0" visible="false">
+               <children>
+                  <Label fx:id="visitDurLabel" layoutX="23.0" layoutY="29.0" text="Set new visit duration:" />
+                  <TextField fx:id="visitDurField" layoutX="206.0" layoutY="24.0" prefHeight="30.0" prefWidth="100.0" />
+                  <Button fx:id="btnSaveDuration" layoutX="334.0" layoutY="88.0" mnemonicParsing="false" onMouseClicked="#saveDuration" prefHeight="48.0" prefWidth="117.0" styleClass="approvalBtn" text="save" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="anchorSetGapNum" layoutX="99.0" layoutY="278.0" prefHeight="151.0" prefWidth="574.0" visible="false">
+               <children>
+                  <Label fx:id="maxOrderLabel" layoutX="14.0" layoutY="26.0" text="Set gap number:" />
+                  <TextField fx:id="maxOrderField" layoutX="149.0" layoutY="21.0" prefHeight="30.0" prefWidth="100.0" />
+                  <Button fx:id="btnSaveMaxOrder" layoutX="395.0" layoutY="76.0" mnemonicParsing="false" onMouseClicked="#saveGap" prefHeight="48.0" prefWidth="117.0" styleClass="approvalBtn" text="save" />
+               </children>
+            </AnchorPane>
+            <Label fx:id="parks_name" layoutX="204.0" layoutY="24.0" prefHeight="21.0" prefWidth="109.0" />
+            <Label fx:id="errorMsg" layoutX="452.0" layoutY="69.0" prefHeight="122.0" prefWidth="367.0" textFill="RED" />
+            <Label fx:id="savedParametersLable" layoutX="456.0" layoutY="15.0" text="The following parameters had been sent &#10;to the department manager's approval: " textFill="BLUE" visible="false" />
+         </children>
+      </AnchorPane>
+   </right>
+</BorderPane>
