@@ -110,6 +110,15 @@ public class LoginController {
 	//shani
 	IClientMain iClientMain;
 	
+	//shani
+	public IClientMain getiClientMain() {
+		return iClientMain;
+	}
+	//shani
+	public void setiClientMain(IClientMain iClientMain) {
+		this.iClientMain = iClientMain;
+	}
+
 	enum UserType {
 		user, member, employee
 	}
@@ -117,7 +126,7 @@ public class LoginController {
 	//constructor for dependency injection
 	// for unit test
 	//shani
-	void LoginController(IClientMain icc) {
+	public LoginController(IClientMain icc) {
 		Stage stage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		Parent root;
