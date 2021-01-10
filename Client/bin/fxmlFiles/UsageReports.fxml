@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" stylesheets="@/clientTry/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.UsageReportsController">
+   <top>
+      <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+         <children>
+            <Text layoutX="178.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Usage Report">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="135.0" fitWidth="176.0" layoutX="-9.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/img/img5.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="imgContactUs" fitHeight="62.0" fitWidth="62.0" layoutX="951.0" layoutY="-1.0" onMouseClicked="#goToContactUsPopUp" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/img/contactus.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
+            <Label layoutX="178.0" layoutY="95.0" text="Home Page &gt; Generate Reports &gt; Usage Report" />
+         </children>
+      </AnchorPane>
+   </top>
+   <left>
+      <AnchorPane prefHeight="464.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" stylesheets="@/clientTry/application.css" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="backBtn" layoutX="42.0" layoutY="9.0" mnemonicParsing="false" onMouseClicked="#backClicked" prefHeight="43.0" prefWidth="68.0" rotate="180.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Back" />
+         </children></AnchorPane>
+   </left>
+   <right>
+      <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseEntered="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
+            <Label layoutX="273.0" layoutY="14.0" text="Month:">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+            </Label>
+            <Label layoutX="494.0" layoutY="14.0" text="Year:">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+            </Label>
+            <Label fx:id="month" layoutX="346.0" layoutY="14.0">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label fx:id="year" layoutX="546.0" layoutY="14.0">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="14.0" text="Park Name:">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+            </Label>
+            <Label fx:id="parkName" layoutX="126.0" layoutY="14.0">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+
+            <Button fx:id="btnSubmit" layoutX="793.0" layoutY="443.0" mnemonicParsing="false" onAction="#submitUsageReport" prefHeight="41.0" prefWidth="87.0" styleClass="approvalBtn" text="submit" />
+            <Label fx:id="submitted" layoutX="632.0" layoutY="453.0" text="Successfully submitted" textFill="#4abf46" visible="false" />
+            <TableView fx:id="table" layoutX="23.0" layoutY="75.0" prefHeight="348.0" prefWidth="823.0" style="-fx-cell-size: 50;" />
+
+         </children>
+      </AnchorPane>
+   </right>
+</BorderPane>

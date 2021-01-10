@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" stylesheets="@/clientTry/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.MembershipRegistrationController">
+   <top>
+      <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+         <children>
+            <Text layoutX="178.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Membership Registration">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="135.0" fitWidth="176.0" layoutX="-6.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/img/img5.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="178.0" layoutY="95.0" text="Home Page For &gt; Membership Registration" />
+            <ImageView fx:id="imgContactUs" fitHeight="62.0" fitWidth="62.0" layoutX="951.0" layoutY="-1.0" onMouseClicked="#goToContactUsPopUp" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/img/contactus.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
+         </children>
+      </AnchorPane>
+   </top>
+   <left>
+      <AnchorPane prefHeight="464.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" stylesheets="@/clientTry/application.css" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="backBtn" layoutX="42.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#backClicked" prefHeight="43.0" prefWidth="68.0" rotate="180.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Back" />
+         </children></AnchorPane>
+   </left>
+   <center>
+      <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="finishOrderBtn" layoutX="757.0" layoutY="443.0" mnemonicParsing="false" onMouseClicked="#checkRegistration" prefHeight="44.0" prefWidth="122.0" style="-fx-text-fill: blue;" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="register" />
+            <Label layoutX="71.0" layoutY="79.0" text="First Name:" />
+            <Label layoutX="71.0" layoutY="134.0" text="Last Name:" />
+            <Label layoutX="71.0" layoutY="278.0" text="Email:" />
+            <Label layoutX="71.0" layoutY="333.0" text="Number of visitors:" />
+            <Label layoutX="73.0" layoutY="181.0" text="ID:" />
+            <Label layoutX="71.0" layoutY="391.0" text="Save credit card details:" />
+            <Label layoutX="71.0" layoutY="231.0" text="Phone Number:" />
+            <TextField fx:id="fName" layoutX="214.0" layoutY="75.0" />
+            <TextField fx:id="lName" layoutX="214.0" layoutY="130.0" />
+            <TextField fx:id="id" layoutX="213.0" layoutY="176.0" />
+            <TextField fx:id="phoneNum" layoutX="214.0" layoutY="227.0" />
+            <TextField fx:id="email" layoutX="214.0" layoutY="274.0" />
+            <ComboBox fx:id="numVisitor" layoutX="214.0" layoutY="329.0" prefHeight="31.0" prefWidth="86.0" />
+            <RadioButton fx:id="cash" layoutX="350.0" layoutY="391.0" mnemonicParsing="false" onMouseClicked="#saveCash" text="no" />
+            <RadioButton fx:id="creditC" layoutX="251.0" layoutY="391.0" mnemonicParsing="false" onMouseClicked="#saveCC" text="yes" />
+            <HBox layoutX="68.0" layoutY="433.0">
+               <children>
+                  <Label fx:id="ccLabel" text="Credit card number:" visible="false">
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
+                  </Label>
+                  <TextField fx:id="enterCardNumber" visible="false" />
+               </children>
+            </HBox>
+            <Label layoutX="71.0" layoutY="14.0" text="Please fill all the fields:">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseEntered="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" text="?" />
+            <Label fx:id="errorMsg" layoutX="542.0" layoutY="79.0" textFill="RED" />
+            <Label layoutX="197.0" layoutY="80.0" text="*" textFill="RED" />
+            <Label layoutX="197.0" layoutY="134.0" text="*" textFill="RED" />
+            <Label layoutX="197.0" layoutY="181.0" text="*" textFill="RED" />
+            <Label layoutX="197.0" layoutY="231.0" text="*" textFill="RED" />
+            <Label layoutX="197.0" layoutY="279.0" text="*" textFill="RED" />
+            <Label layoutX="205.0" layoutY="334.0" text="*" textFill="RED" />
+            <Label layoutX="233.0" layoutY="391.0" text="*" textFill="RED" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
