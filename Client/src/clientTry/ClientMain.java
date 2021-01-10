@@ -27,6 +27,38 @@ public class ClientMain extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		try {
+			chat=new ClientConsole("localhost", 5555);
+			Stage stage=new Stage();
+			try {
+				stage.setOnCloseRequest(evt->{
+					if (ClientMain.chat.checkConnection()) {
+				    	ArrayList<String> arr = new ArrayList<String>();
+						arr.add("close");
+						ClientMain.chat.accept(arr);
+				    	ClientMain.chat.stopConnection();
+						}
+					});	
+				BorderPane borderPane1 = null;
+				try {
+					FXMLLoader loader=new FXMLLoader();
+					loader.setLocation(getClass().getResource("/fxmlFiles/CardReader.fxml"));
+					borderPane1 = loader.load();
+				} catch (IOException e) {
+				e.printStackTrace();
+				}	
+				Scene scene1=new Scene(borderPane1);
+				stage.setScene(scene1);
+				stage.setTitle("Card Reader");
+				stage.show();
+			} catch (Exception ex) {
+				System.out.println("Card reader didn't open");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		///////////////////////////
 		chat=new ClientConsole("localhost", 5555);
 //		this make the X btn to close the connection
 		primaryStage.setOnCloseRequest(evt->{
@@ -59,37 +91,6 @@ public class ClientMain extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Login");
 		primaryStage.show();
-		/////////////////////////////////////////////////
-		
-		try {
-			chat=new ClientConsole("localhost", 5555);
-			Stage stage=new Stage();
-			try {
-				stage.setOnCloseRequest(evt->{
-					if (ClientMain.chat.checkConnection()) {
-				    	ArrayList<String> arr = new ArrayList<String>();
-						arr.add("close");
-						ClientMain.chat.accept(arr);
-				    	ClientMain.chat.stopConnection();
-						}
-					});	
-				BorderPane borderPane1 = null;
-				try {
-					FXMLLoader loader=new FXMLLoader();
-					loader.setLocation(getClass().getResource("/fxmlFiles/CardReader.fxml"));
-					borderPane1 = loader.load();
-				} catch (IOException e) {
-				e.printStackTrace();
-				}	
-				Scene scene1=new Scene(borderPane1);
-				stage.setScene(scene1);
-				stage.setTitle("Card Reader");
-				stage.show();
-			} catch (Exception ex) {
-				System.out.println("Card reader didn't open");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
 	}
 }
