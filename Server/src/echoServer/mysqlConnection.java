@@ -58,7 +58,7 @@ import util.VisitorsInDate;
  * get data from our DB using queries
  * singleton
  */
-public class mysqlConnection implements IEnteranceReport {
+public class mysqlConnection  {
 	static Connection conn;
 	static HashSet<String> m_connectedID = new HashSet<String>();
 	private static  mysqlConnection instance=null;
@@ -1229,8 +1229,8 @@ public class mysqlConnection implements IEnteranceReport {
 
 	}
 
-	@Override
-	public ArrayList<HourAmount> depManVisitRep( ArrayList<String> arr) {
+//	@Override
+	public ArrayList<HourAmount> depManVisitRep( ArrayList<String> arr) throws SQLException {
 		ArrayList<HourAmount> dataFromDB = new ArrayList<>();
 		for (int i = OPEN_TIME_INT; i <= CLOSE_TIME_INT; i++)
 			dataFromDB.add(new HourAmount(i + "", 0));
@@ -1240,7 +1240,7 @@ public class mysqlConnection implements IEnteranceReport {
 		t2 = new Time(t1.getHours() , 59, 59);
 		int openTime = CLOSE_TIME_INT - OPEN_TIME_INT + 1;
 		int[] sum = new int[24];// sum for each hour
-		try {
+//		try {
 			for (int i = OPEN_TIME_INT; i <= CLOSE_TIME_INT; i++, t1 = new Time(t1.getHours() + 1, 0,0), t2 = new Time(t2.getHours() + 1, 59, 59)) {
 				Statement stmt = conn.createStatement();
 				rs = stmt.executeQuery("select sum(VisitorsAmountActual) from orders Where EnterTime BETWEEN '"
@@ -1268,10 +1268,10 @@ public class mysqlConnection implements IEnteranceReport {
 
 			}
 
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		return dataFromDB;
 	}
 
