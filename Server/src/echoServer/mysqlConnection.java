@@ -1234,7 +1234,7 @@ public class mysqlConnection  {
 		ArrayList<HourAmount> dataFromDB = new ArrayList<>();
 		for (int i = OPEN_TIME_INT; i <= CLOSE_TIME_INT; i++)
 			dataFromDB.add(new HourAmount(i + "", 0));
-		ResultSet rs = null;
+		ResultSet rs;
 		Time t1, t2;
 		t1 = new Time(OPEN_TIME_INT, 0, 0);
 		t2 = new Time(t1.getHours() , 59, 59);
