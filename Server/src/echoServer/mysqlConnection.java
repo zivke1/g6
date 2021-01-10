@@ -64,6 +64,10 @@ public class mysqlConnection implements IEnteranceReport {
 	private static  mysqlConnection instance=null;
 	static EchoServer server;
 
+	public void SetConnection(Connection connection) {
+		conn = connection;
+	}
+	
 	public void SetServer(EchoServer server1) {
 		server = server1;
 	}
