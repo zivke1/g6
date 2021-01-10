@@ -1,5 +1,6 @@
 package clientTry;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.management.openmbean.OpenDataException;
@@ -10,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
@@ -105,10 +107,34 @@ public class LoginController {
 	String park = null;
 	MouseEvent m_event = null;
 
+	//shani
+	IClientMain iClientMain;
+	
 	enum UserType {
 		user, member, employee
 	}
 
+	//constructor for dependency injection
+	// for unit test
+	//shani
+	void LoginController(IClientMain icc) {
+		Stage stage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		Parent root;
+		try {
+			root = loader.load(getClass().getResource("/fxmlFiles/LoginP.fxml").openStream());
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
+			stage.setTitle("Login");
+			stage.setScene(scene);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		iClientMain = icc;
+	}
+	
+	
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "Contact Us", userID);
@@ -153,7 +179,9 @@ public class LoginController {
 				toSend.add("checkIfEmployee");
 				toSend.add(empNumber);
 				toSend.add(password);
-				ClientMain.chat.accept(toSend);
+				//shani
+				iClientMain.accept(toSend);
+				//ClientMain.chat.accept(toSend);
 				if (ChatClient.dataInArrayList.contains("PaswwordIncorrect")) {// i put only Password incorrect
 					txtErrPassword.setVisible(true);
 					return;
@@ -188,7 +216,9 @@ public class LoginController {
 
 					toSend.add("checkIfIdConnectedWithId");
 					toSend.add(idNumber);
-					ClientMain.chat.accept(toSend);
+					//shani
+					iClientMain.accept(toSend);
+				//	ClientMain.chat.accept(toSend);
 //					if(ChatClient.dataInArrayList.contains("notValidUserID")) {
 //						IDError.setVisible(true);
 //					}
@@ -206,7 +236,9 @@ public class LoginController {
 
 					toSend.add("checkIfIdConnectedWithMemberId");
 					toSend.add(memberNumber);
-					ClientMain.chat.accept(toSend);
+				//	shani
+					iClientMain.accept(toSend);
+				//	ClientMain.chat.accept(toSend);
 					if (ChatClient.dataInArrayList.contains("notMember")) {
 						dontFindMemberShipIDLabel.setVisible(true);
 						return;
@@ -286,37 +318,16 @@ public class LoginController {
 		default:
 			break;
 		}
-//		BorderPane borderPane = null;
-//		FXMLLoader loader = new FXMLLoader();
-		FXMLLoader loader;
-//		Stage primaryStage = new Stage();
-		// Pane root =
-		// loader.load(getClass().getResource("../fxmlFiles/HomePageForEmployee.fxml").openStream());
 
+		FXMLLoader loader;
 		NextStages nextStages = new NextStages("/fxmlFiles/HomePageForEmployee.fxml", "Home Page", userID);
 		loader = nextStages.goToNextStage(m_event);
-//		loader.setLocation(getClass().getResource("../fxmlFiles/HomePageForEmployee.fxml"));
-//		borderPane = loader.load();
+
 		HomePageForEmployeeController homePageForEmployeeController = loader.getController();
 
 		homePageForEmployeeController.setDetails(fName, lName, role, userID, park);
 		homePageForEmployeeController.setAmountForMember(amountOfPeople);
-		// Scene scene = new Scene(root);
-//		Scene scene = new Scene(borderPane);
-//		primaryStage.setTitle("Home Page");
-//		primaryStage.setScene(scene);
-//		primaryStage.setOnCloseRequest(evt -> {
-//			if (ClientMain.chat.checkConnection()) {
-//				ArrayList<String> arr = new ArrayList<String>();
-//				arr.add("closeAndSetIdNull");
-//				arr.add(userID);
-//				arr.add("disconnect");
-//				ClientMain.chat.accept(arr);
-//				ClientMain.chat.stopConnection();
-//			}
-//		});
-//		((Node) m_event.getSource()).getScene().getWindow().hide();
-//		primaryStage.show();
+
 	}
 
 	public void identificationSetVisibility(boolean cond) {
