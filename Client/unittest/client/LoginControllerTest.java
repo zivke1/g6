@@ -42,13 +42,13 @@ class LoginControllerTest {
 	// check: memberID do not exist in DB
 	// input: 
 	// expected: 
-	@Test
-	void test() {
-		loginController = new LoginController(new StubClientMain());
-		if (returnFromAccept.contains("checkIfIdConnectedWithMemberId")) {
-			assertFalse(returnFromAccept.get(1).equals(memberID));
-		}
-	}
+//	@Test
+//	void test() {
+//		loginController = new LoginController(new StubClientMain());
+//		if (returnFromAccept.contains("checkIfIdConnectedWithMemberId")) {
+//			assertFalse(returnFromAccept.get(1).equals(memberID));
+//		}
+//	}
 
 }
 
