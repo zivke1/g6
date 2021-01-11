@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import javax.management.openmbean.OpenDataException;
 
+import javafx.application.Application;
+
 //import com.mysql.cj.x.protobuf.MysqlxExpect.Open;
 
 import javafx.event.ActionEvent;
@@ -35,7 +37,6 @@ import javafx.scene.image.ImageView;
  *
  */
 public class LoginController {
-
 	@FXML
 	private Label noSelected;
 
@@ -126,22 +127,22 @@ public class LoginController {
 	//constructor for dependency injection
 	// for unit test
 	//shani
-	public LoginController(IClientMain icc) {
-		Stage stage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Parent root;
-		try {
-			root = loader.load(getClass().getResource("/fxmlFiles/LoginP.fxml").openStream());
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-			stage.setTitle("Login");
-			stage.setScene(scene);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+//	public LoginController(IClientMain icc) {
+//		Stage stage = new Stage();
+//		FXMLLoader loader = new FXMLLoader();
+//		Parent root;
+//		try {
+//			root = loader.load(getClass().getResource("/fxmlFiles/LoginP.fxml").openStream());
+//			Scene scene = new Scene(root);
+//			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
+//			stage.setTitle("Login");
+//			stage.setScene(scene);
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
+//		}
 		
-		iClientMain = icc;
-	}
+//		iClientMain = icc;
+//	}
 	
 	
 	@FXML
@@ -189,8 +190,8 @@ public class LoginController {
 				toSend.add(empNumber);
 				toSend.add(password);
 				//shani
-				iClientMain.accept(toSend);
-				//ClientMain.chat.accept(toSend);
+			//	iClientMain.accept(toSend);
+				ClientMain.chat.accept(toSend);
 				if (ChatClient.dataInArrayList.contains("PaswwordIncorrect")) {// i put only Password incorrect
 					txtErrPassword.setVisible(true);
 					return;
@@ -226,11 +227,11 @@ public class LoginController {
 					toSend.add("checkIfIdConnectedWithId");
 					toSend.add(idNumber);
 					//shani
-					iClientMain.accept(toSend);
-				//	ClientMain.chat.accept(toSend);
-//					if(ChatClient.dataInArrayList.contains("notValidUserID")) {
-//						IDError.setVisible(true);
-//					}
+				//	iClientMain.accept(toSend);
+					ClientMain.chat.accept(toSend);
+					if(ChatClient.dataInArrayList.contains("notValidUserID")) {
+						IDError.setVisible(true);
+					}
 					statusToOpen();
 				}
 
@@ -246,8 +247,8 @@ public class LoginController {
 					toSend.add("checkIfIdConnectedWithMemberId");
 					toSend.add(memberNumber);
 				//	shani
-					iClientMain.accept(toSend);
-				//	ClientMain.chat.accept(toSend);
+				//	iClientMain.accept(toSend);
+					extractedClientMain(toSend);
 					if (ChatClient.dataInArrayList.contains("notMember")) {
 						dontFindMemberShipIDLabel.setVisible(true);
 						return;
@@ -258,6 +259,9 @@ public class LoginController {
 		}
 		else 
 			 noSelected.setVisible(true);
+	}
+	private void extractedClientMain(ArrayList<String> toSend) {
+		ClientMain.chat.accept(toSend);
 	}
 
 	/**
@@ -360,5 +364,6 @@ public class LoginController {
 
 		helpBtn.setTooltip(tt);
 	}
+
 
 }
