@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1025.0" stylesheets="@/clientTry/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientTry.ReportParkManagerController">
+   <top>
+      <AnchorPane prefHeight="108.0" prefWidth="1025.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+         <children>
+            <Text layoutX="178.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Generate Reports">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="135.0" fitWidth="176.0" layoutX="-9.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/img/img5.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="62.0" fitWidth="62.0" layoutX="951.0" layoutY="-1.0" onMouseClicked="#goToContactUsPopUp" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/img/contactus.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="945.0" layoutY="44.0" text="Contact Us" />
+            <Label layoutX="178.0" layoutY="95.0" text="Home Page &gt; Generate Reports" />
+         </children>
+      </AnchorPane>
+   </top>
+   <left>
+      <AnchorPane prefHeight="464.0" prefWidth="132.0" rotate="180.0" styleClass="picForLogo" stylesheets="@/clientTry/application.css" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="backBtn" layoutX="42.0" layoutY="9.0" mnemonicParsing="false" onMouseClicked="#backClicked" prefHeight="43.0" prefWidth="68.0" rotate="180.0" styleClass="mybutton1" stylesheets="@/clientTry/application.css" text="Back" />
+         </children></AnchorPane>
+   </left>
+   <center>
+      <AnchorPane prefHeight="527.0" prefWidth="893.0" BorderPane.alignment="CENTER">
+         <children>
+            <RadioButton fx:id="visitCountRep" layoutX="119.0" layoutY="96.0" mnemonicParsing="false" text="Vistor amount report">
+               <toggleGroup>
+                  <ToggleGroup fx:id="repoG" />
+               </toggleGroup></RadioButton>
+            <RadioButton fx:id="usageRep" layoutX="119.0" layoutY="145.0" mnemonicParsing="false" text="Usage report" toggleGroup="$repoG" />
+            <RadioButton fx:id="incomeRep" layoutX="119.0" layoutY="194.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="133.0" text="Income report" toggleGroup="$repoG" />
+            <Label fx:id="repYearLabel" layoutX="119.0" layoutY="252.0" text="Enter the year for the report:" />
+            <ComboBox fx:id="repYear" layoutX="356.0" layoutY="252.0" prefWidth="150.0" />
+            <ComboBox fx:id="repMonth" layoutX="356.0" layoutY="306.0" prefWidth="150.0" />
+            <Label fx:id="repMonthLabel" layoutX="119.0" layoutY="306.0" text="Enter the month for the report:" />
+            <Button fx:id="showRep" layoutX="762.0" layoutY="432.0" mnemonicParsing="false" onMouseClicked="#showTheReport" prefHeight="50.0" prefWidth="107.0" styleClass="mybutton1" text="Show report" />
+            <Label layoutX="119.0" layoutY="52.0" text="Park's name:" />
+            <Button fx:id="helpBtn" layoutX="834.0" layoutY="14.0" mnemonicParsing="false" onMouseEntered="#helpBtnPressed" prefHeight="45.0" prefWidth="45.0" styleClass="helpBtn" stylesheets="@/clientTry/application.css" text="?" />
+            <Label fx:id="parkName" layoutX="216.0" layoutY="52.0" />
+            <Label fx:id="errSelectReport" layoutX="536.0" layoutY="447.0" text="Error: pls select report to show." textFill="RED" visible="false" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
