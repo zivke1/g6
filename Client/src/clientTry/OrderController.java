@@ -125,6 +125,10 @@ public class OrderController implements Initializable {
 		invite = new ArrayList<String>();
 		invite.add("checkInvite");
 		try {
+			if(checkDate(pickDatePicker.getValue()))
+			{
+				pickDatePicker.setValue(null);
+			}
 			invite.add(m_ownerUserID);
 			invite.add(parkNameCombo.getValue().toString());
 			invite.add(hourCombo.getValue().toString());
@@ -182,6 +186,17 @@ public class OrderController implements Initializable {
 		}
 
 	}
+private boolean checkDate(LocalDate value) {
+	LocalDate l=LocalDate.now();
+	l.plusDays(2);
+		if(l.compareTo(value)>=0)
+		{
+			return true;
+		}
+		return false;
+	}
+
+
 /**
  * There is a place in the park hence we open confirm order page
  * @throws IOException
