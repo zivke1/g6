@@ -97,7 +97,6 @@ class mysqlConnectionLoginTest {
 		assertEquals(ret, expected);	
 	}
 
-//	toReturn.add("employeeNotFound");
 	
 	/*
 	 * get employee id that not exist in the DB
@@ -107,10 +106,7 @@ class mysqlConnectionLoginTest {
 	 * 
 	 * 
 	 * output
-	 * 
 	 * expected.add("employeeNotFound");
-	 * 
-	 * 
 	 * */
 	
 	
@@ -139,13 +135,9 @@ class mysqlConnectionLoginTest {
 	 * input 
 	 * 	 arr.add("123");
 	 *	 arr.add("1234");
-	 * 
-	 * 
+	 *
 	 * output
-	 * 
 	 * 		expected.add("connectedBefore");
-	 * 
-	 * 
 	 * */
 	
 	@Test
@@ -227,15 +219,13 @@ class mysqlConnectionLoginTest {
 	}
 	
 	
-	//checkIfIdConnectedWithId
-	//checkIfIdConnectedWithMemberId
-	
 	
 	/*member success to login
 	 * input 
 	 *	checkForId.add("123456");
-		
-	 * output arrayList
+	 *
+	 * output 
+	 *  arrayList
 	 *	expected.add("123456");
 	 *	expected.add("avi");
 	 *	expected.add("ron");
@@ -277,6 +267,15 @@ class mysqlConnectionLoginTest {
 		assertEquals(ret, expected);	
 	}
 	
+	/*user success to login
+	 * input 
+	 *		send.add("1234567");
+	 *
+	 * output 
+	 *  arrayList
+	 *	expected.add("1234567");
+	 *	expected.add("user");
+	 * */
 	
 	@Test
 	void checkIfIdConnectedWithIdUserTest()  {
@@ -351,9 +350,9 @@ class mysqlConnectionLoginTest {
 		assertEquals(ret, expected);	
 	}
 	
-//	checkIfIdConnectedWithMemberId
+
 	
-	/*login twice 
+	/*checkIfIdConnectedWithMemberId
 	 * input
 	 * 		send.add("123456789");
 	 * 
@@ -392,6 +391,7 @@ class mysqlConnectionLoginTest {
 	
 	/*send member id and connect him
 	 * 
+	 * checkIfIdConnectedWithMemberId
 	 * input
 	 * 		send.add("111");
 	 * 
