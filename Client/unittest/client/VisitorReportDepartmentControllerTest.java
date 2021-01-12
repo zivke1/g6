@@ -66,7 +66,8 @@ class VisitorReportDepartmentControllerTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		stub = new stubEntrance();
-		controller = new VisitorReportDepartmentController(stub);
+		controller = new VisitorReportDepartmentController();
+		controller.setCon(stub);
 	}
 
 	/*

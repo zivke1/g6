@@ -48,12 +48,21 @@ public class VisitorReportDepartmentController implements IEntranceReport {
 
 	IEntranceReport con = null;
 
-	public VisitorReportDepartmentController(IEntranceReport con) {
-		this.con = con;
-	}
+//	public VisitorReportDepartmentController(IEntranceReport con) {
+//		this.con = con;
+//	}
+	
 
 	public boolean isFlag1() {
 		return flag1;
+	}
+
+	public IEntranceReport getCon() {
+		return con;
+	}
+
+	public void setCon(IEntranceReport con) {
+		this.con = con;
 	}
 
 	public void setFlag1(boolean flag1) {
