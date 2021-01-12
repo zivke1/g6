@@ -168,6 +168,9 @@ public class VisitorReportDepartmentController implements IEntranceReport {
 
 	@FXML
 	public void showReport(MouseEvent event) {
+		flag1 = false;
+		flag2 = false;
+		flag3 = false;
 		chart.getData().clear();
 		chart.setAnimated(false);
 		xaxis.lookup(".axis-label").setStyle("-fx-label-padding: -5 0 -40 0;");
@@ -269,12 +272,12 @@ public class VisitorReportDepartmentController implements IEntranceReport {
 
 			arr.add(type);
 			if (con != null) {
-				con.extractedChat(arr);
 				con.extractedHourAmountArray().clear();
+				con.extractedChat(arr);
 				answer = con.extractedHourAmountArray();
 			} else {
-				extractedChat(arr);
 				extractedHourAmountArray().clear();
+				extractedChat(arr);
 				answer = extractedHourAmountArray();
 			}
 
@@ -289,12 +292,12 @@ public class VisitorReportDepartmentController implements IEntranceReport {
 
 			arr.add(type);
 			if (con != null) {
-				con.extractedChat(arr);
 				con.extractedHourAmountArray().clear();
+				con.extractedChat(arr);
 				answer = con.extractedHourAmountArray();
 			} else {
-				extractedChat(arr);
 				extractedHourAmountArray().clear();
+				extractedChat(arr);
 				answer = extractedHourAmountArray();
 			}
 			for (HourAmount h : answer)
@@ -308,12 +311,12 @@ public class VisitorReportDepartmentController implements IEntranceReport {
 
 			arr.add(type);
 			if (con != null) {
-				con.extractedChat(arr);
 				con.extractedHourAmountArray().clear();
+				con.extractedChat(arr);
 				answer = con.extractedHourAmountArray();
 			} else {
-				extractedChat(arr);
 				extractedHourAmountArray().clear();
+				extractedChat(arr);
 				answer = extractedHourAmountArray();
 			}
 			for (HourAmount h : answer)
