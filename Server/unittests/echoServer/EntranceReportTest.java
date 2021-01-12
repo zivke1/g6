@@ -61,6 +61,7 @@ class EntranceReportTest {
 		Date d = new Date(121, 0, 10);
 		arr.add(d.toString());
 		arr.add(TypeOfOrder.user.toString());
+		
 		ArrayList<HourAmount> ret = null;
 		ArrayList<HourAmount> expected = new ArrayList<>();
 		try {

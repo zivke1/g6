@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javafx.scene.Node;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -31,15 +32,75 @@ import util.TypeOfOrder;
 
 /**
  * 
- * 		   controller for visitor report of department manager with bar -
- *         chart
+ * controller for visitor report of department manager with bar - chart
  */
-public class VisitorReportDepartmentController {
+public class VisitorReportDepartmentController implements IEntranceReport {
 
 	private String fNameH, lNameH, roleH, userIDH, parkNameH;
 	private MouseEvent m_event;
 	ObservableList<String> parkNames = FXCollections.observableArrayList("Tal Park", "Carmel Park", "Jordan Park");
 
+	java.sql.Date date;
+
+	String userT, memberT, groupT;
+
+	boolean flag1 = false, flag2 = false, flag3 = false;
+
+	IEntranceReport con = null;
+
+	public VisitorReportDepartmentController(IEntranceReport con) {
+		this.con = con;
+	}
+
+	public boolean isFlag1() {
+		return flag1;
+	}
+
+	public void setFlag1(boolean flag1) {
+		this.flag1 = flag1;
+	}
+
+	public String getUserT() {
+		return userT;
+	}
+
+	public void setUserT(String userT) {
+		this.userT = userT;
+	}
+
+	public String getMemberT() {
+		return memberT;
+	}
+
+	public void setMemberT(String memberT) {
+		this.memberT = memberT;
+	}
+
+	public String getGroupT() {
+		return groupT;
+	}
+
+	public void setGroupT(String groupT) {
+		this.groupT = groupT;
+	}
+
+	public boolean isFlag2() {
+		return flag2;
+	}
+
+	public void setFlag2(boolean flag2) {
+		this.flag2 = flag2;
+	}
+
+	public boolean isFlag3() {
+		return flag3;
+	}
+
+	public void setFlag3(boolean flag3) {
+		this.flag3 = flag3;
+	}
+
+	ArrayList<HourAmount> userArray, memberArray, groupArray;
 	XYChart.Series<String, Number> personal, member, group;
 	@FXML
 	private Label errorMsg;
@@ -67,10 +128,9 @@ public class VisitorReportDepartmentController {
 
 	@FXML
 	private DatePicker selectDate;
- 
+
 	@FXML
 	private Button showBtn;
-	
 
 	@FXML
 	void backClicked(MouseEvent event) {
@@ -106,18 +166,16 @@ public class VisitorReportDepartmentController {
 		chart.setVisible(false);
 	}
 
-	
 	@FXML
-	void showReport(MouseEvent event) {
+	public void showReport(MouseEvent event) {
 		chart.getData().clear();
 		chart.setAnimated(false);
 		xaxis.lookup(".axis-label").setStyle("-fx-label-padding: -5 0 -40 0;");
 		xaxis.categorySpacingProperty().add(5);
 		yaxis.setLowerBound(0);
-		//yaxis.setTickUnit(5);
 		yaxis.setAutoRanging(false);
 		try {
-			boolean flag1 = false, flag2 = false, flag3 = false;
+
 			chart.setTitle("Visitors Report Chart");
 			personal = new XYChart.Series();
 			member = new XYChart.Series();
@@ -125,80 +183,157 @@ public class VisitorReportDepartmentController {
 			personal.setName("Personal");
 			group.setName("Group");
 			member.setName("membership");
-			ArrayList<String> arr = new ArrayList<>();
-			arr.add("depManVisitRep");
-			arr.add(selectPark.getValue());
-			java.sql.Date date = new Date(selectDate.getValue().getYear() - 1900,
-					selectDate.getValue().getMonthValue() - 1, selectDate.getValue().getDayOfMonth());
-			arr.add(date.toString());
-			arr.add(TypeOfOrder.user.toString());
-			ClientMain.chat.accept(arr);
-			ArrayList<HourAmount> answer = ChatClient.dataInArrayListHour;
-			for (HourAmount h : ChatClient.dataInArrayListHour)
-				if (h.getAmount() > 0)
-					flag1 = true;
+//			ArrayList<String> arr = new ArrayList<>();
+//			arr.add("depManVisitRep");
+//			arr.add(selectPark.getValue());
+			date = new Date(selectDate.getValue().getYear() - 1900, selectDate.getValue().getMonthValue() - 1,
+					selectDate.getValue().getDayOfMonth());
+//			arr.add(date.toString());
+//			userT = TypeOfOrder.user.toString();
+//			arr.add(userT);
+//			extractedChat(arr);
+//			ArrayList<HourAmount> answer = extractedHourAmountArray();
+//			for (HourAmount h : answer)
+//				if (h.getAmount() > 0)
+//					flag1 = true;
+
+			logic(selectPark.getValue(), date.toString(), TypeOfOrder.user.toString());
+
 			int max[] = new int[24];
-//			for (int i = 0; i < 24; i++) {
-//				max[i] = 0;
-//				personal.getData().add(new XYChart.Data(i + "", 0));
-//				member.getData().add(new XYChart.Data(i + "", 0));
-//				group.getData().add(new XYChart.Data(i + "", 0));
-//			}
+			ArrayList<HourAmount> answer = extractedHourAmountArray();
 			for (HourAmount a : answer) {
 				max[Integer.parseInt(a.getHour())] += a.getAmount();
 				personal.getData().add(new XYChart.Data(a.getHour(), a.getAmount()));
 			}
 			chart.getData().add(personal);
-			arr.remove(TypeOfOrder.user.toString());
-			arr.add(3, TypeOfOrder.member.toString());
-			ChatClient.dataInArrayListHour.clear();
-			ClientMain.chat.accept(arr);
-			answer = ChatClient.dataInArrayListHour;
-			for (HourAmount h : ChatClient.dataInArrayListHour)
-				if (h.getAmount() > 0)
-					flag2 = true;
+
+			logic(selectPark.getValue(), date.toString(), TypeOfOrder.member.toString());
+
+			answer = extractedHourAmountArray();
+//			for (HourAmount h : extractedHourAmountArray())
+//				if (h.getAmount() > 0)
+//					flag2 = true;
 			for (HourAmount a : answer) {
 				max[Integer.parseInt(a.getHour())] += a.getAmount();
 				member.getData().add(new XYChart.Data(a.getHour(), a.getAmount()));
 			}
 			chart.getData().add(member);
-			arr.remove(TypeOfOrder.member.toString());
-			arr.add(3, TypeOfOrder.group.toString().toLowerCase());
-			ChatClient.dataInArrayListHour.clear();
-			ClientMain.chat.accept(arr);
-		
-			answer = ChatClient.dataInArrayListHour;
-			for (HourAmount h : ChatClient.dataInArrayListHour)
-				if (h.getAmount() > 0)
-					flag3 = true;
+//			arr.remove(memberT);
+//			groupT = TypeOfOrder.group.toString().toLowerCase();
+//			arr.add(3, groupT);
+//			extractedHourAmountArray().clear();
+//			extractedChat(arr);
+
+			logic(selectPark.getValue(), date.toString(), TypeOfOrder.group.toString().toLowerCase());
+
+			answer = extractedHourAmountArray();
+//			for (HourAmount h : extractedHourAmountArray())
+//				if (h.getAmount() > 0)
+//					flag3 = true;
 			for (HourAmount a : answer) {
 				max[Integer.parseInt(a.getHour())] += a.getAmount();
 				group.getData().add(new XYChart.Data(a.getHour(), a.getAmount()));
-			} 
+			}
 			chart.getData().add(group);
 			int maxRes = max[0];
-			for (int i : max)
-			{
+			for (int i : max) {
 				if (i > maxRes)
 					maxRes = i;
 			}
 			yaxis.setUpperBound(maxRes);
- 
+
 			if (!flag1 && !flag2 && !flag3) {
 				chart.setVisible(false);
 				errorMsg.setVisible(true);
-			}
-			else
-			{
+			} else {
 				chart.setVisible(true);
 				errorMsg.setVisible(false);
 			}
-			ChatClient.dataInArrayListHour.clear();
+			extractedHourAmountArray().clear();
 		} catch (Exception e) {
 			e.printStackTrace();
 			errorMsg.setVisible(true);
 		}
 
+	}
+
+	//@Override
+	public void logic(String parkName, String date, String type) {
+		ArrayList<HourAmount> answer;
+		ArrayList<String> arr = new ArrayList<>();
+		arr.add("depManVisitRep");
+		arr.add(parkName);
+
+		arr.add(date);
+		if (type.equals(TypeOfOrder.user.toString())) {
+
+			arr.add(type);
+			if (con != null) {
+				con.extractedChat(arr);
+				con.extractedHourAmountArray().clear();
+				answer = con.extractedHourAmountArray();
+			} else {
+				extractedChat(arr);
+				extractedHourAmountArray().clear();
+				answer = extractedHourAmountArray();
+			}
+
+			for (HourAmount h : answer)
+				if (h.getAmount() > 0) {
+					flag1 = true;
+					break;
+				}
+		}
+
+		if (type.equals(TypeOfOrder.member.toString())) {
+
+			arr.add(type);
+			if (con != null) {
+				con.extractedChat(arr);
+				con.extractedHourAmountArray().clear();
+				answer = con.extractedHourAmountArray();
+			} else {
+				extractedChat(arr);
+				extractedHourAmountArray().clear();
+				answer = extractedHourAmountArray();
+			}
+			for (HourAmount h : answer)
+				if (h.getAmount() > 0) {
+					flag2 = true;
+					break;
+				}
+		}
+
+		if (type.equals(TypeOfOrder.group.toString().toLowerCase())) {
+
+			arr.add(type);
+			if (con != null) {
+				con.extractedChat(arr);
+				con.extractedHourAmountArray().clear();
+				answer = con.extractedHourAmountArray();
+			} else {
+				extractedChat(arr);
+				extractedHourAmountArray().clear();
+				answer = extractedHourAmountArray();
+			}
+			for (HourAmount h : answer)
+				if (h.getAmount() > 0) {
+					flag3 = true;
+					break;
+				}
+
+		}
+
+	}
+
+	@Override
+	public void extractedChat(ArrayList<String> arr) {
+		ClientMain.chat.accept(arr);
+	}
+
+	@Override
+	public ArrayList<HourAmount> extractedHourAmountArray() {
+		return ChatClient.dataInArrayListHour;
 	}
 
 	public void setPreviousPage(MouseEvent event) {
