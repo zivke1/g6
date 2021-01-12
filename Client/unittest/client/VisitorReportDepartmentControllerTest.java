@@ -70,6 +70,8 @@ class VisitorReportDepartmentControllerTest {
 	}
 
 	/*
+	 * check: got only user data
+	 * 
 	 * input: parkName="Tal Park" date="2021-01-01"
 	 * 
 	 * 
@@ -86,6 +88,8 @@ class VisitorReportDepartmentControllerTest {
 	}
 
 	/*
+	 *  check: got only member data
+	 * 
 	 * input: parkName="Tal Park" date="2021-01-01"
 	 * 
 	 * 
@@ -101,7 +105,9 @@ class VisitorReportDepartmentControllerTest {
 		assertTrue(!controller.isFlag1() && controller.isFlag2() && !controller.isFlag3());
 	}
 
-	/*
+	/* 
+	 * check: got only group data
+	 * 
 	 * input: parkName="Tal Park" date="2021-01-01"
 	 * 
 	 * 
@@ -118,6 +124,8 @@ class VisitorReportDepartmentControllerTest {
 	}
 
 	/*
+	 *  check: got user and member data
+	 * 
 	 * input: parkName="Tal Park" date="2021-01-01"
 	 * 
 	 * 
@@ -134,6 +142,8 @@ class VisitorReportDepartmentControllerTest {
 	}
 
 	/*
+	 * check: got user and group data
+	 * 
 	 * input: parkName="Tal Park" date="2021-01-01"
 	 * 
 	 * 
@@ -150,6 +160,8 @@ class VisitorReportDepartmentControllerTest {
 	}
 
 	/*
+	 * check: got group and member data
+	 * 
 	 * input: parkName="Tal Park" date="2021-01-01"
 	 * 
 	 * 
@@ -166,6 +178,8 @@ class VisitorReportDepartmentControllerTest {
 	}
 
 	/*
+	 * check: got user and member and group data
+	 * 
 	 * input: parkName="Tal Park" date="2021-01-01"
 	 * 
 	 * 
@@ -181,6 +195,8 @@ class VisitorReportDepartmentControllerTest {
 	}
 
 	/*
+	 * check: got no data
+	 * 
 	 * input: parkName="Tal Park" date="2021-01-01"
 	 * 
 	 * 
