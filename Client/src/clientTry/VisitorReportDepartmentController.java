@@ -48,11 +48,6 @@ public class VisitorReportDepartmentController implements IEntranceReport {
 
 	IEntranceReport con = null;
 
-//	public VisitorReportDepartmentController(IEntranceReport con) {
-//		this.con = con;
-//	}
-	
-
 	public boolean isFlag1() {
 		return flag1;
 	}
@@ -67,30 +62,6 @@ public class VisitorReportDepartmentController implements IEntranceReport {
 
 	public void setFlag1(boolean flag1) {
 		this.flag1 = flag1;
-	}
-
-	public String getUserT() {
-		return userT;
-	}
-
-	public void setUserT(String userT) {
-		this.userT = userT;
-	}
-
-	public String getMemberT() {
-		return memberT;
-	}
-
-	public void setMemberT(String memberT) {
-		this.memberT = memberT;
-	}
-
-	public String getGroupT() {
-		return groupT;
-	}
-
-	public void setGroupT(String groupT) {
-		this.groupT = groupT;
 	}
 
 	public boolean isFlag2() {
@@ -269,7 +240,6 @@ public class VisitorReportDepartmentController implements IEntranceReport {
 
 	}
 
-	//@Override
 	public void logic(String parkName, String date, String type) {
 		ArrayList<HourAmount> answer;
 		ArrayList<String> arr = new ArrayList<>();
@@ -353,3 +323,27 @@ public class VisitorReportDepartmentController implements IEntranceReport {
 	}
 
 }
+
+//public String getUserT() {
+//return userT;
+//}
+//
+//public void setUserT(String userT) {
+//this.userT = userT;
+//}
+//
+//public String getMemberT() {
+//return memberT;
+//}
+//
+//public void setMemberT(String memberT) {
+//this.memberT = memberT;
+//}
+//
+//public String getGroupT() {
+//return groupT;
+//}
+//
+//public void setGroupT(String groupT) {
+//this.groupT = groupT;
+//}
