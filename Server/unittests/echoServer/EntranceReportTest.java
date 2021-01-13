@@ -54,6 +54,10 @@ class EntranceReportTest {
 
 	}
 
+	// check: success filling the arrayList according to the query
+	// input: arrayList with park name, date, and type of order
+	// expected: an hourAmount(String hour,int amount) arrayList full with all
+	// the hours and 5 for the amount in every hour
 	@Test
 	void checkGetDataSuccsessTest() {
 		ArrayList<String> arr = new ArrayList<>();
@@ -61,7 +65,7 @@ class EntranceReportTest {
 		Date d = new Date(121, 0, 10);
 		arr.add(d.toString());
 		arr.add(TypeOfOrder.user.toString());
-		
+
 		ArrayList<HourAmount> ret = null;
 		ArrayList<HourAmount> expected = new ArrayList<>();
 		try {
@@ -89,6 +93,10 @@ class EntranceReportTest {
 		assertEquals(ret, expected);
 	}
 
+	// check: fail to fill the hourAmount array list cause the park name does not
+	// exist
+	// input: arrayList with wrong park name, date, and type of order
+	// expected: the ret arrayList is still null
 	@Test
 	void checkGetDataParkNameDoesntExistTest() {
 		ArrayList<String> arr = new ArrayList<>();
@@ -108,7 +116,7 @@ class EntranceReportTest {
 						+ "' AND OrderStatus='finished' AND TypeOfOrder='" + arr.get(2) + "' AND ParkName='"
 						+ arr.get(0) + "'" + "						 AND VisitDate ='" + arr.get(1) + "';"))
 								.thenReturn(null);
-				
+
 			}
 		} catch (SQLException e) {
 			fail();
@@ -116,10 +124,9 @@ class EntranceReportTest {
 
 		try {
 			try {
-			ret = mySql.depManVisitRep(arr);
-			assertTrue(false);
-			}catch(NullPointerException e)
-			{
+				ret = mySql.depManVisitRep(arr);
+				assertTrue(false);
+			} catch (NullPointerException e) {
 				assertTrue(true);
 			}
 		} catch (SQLException e) {
@@ -127,13 +134,16 @@ class EntranceReportTest {
 		}
 		assertEquals(ret, null);
 	}
-	
+
+	// check: fail to fill the hourAmount array list cause the date does not exist
+	// input: arrayList with park name, bad date, and type of order
+	// expected: the ret arrayList is still null
 	@Test
 	void checkGetDataInvalidDateTest() {
 		ArrayList<String> arr = new ArrayList<>();
 		arr.add("Tal Park");
 		Date d = new Date(121, 0, 10);
-		arr.add(d.toString()+"4112");
+		arr.add(d.toString() + "4112");
 		arr.add(TypeOfOrder.user.toString());
 		ArrayList<HourAmount> ret = null;
 		ArrayList<HourAmount> expected = new ArrayList<>();
@@ -147,7 +157,7 @@ class EntranceReportTest {
 						+ "' AND OrderStatus='finished' AND TypeOfOrder='" + arr.get(2) + "' AND ParkName='"
 						+ arr.get(0) + "'" + "						 AND VisitDate ='" + arr.get(1) + "';"))
 								.thenReturn(null);
-				
+
 			}
 		} catch (SQLException e) {
 			fail();
@@ -155,10 +165,9 @@ class EntranceReportTest {
 
 		try {
 			try {
-			ret = mySql.depManVisitRep(arr);
-			assertTrue(false);
-			}catch(NullPointerException e)
-			{
+				ret = mySql.depManVisitRep(arr);
+				assertTrue(false);
+			} catch (NullPointerException e) {
 				assertTrue(true);
 			}
 		} catch (SQLException e) {
@@ -166,14 +175,18 @@ class EntranceReportTest {
 		}
 		assertEquals(ret, null);
 	}
-	
+
+	// check: fail to fill the hourAmount array list cause the type of order does
+	// not exist
+	// input: arrayList with park name, date, and wrong type of order
+	// expected: the ret arrayList is still null
 	@Test
 	void checkGetDataInvalidTypeOfOrderTest() {
 		ArrayList<String> arr = new ArrayList<>();
 		arr.add("Tal Park");
 		Date d = new Date(121, 0, 10);
 		arr.add(d.toString());
-		arr.add(TypeOfOrder.user.toString()+"aaa");
+		arr.add(TypeOfOrder.user.toString() + "aaa");
 		ArrayList<HourAmount> ret = null;
 		ArrayList<HourAmount> expected = new ArrayList<>();
 		try {
@@ -186,7 +199,7 @@ class EntranceReportTest {
 						+ "' AND OrderStatus='finished' AND TypeOfOrder='" + arr.get(2) + "' AND ParkName='"
 						+ arr.get(0) + "'" + "						 AND VisitDate ='" + arr.get(1) + "';"))
 								.thenReturn(null);
-				
+
 			}
 		} catch (SQLException e) {
 			fail();
@@ -194,10 +207,9 @@ class EntranceReportTest {
 
 		try {
 			try {
-			ret = mySql.depManVisitRep(arr);
-			assertTrue(false);
-			}catch(NullPointerException e)
-			{
+				ret = mySql.depManVisitRep(arr);
+				assertTrue(false);
+			} catch (NullPointerException e) {
 				assertTrue(true);
 			}
 		} catch (SQLException e) {
@@ -205,5 +217,5 @@ class EntranceReportTest {
 		}
 		assertEquals(ret, null);
 	}
-	
+
 }
