@@ -18,7 +18,7 @@ import javafx.scene.Node;
  * @param stageTitle - to set in form
  * 
  */
-public class NextStages {
+public class NextStages implements INextStage {
 	private String path;
 	private String stageTitle;
 	private String userID;
@@ -32,6 +32,7 @@ public class NextStages {
 	/**
 	 * open next stage with hiding current page
 	 */
+	@Override
 	public FXMLLoader goToNextStage(MouseEvent event) {
 		Stage stage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
@@ -63,6 +64,7 @@ public class NextStages {
 	/**
 	 * open next stage without hiding current page - for popUps
 	 */
+	@Override
 	public FXMLLoader openPopUp() {
 		Stage stage = new Stage();
 		FXMLLoader loader = new FXMLLoader();

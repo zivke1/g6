@@ -1,7 +1,9 @@
 package clientTry;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import javax.management.openmbean.OpenDataException;
 
@@ -12,6 +14,7 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -30,13 +33,14 @@ import util.Role;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.image.ImageView;
+import util.INextStage;
 
 /**
  * this controller is for log in you can enter to the system via id member
  * number or if you an employee you can enter by employee number and password
  *
  */
-public class LoginController {
+public class LoginController implements Initializable {
 	@FXML
 	private Label noSelected;
 
@@ -108,43 +112,12 @@ public class LoginController {
 	String park = null;
 	MouseEvent m_event = null;
 
-	//shani
-	IClientMain iClientMain;
-	
-	//shani
-	public IClientMain getiClientMain() {
-		return iClientMain;
-	}
-	//shani
-	public void setiClientMain(IClientMain iClientMain) {
-		this.iClientMain = iClientMain;
-	}
+	INextStage nextStages;
 
 	enum UserType {
 		user, member, employee
 	}
 
-	//constructor for dependency injection
-	// for unit test
-	//shani
-//	public LoginController(IClientMain icc) {
-//		Stage stage = new Stage();
-//		FXMLLoader loader = new FXMLLoader();
-//		Parent root;
-//		try {
-//			root = loader.load(getClass().getResource("/fxmlFiles/LoginP.fxml").openStream());
-//			Scene scene = new Scene(root);
-//			scene.getStylesheets().add(getClass().getResource("/clientTry/application.css").toExternalForm());
-//			stage.setTitle("Login");
-//			stage.setScene(scene);
-//		} catch (IOException e1) {
-//			e1.printStackTrace();
-//		}
-		
-//		iClientMain = icc;
-//	}
-	
-	
 	@FXML
 	void goToContactUsPopUp(MouseEvent event) {
 		NextStages nextStages = new NextStages("/fxmlFiles/ContactUsPopUp.fxml", "Contact Us", userID);
@@ -166,6 +139,90 @@ public class LoginController {
 		noSelected.setVisible(false);
 	}
 
+
+	public Label getNoSelected() {
+		return noSelected;
+	}
+
+	public void setNoSelected(Label noSelected) {
+		this.noSelected = noSelected;
+	}
+	
+	public RadioButton getEnterAsCoustumerRadioBtn() {
+		return enterAsCoustumerRadioBtn;
+
+	}
+
+	public void setEnterAsCoustumerRadioBtn(boolean bool) {
+		// this.enterAsCoustumerRadioBtn = enterAsCoustumerRadioBtn;
+		this.enterAsCoustumerRadioBtn.setSelected(bool);
+	}
+
+	public Label getTxtErrAllFieldsReq1() {
+		return txtErrAllFieldsReq1;
+	}
+
+	public void setTxtErrAllFieldsReq1(Label txtErrAllFieldsReq1) {
+		this.txtErrAllFieldsReq1 = txtErrAllFieldsReq1;
+	}
+
+	public TextField getEnterUserName() {
+		return enterUserName;
+	}
+
+	public void setEnterUserName(String value) {
+		// this.enterUserName = enterUserName;
+		this.enterUserName.setText(value);
+	}
+
+	public PasswordField getEnterPsw() {
+		return EnterPsw;
+	}
+
+	public void setEnterPsw(String enterPsw) {
+		this.EnterPsw.setText(enterPsw);
+	}
+
+	public Label getTxtErrAllFieldsReq() {
+		return txtErrAllFieldsReq;
+	}
+
+	public void setTxtErrAllFieldsReq(Label txtErrAllFieldsReq) {
+		this.txtErrAllFieldsReq = txtErrAllFieldsReq;
+	}
+
+	public Label getLogInBeforeLabel() {
+		return logInBeforeLabel;
+	}
+
+	public void setLogInBeforeLabel(Label logInBeforeLabel) {
+		this.logInBeforeLabel = logInBeforeLabel;
+	}
+
+	public Label getTxtErrUserName() {
+		return txtErrUserName;
+	}
+
+	public void setTxtErrUserName(Label txtErrUserName) {
+		this.txtErrUserName = txtErrUserName;
+	}
+
+	public Label getTxtErrPassword() {
+		return txtErrPassword;
+	}
+
+	public void setTxtErrPassword(Label txtErrPassword) {
+		this.txtErrPassword = txtErrPassword;
+	}
+
+	public Label getIDError() {
+		return IDError;
+	}
+
+	public void setIDError(Label iDError) {
+		IDError = iDError;
+	}
+
 	/**
 	 * when we the next btn click
 	 * 
@@ -173,8 +230,8 @@ public class LoginController {
 	 * @throws Exception
 	 */
 	@FXML
-	void finishOrderClicked(MouseEvent event) throws Exception {
-		
+	public void finishOrderClicked(MouseEvent event) throws Exception {
+
 		m_event = event;
 		ArrayList<String> toSend = new ArrayList<String>();
 		clearAllErrorMessage();
@@ -189,8 +246,7 @@ public class LoginController {
 				toSend.add("checkIfEmployee");
 				toSend.add(empNumber);
 				toSend.add(password);
-				//shani
-			//	iClientMain.accept(toSend);
+				// shani
 				ClientMain.chat.accept(toSend);
 				if (ChatClient.dataInArrayList.contains("PaswwordIncorrect")) {// i put only Password incorrect
 					txtErrPassword.setVisible(true);
@@ -226,10 +282,8 @@ public class LoginController {
 
 					toSend.add("checkIfIdConnectedWithId");
 					toSend.add(idNumber);
-					//shani
-				//	iClientMain.accept(toSend);
 					ClientMain.chat.accept(toSend);
-					if(ChatClient.dataInArrayList.contains("notValidUserID")) {
+					if (ChatClient.dataInArrayList.contains("notValidUserID")) {
 						IDError.setVisible(true);
 					}
 					statusToOpen();
@@ -246,8 +300,6 @@ public class LoginController {
 
 					toSend.add("checkIfIdConnectedWithMemberId");
 					toSend.add(memberNumber);
-				//	shani
-				//	iClientMain.accept(toSend);
 					extractedClientMain(toSend);
 					if (ChatClient.dataInArrayList.contains("notMember")) {
 						dontFindMemberShipIDLabel.setVisible(true);
@@ -256,10 +308,52 @@ public class LoginController {
 					statusToOpen();
 				}
 			}
-		}
-		else 
-			 noSelected.setVisible(true);
+		} else
+			noSelected.setVisible(true);
 	}
+
+	public Label getDontFindMemberShipIDLabel() {
+		return dontFindMemberShipIDLabel;
+	}
+
+	public void setDontFindMemberShipIDLabel(Label dontFindMemberShipIDLabel) {
+		this.dontFindMemberShipIDLabel = dontFindMemberShipIDLabel;
+	}
+
+	public Label getMemberNotNumbers() {
+		return memberNotNumbers;
+	}
+
+	public void setMemberNotNumbers(Label memberNotNumbers) {
+		this.memberNotNumbers = memberNotNumbers;
+	}
+
+	public TextField getEnterMemberID() {
+		return enterMemberID;
+	}
+
+	public void setEnterMemberID(String enterMemberID) {
+		this.enterMemberID.setText(enterMemberID);
+		
+	}
+
+	public TextField getEnterIDnumber() {
+		return enterIDnumber;
+	}
+
+	public void setEnterIDnumber(String enterIDnumber) {
+		this.enterIDnumber.setText(enterIDnumber);
+	}
+
+	public RadioButton getEnterAsEmployee() {
+		return enterAsEmployee;
+	}
+
+	public void setEnterAsEmployee(boolean bool) {
+		// this.enterAsEmployee = enterAsEmployee;
+		this.enterAsEmployee.setSelected(bool);
+	}
+
 	private void extractedClientMain(ArrayList<String> toSend) {
 		ClientMain.chat.accept(toSend);
 	}
@@ -333,14 +427,23 @@ public class LoginController {
 		}
 
 		FXMLLoader loader;
-		NextStages nextStages = new NextStages("/fxmlFiles/HomePageForEmployee.fxml", "Home Page", userID);
+		// nextStages = new NextStages("/fxmlFiles/HomePageForEmployee.fxml", "Home
+		// Page", userID);
 		loader = nextStages.goToNextStage(m_event);
 
-		HomePageForEmployeeController homePageForEmployeeController = loader.getController();
+		if (nextStages instanceof NextStages) {
+			HomePageForEmployeeController homePageForEmployeeController = loader.getController();
+			homePageForEmployeeController.setDetails(fName, lName, role, userID, park);
+			homePageForEmployeeController.setAmountForMember(amountOfPeople);
+		}
+	}
 
-		homePageForEmployeeController.setDetails(fName, lName, role, userID, park);
-		homePageForEmployeeController.setAmountForMember(amountOfPeople);
+	public INextStage getNextStages() {
+		return nextStages;
+	}
 
+	public void setNextStages(INextStage nextStages) {
+		this.nextStages = nextStages;
 	}
 
 	public void identificationSetVisibility(boolean cond) {
@@ -365,5 +468,9 @@ public class LoginController {
 		helpBtn.setTooltip(tt);
 	}
 
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		nextStages = new NextStages("/fxmlFiles/HomePageForEmployee.fxml", "Home Page", userID);
+	}
 
 }
