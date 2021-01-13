@@ -13,7 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
- * This class constructs the UI for a chat client.  It implements the
+ *   It implements the
  * chat interface in order to activate the display() method.
  * Warning: Some of the code here is cloned in ServerConsole 
  *
@@ -22,7 +22,7 @@ import javafx.stage.Stage;
  * @author Dr Robert Lagani&egrave;re
  * @version July 2000
  */
-public class ClientConsole implements ChatIF 
+public class ClientConsole implements ChatIF , IClientConsole
 {
   //Class variables *************************************************
   

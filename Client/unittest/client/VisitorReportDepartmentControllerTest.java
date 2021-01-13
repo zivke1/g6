@@ -211,4 +211,6 @@ class VisitorReportDepartmentControllerTest {
 		controller.logic(parkName, date, TypeOfOrder.group.toString().toLowerCase());
 		assertTrue(!controller.isFlag1() && !controller.isFlag2() && !controller.isFlag3());
 	}
+	
+	
 }
